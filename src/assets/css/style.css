@@ -1,0 +1,271 @@
+body
+{
+   overflow: auto; 
+}
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+   
+}
+/* html
+{
+    scroll-behavior: smooth;
+} */
+/*--------------------------------------------------------------
+# Header
+--------------------------------------------------------------*/
+#header {
+  transition: all 0.5s;
+  z-index: 997;
+  padding: 15px 0;
+}
+
+#header.header-scrolled, #header.header-inner-pages {
+  background: rgba(40, 58, 90, 0.9);
+}
+
+#header .logo {
+  font-size: 30px;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+#header .logo a {
+  color: #fff;
+}
+
+#header .logo img {
+  max-height: 40px;
+}
+
+.header
+{
+    /*padding-top: 20px;*/
+    transition: .5s;
+}
+.workup-navbar li
+{
+    display: flex;
+}
+.workup-navbar li a
+{
+    color: #ffffff !important;
+    margin: 0 10px;
+}
+.navbar-expand-lg{
+    background-color: #393C6D;
+}
+.banner-text{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+.navcrowdfunding{
+    background-color: #FFF;
+}
+.bg-light {
+    background-color: #fff !important;
+}
+.nav-link{
+    color: #777E90;
+    padding-left: 30px;
+    border-right: 1px;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+.mainimage {
+ /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: -webkit-fill-available;
+}
+.marketbutton{
+    background-color: #fff;
+    padding-left: 25px;
+    padding-right: 25px;
+    font-size: 20px;
+    border-radius: 35px;
+    border:1px solid;
+}
+.markettrend{
+    font-size: 48px;
+    font-family: DMSans-bold;
+}
+.tradingbutton{
+    border:1px solid;
+    border-radius: 25px;
+}
+.percentage{
+    color:#58BD7D; 
+}
+.percentagetwo{
+    color: #FF6838;
+}
+.cryptotraders{
+    background-color: #F4F5F6;
+    padding-top: 40px;
+    padding-bottom: 80px;
+}
+.imagewidth{
+    width: 870px;
+}
+.minutstart{
+    font-size: 16px;
+    color: #23262F;
+}
+.mintparagraph{
+    font-size: 14px;
+    color: #23262F;
+}
+.cryptobutton{
+    padding-left: 35px;
+    padding-right: 35px;
+    border: 1px solid;
+    border-radius: 30px;
+}
+.footerlinkcoltwo{
+    display: block;
+}
+.navbar-expand-lg .navbar-nav .nav-link {
+    padding-right: .5rem;
+    padding-left: 3.5rem;
+    padding-top: 20px;
+
+}
+.walletbutton{
+    padding-left: 30px;
+    padding-right: 30px;
+    border:1px solid;
+    border-radius: 20px;
+}
+.footerlink{
+    color: #777E90;
+    line-height: 5px;
+}
+.footerlinks{
+    color: #23262F;
+    font-size: 18px;
+}
+.modalparagraph{
+    background-color: #F4F5F6;
+    padding: 20px;
+    border-radius: 20px;
+}
+.connectwallet{
+    border: 3px solid #E6E8EC;
+    border-radius: 15px;
+    padding-left:20px;
+    padding-top:10px;
+    padding-bottom:8px;
+}
+.modal-content{
+    border-radius: 1.3rem;
+}
+.marketbanner{
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 150px;
+    width: 100%;
+}
+.marketparagraph{
+    color: #777E90;
+    font-size: 13px;
+    font-weight: bold;
+}
+.spanclassmarket{
+    background-color: #58BD7D;
+    color: #fff;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 20px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    margin-left: 10px;
+}
+.spanclassmarkets{
+    background-color: #FF6838;
+    color: #fff;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 20px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    margin-left: 10px;
+}
+.bitcoinclasss{
+    background-color: #fff;
+    border-radius: 10px;
+}
+.bitcoinclasssmian{
+    background-color: #F4F5F6;
+}
+.alltype{
+    background-color: #000;
+    color: #fff;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 20px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    margin-left: 10px;
+}
+.marketbannerhed{
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 55px;
+}
+.mainhover:hover{
+    background-color: #fff;
+}
+.btn-primary{
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 20px;
+}
+.marketcardone{
+background-color:#9757D7;
+color: #fff;
+padding: 10px;
+font-size: 12px;
+}
+.marketcardtwo{
+background-color:#58BD7D;
+color: #fff;
+padding: 10px;
+font-size: 12px;
+}
+.marketcardthree{
+background-color:#3772FF;
+color: #fff;
+font-size: 12px;
+padding: 10px;
+}
+.marketmainheade{
+    font-size: 55px;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+.cardtext{
+    font-weight: bold;
+    font-family: sans-serif;
+    font-size: 22px; 
+}
+.loaderbutton{
+    font-weight: bold;
+    font-size: 12px;
+    padding-right: 25px;
+    padding-left: 25px;
+    border: 1px solid #E6E8EC;
+    border-radius: 15px;
+
+}
