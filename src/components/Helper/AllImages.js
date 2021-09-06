@@ -26,6 +26,23 @@ import cr2 from "../../assets/images/cr2.png";
 import cr3 from "../../assets/images/cr3.png";
 import lorarrow from "../../assets/images/lorarrow.png";
 import mainbanneri from "../../assets/images/mainbanneri.png";
+import Yay from "../../assets/images/Yay.png";
+import From from "../../assets/images/from.png";
+import to from "../../assets/images/to.png";
+import proto from "../../assets/images/proto.png";
+import pt1 from "../../assets/images/pt1.PNG";
+import pt2 from "../../assets/images/pt2.PNG";
+import pt3 from "../../assets/images/pt3.PNG";
+import pt4 from "../../assets/images/pt4.PNG";
+import warrr from "../../assets/images/warrr.PNG";
+import down from "../../assets/images/down.png";
+import goup3 from "../../assets/images/goup3.png";
+import hourr from "../../assets/images/hourr.png";
+import up from "../../assets/images/up.png";
+import sss from "../../assets/images/sss.png";
+import clock from "../../assets/images/clock.png";
+import linechart from "../../assets/images/linechart.png";
+
 const Images = {
   Img,
   btc,
@@ -53,6 +70,22 @@ const Images = {
   cr3,
   lorarrow,
   mainbanneri,
+  Yay,
+  From,
+  to,
+  proto,
+  pt1,
+  pt2,
+  pt3,
+  pt4,
+  warrr,
+  down,
+  goup3,
+  hourr,
+  up,
+  sss,
+  clock,
+  linechart
 };
 
 export default Images;

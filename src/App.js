@@ -6,9 +6,10 @@ import {
   Redirect,
 } from "react-router-dom";
 import browserRoute from "./Routes/browserRoutes";
-import Home from "./components/Home/HeroHome/HeroHome";
+import Home from "./components/Home/HeroHome";
 import Market from "./components/Market/Market";
 import PrivateRoute from "./components/HOC/PrivateRoute";
+import BuyPlatform from "./components/BuyMarket/BuyPlatform";
 function App() {
   return (
     <div>
@@ -16,6 +17,12 @@ function App() {
         <Switch>
           <PrivateRoute exact path={browserRoute.HOME} component={Home} />
           <PrivateRoute exact path={browserRoute.MARKET} component={Market} />
+          <PrivateRoute
+            exact
+            path={browserRoute.BUYMARKET}
+            component={BuyPlatform}
+          />
+
           <Route path="/" component={Home} />
         </Switch>
       </Router>

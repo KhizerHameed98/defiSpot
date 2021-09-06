@@ -1,24 +1,8 @@
 import React from "react";
 import withMainLayout from "../HOC/withMainLayout";
-import btc1 from "../../assets/images/btc1.png";
-import Img from "../Helper/AllImages";
-import btc2 from "../../assets/images/btc2.png";
-import btc3 from "../../assets/images/btc3.png";
-import btc4 from "../../assets/images/btc4.png";
-import btc5 from "../../assets/images/btc5.png";
-import btc6 from "../../assets/images/btc6.png";
-import btc7 from "../../assets/images/btc7.png";
-import btc8 from "../../assets/images/btc8.png";
-import btc9 from "../../assets/images/btc9.png";
-import btc10 from "../../assets/images/btc10.png";
-import market from "../../assets/images/market.png";
-import btc from "../../assets/images/btc.png";
-import crt1 from "../../assets/images/crt1.png";
-import crt2 from "../../assets/images/crt2.png";
-import comp from "../../assets/images/comp.png";
-import assest from "../../assets/images/assest.png";
-import Yield from "../../assets/images/yield.png";
+import { Link } from "react-router-dom";
 import Images from "../Helper/AllImages";
+import browserRoute from "../../Routes/browserRoutes";
 const Market = () => {
   return (
     <div>
@@ -190,8 +174,13 @@ const Market = () => {
                   </td>
                   <td>$328,564,656,654</td>
                   <td>$328,564,656,654</td>
-                  <td>
+                  <td className="buyTokenGraph">
                     <img src={Images.crt1} />
+                  </td>
+                  <td className="buyTokenbtn">
+                    <button className=" mt-1 ml-3 btn btn-primary">
+                      Buy Token
+                    </button>
                   </td>
                 </tr>
                 <tr>
@@ -222,8 +211,15 @@ const Market = () => {
                   </td>
                   <td>$328,564,656,654</td>
                   <td>$328,564,656,654</td>
-                  <td>
+                  <td className="buyTokenGraph">
                     <img src={Images.crt1} />
+                  </td>
+                  <td className="buyTokenbtn">
+                    <Link to={browserRoute.BUYMARKET}>
+                    <button className=" mt-1 ml-3 btn btn-primary">
+                      Buy Token
+                    </button>
+                    </Link>
                   </td>
                 </tr>
                 <tr>
@@ -254,8 +250,15 @@ const Market = () => {
                   </td>
                   <td>$328,564,656,654</td>
                   <td>$328,564,656,654</td>
-                  <td>
+                  <td className="buyTokenGraph">
                     <img src={Images.crt1} />
+                  </td>
+                  <td className="buyTokenbtn">
+                    <Link to={browserRoute.BUYMARKET}>
+                    <button className=" mt-1 ml-3 btn btn-primary">
+                      Buy Token
+                    </button>
+                    </Link>
                   </td>
                 </tr>
                 <tr>
@@ -286,8 +289,15 @@ const Market = () => {
                   </td>
                   <td>$328,564,656,654</td>
                   <td>$328,564,656,654</td>
-                  <td>
+                  <td className="buyTokenGraph">
                     <img src={Images.crt2} />
+                  </td>
+                  <td className="buyTokenbtn">
+                    <Link to={browserRoute.BUYMARKET}>
+                    <button className=" mt-1 ml-3 btn btn-primary">
+                      Buy Token
+                    </button>
+                    </Link>
                   </td>
                 </tr>
                 <tr>
@@ -318,8 +328,15 @@ const Market = () => {
                   </td>
                   <td>$328,564,656,654</td>
                   <td>$328,564,656,654</td>
-                  <td>
+                  <td className="buyTokenGraph">
                     <img src={Images.crt1} />
+                  </td>
+                  <td className="buyTokenbtn">
+                    <Link to={browserRoute.BUYMARKET}>
+                    <button className=" mt-1 ml-3 btn btn-primary">
+                      Buy Token
+                    </button>
+                    </Link>
                   </td>
                 </tr>
                 <tr>
@@ -350,8 +367,15 @@ const Market = () => {
                   </td>
                   <td>$328,564,656,654</td>
                   <td>$328,564,656,654</td>
-                  <td>
+                  <td className="buyTokenGraph">
                     <img src={Images.crt1} />
+                  </td>
+                  <td className="buyTokenbtn">
+                    <Link to={browserRoute.BUYMARKET}>
+                    <button className=" mt-1 ml-3 btn btn-primary">
+                      Buy Token
+                    </button>
+                    </Link>
                   </td>
                 </tr>
                 <tr>
@@ -382,8 +406,15 @@ const Market = () => {
                   </td>
                   <td>$328,564,656,654</td>
                   <td>$328,564,656,654</td>
-                  <td>
+                  <td className="buyTokenGraph">
                     <img src={Images.crt2} />
+                  </td>
+                  <td className="buyTokenbtn">
+                    <Link to={browserRoute.BUYMARKET}>
+                    <button className=" mt-1 ml-3 btn btn-primary">
+                      Buy Token
+                    </button>
+                    </Link>
                   </td>
                 </tr>
                 <tr>
@@ -414,8 +445,15 @@ const Market = () => {
                   </td>
                   <td>$328,564,656,654</td>
                   <td>$328,564,656,654</td>
-                  <td>
+                  <td className="buyTokenGraph">
                     <img src={Images.crt1} />
+                  </td>
+                  <td className="buyTokenbtn">
+                    <Link to={browserRoute.BUYMARKET}>
+                    <button className=" mt-1 ml-3 btn btn-primary">
+                      Buy Token
+                    </button>
+                    </Link>
                   </td>
                 </tr>
                 <tr>
@@ -446,8 +484,15 @@ const Market = () => {
                   </td>
                   <td>$328,564,656,654</td>
                   <td>$328,564,656,654</td>
-                  <td>
+                  <td className="buyTokenGraph">
                     <img src={Images.crt2} />
+                  </td>
+                  <td className="buyTokenbtn">
+                    <Link to={browserRoute.BUYMARKET}>
+                    <button className=" mt-1 ml-3 btn btn-primary">
+                      Buy Token
+                    </button>
+                    </Link>
                   </td>
                 </tr>
                 <tr>
@@ -478,8 +523,15 @@ const Market = () => {
                   </td>
                   <td>$328,564,656,654</td>
                   <td>$328,564,656,654</td>
-                  <td>
+                  <td className="buyTokenGraph">
                     <img src={Images.crt1} />
+                  </td>
+                  <td className="buyTokenbtn">
+                    <Link to={browserRoute.BUYMARKET}>
+                    <button className=" mt-1 ml-3 btn btn-primary">
+                      Buy Token
+                    </button>
+                    </Link>
                   </td>
                 </tr>
               </tbody>

@@ -1,16 +1,19 @@
 import React from "react";
 import Logo from "../../../assets/images/logo.png";
+import { Link } from "react-router-dom";
 export const Footer = () => {
   return (
     <div>
-      <footer class="mainfooter" role="contentinfo">
+      <footer class="mainfooter pt-5" role="contentinfo">
         <div class="footer-middle">
           <div class="container">
             <div class="row">
               <div class="col-md-3 col-sm-6">
                 {/* <!--Column1--> */}
                 <div class="footer-pad">
-                  <img src={Logo} />
+                  <Link to="/">
+                    <img src={Logo} />
+                  </Link>
                 </div>
               </div>
               <div class="col-md-3 col-sm-6">
@@ -18,9 +21,9 @@ export const Footer = () => {
                 <div class="footer-pad">
                   <ul class="list-unstyled">
                     <li>
-                      <a class="footerlink" href="#">
+                      <Link class="footerlink" to="/market">
                         Market
-                      </a>
+                      </Link>
                     </li>
                     <li>
                       <a class="footerlink" href="#">

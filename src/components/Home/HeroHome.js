@@ -1,8 +1,8 @@
 import React from "react";
-import withMainLayout from "../../HOC/withMainLayout";
+import withMainLayout from "../HOC/withMainLayout";
 import { Link } from "react-router-dom";
-import browserRoute from "../../../Routes/browserRoutes";
-import Images from "../../Helper/AllImages";
+import browserRoute from "../../Routes/browserRoutes";
+import Images from "../Helper/AllImages";
 export const HeroHome = () => {
   return (
     <div>

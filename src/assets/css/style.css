@@ -269,3 +269,69 @@ padding: 10px;
     border-radius: 15px;
 
 }
+/*new css */
+.numberheading{
+    font-weight: bold;
+    color:#F04E4E; 
+}
+.marketparatwow{
+    font-size: 14px;
+    color: #777E90;
+}
+.yahparagraph{
+    color:#23262F;
+    font-size: 18px; 
+    font-weight: bold;
+    font-family: sans-serif;
+    margin:0;
+}
+.transactionclasss{
+    padding-left: 50px;
+    padding-right: 50px;
+    border: 1px solid #E6E8EC;
+    border-radius: 15px;
+
+}
+
+/*today css 9/6/2021*/
+.tranparagraph{
+    color: #777E90;
+    font-size: 12px;
+}
+.servicefee{
+    color: #777E90;
+    font-family: sans-serif;
+    font-size: 16px;
+}
+.spannnumberss{
+    background-color: #4FBF67;
+    }
+    .graphbutton{
+        background: none;
+        border: none;
+        font-size: 15px;
+       margin-top: -48px;
+       margin-left: 6px;
+       color: #808191;
+    }
+    .bitcoinheadeing{
+        color: #000;
+        font-size: 25px;
+        font-family: sans-serif;
+    }
+
+.buyTokenGraph:hover + .buyTokenbtn  {
+    display: block ;
+    
+}
+.buyTokenGraph:hover  {
+    display: none ;
+    
+}
+.buyTokenbtn{
+    display: none;
+}
+
+
+
+
