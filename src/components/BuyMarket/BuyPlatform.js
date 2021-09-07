@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import withMainLayout from "../HOC/withMainLayout";
 import { Button, Modal } from "react-bootstrap";
 import Images from "../Helper/AllImages";
+// import Images from "../../Helper/AllImages";
 const BuyPlatform = () => {
   const [YayModal, setYayModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
@@ -317,7 +318,17 @@ const BuyPlatform = () => {
               </button>
               <div class="d-flex justify-content-between pt-4">
                 <h2>Buy BTC</h2>
-                <p>10,098,36 USDT</p>
+                <div class="d-flex">
+                  <img
+                    style={{
+                      height: "20px",
+                      width: "20px",
+                      paddingTop: "5px",
+                    }}
+                    src={Images.bbbtc}
+                  />
+                  <p class="pl-2">10,098,36 USDT</p>
+                </div>
               </div>
               <div class="input-group mb-3 mt-3">
                 <input

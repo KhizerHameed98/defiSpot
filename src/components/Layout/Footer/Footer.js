@@ -16,7 +16,10 @@ export const Footer = () => {
                   </Link>
                 </div>
               </div>
-              <div class="col-md-3 col-sm-6">
+              <div
+                class="col-md-3 col-sm-6"
+                style={{ borderRight: "1px solid lightgrey" }}
+              >
                 {/* <!--Column1--> */}
                 <div class="footer-pad">
                   <ul class="list-unstyled">
@@ -53,9 +56,12 @@ export const Footer = () => {
                   </ul>
                 </div>
               </div>
-              <div class="col-md-3 col-sm-6">
+              <div
+                class="col-md-3 col-sm-6"
+                style={{ borderRight: "1px solid lightgrey" }}
+              >
                 {/* <!--Column1--> */}
-                <div class="footer-pad">
+                <div class="footer-pad pl-5">
                   <h4 style={{ fontSize: "14px" }}>Contact</h4>
                   <ul class="list-unstyled">
                     <li>
@@ -76,14 +82,38 @@ export const Footer = () => {
                   </ul>
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-3 pl-5">
                 <h6>Suipe Learning academy</h6>
                 <p>
                   Subscribe our newsletter to get more free articles and
                   resources about defi.
                 </p>
+                <div class="d-flex">
+                  <input
+                    style={{ borderRadius: "20px" }}
+                    class="form-control mr-sm-2"
+                    type="text"
+                    placeholder="Enter Your Email"
+                  ></input>
+                  <i
+                    style={{
+                      backgroundColor: "blue",
+                      color: "white",
+                      paddingLeft: "8px",
+                      paddingRight: "6px",
+                      marginLeft: "-40px",
+                      marginTop: "6px",
+                      marginBottom: "6px",
+                      paddingTop: "6px",
+                      borderRadius: "20px",
+                    }}
+                    class="fa fa-long-arrow-right"
+                    aria-hidden="true"
+                  ></i>
+                </div>
               </div>
             </div>
+            <hr class="solid" />
             <div class="container mt-5">
               <div class="d-flex justify-content-between">
                 <h6>Copyright © 2021 Suipe. All rights reserved</h6>

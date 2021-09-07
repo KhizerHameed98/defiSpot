@@ -1,11 +1,15 @@
 import React from "react";
 import Logo from "../../../assets/images/logo.png";
+import headerdown from "../../../assets/images/headerdown.png";
+import doticon from "../../../assets/images/doticon.png";
+import bell from "../../../assets/images/bell.png";
 import walleto from "../../../assets/images/walleto.png";
 import meta from "../../../assets/images/meta.png";
 import defi from "../../../assets/images/defi.png";
 import ledger from "../../../assets/images/ledger.png";
 import browserRoute from "../../../Routes/browserRoutes";
 import { Link } from "react-router-dom";
+import Images from "./../../Helper/AllImages";
 export const Header = () => {
   return (
     <div>
@@ -111,16 +115,24 @@ export const Header = () => {
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
-                  Discover
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  Learn
-                </a>
+                <div class="d-flex">
+                  <a class="nav-link" href="#">
+                    Learn
+                  </a>
+                  <img
+                    class="pt-4"
+                    style={{ height: "40px" }}
+                    src={headerdown}
+                  />
+                </div>
               </li>
             </ul>
+            <Link className="navbar-brand" to="/">
+              <img src={bell} />
+            </Link>
+            <Link className="navbar-brand" to="/">
+              <img src={doticon} />
+            </Link>
             <button
               class="btn walletbutton my-2 my-sm-0"
               data-toggle="modal"

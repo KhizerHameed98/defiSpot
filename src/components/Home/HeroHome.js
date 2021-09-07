@@ -1,8 +1,8 @@
 import React from "react";
 import withMainLayout from "../HOC/withMainLayout";
+import Images from "../Helper/AllImages";
 import { Link } from "react-router-dom";
 import browserRoute from "../../Routes/browserRoutes";
-import Images from "../Helper/AllImages";
 export const HeroHome = () => {
   return (
     <div>
@@ -113,7 +113,8 @@ export const HeroHome = () => {
                     </td>
                     <td>
                       <div class="d-flex ">
-                        <div>Bitcoin</div>
+                        <img src={Images.btc} />
+                        <div class="pt-2 pl-3">Bitcoin</div>
                         <div class="d-flex align-items-center">
                           <div class="pl-2 text-muted">BTC</div>
                         </div>
@@ -151,7 +152,8 @@ export const HeroHome = () => {
                     </td>
                     <td>
                       <div class="d-flex ">
-                        <div>Ethereum</div>
+                        <img src={Images.btc} />
+                        <div class="pt-2 pl-3">Ethereum</div>
                         <div class="d-flex align-items-center">
                           <div class="pl-2 text-muted">ETH</div>
                         </div>
@@ -190,7 +192,8 @@ export const HeroHome = () => {
                     </td>
                     <td>
                       <div class="d-flex ">
-                        <div>Bitcoin Cash</div>
+                        <img src={Images.btc} />
+                        <div class="pt-2 pl-3">Bitcoin Cash</div>
                         <div class="d-flex align-items-center">
                           <div class="pl-2 text-muted">BCH</div>
                         </div>
@@ -229,7 +232,8 @@ export const HeroHome = () => {
                     </td>
                     <td>
                       <div class="d-flex ">
-                        <div>Ripple</div>
+                        <img src={Images.btc} />
+                        <div class="pt-2 pl-3">Ripple</div>
                         <div class="d-flex align-items-center">
                           <div class="pl-2 text-muted">XRP</div>
                         </div>
