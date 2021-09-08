@@ -82,7 +82,7 @@ export const Header = () => {
       {/* <!-- modal end --> */}
       <div class="container" style={{ padding: "0px" }}>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <Link className="navbar-brand" to="/">
+          <Link className="navbar-brand" to={browserRoute.HOME}>
             <img src={Logo} />
           </Link>
           <button
@@ -99,11 +99,20 @@ export const Header = () => {
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-              <li className={"nav-item"}>
-                <Link to="/market" class="nav-link">
+              <li className="nav-item">
+                <Link
+                  to={browserRoute.MARKET}
+                  className={
+                    "nav-link " +
+                    (window.location.href.indexOf(browserRoute.MARKET) !== -1
+                      ? "active"
+                      : null)
+                  }
+                >
                   Market
                 </Link>
               </li>
+
               <li class="nav-item">
                 <a class="nav-link" href="#">
                   Earn yield
@@ -129,7 +138,12 @@ export const Header = () => {
             </ul>
             <select
               class="mt-2 mr-3"
-              style={{ width: "56px", border: "none", fontWeight: "bold" }}
+              style={{
+                width: "56px",
+                border: "none",
+                fontWeight: "bold",
+                background: "none",
+              }}
             >
               <option>ENG</option>
               <option>ESP</option>

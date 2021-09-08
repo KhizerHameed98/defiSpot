@@ -33,7 +33,7 @@ const Market = () => {
                   style={{ width: "30px", height: "30px" }}
                   src={Images.btc}
                 />
-                <div style={{ paddingLeft: "12px" }}>
+                <div style={{ paddingLeft: "10px" }}>
                   <p class="marketparagraph">
                     BTC/USDT <span class="spanclassmarket">+0.79%</span>
                   </p>
@@ -53,7 +53,7 @@ const Market = () => {
                   style={{ width: "30px", height: "30px" }}
                   src={Images.btc}
                 />
-                <div style={{ paddingLeft: "12px" }}>
+                <div style={{ paddingLeft: "10px" }}>
                   <p class="marketparagraph">
                     BTC/USDT <span class="spanclassmarket">+0.79%</span>
                   </p>
@@ -73,7 +73,7 @@ const Market = () => {
                   style={{ width: "30px", height: "30px" }}
                   src={Images.btc}
                 />
-                <div style={{ paddingLeft: "12px" }}>
+                <div style={{ paddingLeft: "10px" }}>
                   <p class="marketparagraph">
                     ATC/USDT <span class="spanclassmarket">+0.79%</span>
                   </p>
