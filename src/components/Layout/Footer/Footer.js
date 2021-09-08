@@ -7,6 +7,7 @@ export const Footer = () => {
       <footer class="mainfooter pt-5" role="contentinfo">
         <div class="footer-middle">
           <div class="container">
+            <hr class="solid" />
             <div class="row">
               <div class="col-md-3 col-sm-6">
                 {/* <!--Column1--> */}
