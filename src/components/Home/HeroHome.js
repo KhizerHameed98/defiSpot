@@ -104,6 +104,16 @@ export const HeroHome = () => {
           <div id="starred" class="bg-white px-2 pt-1 mt-5">
             <div class="table-responsive">
               <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">24h chnage</th>
+                    <th scope="col">Chart</th>
+                    <th scope="col">Trade</th>
+                  </tr>
+                </thead>
                 <tbody>
                   <tr>
                     <td>
@@ -355,6 +365,14 @@ export const HeroHome = () => {
                 </div>
               </div>
             </div>
+          </div>
+          <div class="d-flex justify-content-center mt-5">
+            <button
+              type="button"
+              class="btn btn-primary d-flex justify-content-center"
+            >
+              Read more
+            </button>
           </div>
         </div>
       </section>

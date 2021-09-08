@@ -127,6 +127,13 @@ export const Header = () => {
                 </div>
               </li>
             </ul>
+            <select
+              class="mt-2 mr-3"
+              style={{ width: "56px", border: "none", fontWeight: "bold" }}
+            >
+              <option>ENG</option>
+              <option>ESP</option>
+            </select>
             <Link className="navbar-brand" to="/">
               <img src={bell} />
             </Link>

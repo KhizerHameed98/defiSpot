@@ -28,22 +28,22 @@ export const Footer = () => {
                         Market
                       </Link>
                     </li>
-                    <li>
+                    <li class="pt-2 pb-2">
                       <a class="footerlink" href="#">
                         Earn yield
                       </a>
                     </li>
-                    <li>
+                    <li class="pb-2">
                       <a class="footerlink" href="#">
                         Portfolio
                       </a>
                     </li>
-                    <li>
+                    <li class="pb-2">
                       <a class="footerlink" href="#">
                         Discover
                       </a>
                     </li>
-                    <li>
+                    <li class="pb-2">
                       <a class="footerlink" href="#">
                         Learn
                       </a>
@@ -64,12 +64,12 @@ export const Footer = () => {
                 <div class="footer-pad pl-5">
                   <h4 style={{ fontSize: "14px" }}>Contact</h4>
                   <ul class="list-unstyled">
-                    <li>
+                    <li class="pt-2 pb-2">
                       <a class="footerlinks" href="#">
                         About us
                       </a>
                     </li>
-                    <li>
+                    <li class="pt-2 pb-2">
                       <a class="footerlinks" href="#">
                         Help & faq
                       </a>
@@ -84,7 +84,7 @@ export const Footer = () => {
               </div>
               <div class="col-md-3 pl-5">
                 <h6>Suipe Learning academy</h6>
-                <p>
+                <p class="pt-2 pb-2">
                   Subscribe our newsletter to get more free articles and
                   resources about defi.
                 </p>
