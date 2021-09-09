@@ -77,10 +77,6 @@ body {
   font-family: sans-serif;
   cursor: pointer;
 }
-.active,
-.nav-link:hover {
-  color: white;
-}
 .mainimage {
   /* Center and scale the image nicely */
   background-position: center;
@@ -96,17 +92,7 @@ body {
   border-radius: 35px;
   border: 1px solid;
 }
-<select
-  class="selectpicker"
-  data-width="fit"
-  > <option
-  data-content='<span class="flag-icon flag-icon-us"></span> English'
-  > English</option
-  > <option
-  data-content='<span class="flag-icon flag-icon-mx"></span> Español'
-  > Español</option
-  > </select
-  > .markettrend {
+.markettrend {
   font-size: 48px;
 }
 .tradingbutton {

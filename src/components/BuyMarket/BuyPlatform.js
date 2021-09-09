@@ -414,10 +414,14 @@ const BuyPlatform = () => {
                   <p>09:00</p>
                   <p>09:00</p>
                 </div>
+                <hr class="solid" style={{ margin: "0px" }} />
                 <div class="row">
-                  <div class="col-lg-6">
+                  <div
+                    class="col-lg-6"
+                    style={{ borderRight: "1px solid lightgrey" }}
+                  >
                     <div class="d-flex pl-5 pt-5">
-                      <img src={Images.pt1} />
+                      <img style={{ height: "40px" }} src={Images.pt1} />
                       <div class="pl-2">
                         <p style={{ margin: "0px", color: "#808191" }}>
                           Market cap
@@ -428,7 +432,7 @@ const BuyPlatform = () => {
                   </div>
                   <div class="col-lg-6">
                     <div class="d-flex pl-5 pt-5">
-                      <img src={Images.pt2} />
+                      <img style={{ height: "40px" }} src={Images.pt2} />
                       <div class="pl-2">
                         <p style={{ margin: "0px", color: "#808191" }}>
                           Volume(24h)
@@ -438,10 +442,14 @@ const BuyPlatform = () => {
                     </div>
                   </div>
                 </div>
+                <hr class="solid" style={{ margin: "0px" }} />
                 <div class="row">
-                  <div class="col-lg-6">
+                  <div
+                    class="col-lg-6"
+                    style={{ borderRight: "1px solid lightgrey" }}
+                  >
                     <div class="d-flex pl-5 pt-5">
-                      <img src={Images.pt3} />
+                      <img style={{ height: "40px" }} src={Images.pt3} />
                       <div class="pl-2">
                         <p style={{ margin: "0px", color: "#808191" }}>
                           Circulating Supply
@@ -452,7 +460,7 @@ const BuyPlatform = () => {
                   </div>
                   <div class="col-lg-6">
                     <div class="d-flex pl-5 pt-5">
-                      <img src={Images.pt4} />
+                      <img style={{ height: "40px" }} src={Images.pt4} />
                       <div class="pl-2">
                         <p style={{ margin: "0px", color: "#808191" }}>
                           Total Supply
@@ -462,6 +470,7 @@ const BuyPlatform = () => {
                     </div>
                   </div>
                 </div>
+                <hr class="solid" style={{ margin: "0px" }} />
                 <div class="row">
                   <div class="col-lg-8 pl-5 pt-5 pb-4">
                     <h2 class="bitcoinheadeing">About Bitcoin</h2>

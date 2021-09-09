@@ -90,7 +90,11 @@ export const Footer = () => {
                 </p>
                 <div class="d-flex">
                   <input
-                    style={{ borderRadius: "20px" }}
+                    style={{
+                      borderRadius: "20px",
+                      paddingTop: "20px",
+                      paddingBottom: "20px",
+                    }}
                     class="form-control mr-sm-2"
                     type="text"
                     placeholder="Enter Your Email"
