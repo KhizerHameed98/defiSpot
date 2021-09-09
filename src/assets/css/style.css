@@ -225,6 +225,8 @@ button:focus {
 }
 .mainhover:hover {
   background-color: #fff;
+  border-radius: 15px;
+  padding-left: 10px;
 }
 .btn-primary {
   padding-left: 20px;
