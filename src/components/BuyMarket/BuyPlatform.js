@@ -312,6 +312,7 @@ const BuyPlatform = () => {
                   padding: "5px 15px 5px 15px",
                   border: "none",
                   borderRadius: "15px",
+                  fontWeight: "bold",
                 }}
               >
                 Market
@@ -425,6 +426,11 @@ const BuyPlatform = () => {
                       <div class="pl-2">
                         <p style={{ margin: "0px", color: "#808191" }}>
                           Market cap
+                          {/* <i class="pl-2 fa fa-exclamation-circle"></i> */}
+                          <img
+                            style={{ width: "18px", marginLeft: "5px" }}
+                            src="https://img.icons8.com/ios/50/000000/info--v1.png"
+                          />
                         </p>
                         <p class="font-weight-bold">329,553,663,671 USD</p>
                       </div>
@@ -436,6 +442,10 @@ const BuyPlatform = () => {
                       <div class="pl-2">
                         <p style={{ margin: "0px", color: "#808191" }}>
                           Volume(24h)
+                          <img
+                            style={{ width: "18px", marginLeft: "5px" }}
+                            src="https://img.icons8.com/ios/50/000000/info--v1.png"
+                          />{" "}
                         </p>
                         <p class="font-weight-bold">329,553,663,671 USD</p>
                       </div>
@@ -453,6 +463,10 @@ const BuyPlatform = () => {
                       <div class="pl-2">
                         <p style={{ margin: "0px", color: "#808191" }}>
                           Circulating Supply
+                          <img
+                            style={{ width: "18px", marginLeft: "5px" }}
+                            src="https://img.icons8.com/ios/50/000000/info--v1.png"
+                          />{" "}
                         </p>
                         <p class="font-weight-bold">329,553,663,671 USD</p>
                       </div>
@@ -464,6 +478,10 @@ const BuyPlatform = () => {
                       <div class="pl-2">
                         <p style={{ margin: "0px", color: "#808191" }}>
                           Total Supply
+                          <img
+                            style={{ width: "18px", marginLeft: "5px" }}
+                            src="https://img.icons8.com/ios/50/000000/info--v1.png"
+                          />{" "}
                         </p>
                         <p class="font-weight-bold">329,553,663,671 USD</p>
                       </div>
@@ -475,13 +493,11 @@ const BuyPlatform = () => {
                   <div class="col-lg-8 pl-5 pt-5 pb-4">
                     <h2 class="bitcoinheadeing">About Bitcoin</h2>
                     <p>
-                      Bitcoin is a type of cryptocurrency. There is no physical
-                      bitcoin, only balances kept on a public ledger that
-                      everyone has transparent access to. All bitcoin
-                      transactions are verified by a massive amount of computing
-                      power. Bitcoin is not issued or backed by any banks or
-                      governments, nor is an individual bitcoin valuable as a
-                      commodity.
+                      The worlds first Cryptocurrency, Bitcoin is stored and
+                      exchange securely on the internet through a digital ledger
+                      known as a blochchain. Bitcoins are divisible into smaller
+                      units known as satoshis-each satoshi is worth 0.00000001
+                      bitcoin.
                     </p>
                   </div>
                   <div class="col-lg-4 pt-5">

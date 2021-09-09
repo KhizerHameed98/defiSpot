@@ -308,12 +308,23 @@ export const HeroHome = () => {
                     We realize ideas from simple to complex, everything becomes
                     easy to use and reach the most potential customers.
                   </p>
-                  <a
-                    href="#"
-                    class="btn btn-primary d-flex justify-content-center"
-                  >
-                    Buy crypto
-                  </a>
+                  <div class="d-flex justify-content-center">
+                    <a
+                      style={{
+                        border: "1px solid lightgrey",
+                        paddingLeft: "15px",
+                        paddingRight: "15px",
+                        paddingTop: "5px",
+                        paddingBottom: "8px",
+                        borderRadius: "20px",
+                        textDecoration: "none",
+                      }}
+                      href="#"
+                      class="btn-outline-secondary"
+                    >
+                      Buy crypto
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -332,12 +343,23 @@ export const HeroHome = () => {
                     We realize ideas from simple to complex, everything becomes
                     easy to use and reach the most potential customers.
                   </p>
-                  <a
-                    href="#"
-                    class="btn btn-primary d-flex justify-content-center"
-                  >
-                    Trade now{" "}
-                  </a>
+                  <div class="d-flex justify-content-center">
+                    <a
+                      style={{
+                        border: "1px solid lightgrey",
+                        paddingLeft: "15px",
+                        paddingRight: "15px",
+                        paddingTop: "5px",
+                        paddingBottom: "8px",
+                        borderRadius: "20px",
+                        textDecoration: "none",
+                      }}
+                      href="#"
+                      class="btn-outline-secondary"
+                    >
+                      Trade now{" "}
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -356,12 +378,23 @@ export const HeroHome = () => {
                     We realize ideas from simple to complex, everything becomes
                     easy to use and reach the most potential customers.
                   </p>
-                  <a
-                    href="#"
-                    class="btn btn-primary d-flex justify-content-center"
-                  >
-                    Earn now
-                  </a>
+                  <div class="d-flex justify-content-center">
+                    <a
+                      style={{
+                        border: "1px solid lightgrey",
+                        paddingLeft: "15px",
+                        paddingRight: "15px",
+                        paddingTop: "5px",
+                        paddingBottom: "8px",
+                        borderRadius: "20px",
+                        textDecoration: "none",
+                      }}
+                      href="#"
+                      class="btn-outline-secondary"
+                    >
+                      Earn now
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -440,7 +473,9 @@ export const HeroHome = () => {
                       <div class="col-lg-6">
                         <img src={Images.Img} />
                         <div class="d-flex justify-content-between pt-5">
-                          <h2>Leveraged tokens now available</h2>
+                          <h2 style={{ fontSize: "25px" }}>
+                            Leveraged tokens now available
+                          </h2>
                           <button type="button" class="btn cryptobutton">
                             View more
                           </button>

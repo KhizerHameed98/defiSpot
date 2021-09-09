@@ -95,6 +95,11 @@ body {
 .markettrend {
   font-size: 48px;
 }
+button:focus {
+  outline: 0px dotted;
+  color: #000;
+  outline: 0px auto -webkit-focus-ring-color;
+}
 .tradingbutton {
   border: 1px solid;
   border-radius: 25px;

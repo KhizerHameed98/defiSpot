@@ -33,7 +33,7 @@ const Market = () => {
                   style={{ width: "30px", height: "30px" }}
                   src={Images.btc}
                 />
-                <div style={{ paddingLeft: "12px" }}>
+                <div style={{ paddingLeft: "10px" }}>
                   <p class="marketparagraph">
                     BTC/USDT <span class="spanclassmarket">+0.79%</span>
                   </p>
@@ -53,7 +53,7 @@ const Market = () => {
                   style={{ width: "30px", height: "30px" }}
                   src={Images.btc}
                 />
-                <div style={{ paddingLeft: "12px" }}>
+                <div style={{ paddingLeft: "10px" }}>
                   <p class="marketparagraph">
                     BTC/USDT <span class="spanclassmarket">+0.79%</span>
                   </p>
@@ -73,7 +73,7 @@ const Market = () => {
                   style={{ width: "30px", height: "30px" }}
                   src={Images.btc}
                 />
-                <div style={{ paddingLeft: "12px" }}>
+                <div style={{ paddingLeft: "10px" }}>
                   <p class="marketparagraph">
                     ATC/USDT <span class="spanclassmarket">+0.79%</span>
                   </p>
@@ -115,7 +115,14 @@ const Market = () => {
                 </a>
               </li>
             </ul>
-            <form>
+            <div class=" d-flex form-group has-search">
+              <input type="text" class="form-control" placeholder="Search" />
+              <span
+                style={{ paddingTop: "10px", marginLeft: "-22px" }}
+                class=" fa fa-search form-control-feedback"
+              ></span>
+            </div>
+            {/* <form>
               <div class="input-group">
                 <input
                   type="text"
@@ -128,7 +135,7 @@ const Market = () => {
                   </button>
                 </div>
               </div>
-            </form>
+            </form> */}
           </div>
           <div class="table-responsive">
             <table class="table">
@@ -140,7 +147,10 @@ const Market = () => {
                   <th scope="col">24h %</th>
                   <th scope="col">7d %</th>
                   <th scope="col">Marketcap $</th>
-                  <th scope="col">Volume(24h)</th>
+                  <th scope="col">
+                    Volume(24h)
+                    <img class="pl-2" src={Images.hourr} />
+                  </th>
                   <th scope="col">Chart</th>
                 </tr>
               </thead>
@@ -607,6 +617,7 @@ const Market = () => {
       </section>
       <div class="d-flex justify-content-center mb-5">
         <button type="button" class="btn loaderbutton">
+          <i class="mr-2 fa fa-spinner"></i>
           Load more
         </button>
       </div>

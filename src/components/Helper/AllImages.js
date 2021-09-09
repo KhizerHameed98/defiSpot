@@ -34,6 +34,7 @@ import pt1 from "../../assets/images/pt1.png";
 import pt2 from "../../assets/images/pt2.png";
 import pt3 from "../../assets/images/pt3.png";
 import pt4 from "../../assets/images/pt4.png";
+import rightarr from "../../assets/images/rightarr.png";
 import warrr from "../../assets/images/warrr.PNG";
 import down from "../../assets/images/down.png";
 import goup3 from "../../assets/images/goup3.png";
@@ -88,6 +89,7 @@ const Images = {
   clock,
   linechart,
   bbbtc,
+  rightarr,
 };
 
 export default Images;

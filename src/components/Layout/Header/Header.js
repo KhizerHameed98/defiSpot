@@ -50,18 +50,45 @@ export const Header = () => {
                   <img style={{ paddingRight: "8px" }} src={walleto} />
                   WALLETCONNECT
                 </a>
+                <img
+                  style={{
+                    width: "20px",
+                    height: "15px",
+                    paddingTop: "5px",
+                    paddingRight: "10px",
+                  }}
+                  src={Images.rightarr}
+                />
               </div>
               <div class="d-flex justify-content-between connectwallet mt-3">
                 <a style={{ color: "#23262F", fontSize: "16px" }} href="#">
                   <img style={{ paddingRight: "8px" }} src={meta} />
                   METAMASK WALLET
                 </a>
+                <img
+                  style={{
+                    width: "20px",
+                    height: "15px",
+                    paddingTop: "5px",
+                    paddingRight: "10px",
+                  }}
+                  src={Images.rightarr}
+                />
               </div>
               <div class="d-flex justify-content-between connectwallet mt-3">
                 <a style={{ color: "#23262F", fontSize: "16px" }} href="#">
                   <img style={{ paddingRight: "8px" }} src={defi} />
                   XDEFI WALLET
                 </a>
+                <img
+                  style={{
+                    width: "20px",
+                    height: "15px",
+                    paddingTop: "5px",
+                    paddingRight: "10px",
+                  }}
+                  src={Images.rightarr}
+                />
               </div>
 
               <div class="d-flex justify-content-between connectwallet mt-3">
@@ -69,11 +96,29 @@ export const Header = () => {
                   <img style={{ paddingRight: "8px" }} src={ledger} />
                   LEDGER
                 </a>
+                <img
+                  style={{
+                    width: "20px",
+                    height: "15px",
+                    paddingTop: "5px",
+                    paddingRight: "10px",
+                  }}
+                  src={Images.rightarr}
+                />
               </div>
               <div class="d-flex justify-content-between connectwallet mt-3 mb-3">
                 <a style={{ color: "#23262F", fontSize: "16px" }} href="#">
                   CUSTOM KEYSTORE
                 </a>
+                <img
+                  style={{
+                    width: "20px",
+                    height: "15px",
+                    paddingTop: "5px",
+                    paddingRight: "10px",
+                  }}
+                  src={Images.rightarr}
+                />
               </div>
             </div>
           </div>
@@ -82,7 +127,7 @@ export const Header = () => {
       {/* <!-- modal end --> */}
       <div class="container" style={{ padding: "0px" }}>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <Link className="navbar-brand" to="/">
+          <Link className="navbar-brand" to={browserRoute.HOME}>
             <img src={Logo} />
           </Link>
           <button
@@ -99,11 +144,20 @@ export const Header = () => {
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-              <li className={"nav-item"}>
-                <Link to="/market" class="nav-link">
+              <li className="nav-item">
+                <Link
+                  to={browserRoute.MARKET}
+                  className={
+                    "nav-link " +
+                    (window.location.href.indexOf(browserRoute.MARKET) !== -1
+                      ? "active"
+                      : null)
+                  }
+                >
                   Market
                 </Link>
               </li>
+
               <li class="nav-item">
                 <a class="nav-link" href="#">
                   Earn yield
@@ -129,7 +183,12 @@ export const Header = () => {
             </ul>
             <select
               class="mt-2 mr-3"
-              style={{ width: "56px", border: "none", fontWeight: "bold" }}
+              style={{
+                width: "56px",
+                border: "none",
+                fontWeight: "bold",
+                background: "none",
+              }}
             >
               <option>ENG</option>
               <option>ESP</option>

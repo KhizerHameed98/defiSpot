@@ -7,17 +7,18 @@ export const Footer = () => {
       <footer class="mainfooter pt-5" role="contentinfo">
         <div class="footer-middle">
           <div class="container">
+            <hr class="solid" style={{ margin: "0px" }} />
             <div class="row">
               <div class="col-md-3 col-sm-6">
                 {/* <!--Column1--> */}
-                <div class="footer-pad">
+                <div class="footer-pad pt-5">
                   <Link to="/">
                     <img src={Logo} />
                   </Link>
                 </div>
               </div>
               <div
-                class="col-md-3 col-sm-6"
+                class="col-md-3 col-sm-6 pt-5"
                 style={{ borderRight: "1px solid lightgrey" }}
               >
                 {/* <!--Column1--> */}
@@ -57,19 +58,19 @@ export const Footer = () => {
                 </div>
               </div>
               <div
-                class="col-md-3 col-sm-6"
+                class="col-md-3 col-sm-6 pt-5"
                 style={{ borderRight: "1px solid lightgrey" }}
               >
                 {/* <!--Column1--> */}
                 <div class="footer-pad pl-5">
                   <h4 style={{ fontSize: "14px" }}>Contact</h4>
                   <ul class="list-unstyled">
-                    <li class="pt-2 pb-2">
+                    <li class="pt-4  pb-2">
                       <a class="footerlinks" href="#">
                         About us
                       </a>
                     </li>
-                    <li class="pt-2 pb-2">
+                    <li class="pb-2">
                       <a class="footerlinks" href="#">
                         Help & faq
                       </a>
@@ -82,7 +83,7 @@ export const Footer = () => {
                   </ul>
                 </div>
               </div>
-              <div class="col-md-3 pl-5">
+              <div class="col-md-3 pl-5 pt-5">
                 <h6>Suipe Learning academy</h6>
                 <p class="pt-2 pb-2">
                   Subscribe our newsletter to get more free articles and
@@ -101,10 +102,10 @@ export const Footer = () => {
                   ></input>
                   <i
                     style={{
-                      backgroundColor: "blue",
+                      backgroundColor: "#3772FF",
                       color: "white",
-                      paddingLeft: "8px",
-                      paddingRight: "6px",
+                      paddingLeft: "9px",
+                      paddingRight: "7px",
                       marginLeft: "-40px",
                       marginTop: "6px",
                       marginBottom: "6px",
@@ -117,8 +118,8 @@ export const Footer = () => {
                 </div>
               </div>
             </div>
-            <hr class="solid" />
-            <div class="container mt-5">
+            <hr class="solid" style={{ margin: "0px" }} />
+            <div class="container mt-3">
               <div class="d-flex justify-content-between">
                 <h6>Copyright © 2021 Suipe. All rights reserved</h6>
                 <ul
