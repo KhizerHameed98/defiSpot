@@ -492,7 +492,7 @@ const BuyPlatform = () => {
                 <div class="row">
                   <div class="col-lg-8 pl-5 pt-5 pb-4">
                     <h2 class="bitcoinheadeing">About Bitcoin</h2>
-                    <p>
+                    <p style={{ color: "#5e5b5b" }}>
                       The worlds first Cryptocurrency, Bitcoin is stored and
                       exchange securely on the internet through a digital ledger
                       known as a blochchain. Bitcoins are divisible into smaller
