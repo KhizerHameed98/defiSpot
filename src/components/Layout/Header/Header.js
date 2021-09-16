@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Logo from "../../../assets/images/logo.png";
 import headerdown from "../../../assets/images/headerdown.png";
 import doticon from "../../../assets/images/doticon.png";
@@ -9,122 +9,333 @@ import defi from "../../../assets/images/defi.png";
 import ledger from "../../../assets/images/ledger.png";
 import browserRoute from "../../../Routes/browserRoutes";
 import { Link } from "react-router-dom";
+import { Modal } from "react-bootstrap";
 import Images from "./../../Helper/AllImages";
+import {
+  generatePhrase,
+  encryptToKeyStore,
+  decryptFromKeystore,
+} from "@xchainjs/xchain-crypto";
+
 export const Header = () => {
+  const [createKeyStoreModal, setCreateKeyStoreModal] = useState(false);
+  const [mainModal, setMainModel] = useState(false);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [response, setResponse] = React.useState("");
+  const [fileKeyStore, setFileKeyStore] = useState("");
+  const [keyStoreObject, setKeyStoreObject] = useState({});
+  // Crypto Constants for xchain
+  const cipher = "aes-128-ctr";
+  const kdf = "pbkdf2";
+  const prf = "hmac-sha256";
+  const dklen = 32;
+  const c = 262144;
+  const hashFunction = "sha256";
+  // const meta = "xchain-keystore";
+  let key;
+  let fileReader;
+
+  useEffect(() => {
+    // keystore();
+  }, []);
+
+  const submitKeyStore = async () => {
+    try {
+      const phrase = generatePhrase();
+      console.log("phrase===>", phrase);
+      key = await encryptToKeyStore(phrase, password);
+      console.log("key========>", key);
+
+      setResponse(key);
+      downloadTextFile();
+
+      return key;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleFileRead = async (e) => {
+    const content = JSON.parse(fileReader.result);
+    console.log(content);
+    let res = await decryptFromKeystore(content, password);
+    console.log("decryption=====>", res);
+    // … do something with the 'content' …
+  };
+  const decryptKeyStore = async () => {
+    // console.log("password====>", password);
+    // console.log("fileKeyStroe====>", fileKeyStore);
+    fileReader = new FileReader();
+    fileReader.onloadend = handleFileRead;
+    fileReader.readAsText(fileKeyStore);
+
+    // let res = decryptFromKeystore(fileKeyStore, password);
+    // console.log("decryption=====>", res);
+  };
+  const downloadTextFile = () => {
+    const element = document.createElement("a");
+    const file = new Blob([JSON.stringify(key)], {
+      // const file = new Blob([document.getElementById('input').value],{
+      type: "text/plain;charset=utf-8",
+    });
+
+    // console.log("file==========", file)
+
+    element.href = URL.createObjectURL(file);
+    element.download = "Thor_Custom_Keystore";
+    document.body.appendChild(element);
+    element.click();
+  };
+
   return (
     <div>
-      {/* <!-- Modal --> */}
-      <div
-        class="modal fade"
-        id="exampleModal"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
+      {/* <!-- Create KeyStore Modal  --> */}
+      <Modal
+        show={createKeyStoreModal}
+        onHide={() => {
+          setCreateKeyStoreModal(false);
+        }}
+        // backdrop="static"
+        keyboard={false}
       >
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
-                Connect wallet
-              </h5>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <div class="d-flex justify-content-center modalparagraph mb-3">
-                <p>
-                  To use our platform you will need to connect a wallet. Please
-                  choose one of the listed.
-                </p>
-              </div>
-              <h5 style={{ fontSize: "16px" }}>CHOOSE WALLET</h5>
-              <div class="d-flex justify-content-between connectwallet">
-                <a style={{ color: "#23262F", fontSize: "16px" }} href="#">
-                  <img style={{ paddingRight: "8px" }} src={walleto} />
-                  WALLETCONNECT
-                </a>
-                <img
-                  style={{
-                    width: "20px",
-                    height: "15px",
-                    paddingTop: "5px",
-                    paddingRight: "10px",
-                  }}
-                  src={Images.rightarr}
-                />
-              </div>
-              <div class="d-flex justify-content-between connectwallet mt-3">
-                <a style={{ color: "#23262F", fontSize: "16px" }} href="#">
-                  <img style={{ paddingRight: "8px" }} src={meta} />
-                  METAMASK WALLET
-                </a>
-                <img
-                  style={{
-                    width: "20px",
-                    height: "15px",
-                    paddingTop: "5px",
-                    paddingRight: "10px",
-                  }}
-                  src={Images.rightarr}
-                />
-              </div>
-              <div class="d-flex justify-content-between connectwallet mt-3">
-                <a style={{ color: "#23262F", fontSize: "16px" }} href="#">
-                  <img style={{ paddingRight: "8px" }} src={defi} />
-                  XDEFI WALLET
-                </a>
-                <img
-                  style={{
-                    width: "20px",
-                    height: "15px",
-                    paddingTop: "5px",
-                    paddingRight: "10px",
-                  }}
-                  src={Images.rightarr}
-                />
-              </div>
+        <Modal.Body>
+          {/* <!-- Modal --> */}
+          <div
+            id="exampleModal"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalLabel"
+          >
+            <div class="">
+              <div>
+                <div class="modal-header">
+                  <button
+                    type="button"
+                    class="close"
+                    aria-label="Close"
+                    onClick={() => {
+                      setCreateKeyStoreModal(false);
+                    }}
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="d-flex justify-content-center  mb-3">
+                    <h3 style={{ fontFamily: "sans-serif" }}>
+                      CREATE KEYSTORE
+                    </h3>
+                  </div>
+                  <div>
+                    <div class="form-group">
+                      <label for="pwd">Input Password:</label>
+                      <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => {
+                          setPassword(e.target.value);
+                        }}
+                        placeholder="Password"
+                        class="form-control"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="pwd">Confirm Password:</label>
+                      <input
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(e) => {
+                          setConfirmPassword(e.target.value);
+                        }}
+                        placeholder="Confirm Password"
+                        class="form-control"
+                        id="pwd"
+                        name="password"
+                      />
+                      <input
+                        type="file"
+                        className="mt-3"
+                        onChange={(e) => {
+                          setFileKeyStore(e.target.files[0]);
+                        }}
+                      />
+                    </div>
+                    <div class="d-flex justify-content-center">
+                      <button
+                        className="btn btn-primary"
+                        onClick={submitKeyStore}
+                      >
+                        Create
+                      </button>
+                      <button
+                        className="btn btn-primary ml-3"
+                        onClick={decryptKeyStore}
+                      >
+                        Connect
+                      </button>
 
-              <div class="d-flex justify-content-between connectwallet mt-3">
-                <a style={{ color: "#23262F", fontSize: "16px" }} href="#">
-                  <img style={{ paddingRight: "8px" }} src={ledger} />
-                  LEDGER
-                </a>
-                <img
-                  style={{
-                    width: "20px",
-                    height: "15px",
-                    paddingTop: "5px",
-                    paddingRight: "10px",
-                  }}
-                  src={Images.rightarr}
-                />
-              </div>
-              <div class="d-flex justify-content-between connectwallet mt-3 mb-3">
-                <a style={{ color: "#23262F", fontSize: "16px" }} href="#">
-                  CUSTOM KEYSTORE
-                </a>
-                <img
-                  style={{
-                    width: "20px",
-                    height: "15px",
-                    paddingTop: "5px",
-                    paddingRight: "10px",
-                  }}
-                  src={Images.rightarr}
-                />
+                      {/* <button type="submit" class="btn btn-primary ml-2">
+                        Connect Wallet
+                      </button> */}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      {/* <!-- modal end --> */}
+          {/* <!-- modal end --> */}
+        </Modal.Body>
+      </Modal>
+      {/* <!-- Create KeyStore Modal END  --> */}
+
+      {/* <!-- Main Modal  --> */}
+
+      <Modal
+        show={mainModal}
+        onHide={() => {
+          setMainModel(false);
+        }}
+        // backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Body>
+          {/* <!-- Main Modal  --> */}
+          <div
+            id="exampleModal"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div role="document">
+              <div class="">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">
+                    Connect wallet
+                  </h5>
+                  <button
+                    type="button"
+                    class="close"
+                    aria-label="Close"
+                    onClick={() => {
+                      setMainModel(false);
+                    }}
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="d-flex justify-content-center modalparagraph mb-3">
+                    <p>
+                      To use our platform you will need to connect a wallet.
+                      Please choose one of the listed.
+                    </p>
+                  </div>
+                  <h5 style={{ fontSize: "16px" }}>CHOOSE WALLET</h5>
+                  <button
+                    class="d-flex justify-content-between connectwallet"
+                    style={{ width: "100%", background: "none" }}
+                  >
+                    <a style={{ color: "#23262F", fontSize: "16px" }}>
+                      <img style={{ paddingRight: "8px" }} src={walleto} />
+                      WALLETCONNECT
+                    </a>
+                    <img
+                      style={{
+                        width: "20px",
+                        height: "15px",
+                        paddingTop: "5px",
+                        paddingRight: "10px",
+                      }}
+                      src={Images.rightarr}
+                    />
+                  </button>
+                  <button
+                    class="d-flex justify-content-between connectwallet mt-3"
+                    style={{ width: "100%", background: "none" }}
+                  >
+                    <a style={{ color: "#23262F", fontSize: "16px" }}>
+                      <img style={{ paddingRight: "8px" }} src={meta} />
+                      METAMASK WALLET
+                    </a>
+                    <img
+                      style={{
+                        width: "20px",
+                        height: "15px",
+                        paddingTop: "5px",
+                        paddingRight: "10px",
+                      }}
+                      src={Images.rightarr}
+                    />
+                  </button>
+                  <button
+                    class="d-flex justify-content-between connectwallet mt-3"
+                    style={{ width: "100%", background: "none" }}
+                  >
+                    <a style={{ color: "#23262F", fontSize: "16px" }}>
+                      <img style={{ paddingRight: "8px" }} src={defi} />
+                      XDEFI WALLET
+                    </a>
+                    <img
+                      style={{
+                        width: "20px",
+                        height: "15px",
+                        paddingTop: "5px",
+                        paddingRight: "10px",
+                      }}
+                      src={Images.rightarr}
+                    />
+                  </button>
+
+                  <button
+                    class="d-flex justify-content-between connectwallet mt-3"
+                    style={{ width: "100%", background: "none" }}
+                  >
+                    {" "}
+                    <a style={{ color: "#23262F", fontSize: "16px" }}>
+                      <img style={{ paddingRight: "8px" }} src={ledger} />
+                      LEDGER
+                    </a>
+                    <img
+                      style={{
+                        width: "20px",
+                        height: "15px",
+                        paddingTop: "5px",
+                        paddingRight: "10px",
+                      }}
+                      src={Images.rightarr}
+                    />
+                  </button>
+                  <button
+                    class="d-flex justify-content-between connectwallet mt-3 mb-3"
+                    style={{ width: "100%", background: "none" }}
+                    // onClick={() => {
+                    //   setMainModel(false);
+                    //   setCreateKeyStoreModal(true);
+                    // }}
+                  >
+                    {" "}
+                    <a style={{ color: "#23262F", fontSize: "16px" }}>
+                      CUSTOM KEYSTORE
+                    </a>
+                    <img
+                      style={{
+                        width: "20px",
+                        height: "15px",
+                        paddingTop: "5px",
+                        paddingRight: "10px",
+                      }}
+                      src={Images.rightarr}
+                    />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* <!-- modal end --> */}
+        </Modal.Body>
+      </Modal>
+
       <div class="container" style={{ padding: "0px" }}>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <Link className="navbar-brand" to={browserRoute.HOME}>
@@ -164,9 +375,17 @@ export const Header = () => {
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <Link
+                  to={browserRoute.PORTFOLIO}
+                  className={
+                    "nav-link " +
+                    (window.location.href.indexOf(browserRoute.PORTFOLIO) !== -1
+                      ? "active"
+                      : null)
+                  }
+                >
                   Portfolio
-                </a>
+                </Link>
               </li>
               <li class="nav-item">
                 <div class="d-flex">
@@ -201,9 +420,10 @@ export const Header = () => {
             </Link>
             <button
               class="btn walletbutton my-2 my-sm-0"
-              data-toggle="modal"
-              data-target="#exampleModal"
               type="submit"
+              onClick={() => {
+                setMainModel(true);
+              }}
             >
               Wallet
             </button>

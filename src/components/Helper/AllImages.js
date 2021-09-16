@@ -44,7 +44,14 @@ import sss from "../../assets/images/sss.png";
 import clock from "../../assets/images/clock.png";
 import bbbtc from "../../assets/images/buybtc.png";
 import linechart from "../../assets/images/linechart.png";
-
+import bnb from "../../assets/images/bnb.png";
+import frame1 from "../../assets/images/frame1.png";
+import frame2 from "../../assets/images/frame2.png";
+import frame3 from "../../assets/images/frame3.png";
+import gotomarket from "../../assets/images/gotomarket.png";
+import percentage from "../../assets/images/percentage.png";
+import yielldmarket from "../../assets/images/yielldmarket.png";
+import qwq from "../../assets/images/qwq.png";
 const Images = {
   Img,
   btc,
@@ -90,6 +97,14 @@ const Images = {
   linechart,
   bbbtc,
   rightarr,
+  bnb,
+  frame1,
+  frame2,
+  frame3,
+  percentage,
+  gotomarket,
+  yielldmarket,
+  qwq,
 };
 
 export default Images;

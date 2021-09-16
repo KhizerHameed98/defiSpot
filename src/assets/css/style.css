@@ -329,3 +329,33 @@ button:focus {
 .buyTokenbtn {
   display: none;
 }
+.depositclass{
+  background-color: #3772FF;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 5px;
+  color: #fff;
+}
+.depositclasss{
+  background-color: #58BD7D;
+  padding-left: 18px;
+  padding-right: 18px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 5px;
+  color: #fff;
+}
+.marketsidetitle{
+  color: #777E90;
+  font-family: sans-Bold;
+  font-size: 14px;
+}
+.sidebarcoleight{
+  padding-left: 20px;
+  background-color: #fff;
+}
+.marginleftcol{
+  margin-left: 200px;
+}
