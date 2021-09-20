@@ -12,6 +12,7 @@ import Assets from "./components/Portfolio/Assets";
 import PrivatePortfolioRoute from "./components/HOC/PrivatePortfolioRoute";
 import Overview from "./components/Portfolio/Overview";
 import Activity from "./components/Portfolio/Activity";
+import Liquidity from "./components/Portfolio/Liquidity";
 function App() {
   return (
     <div>
@@ -40,6 +41,11 @@ function App() {
             path={browserRoute.PORTFOLIO_ACTIVITY}
             component={Activity}
           />
+          {/* <PrivatePortfolioRoute
+            exact
+            path={browserRoute.PORTFOLIO_LIQUIDITY}
+            component={Liquidity}
+          /> */}
 
           <Redirect from="/" to={browserRoute.HOME} />
         </Switch>

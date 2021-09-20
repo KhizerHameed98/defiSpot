@@ -11,7 +11,7 @@ export const Footer = () => {
             <div class="row">
               <div class="col-md-3 col-sm-6">
                 {/* <!--Column1--> */}
-                <div class="footer-pad pt-5">
+                <div class="footer-pad">
                   <Link to="/">
                     <img src={Logo} />
                   </Link>
@@ -109,7 +109,8 @@ export const Footer = () => {
                       marginLeft: "-45px",
                       marginTop: "7px",
                       marginBottom: "6px",
-                      paddingTop: "6px",
+                      paddingTop: "8px",
+                      fontSize:"14px",
                       borderRadius: "20px",
                     }}
                     class="fa fa-long-arrow-right"

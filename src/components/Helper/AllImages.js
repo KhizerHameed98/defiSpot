@@ -7,6 +7,8 @@ import btc5 from "../../assets/images/btc5.png";
 import btc6 from "../../assets/images/btc6.png";
 import btc7 from "../../assets/images/btc7.png";
 import btc8 from "../../assets/images/btc8.png";
+import exclamation from "../../assets/images/exclamation.png";
+import defilogo from "../../assets/images/defilogo.png";
 import btc9 from "../../assets/images/btc9.png";
 import btc10 from "../../assets/images/btc10.png";
 import market from "../../assets/images/market.png";
@@ -16,7 +18,7 @@ import crt2 from "../../assets/images/crt2.png";
 import comp from "../../assets/images/comp.png";
 import assest from "../../assets/images/assest.png";
 import Yield from "../../assets/images/yield.png";
-
+import moreright from "../../assets/images/moreright.png";
 import crt3 from "../../assets/images/crt3.png";
 import crt4 from "../../assets/images/crt4.png";
 
@@ -35,7 +37,8 @@ import pt2 from "../../assets/images/pt2.png";
 import pt3 from "../../assets/images/pt3.png";
 import pt4 from "../../assets/images/pt4.png";
 import rightarr from "../../assets/images/rightarr.png";
-import warrr from "../../assets/images/warrr.PNG";
+import warrr from "../../assets/images/warrr.png";
+import setting from "../../assets/images/setting.png";
 import down from "../../assets/images/down.png";
 import goup3 from "../../assets/images/goup3.png";
 import hourr from "../../assets/images/hourr.png";
@@ -52,14 +55,19 @@ import gotomarket from "../../assets/images/gotomarket.png";
 import percentage from "../../assets/images/percentage.png";
 import yielldmarket from "../../assets/images/yielldmarket.png";
 import qwq from "../../assets/images/qwq.png";
+import lefttwoline from "../../assets/images/lefttwoline.png";
+
 const Images = {
   Img,
   btc,
   btc1,
+  setting,
   btc2,
   btc3,
   btc4,
   btc5,
+  lefttwoline,
+  moreright,
   btc6,
   btc7,
   btc8,
@@ -68,6 +76,7 @@ const Images = {
   market,
   crt1,
   crt2,
+  exclamation,
   crt3,
   crt4,
   comp,
@@ -105,6 +114,7 @@ const Images = {
   gotomarket,
   yielldmarket,
   qwq,
+  defilogo
 };
 
 export default Images;

@@ -90,7 +90,7 @@ const Market = () => {
           </div>
         </div>
       </section>
-      <section>
+      <section style={{backgroundColor:"#FCFCFD"}}>
         <div class="container pt-5">
           <div class="d-flex justify-content-between">
             <ul class="list-unstyled d-flex">
@@ -106,7 +106,7 @@ const Market = () => {
               </li>
               <li class="pl-3 pt-2 marketparagraph">
                 <a style={{ color: "#777E90" }} href="#">
-                  Erc-20
+                  ERC-20
                 </a>
               </li>
               <li class="pl-3 pt-2 marketparagraph">
@@ -552,8 +552,8 @@ const Market = () => {
           </div>
         </div>
       </section>
-      <section>
-        <div class="container mt-5 mb-5">
+      <section style={{backgroundColor:"#FCFCFD"}}>
+        <div class="container pt-5 mb-5">
           <div>
             <h2 class="d-flex justify-content-center marketmainheade">
               Learn about DeFi

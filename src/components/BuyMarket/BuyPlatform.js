@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import withMainLayout from "../HOC/withMainLayout";
 import { Button, Modal } from "react-bootstrap";
 import Images from "../Helper/AllImages";
+import { Link } from "react-router-dom";
+import browserRoute from "../../Routes/browserRoutes";
 // import Images from "../../Helper/AllImages";
 const BuyPlatform = () => {
   const [YayModal, setYayModal] = useState(false);
@@ -125,10 +127,10 @@ const BuyPlatform = () => {
         keyboard={false}
         size="lg"
       >
-        <Modal.Header
+        {/* <Modal.Header
           closeButton
           style={{ borderBottom: "none" }}
-        ></Modal.Header>
+        ></Modal.Header> */}
         <Modal.Body>
           {/* <!-- Modal --> */}
           <div
@@ -141,22 +143,18 @@ const BuyPlatform = () => {
             <div role="document">
               <div>
                 <div class="modal-body">
-                  <div class="d-flex justify-content-between pt-5">
+                  <div class="d-flex justify-content-between pt-2 pb-2">
                     <div class="d-flex">
-                      <button
-                        class="fa fa-arrow-left"
+                      <img
+                        class="pt-3"
+                        style={{ height: "25px" }}
                         onClick={handleCloseConfirm}
-                        style={{
-                          fontSize: "25px",
-                          marginRight: "10px",
-                          backgroundColor: "white",
-                          border: "none",
-                        }}
-                      ></button>
-                      <p class="yahparagraph mt-1">Confirm</p>
+                        src={Images.lefttwoline}
+                      />
+                      <p class="yahparagraph pl-2 pt-1">Confirm</p>
                     </div>
                     <div>
-                      <i class="fa fa-cog" style={{ fontSize: "30px" }}></i>
+                      <img style={{ height: "25px" }} src={Images.setting} />
                     </div>
                   </div>
                   <div
@@ -236,10 +234,11 @@ const BuyPlatform = () => {
                   </button>
                   <button
                     type="button"
+                    style={{ fontSize: "16px" }}
                     class="btn btn-primary btn-lg"
                     onClick={handleShowYay}
                   >
-                    I understand,continue
+                    I understand, continue
                   </button>
                 </div>
               </div>
@@ -315,7 +314,12 @@ const BuyPlatform = () => {
                   fontWeight: "bold",
                 }}
               >
-                Market
+                <Link
+                  to={browserRoute.MARKET}
+                  style={{ textDecoration: "none", color: "black" }}
+                >
+                  Market
+                </Link>
               </button>
               <div class="d-flex justify-content-between pt-4">
                 <h2>Buy BTC</h2>
@@ -372,6 +376,7 @@ const BuyPlatform = () => {
               </div>
 
               <button
+                style={{ fontSize: "15px" }}
                 type="button"
                 class="btn btn-primary btn-lg btn-block mb-2"
                 onClick={handleShowConfirm}
@@ -427,10 +432,7 @@ const BuyPlatform = () => {
                         <p style={{ margin: "0px", color: "#808191" }}>
                           Market cap
                           {/* <i class="pl-2 fa fa-exclamation-circle"></i> */}
-                          <img
-                            style={{ width: "18px", marginLeft: "5px" }}
-                            src="https://img.icons8.com/ios/50/000000/info--v1.png"
-                          />
+                          <img class="pl-1 pt-1" src={Images.exclamation} />
                         </p>
                         <p class="font-weight-bold">329,553,663,671 USD</p>
                       </div>
@@ -442,10 +444,7 @@ const BuyPlatform = () => {
                       <div class="pl-2">
                         <p style={{ margin: "0px", color: "#808191" }}>
                           Volume(24h)
-                          <img
-                            style={{ width: "18px", marginLeft: "5px" }}
-                            src="https://img.icons8.com/ios/50/000000/info--v1.png"
-                          />{" "}
+                          <img class="pl-1 pt-1" src={Images.exclamation} />
                         </p>
                         <p class="font-weight-bold">329,553,663,671 USD</p>
                       </div>
@@ -463,10 +462,7 @@ const BuyPlatform = () => {
                       <div class="pl-2">
                         <p style={{ margin: "0px", color: "#808191" }}>
                           Circulating Supply
-                          <img
-                            style={{ width: "18px", marginLeft: "5px" }}
-                            src="https://img.icons8.com/ios/50/000000/info--v1.png"
-                          />{" "}
+                          <img class="pl-1 pt-1" src={Images.exclamation} />
                         </p>
                         <p class="font-weight-bold">329,553,663,671 USD</p>
                       </div>
@@ -478,10 +474,7 @@ const BuyPlatform = () => {
                       <div class="pl-2">
                         <p style={{ margin: "0px", color: "#808191" }}>
                           Total Supply
-                          <img
-                            style={{ width: "18px", marginLeft: "5px" }}
-                            src="https://img.icons8.com/ios/50/000000/info--v1.png"
-                          />{" "}
+                          <img class="pl-1 pt-1" src={Images.exclamation} />
                         </p>
                         <p class="font-weight-bold">329,553,663,671 USD</p>
                       </div>
@@ -502,20 +495,44 @@ const BuyPlatform = () => {
                   </div>
                   <div class="col-lg-4 pt-5">
                     <div class="d-flex">
-                      <img src={Images.warrr} />
-                      <a class="pt-2 pl-2" href="#">
+                      <img
+                        class="pt-2"
+                        style={{ width: "20px", height: "25px" }}
+                        src={Images.warrr}
+                      />
+                      <a
+                        class="pt-1 pl-3"
+                        href="#"
+                        style={{ fontWeight: "700" }}
+                      >
                         Official Website
                       </a>
                     </div>
                     <div class="d-flex">
-                      <img src={Images.warrr} />
-                      <a class="pt-2 pl-2" href="#">
+                      <img
+                        class="pt-2"
+                        style={{ width: "20px", height: "25px" }}
+                        src={Images.warrr}
+                      />
+                      <a
+                        class="pt-1 pl-3"
+                        href="#"
+                        style={{ fontWeight: "700" }}
+                      >
                         White Paper
                       </a>
                     </div>
                     <div class="d-flex">
-                      <img src={Images.warrr} />
-                      <a class="pt-2 pl-2" href="#">
+                      <img
+                        class="pt-2"
+                        style={{ width: "20px", height: "25px" }}
+                        src={Images.warrr}
+                      />
+                      <a
+                        class="pt-1 pl-3"
+                        href="#"
+                        style={{ fontWeight: "700" }}
+                      >
                         Source Code
                       </a>
                     </div>

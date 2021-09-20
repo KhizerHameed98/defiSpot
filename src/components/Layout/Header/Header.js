@@ -309,10 +309,10 @@ export const Header = () => {
                   <button
                     class="d-flex justify-content-between connectwallet mt-3 mb-3"
                     style={{ width: "100%", background: "none" }}
-                    // onClick={() => {
-                    //   setMainModel(false);
-                    //   setCreateKeyStoreModal(true);
-                    // }}
+                    onClick={() => {
+                      setMainModel(false);
+                      setCreateKeyStoreModal(true);
+                    }}
                   >
                     {" "}
                     <a style={{ color: "#23262F", fontSize: "16px" }}>
@@ -336,10 +336,10 @@ export const Header = () => {
         </Modal.Body>
       </Modal>
 
-      <div class="container" style={{ padding: "0px" }}>
+      <div class="container" style={{ padding: "0px",backgroundColor:"#FCFCFD" }}>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <Link className="navbar-brand" to={browserRoute.HOME}>
-            <img src={Logo} />
+            <img style={{width:"115px",borderRight:"1px solid #E6E8EC",paddingRight:"15px"}} src={Images.defilogo} />
           </Link>
           <button
             class="navbar-toggler"
@@ -401,21 +401,22 @@ export const Header = () => {
               </li>
             </ul>
             <select
-              class="mt-2 mr-3"
+              class="mt-2 mr-4"
               style={{
                 width: "56px",
+                listStyle:"none",
                 border: "none",
                 fontWeight: "bold",
                 background: "none",
               }}
             >
-              <option>ENG</option>
-              <option>ESP</option>
+              <option style={{color:"#23262F"}}>ENG</option>
+              <option style={{color:"#23262F"}}>ESP</option>
             </select>
-            <Link className="navbar-brand" to="/">
+            <Link className="navbar-brand pr-3" to="/">
               <img src={bell} />
             </Link>
-            <Link className="navbar-brand" to="/">
+            <Link className="navbar-brand pr-3" to="/">
               <img src={doticon} />
             </Link>
             <button

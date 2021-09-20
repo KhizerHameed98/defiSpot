@@ -127,10 +127,14 @@ button:focus {
   color: #23262f;
 }
 .cryptobutton {
-  padding-left: 35px;
-  padding-right: 35px;
+  padding-left: 30px;
+  padding-right: 30px;
   border: 1px solid;
   border-radius: 30px;
+  color: #23262F;
+  font-weight: bold;
+  float: right;
+  margin-top: -55px;
 }
 .footerlinkcoltwo {
   display: block;
@@ -143,8 +147,10 @@ button:focus {
 .walletbutton {
   padding-left: 30px;
   padding-right: 30px;
-  border: 1px solid;
+  border: 2px solid #E6E8EC;
+  font-weight: 600;
   border-radius: 20px;
+  color: #23262F;
 }
 .footerlink {
   color: #777e90;
@@ -202,7 +208,7 @@ button:focus {
   margin-left: 10px;
 }
 .bitcoinclasss {
-  background-color: #fff;
+  background-color: #FCFCFD;
   border-radius: 10px;
 }
 .bitcoinclasssmian {
@@ -210,7 +216,7 @@ button:focus {
   border-radius: 20px;
 }
 .alltype {
-  background-color: #000;
+  background-color: #353945;
   color: #fff;
   padding-left: 20px;
   padding-right: 20px;
@@ -220,14 +226,13 @@ button:focus {
   margin-left: 10px;
 }
 .marketbannerhed {
-  font-family: sans-serif;
   font-weight: bold;
   font-size: 55px;
+  padding-bottom: 10px;
 }
 .mainhover:hover {
   background-color: #fff;
   border-radius: 15px;
-  padding-left: 10px;
 }
 .btn-primary {
   padding-left: 20px;
@@ -281,9 +286,9 @@ button:focus {
 }
 .yahparagraph {
   color: #23262f;
-  font-size: 18px;
-  font-weight: bold;
-  font-family: sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  font-family: Poppins;
   margin: 0;
 }
 .transactionclasss {
@@ -358,4 +363,7 @@ button:focus {
 }
 .marginleftcol{
   margin-left: 200px;
+}
+.mainfooter{
+  background-color:"#FCFCFD";
 }

@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
+import { ToastContainer } from "react-toastify";
+
+import { Provider } from "react-redux";
+import store from "./Redux/store/store";
+
+const AppIndex = () => {
+  return (
+    <>
+      <ToastContainer />
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </>
+  );
+};
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <AppIndex />
   </React.StrictMode>,
   document.getElementById("root")
 );
