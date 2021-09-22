@@ -10,8 +10,8 @@ const Loader = () => {
             className="text-center"
             type={"bubbles"}
             color={"grey"}
-            height={"40%"}
-            width={"40%"}
+            height={"30%"}
+            width={"30%"}
           />
         </div>
       </div>

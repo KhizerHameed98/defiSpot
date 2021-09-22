@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import withMainLayout from "../HOC/withMainLayout";
 import { Link } from "react-router-dom";
 import browserRoute from "../../Routes/browserRoutes";
@@ -6,22 +6,21 @@ import Images from "../Helper/AllImages";
 import { MidgardPool_Action } from "../../Redux/actions/actions";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../Loader/Loader";
-import Graph from "../GraphChart/index";
-
 
 export const HeroHome = () => {
   const dispatch = useDispatch();
   const [poolData, setPoolData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const mainState = useSelector((state) => state.main);
+  const mainState = useSelector((state) => state.main.midgardPool);
+  const loading = useSelector((state) => state.main.loading);
   // const [state, setstte] = useState({ name: "ali", age: "20", no: "1028505852" });
 
-  useEffect(async () => {
-    await dispatch(MidgardPool_Action({ setLoading, setPoolData }));
-  }, []);
  
+
   function financial(x) {
     return Number.parseFloat(x).toFixed(2);
+  }
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
   return (
@@ -32,7 +31,7 @@ export const HeroHome = () => {
         </div>
       ) : (
         <>
-          <section style={{backgroundColor:"#FCFCFD"}}>
+          <section style={{ backgroundColor: "#FCFCFD" }}>
             <div class="container">
               <div class="row">
                 <div class="col-lg-6">
@@ -41,7 +40,14 @@ export const HeroHome = () => {
                       Buy & sell <br />
                       crypto in minutes
                     </h2>
-                    <p style={{color:"#777E90",fontSize:"16px",fontFamily:"poppins",fontWeight:"300"}}>
+                    <p
+                      style={{
+                        color: "#777E90",
+                        fontSize: "16px",
+                        fontFamily: "poppins",
+                        fontWeight: "300",
+                      }}
+                    >
                       Trade Bitcoin, Ethereum, USDT, and the top altcoins on the
                       legendary
                       <br /> crypto asset exchange.{" "}
@@ -61,11 +67,11 @@ export const HeroHome = () => {
               {/*loop started*/}
 
               <div class="row bitcoinclasssmian">
-                {poolData ? (
+                {mainState ? (
                   <>
-                    {poolData.slice(0, 4).map((d, key) => {
+                    {mainState.slice(0, 4).map((d, key) => {
                       return (
-                        <>
+                        <Fragment key={d.address}>
                           <div class="col-lg-3 pt-4 pb-4">
                             <div class="pt-3 mainhover">
                               <img
@@ -83,13 +89,16 @@ export const HeroHome = () => {
                                     fontWeight: "bold",
                                   }}
                                 >
-                                  {financial(d.assetPriceUSD)}
+                                  {numberWithCommas(financial(d.assetPriceUSD))}
                                 </p>
-                                <p> {financial(d.assetPriceUSD)}</p>
+                                <p>
+                                  {" "}
+                                  {numberWithCommas(financial(d.assetPriceUSD))}
+                                </p>
                               </div>
                             </div>
                           </div>
-                        </>
+                        </Fragment>
                       );
                     })}
                   </>
@@ -99,7 +108,7 @@ export const HeroHome = () => {
               {/*loop ended */}
             </div>
           </section>
-          <section style={{backgroundColor:"#FCFCFD"}}>
+          <section style={{ backgroundColor: "#FCFCFD" }}>
             <div class="container pt-5">
               <div class="d-flex justify-content-between">
                 <h2 class="markettrend">Market trend</h2>
@@ -205,9 +214,9 @@ export const HeroHome = () => {
                           </Link>{" "}
                         </td>
                       </tr> */}
-                      {poolData ? (
+                      {mainState ? (
                         <>
-                          {poolData.slice(0, 10).map((d, key) => {
+                          {mainState.slice(0, 5).map((d, key) => {
                             return (
                               <>
                                 <tr>
@@ -219,10 +228,12 @@ export const HeroHome = () => {
                                   <td>
                                     <div class="d-flex ">
                                       <img src={Images.btc} />
-                                      <div class="pt-2 pl-3">{d.asset}</div>
+                                      <div class="pt-2 pl-3">
+                                        {d.assetFullName}
+                                      </div>
                                       <div class="d-flex align-items-center">
                                         <div class="pl-2 text-muted">
-                                          {d.blockchain}
+                                          {d.asset}
                                         </div>
                                       </div>
                                     </div>
@@ -230,7 +241,12 @@ export const HeroHome = () => {
                                   <td>
                                     <div class="d-flex flex-column">
                                       <div>
-                                        <b>${financial(d.assetPriceUSD)}</b>
+                                        <b>
+                                          $
+                                          {numberWithCommas(
+                                            financial(d.assetPriceUSD)
+                                          )}
+                                        </b>
                                       </div>
                                     </div>
                                   </td>
@@ -280,17 +296,31 @@ export const HeroHome = () => {
               </div>
               <div class="row">
                 <div class="col-lg-4">
-                  <div class="card" style={{border:"none",borderRadius:"25px"}}>
+                  <div
+                    class="card"
+                    style={{ border: "none", borderRadius: "25px" }}
+                  >
                     <img
                       class="card-img-top"
                       src={Images.comp}
                       alt="Card image cap"
                     />
                     <div class="card-body">
-                      <h5 class="card-title d-flex justify-content-center"  style={{color:"#23262F"}}>
+                      <h5
+                        class="card-title d-flex justify-content-center"
+                        style={{ color: "#23262F" }}
+                      >
                         Buy & Sell Crypto
                       </h5>
-                      <p class="card-text" style={{color:"#777E90",textAlign:"center",fontSize:"15px",fontFamily:"sans-serif"}}>
+                      <p
+                        class="card-text"
+                        style={{
+                          color: "#777E90",
+                          textAlign: "center",
+                          fontSize: "15px",
+                          fontFamily: "sans-serif",
+                        }}
+                      >
                         We realize ideas from simple to complex, everything
                         becomes easy to use and reach the most potential
                         customers.
@@ -299,12 +329,12 @@ export const HeroHome = () => {
                         <a
                           style={{
                             border: "1px solid lightgrey",
-                            color:"#23262F",
+                            color: "#23262F",
                             paddingLeft: "15px",
                             paddingRight: "15px",
                             paddingTop: "5px",
                             paddingBottom: "8px",
-                            fontWeight:"bold",
+                            fontWeight: "bold",
                             borderRadius: "20px",
                             textDecoration: "none",
                           }}
@@ -318,17 +348,31 @@ export const HeroHome = () => {
                   </div>
                 </div>
                 <div class="col-lg-4">
-                  <div class="card" style={{border:"none",borderRadius:"25px"}}>
+                  <div
+                    class="card"
+                    style={{ border: "none", borderRadius: "25px" }}
+                  >
                     <img
                       class="card-img-top"
                       src={Images.assest}
                       alt="Card image cap"
                     />
                     <div class="card-body">
-                      <h5 class="card-title d-flex justify-content-center"  style={{color:"#23262F"}}>
+                      <h5
+                        class="card-title d-flex justify-content-center"
+                        style={{ color: "#23262F" }}
+                      >
                         Trade Assets
                       </h5>
-                      <p class="card-text" style={{color:"#777E90",textAlign:"center",fontSize:"15px",fontFamily:"sans-serif"}}>
+                      <p
+                        class="card-text"
+                        style={{
+                          color: "#777E90",
+                          textAlign: "center",
+                          fontSize: "15px",
+                          fontFamily: "sans-serif",
+                        }}
+                      >
                         We realize ideas from simple to complex, everything
                         becomes easy to use and reach the most potential
                         customers.
@@ -337,12 +381,12 @@ export const HeroHome = () => {
                         <a
                           style={{
                             border: "1px solid lightgrey",
-                            color:"#23262F",
+                            color: "#23262F",
                             paddingLeft: "15px",
                             paddingRight: "15px",
                             paddingTop: "5px",
                             paddingBottom: "8px",
-                            fontWeight:"bold",
+                            fontWeight: "bold",
                             borderRadius: "20px",
                             textDecoration: "none",
                           }}
@@ -356,17 +400,31 @@ export const HeroHome = () => {
                   </div>
                 </div>
                 <div class="col-lg-4">
-                  <div class="card" style={{border:"none",borderRadius:"25px"}}>
+                  <div
+                    class="card"
+                    style={{ border: "none", borderRadius: "25px" }}
+                  >
                     <img
                       class="card-img-top"
                       src={Images.Yield}
                       alt="Card image cap"
                     />
                     <div class="card-body">
-                      <h5 class="card-title d-flex justify-content-center" style={{color:"#23262F"}}>
+                      <h5
+                        class="card-title d-flex justify-content-center"
+                        style={{ color: "#23262F" }}
+                      >
                         Earn yield
                       </h5>
-                      <p class="card-text" style={{color:"#777E90",textAlign:"center",fontSize:"15px",fontFamily:"sans-serif"}}>
+                      <p
+                        class="card-text"
+                        style={{
+                          color: "#777E90",
+                          textAlign: "center",
+                          fontSize: "15px",
+                          fontFamily: "sans-serif",
+                        }}
+                      >
                         We realize ideas from simple to complex, everything
                         becomes easy to use and reach the most potential
                         customers.
@@ -375,12 +433,12 @@ export const HeroHome = () => {
                         <a
                           style={{
                             border: "1px solid lightgrey",
-                            color:"#23262F",
+                            color: "#23262F",
                             paddingLeft: "15px",
                             paddingRight: "15px",
                             paddingTop: "5px",
                             paddingBottom: "8px",
-                            fontWeight:"bold",
+                            fontWeight: "bold",
                             borderRadius: "20px",
                             textDecoration: "none",
                           }}
@@ -404,7 +462,7 @@ export const HeroHome = () => {
               </div>
             </div>
           </section>
-          <section style={{backgroundColor:"#FCFCFD"}}>
+          <section style={{ backgroundColor: "#FCFCFD" }}>
             <div class="container pt-5">
               <h2 class="d-flex justify-content-center">
                 Get started in a few minutes
@@ -420,7 +478,10 @@ export const HeroHome = () => {
                   <h2 class="d-flex justify-content-center minutstart">
                     Trade assets
                   </h2>
-                  <p style={{textAlign:"center"}} class="d-flex justify-content-center mintparagraph">
+                  <p
+                    style={{ textAlign: "center" }}
+                    class="d-flex justify-content-center mintparagraph"
+                  >
                     Trade assets cross-chain fully
                     <br /> decentralized without warpped tokens
                   </p>
@@ -429,7 +490,10 @@ export const HeroHome = () => {
                   <h2 class="d-flex justify-content-center minutstart">
                     Connect wallet
                   </h2>
-                  <p style={{textAlign:"center"}} class="d-flex justify-content-center mintparagraph">
+                  <p
+                    style={{ textAlign: "center" }}
+                    class="d-flex justify-content-center mintparagraph"
+                  >
                     Simply connect your wallet without
                     <br /> any need of KYC
                   </p>
@@ -438,7 +502,10 @@ export const HeroHome = () => {
                   <h2 class="d-flex justify-content-center minutstart">
                     Earn yield
                   </h2>
-                  <p style={{textAlign:"center"}} class="d-flex justify-content-center mintparagraph">
+                  <p
+                    style={{ textAlign: "center" }}
+                    class="d-flex justify-content-center mintparagraph"
+                  >
                     Provide liquidity to one of our pools
                     <br /> to earn passive income
                   </p>
@@ -446,15 +513,19 @@ export const HeroHome = () => {
               </div>
             </div>
           </section>
-          <section style={{backgroundColor:"#FCFCFD"}}>
+          <section style={{ backgroundColor: "#FCFCFD" }}>
             <div class="container pt-5"></div>
           </section>
-          <section class="container py-4" >
+          <section class="container py-4">
             <div class="row">
               <div class="col-md-12">
                 <div>
                   <h2 class="markettrend">Learn about Defi</h2>
-                  <button style={{fontWeight:"bold"}} type="button" class="btn cryptobutton">
+                  <button
+                    style={{ fontWeight: "bold" }}
+                    type="button"
+                    class="btn cryptobutton"
+                  >
                     View more
                   </button>
                 </div>
@@ -469,11 +540,19 @@ export const HeroHome = () => {
                             <img src={Images.Img} />
                             <div class="   pt-5">
                               <h2 style={{ fontSize: "25px" }}>
-                                Leveraged tokens<br/> now available
+                                Leveraged tokens
+                                <br /> now available
                               </h2>
-                              <button  type="button" class="btn cryptobutton d-flex justify-content-end">
+                              <button
+                                type="button"
+                                class="btn cryptobutton d-flex justify-content-end"
+                              >
                                 Learn more
-                                <img class="pl-3" style={{paddingTop:"11px"}} src={Images.moreright}/>
+                                <img
+                                  class="pl-3"
+                                  style={{ paddingTop: "11px" }}
+                                  src={Images.moreright}
+                                />
                               </button>
                             </div>
                             <p>

@@ -2,6 +2,7 @@ import {
   COINMARKETCAP_FAIL,
   COINMARKETCAP_SUCCESS,
   MIDGARDPOOL_FAIL,
+  MIDGARDPOOL_REQUESTING,
   MIDGARDPOOL_SUCCESS,
 } from "../actions/types";
 
@@ -22,6 +23,7 @@ const initialState = {
   // error: {},
   // errors: [],
   midgardPool: [],
+  loading: false,
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -90,10 +92,21 @@ export default (state = initialState, { type, payload }) => {
     //     isAuthenticated: true,
     //     loading: false,
     //   };
+
+    case MIDGARDPOOL_FAIL:
+      return {
+        loading: false,
+      };
+    case MIDGARDPOOL_REQUESTING:
+      return {
+        loading: true,
+      };
+
     case MIDGARDPOOL_SUCCESS:
       return {
         ...state,
         ...payload,
+        loading: false,
       };
 
     default:

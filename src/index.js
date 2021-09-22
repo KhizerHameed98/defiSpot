@@ -1,12 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import { ToastContainer } from "react-toastify";
 
 import { Provider } from "react-redux";
 import store from "./Redux/store/store";
+import { MidgardPool_Action } from "./Services/mainServices";
 
 const AppIndex = () => {
+  const [poolData, setPoolData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    store.dispatch(MidgardPool_Action());
+  }, []);
   return (
     <>
       <ToastContainer />
