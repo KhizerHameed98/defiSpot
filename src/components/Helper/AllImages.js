@@ -56,9 +56,26 @@ import percentage from "../../assets/images/percentage.png";
 import yielldmarket from "../../assets/images/yielldmarket.png";
 import qwq from "../../assets/images/qwq.png";
 import lefttwoline from "../../assets/images/lefttwoline.png";
-
+import fb from "../../assets/images/fb.png";
+import twit from "../../assets/images/twit.png";
+import insta from "../../assets/images/insta.png";
+import ttt from "../../assets/images/ttt.png";
+import goll from "../../assets/images/goll.png";
+import pageyeild from "../../assets/images/pageyeild.png";
+import dolaar from "../../assets/images/dolaar.png";
+import uptwo from "../../assets/images/uptwo.png";
+import nameup from "../../assets/images/nameup.png";
 const Images = {
+  pageyeild,
+  ttt,
+  goll,
   Img,
+  fb,
+  uptwo,
+  nameup,
+  insta,
+  dolaar,
+  twit,
   btc,
   btc1,
   setting,
@@ -114,7 +131,7 @@ const Images = {
   gotomarket,
   yielldmarket,
   qwq,
-  defilogo
+  defilogo,
 };
 
 export default Images;

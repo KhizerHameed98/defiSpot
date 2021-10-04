@@ -1,8 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import browserRoute from "../../Routes/browserRoutes";
 import Images from "../Helper/AllImages";
+import data from "../Helper/Data/Funds";
 const Assets = () => {
+  const [tableData, setTableData] = useState(data);
+
+  const searchFilter = (e) => {
+    if (!e.target.value) {
+      setTableData(data);
+    } else {
+      const res = data.filter((data) => data.Asset === e.target.value);
+      setTableData(res);
+    }
+  };
+
   return (
     <div className="col-lg-7 marginleftcol mt-2">
       <div className="sidebarcoleight pt-3">
@@ -38,6 +50,7 @@ const Assets = () => {
             type="text"
             placeholder="Search"
             aria-label="Search"
+            onChange={searchFilter}
           />
           <p className="pr-5" style={{ color: "#777E90" }}>
             <Link
@@ -67,109 +80,72 @@ const Assets = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>
-                    <div className="d-flex">
-                      <img src={Images.btc4} />
-                      <div className="pl-3">
-                        <div
-                          style={{
-                            fontWeight: "bold",
-                            fontFamily: "sans-serif",
-                          }}
-                        >
-                          USDT
-                        </div>
-                        <div className="d-flex align-items-center">
-                          <div
-                            className=" text-muted"
-                            style={{ fontSize: "12px", fontWeight: "bold" }}
-                          >
-                            Tether USD
+                {tableData.map((d, key) => {
+                  return (
+                    <tr>
+                      <td>
+                        <div className="d-flex">
+                          <img src={Images.btc4} />
+                          <div className="pl-3">
+                            <div
+                              style={{
+                                fontWeight: "bold",
+                                fontFamily: "sans-serif",
+                              }}
+                            >
+                              {d.Asset}
+                            </div>
+                            <div className="d-flex align-items-center">
+                              <div
+                                className=" text-muted"
+                                style={{ fontSize: "12px", fontWeight: "bold" }}
+                              >
+                                {d.FullName}
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="d-flex flex-column">
-                      <div>
-                        <b style={{ color: "#777E90" }}>$10,098,36</b>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="d-flex flex-column">
-                      <div>
-                        <b>0.2785689852 USDT</b>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="d-flex flex-column">
-                      <div>
-                        <b style={{ color: "#777E90" }}>$10,098,36</b>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div
-                      className="d-flex justify-content-end"
-                      style={{ fontWeight: "bold" }}
-                    >
-                      0.2785689852 BTC
-                    </div>
-                    <div className="d-flex justify-content-end">
-                      <div className=" text-muted" style={{ color: "#777E90" }}>
-                        $10,098.36
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div className="d-flex">
-                      <img src={Images.bnb} />
-                      <div className="pl-3" style={{ fontWeight: "bold" }}>
-                        BNB
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="d-flex flex-column">
-                      <div>
-                        <b style={{ color: "#777E90" }}>$10,098,36</b>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="d-flex flex-column">
-                      <div>
-                        <b>0.2785689852 USDT</b>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="d-flex flex-column">
-                      <div>
-                        <b style={{ color: "#777E90" }}>$10,098,36</b>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div
-                      className="d-flex justify-content-end"
-                      style={{ fontWeight: "bold" }}
-                    >
-                      0.2785689852 BTC
-                    </div>
-                    <div className="d-flex justify-content-end">
-                      <div className=" text-muted" style={{ color: "#777E90" }}>
-                        $10,098.36
-                      </div>
-                    </div>
-                  </td>
-                </tr>
+                      </td>
+                      <td>
+                        <div className="d-flex flex-column">
+                          <div>
+                            <b style={{ color: "#777E90" }}>${d.Price}</b>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="d-flex flex-column">
+                          <div>
+                            <b>{d.Quantity} USDT</b>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="d-flex flex-column">
+                          <div>
+                            <b style={{ color: "#777E90" }}>${d.Holding}</b>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div
+                          className="d-flex justify-content-end"
+                          style={{ fontWeight: "bold" }}
+                        >
+                          {d.Interest} BTC
+                        </div>
+                        <div className="d-flex justify-content-end">
+                          <div
+                            className=" text-muted"
+                            style={{ color: "#777E90" }}
+                          >
+                            ${d.Holding}
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

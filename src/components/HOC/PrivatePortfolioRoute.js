@@ -50,12 +50,12 @@ const PrivatePortfolioRoute = ({ component: Component, path, ...rest }) => {
                     src={Images.frame3}
                   />
                   <p class="marketsidetitle pl-2 ">
-                    {/* <Link
+                    <Link
                       to={browserRoute.PORTFOLIO_LIQUIDITY}
                       style={{ textDecoration: "none", color: "#777E90" }}
-                    > */}
-                    Liquidity providing
-                    {/* </Link> */}
+                    >
+                      Liquidity providing
+                    </Link>
                   </p>
                 </div>
                 <hr class="solid mt-4" />
@@ -78,7 +78,14 @@ const PrivatePortfolioRoute = ({ component: Component, path, ...rest }) => {
                     style={{ width: "15px", height: "15px" }}
                     src={Images.yielldmarket}
                   />
-                  <p class="marketsidetitle pl-2">Earn yeild</p>
+                  <p class="marketsidetitle pl-2">
+                    <Link
+                      to={browserRoute.EARNYIELD}
+                      style={{ textDecoration: "none", color: "#777E90" }}
+                    >
+                      Earn Yield
+                    </Link>
+                  </p>
                 </div>
               </div>
             </div>

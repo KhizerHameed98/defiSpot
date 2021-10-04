@@ -12,7 +12,8 @@ import Assets from "./components/Portfolio/Assets";
 import PrivatePortfolioRoute from "./components/HOC/PrivatePortfolioRoute";
 import Overview from "./components/Portfolio/Overview";
 import Activity from "./components/Portfolio/Activity";
-import Liquidity from "./components/Portfolio/Liquidity";
+import LiquidityProvider from "./components/Portfolio/LiquidityProvider";
+import EarnYield from "./components/EarnYield/EarnYield";
 function App() {
   return (
     <div>
@@ -22,8 +23,13 @@ function App() {
           <PrivateRoute exact path={browserRoute.MARKET} component={Market} />
           <PrivateRoute
             exact
-            path={browserRoute.BUYMARKET}
+            path={`${browserRoute.BUYMARKET}/:id`}
             component={BuyPlatform}
+          />
+          <PrivateRoute
+            exact
+            path={browserRoute.EARNYIELD}
+            component={EarnYield}
           />
 
           <PrivatePortfolioRoute
@@ -40,6 +46,11 @@ function App() {
             exact
             path={browserRoute.PORTFOLIO_ACTIVITY}
             component={Activity}
+          />
+          <PrivatePortfolioRoute
+            exact
+            path={browserRoute.PORTFOLIO_LIQUIDITY}
+            component={LiquidityProvider}
           />
           {/* <PrivatePortfolioRoute
             exact

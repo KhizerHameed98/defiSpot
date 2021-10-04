@@ -1,13 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import withMainLayout from "../HOC/withMainLayout";
 import { Button, Modal } from "react-bootstrap";
 import Images from "../Helper/AllImages";
 import { Link } from "react-router-dom";
 import browserRoute from "../../Routes/browserRoutes";
+import { useHistory, useParams, withRouter } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+
 // import Images from "../../Helper/AllImages";
 const BuyPlatform = () => {
+  let history = useHistory();
+
+  const { id } = useParams();
   const [YayModal, setYayModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
+
+  const [tokenData, setTokenData] = useState([]);
+  const mainState = useSelector((state) => state.main.midgardPool);
+
   const handleCloseYay = () => setYayModal(false);
   const handleShowYay = () => {
     setConfirmModal(false);
@@ -19,6 +29,18 @@ const BuyPlatform = () => {
   const handleShowConfirm = () => {
     setConfirmModal(true);
   };
+  useEffect(() => {
+    let data = mainState.filter((d) => d.asset === id);
+    setTokenData(data[0]);
+    console.log(data[0]);
+  }, []);
+
+  function financial(x) {
+    return Number.parseFloat(x).toFixed(2);
+  }
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
 
   return (
     <>
@@ -147,19 +169,25 @@ const BuyPlatform = () => {
                     <div class="d-flex">
                       <img
                         class="pt-3"
-                        style={{ height: "25px" }}
+                        style={{ height: "25px", marginTop: "6px" }}
                         onClick={handleCloseConfirm}
                         src={Images.lefttwoline}
                       />
                       <p class="yahparagraph pl-2 pt-1">Confirm</p>
                     </div>
                     <div>
-                      <img style={{ height: "25px" }} src={Images.setting} />
+                      <img
+                        style={{ height: "25px", marginTop: "15px" }}
+                        src={Images.setting}
+                      />
                     </div>
                   </div>
                   <div
                     class="d-flex justify-content-between mt-5 pl-5 pr-5 pt-3 pb-3"
-                    style={{ backgroundColor: "#F4F5F6", borderRadius: "10px" }}
+                    style={{
+                      backgroundColor: "#F4F5F6",
+                      borderRadius: "10px",
+                    }}
                   >
                     <div class="d-flex">
                       <img
@@ -168,10 +196,20 @@ const BuyPlatform = () => {
                         src={Images.From}
                       />
                       <div class="pl-2">
-                        <p class="tranparagraph" style={{ margin: "0px" }}>
+                        <p
+                          class="tranparagraph"
+                          style={{ margin: "0px", fontFamily: "DM Sans" }}
+                        >
                           From
                         </p>
-                        <p style={{ fontWeight: "bold" }}>35,000 USDT</p>
+                        <p
+                          style={{
+                            fontWeight: "bold",
+                            fontFamily: "DM Sans",
+                          }}
+                        >
+                          35,000 USDT
+                        </p>
                       </div>
                     </div>
                     <div class="d-flex">
@@ -181,11 +219,21 @@ const BuyPlatform = () => {
                         src={Images.to}
                       />
                       <div class="pl-2">
-                        <p class="tranparagraph" style={{ margin: "0px" }}>
+                        <p
+                          class="tranparagraph"
+                          style={{ margin: "0px", fontFamily: "DM Sans" }}
+                        >
                           {" "}
                           To
                         </p>
-                        <p style={{ fontWeight: "bold" }}>1.1137 BTC</p>
+                        <p
+                          style={{
+                            fontWeight: "bold",
+                            fontFamily: "DM Sans",
+                          }}
+                        >
+                          1.1137 BTC
+                        </p>
                       </div>
                     </div>
                     <div class="d-flex">
@@ -195,26 +243,44 @@ const BuyPlatform = () => {
                         src={Images.proto}
                       />
                       <div class="pl-2">
-                        <p class="tranparagraph" style={{ margin: "0px" }}>
+                        <p
+                          class="tranparagraph"
+                          style={{ margin: "0px", fontFamily: "DM Sans" }}
+                        >
                           {" "}
                           Protocol
                         </p>
-                        <p style={{ fontWeight: "bold" }}>THORChain</p>
+                        <p
+                          style={{
+                            fontWeight: "bold",
+                            fontFamily: "DM Sans",
+                          }}
+                        >
+                          THORChain
+                        </p>
                       </div>
                     </div>
                   </div>
                   <div class="d-flex justify-content-between pt-5">
-                    <p style={{ fontWeight: "bold" }}>1.1137</p>
-                    <p style={{ fontWeight: "bold" }}>BTC</p>
+                    <p style={{ fontWeight: "bold", fontFamily: "DM Sans" }}>
+                      1.1137
+                    </p>
+                    <p style={{ fontWeight: "bold", fontFamily: "DM Sans" }}>
+                      BTC
+                    </p>
                   </div>
                   <hr class="solid" />
                   <div class="d-flex justify-content-between">
                     <p class="servicefee">Service fee</p>
-                    <p style={{ fontWeight: "bold" }}>0.0045 ETH</p>
+                    <p style={{ fontWeight: "bold", fontFamily: "DM Sans" }}>
+                      0.0045 ETH
+                    </p>
                   </div>
                   <div class="d-flex justify-content-between ">
                     <p class="servicefee">You will get</p>
-                    <p style={{ fontWeight: "bold" }}>1.1123 BTC</p>
+                    <p style={{ fontWeight: "bold", fontFamily: "DM Sans" }}>
+                      1.1123 BTC
+                    </p>
                   </div>
                 </div>
                 <div class="d-flex justify-content-between pb-3 pt-2 pl-3 pr-3">
@@ -224,6 +290,7 @@ const BuyPlatform = () => {
                       paddingRight: "30px",
                       borderColor: "#E6E8EC",
                       borderRadius: "20px",
+                      fontFamily: "DM Sans",
                       color: "#000",
                     }}
                     type="button"
@@ -234,7 +301,7 @@ const BuyPlatform = () => {
                   </button>
                   <button
                     type="button"
-                    style={{ fontSize: "16px" }}
+                    style={{ fontSize: "16px", fontFamily: "DM Sans" }}
                     class="btn btn-primary btn-lg"
                     onClick={handleShowYay}
                   >
@@ -248,62 +315,80 @@ const BuyPlatform = () => {
         </Modal.Body>
       </Modal>
       {/* Div Started */}
-      <section>
-        <div class="container mt-5">
+      <section style={{ backgroundColor: "#F1F2F4", paddingTop: "3px" }}>
+        <div
+          class="container-fluid mt-1 pt-4 pb-3"
+          style={{
+            paddingLeft: "195px",
+            paddingRight: "195px",
+            backgroundColor: "#FCFCFD",
+          }}
+        >
           <div class="row">
             <div class="col-lg-2">
-              <h4 style={{ fontFamily: "sans-serif", fontWeight: "bold" }}>
-                BTC/USDT
+              <h4
+                style={{
+                  color: "#141416",
+                  fontWeight: "600",
+                  fontFamily: "DM Sans",
+                }}
+              >
+                {tokenData.asset}/USDT
               </h4>
               <p class="marketparatwow">Bitcoin</p>
             </div>
             <div class="col-lg-2">
               <div class="d-flex">
-                <h4 class="numberheading">36,641.20</h4>
+                <h4 class="numberheading">
+                  {numberWithCommas(financial(tokenData.assetPriceUSD))}
+                </h4>
                 <img class="pl-3" src={Images.goup3} />
               </div>
               <p class="marketparatwow">
                 {" "}
-                <img src={Images.sss} /> 36,641.20
+                <img src={Images.sss} />{" "}
+                {numberWithCommas(financial(tokenData.assetPriceUSD))}
               </p>
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-2" style={{ borderRight: "1px solid #E6E8EC" }}>
               <p class="marketparatwow">
                 {" "}
                 <img src={Images.clock} /> 24h chnage
               </p>
-              <h5 style={{ color: "#00C076" }}>520.80 +1.25%</h5>
+              <h5 style={{ color: "#00C076", fontFamily: "DM Sans" }}>
+                520.80 +1.25%
+              </h5>
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-2" style={{ borderRight: "1px solid #E6E8EC" }}>
               <p class="marketparatwow">
                 {" "}
                 <img src={Images.up} /> 24h high
               </p>
-              <h5>520.80 +1.25%</h5>
+              <h5 style={{ fontFamily: "DM Sans" }}>520.80 +1.25%</h5>
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-2" style={{ borderRight: "1px solid #E6E8EC" }}>
               <p class="marketparatwow">
                 {" "}
                 <img src={Images.down} /> 24h low
               </p>
-              <h5>520.80 +1.25%</h5>
+              <h5 style={{ fontFamily: "DM Sans" }}>520.80 +1.25%</h5>
             </div>
             <div class="col-lg-2">
               <p class="marketparatwow">
                 {" "}
                 <img src={Images.hourr} /> 24h volume
               </p>
-              <h5>520.80 +1.25%</h5>
+              <h5 style={{ fontFamily: "DM Sans" }}>520.80 +1.25%</h5>
             </div>
           </div>
         </div>
       </section>
       <section style={{ backgroundColor: "#F1F2F4" }}>
-        <div class="container mt-4">
+        <div class="container mt-3">
           <div class="row">
             <div
-              class="col-lg-4 mt-3 mb-3 pt-4 pb-4"
-              style={{ backgroundColor: "#fff", height: "325px" }}
+              class="col-lg-4 mt-2 mb-3 pt-4 pb-4"
+              style={{ backgroundColor: "#FCFCFD", height: "325px" }}
             >
               <button
                 class="mt-2"
@@ -316,13 +401,25 @@ const BuyPlatform = () => {
               >
                 <Link
                   to={browserRoute.MARKET}
-                  style={{ textDecoration: "none", color: "black" }}
+                  style={{
+                    textDecoration: "none",
+                    color: "black",
+                    fontFamily: "DM Sans",
+                  }}
                 >
                   Market
                 </Link>
               </button>
               <div class="d-flex justify-content-between pt-4">
-                <h2>Buy BTC</h2>
+                <h2
+                  style={{
+                    color: "#141416",
+                    fontWeight: "600",
+                    fontFamily: "DM Sans",
+                  }}
+                >
+                  Buy {tokenData.Asset}
+                </h2>
                 <div class="d-flex">
                   <img
                     style={{
@@ -332,7 +429,9 @@ const BuyPlatform = () => {
                     }}
                     src={Images.bbbtc}
                   />
-                  <p class="pl-2">10,098,36 USDT</p>
+                  <p style={{ fontFamily: "DM Sans" }} class="pl-2">
+                    10,098,36 USDT
+                  </p>
                 </div>
               </div>
               <div class="input-group mb-3 mt-3">
@@ -346,7 +445,11 @@ const BuyPlatform = () => {
                 />
                 <div class="input-group-append">
                   <button
-                    style={{ borderLeft: "none", borderColor: "#ced4da" }}
+                    style={{
+                      borderLeft: "none",
+                      borderColor: "#ced4da",
+                      fontFamily: "DM Sans",
+                    }}
                     class="btn btn-outline-secondary"
                     type="button"
                   >
@@ -370,25 +473,31 @@ const BuyPlatform = () => {
                     class="btn btn-outline-secondary"
                     type="button"
                   >
-                    BTC
+                    {tokenData.asset}
                   </button>
                 </div>
               </div>
 
               <button
-                style={{ fontSize: "15px" }}
+                style={{ fontSize: "15px", fontFamily: "Dm Sans" }}
                 type="button"
                 class="btn btn-primary btn-lg btn-block mb-2"
                 onClick={handleShowConfirm}
               >
-                Buy BTC
+                Buy {tokenData.asset}
               </button>
             </div>
-            <div class="col-lg-8  mt-3 mb-3">
-              <div class="pl-3 pt-5" style={{ backgroundColor: "#fff" }}>
+            <div class="col-lg-8  mt-2 mb-3">
+              <div class="pl-3 pt-5" style={{ backgroundColor: "#FCFCFD" }}>
                 <div class="d-flex justify-content-between">
-                  <p style={{ fontSize: "30px", fontWeight: "bold" }}>
-                    19,761.52 USD{" "}
+                  <p
+                    style={{
+                      fontSize: "30px",
+                      fontWeight: "bold",
+                      fontFamily: "Dm Sans",
+                    }}
+                  >
+                    {numberWithCommas(financial(tokenData.assetPriceUSD))} USD{" "}
                     <span style={{ color: "#4FBF67", fontSize: "16px" }}>
                       +0.92%
                     </span>
@@ -412,13 +521,13 @@ const BuyPlatform = () => {
                   src={Images.linechart}
                 />
                 <div class="d-flex justify-content-between pr-3">
-                  <p>09:00</p>
-                  <p>09:00</p>
-                  <p>09:00</p>
-                  <p>09:00</p>
-                  <p>09:00</p>
-                  <p>09:00</p>
-                  <p>09:00</p>
+                  <p style={{ fontFamily: "DM Sans" }}>09:00</p>
+                  <p style={{ fontFamily: "DM Sans" }}>09:00</p>
+                  <p style={{ fontFamily: "DM Sans" }}>09:00</p>
+                  <p style={{ fontFamily: "DM Sans" }}>09:00</p>
+                  <p style={{ fontFamily: "DM Sans" }}>09:00</p>
+                  <p style={{ fontFamily: "DM Sans" }}>09:00</p>
+                  <p style={{ fontFamily: "DM Sans" }}>09:00</p>
                 </div>
                 <hr class="solid" style={{ margin: "0px" }} />
                 <div class="row">
@@ -429,12 +538,20 @@ const BuyPlatform = () => {
                     <div class="d-flex pl-5 pt-5">
                       <img style={{ height: "40px" }} src={Images.pt1} />
                       <div class="pl-2">
-                        <p style={{ margin: "0px", color: "#808191" }}>
+                        <p
+                          style={{
+                            margin: "0px",
+                            color: "#808191",
+                            fontFamily: "Dm Sans",
+                          }}
+                        >
                           Market cap
                           {/* <i class="pl-2 fa fa-exclamation-circle"></i> */}
                           <img class="pl-1 pt-1" src={Images.exclamation} />
                         </p>
-                        <p class="font-weight-bold">329,553,663,671 USD</p>
+                        <p class="font-weight-bold">
+                          {numberWithCommas(financial(tokenData.marketCap))} USD
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -442,11 +559,19 @@ const BuyPlatform = () => {
                     <div class="d-flex pl-5 pt-5">
                       <img style={{ height: "40px" }} src={Images.pt2} />
                       <div class="pl-2">
-                        <p style={{ margin: "0px", color: "#808191" }}>
+                        <p
+                          style={{
+                            margin: "0px",
+                            color: "#808191",
+                            fontFamily: "Dm Sans",
+                          }}
+                        >
                           Volume(24h)
                           <img class="pl-1 pt-1" src={Images.exclamation} />
                         </p>
-                        <p class="font-weight-bold">329,553,663,671 USD</p>
+                        <p class="font-weight-bold">
+                          {numberWithCommas(financial(tokenData.volume24h))} USD
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -460,11 +585,22 @@ const BuyPlatform = () => {
                     <div class="d-flex pl-5 pt-5">
                       <img style={{ height: "40px" }} src={Images.pt3} />
                       <div class="pl-2">
-                        <p style={{ margin: "0px", color: "#808191" }}>
+                        <p
+                          style={{
+                            margin: "0px",
+                            color: "#808191",
+                            fontFamily: "Dm Sans",
+                          }}
+                        >
                           Circulating Supply
                           <img class="pl-1 pt-1" src={Images.exclamation} />
                         </p>
-                        <p class="font-weight-bold">329,553,663,671 USD</p>
+                        <p class="font-weight-bold">
+                          {numberWithCommas(
+                            financial(tokenData.circulating_supply)
+                          )}{" "}
+                          USD
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -472,11 +608,20 @@ const BuyPlatform = () => {
                     <div class="d-flex pl-5 pt-5">
                       <img style={{ height: "40px" }} src={Images.pt4} />
                       <div class="pl-2">
-                        <p style={{ margin: "0px", color: "#808191" }}>
+                        <p
+                          style={{
+                            margin: "0px",
+                            color: "#808191",
+                            fontFamily: "Dm Sans",
+                          }}
+                        >
                           Total Supply
                           <img class="pl-1 pt-1" src={Images.exclamation} />
                         </p>
-                        <p class="font-weight-bold">329,553,663,671 USD</p>
+                        <p class="font-weight-bold">
+                          {numberWithCommas(financial(tokenData.total_supply))}{" "}
+                          USD
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -485,7 +630,7 @@ const BuyPlatform = () => {
                 <div class="row">
                   <div class="col-lg-8 pl-5 pt-5 pb-4">
                     <h2 class="bitcoinheadeing">About Bitcoin</h2>
-                    <p style={{ color: "#5e5b5b" }}>
+                    <p style={{ color: "#5e5b5b", fontFamily: "DM Sans" }}>
                       The worlds first Cryptocurrency, Bitcoin is stored and
                       exchange securely on the internet through a digital ledger
                       known as a blochchain. Bitcoins are divisible into smaller
@@ -503,7 +648,7 @@ const BuyPlatform = () => {
                       <a
                         class="pt-1 pl-3"
                         href="#"
-                        style={{ fontWeight: "700" }}
+                        style={{ fontWeight: "700", fontFamily: "DM Sans" }}
                       >
                         Official Website
                       </a>
@@ -517,7 +662,7 @@ const BuyPlatform = () => {
                       <a
                         class="pt-1 pl-3"
                         href="#"
-                        style={{ fontWeight: "700" }}
+                        style={{ fontWeight: "700", fontFamily: "DM Sans" }}
                       >
                         White Paper
                       </a>
@@ -531,7 +676,7 @@ const BuyPlatform = () => {
                       <a
                         class="pt-1 pl-3"
                         href="#"
-                        style={{ fontWeight: "700" }}
+                        style={{ fontWeight: "700", fontFamily: "DM Sans" }}
                       >
                         Source Code
                       </a>

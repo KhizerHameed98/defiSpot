@@ -15,7 +15,26 @@ export const HeroHome = () => {
   // const [state, setstte] = useState({ name: "ali", age: "20", no: "1028505852" });
 
  
+  useEffect(() => {
+    // let today = new Date();
+    // let yesterday = new Date();
 
+    // yesterday.setDate(today.getDate() - 2);
+    // yesterday.setHours(0);
+    // yesterday.setMinutes(0);
+    // yesterday.setSeconds(0);
+    // let timeStamp1 = yesterday.getTime();
+    // yesterday.setDate(today.getDate() - 1);
+    // yesterday.setHours(0);
+    // yesterday.setMinutes(0);
+    // yesterday.setSeconds(0);
+    // let timeStamp2 = yesterday.getTime();
+
+    // console.log("Today: " + today);
+    // console.log("Yesterday: " + yesterday);
+    // console.log("TimeStamp1: ", timeStamp1);
+    // console.log("TimeStamp2: ", timeStamp2);
+  }, []);
   function financial(x) {
     return Number.parseFloat(x).toFixed(2);
   }
@@ -43,8 +62,8 @@ export const HeroHome = () => {
                     <p
                       style={{
                         color: "#777E90",
-                        fontSize: "16px",
-                        fontFamily: "poppins",
+                        fontSize: "17px",
+                        fontFamily: "DM Sans",
                         fontWeight: "300",
                       }}
                     >
@@ -58,10 +77,10 @@ export const HeroHome = () => {
                       </button>
                     </Link>
                   </div>
-                  <img class="pt-5" src={Images.lorarrow} />
+                  <img  class="pt-5" src={Images.lorarrow} />
                 </div>
                 <div class="col-lg-6">
-                  <img style={{ width: "700px" }} src={Images.mainbanneri} />
+                  <img className="mainimaggehomepage" src={Images.mainbanneri} />
                 </div>
               </div>
               {/*loop started*/}
@@ -73,25 +92,51 @@ export const HeroHome = () => {
                       return (
                         <Fragment key={d.address}>
                           <div class="col-lg-3 pt-4 pb-4">
-                            <div class="pt-3 mainhover">
+                            <div
+                              class="pt-3 mainhover"
+                              style={{
+                                paddingLeft: "20px",
+                                paddingBottom: "15px",
+                              }}
+                            >
                               <img
-                                style={{ paddingLeft: "15px" }}
+                                style={{
+                                  paddingLeft: "15px",
+                                  paddingTop: "10px",
+                                }}
                                 src={Images.btc}
                               />
                               <div style={{ paddingLeft: "12px" }}>
                                 <p class="marketparagraph pt-1">
                                   {d.asset}/USDT
-                                  <span class="spanclassmarket">+0.79%</span>
+                                  {d.change_24h >= 0 ? (
+                                    <span className="spanclassmarket">
+                                      +{financial(d.change_24h)}%
+                                    </span>
+                                  ) : (
+                                    <span className="spanclassmarkets">
+                                      {financial(d.change_24h)}%
+                                    </span>
+                                  )}{" "}
                                 </p>
                                 <p
                                   style={{
                                     fontSize: "20px",
                                     fontWeight: "bold",
+                                    fontFamily: "DM Sans",
+                                    color: "#23262F",
                                   }}
                                 >
                                   {numberWithCommas(financial(d.assetPriceUSD))}
                                 </p>
-                                <p>
+                                <p
+                                  style={{
+                                    fontSize: "15px",
+                                    fontWeight: "bold",
+                                    fontFamily: "DM Sans",
+                                    color: "#23262F",
+                                  }}
+                                >
                                   {" "}
                                   {numberWithCommas(financial(d.assetPriceUSD))}
                                 </p>
@@ -117,118 +162,62 @@ export const HeroHome = () => {
                 </Link>
               </div>
 
-              <div id="starred" class="bg-white px-2 pt-1 mt-5">
-                <div class="table-responsive">
-                  <table class="table">
+              <div id="starred" class="px-2 pt-1 mt-5">
+                <div class="table-responsive border-0">
+                  <table class="table border-0">
                     <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">24h chnage</th>
-                        <th scope="col">Chart</th>
-                        <th scope="col">Trade</th>
+                      <tr style={{borderBottom:"1px solid #E6E8EC"}}>
+                        <th style={{border:"none",color:"#777E90",fontFamily:"DM Sans",fontSize:"18px",fontWeight:"400"}} scope="col">#</th>
+                        <th style={{border:"none",color:"#777E90",fontFamily:"DM Sans",fontSize:"18px",fontWeight:"400"}} scope="col">Name</th>
+                        <th style={{border:"none",color:"#777E90",fontFamily:"DM Sans",fontSize:"18px",fontWeight:"400"}} scope="col">Price</th>
+                        <th style={{border:"none",color:"#777E90",fontFamily:"DM Sans",fontSize:"18px",fontWeight:"400"}} scope="col">24h change</th>
+                        <th style={{border:"none",color:"#777E90",fontFamily:"DM Sans",fontSize:"18px",fontWeight:"400"}} scope="col">Chart</th>
+                        <th style={{border:"none",color:"#777E90",fontFamily:"DM Sans",fontSize:"18px",fontWeight:"400"}} scope="col">Trade</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {/* <tr>
-                        <td>
-                          <div class="d-flex flex-column">
-                            <div>1</div>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="d-flex ">
-                            <img src={Images.btc} />
-                            <div class="pt-2 pl-3">Bitcoin</div>
-                            <div class="d-flex align-items-center">
-                              <div class="pl-2 text-muted">BTC</div>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="d-flex flex-column">
-                            <div>
-                              <b>$146,169,768.00</b>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="d-flex flex-column">
-                            <div>
-                              <b class="percentage">+2.04%</b>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="graph">
-                            <img src={Images.crt1} alt="" />
-                            <div class="dot"></div>
-                          </div>
-                        </td>
-                        <td>
-                          <Link to={browserRoute.BUYMARKET}>
-                            <div class="btn tradingbutton">Trade</div>
-                          </Link>{" "}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div class="d-flex flex-column">
-                            <div>2</div>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="d-flex ">
-                            <img src={Images.btc} />
-                            <div class="pt-2 pl-3">Ethereum</div>
-                            <div class="d-flex align-items-center">
-                              <div class="pl-2 text-muted">ETH</div>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="d-flex flex-column">
-                            <div>
-                              <b>$146,169,768.00</b>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="d-flex flex-column">
-                            <div>
-                              <b class="percentagetwo">-2.04%</b>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="graph">
-                            {" "}
-                            <img src={Images.crt2} alt="" />
-                            <div class="dot"></div>
-                          </div>
-                        </td>
-                        <td>
-                          <Link to={browserRoute.BUYMARKET}>
-                            <div class="btn tradingbutton">Trade</div>
-                          </Link>{" "}
-                        </td>
-                      </tr> */}
+                  
                       {mainState ? (
                         <>
                           {mainState.slice(0, 5).map((d, key) => {
                             return (
                               <>
                                 <tr>
-                                  <td>
+                                  <td style={{ border: "none" }}>
                                     <div class="d-flex flex-column">
-                                      <div>{key + 1}</div>
+                                      <div
+                                        style={{
+                                          border: "none",
+                                          color: "#777E90",
+                                          fontFamily: "DM Sans",
+                                        }}
+                                      >
+                                        {key + 1}
+                                      </div>
                                     </div>
                                   </td>
-                                  <td>
+                                  <td style={{ border: "none" }}>
                                     <div class="d-flex ">
                                       <img src={Images.btc} />
-                                      <div class="pt-2 pl-3">
+                                      <div
+                                        class="pt-2 pl-3"
+                                        style={{
+                                          fontWeight: "bold",
+                                          fontSize: "17px",
+                                          fontFamily: "DM Sans",
+                                        }}
+                                      >
+                                        {" "}
+                                      </div>
+
+                                      <div
+                                        class="pt-2 pl-3"
+                                        style={{
+                                          fontWeight: "bold",
+                                          fontSize: "17px",
+                                          fontFamily: "sans-serif",
+                                        }}
+                                      >
                                         {d.assetFullName}
                                       </div>
                                       <div class="d-flex align-items-center">
@@ -238,10 +227,10 @@ export const HeroHome = () => {
                                       </div>
                                     </div>
                                   </td>
-                                  <td>
+                                  <td style={{ border: "none" }}>
                                     <div class="d-flex flex-column">
                                       <div>
-                                        <b>
+                                        <b style={{ fontFamily: "DM Sans" }}>
                                           $
                                           {numberWithCommas(
                                             financial(d.assetPriceUSD)
@@ -250,14 +239,22 @@ export const HeroHome = () => {
                                       </div>
                                     </div>
                                   </td>
-                                  <td>
+                                  <td style={{ border: "none" }}>
                                     <div class="d-flex flex-column">
                                       <div>
-                                        <b class="percentage">+2.04%</b>
+                                        {d.change_24h >= 0 ? (
+                                          <b className="percentage">
+                                            +{financial(d.change_24h)}
+                                          </b>
+                                        ) : (
+                                          <b className="percentagetwo">
+                                            {financial(d.change_24h)}
+                                          </b>
+                                        )}
                                       </div>
                                     </div>
                                   </td>
-                                  <td>
+                                  <td style={{ border: "none" }}>
                                     <div class="graph">
                                       <img src={Images.crt1} alt="" />
                                       {/* <Graph /> */}
@@ -265,8 +262,10 @@ export const HeroHome = () => {
                                       <div class="dot"></div>
                                     </div>
                                   </td>
-                                  <td>
-                                    <Link to={browserRoute.BUYMARKET}>
+                                  <td style={{ border: "none" }}>
+                                    <Link
+                                      to={`${browserRoute.BUYMARKET}/${d.asset}`}
+                                    >
                                       <div class="btn tradingbutton">Trade</div>
                                     </Link>{" "}
                                   </td>
@@ -285,12 +284,12 @@ export const HeroHome = () => {
           <section class="cryptotraders">
             <div class="container mt-5">
               <div>
-                <h2 class="d-flex justify-content-center">
+                <h2 class="d-flex justify-content-center cryptotrader-home" >
                   Become a crypto
                   <br />
                   trader in seconds
                 </h2>
-                <p class="d-flex justify-content-center">
+                <p class="d-flex justify-content-center" style={{color:"#777E90",fontWeight:"600"}}>
                   We've got everything you need to start trading.
                 </p>
               </div>
@@ -308,7 +307,7 @@ export const HeroHome = () => {
                     <div class="card-body">
                       <h5
                         class="card-title d-flex justify-content-center"
-                        style={{ color: "#23262F" }}
+                        style={{ color: "#23262F",fontFamily:"DM Sans",fontSize:"25px",fontWeight:"600"   }}
                       >
                         Buy & Sell Crypto
                       </h5>
@@ -317,8 +316,9 @@ export const HeroHome = () => {
                         style={{
                           color: "#777E90",
                           textAlign: "center",
-                          fontSize: "15px",
-                          fontFamily: "sans-serif",
+                          fontSize: "16px",
+                          fontWeight:"500",
+                          fontFamily: "DM Sans",
                         }}
                       >
                         We realize ideas from simple to complex, everything
@@ -337,6 +337,7 @@ export const HeroHome = () => {
                             fontWeight: "bold",
                             borderRadius: "20px",
                             textDecoration: "none",
+                            fontFamily:"DM Sans",
                           }}
                           href="#"
                           class="btn-outline-secondary"
@@ -360,7 +361,7 @@ export const HeroHome = () => {
                     <div class="card-body">
                       <h5
                         class="card-title d-flex justify-content-center"
-                        style={{ color: "#23262F" }}
+                        style={{ color: "#23262F",fontFamily:"DM Sans",fontSize:"25px",fontWeight:"600"  }}
                       >
                         Trade Assets
                       </h5>
@@ -369,8 +370,9 @@ export const HeroHome = () => {
                         style={{
                           color: "#777E90",
                           textAlign: "center",
-                          fontSize: "15px",
-                          fontFamily: "sans-serif",
+                          fontSize: "16px",
+                          fontWeight:"500",
+                          fontFamily: "DM Sans",
                         }}
                       >
                         We realize ideas from simple to complex, everything
@@ -389,6 +391,7 @@ export const HeroHome = () => {
                             fontWeight: "bold",
                             borderRadius: "20px",
                             textDecoration: "none",
+                            fontFamily:"DM Sans",
                           }}
                           href="#"
                           class="btn-outline-secondary"
@@ -412,7 +415,7 @@ export const HeroHome = () => {
                     <div class="card-body">
                       <h5
                         class="card-title d-flex justify-content-center"
-                        style={{ color: "#23262F" }}
+                        style={{ color: "#23262F",fontFamily:"DM Sans",fontSize:"25px",fontWeight:"600"  }}
                       >
                         Earn yield
                       </h5>
@@ -421,8 +424,9 @@ export const HeroHome = () => {
                         style={{
                           color: "#777E90",
                           textAlign: "center",
-                          fontSize: "15px",
-                          fontFamily: "sans-serif",
+                          fontSize: "16px",
+                          fontWeight:"500",
+                          fontFamily: "DM Sans",
                         }}
                       >
                         We realize ideas from simple to complex, everything
@@ -441,6 +445,7 @@ export const HeroHome = () => {
                             fontWeight: "bold",
                             borderRadius: "20px",
                             textDecoration: "none",
+                            fontFamily:"DM Sans",
                           }}
                           href="#"
                           class="btn-outline-secondary"
@@ -464,10 +469,10 @@ export const HeroHome = () => {
           </section>
           <section style={{ backgroundColor: "#FCFCFD" }}>
             <div class="container pt-5">
-              <h2 class="d-flex justify-content-center">
+              <h2 class="d-flex justify-content-center" style={{color:"#23262F",fontWeight:"700",fontFamily:"DM Sans"}}>
                 Get started in a few minutes
               </h2>
-              <p class="d-flex justify-content-center">
+              <p class="d-flex justify-content-center" style={{color:"#353945"}}>
                 Suipe supports a variety of the most popular digital currencies.
               </p>
               <div class="d-flex justify-content-center pt-5">
@@ -479,7 +484,7 @@ export const HeroHome = () => {
                     Trade assets
                   </h2>
                   <p
-                    style={{ textAlign: "center" }}
+                    style={{ textAlign: "center",color:"#353945",fontWeight:"600" }}
                     class="d-flex justify-content-center mintparagraph"
                   >
                     Trade assets cross-chain fully
@@ -491,7 +496,7 @@ export const HeroHome = () => {
                     Connect wallet
                   </h2>
                   <p
-                    style={{ textAlign: "center" }}
+                    style={{ textAlign: "center",color:"#353945",fontWeight:"600"  }}
                     class="d-flex justify-content-center mintparagraph"
                   >
                     Simply connect your wallet without
@@ -503,7 +508,7 @@ export const HeroHome = () => {
                     Earn yield
                   </h2>
                   <p
-                    style={{ textAlign: "center" }}
+                    style={{ textAlign: "center",color:"#353945",fontWeight:"600" }}
                     class="d-flex justify-content-center mintparagraph"
                   >
                     Provide liquidity to one of our pools
@@ -520,7 +525,7 @@ export const HeroHome = () => {
             <div class="row">
               <div class="col-md-12">
                 <div>
-                  <h2 class="markettrend">Learn about Defi</h2>
+                  <h2 class="markettrend">Learn about DeFi</h2>
                   <button
                     style={{ fontWeight: "bold" }}
                     type="button"
@@ -537,9 +542,9 @@ export const HeroHome = () => {
                       <div class="container">
                         <div class="row">
                           <div class="col-lg-6">
-                            <img src={Images.Img} />
+                            <img className="imagebannnerssss" src={Images.Img} />
                             <div class="   pt-5">
-                              <h2 style={{ fontSize: "25px" }}>
+                              <h2 style={{ fontSize: "25px",fontWeight:"600" }}>
                                 Leveraged tokens
                                 <br /> now available
                               </h2>
@@ -555,41 +560,41 @@ export const HeroHome = () => {
                                 />
                               </button>
                             </div>
-                            <p>
+                            <p className="date-classhome">
                               Good things come in 3s. Get 3x Leveraged
                               <br /> tokens now.
                             </p>
                           </div>
                           <div class="col-lg-3">
-                            <div class="pt-5">
-                              <h2 style={{ fontSize: "18px" }}>
+                            <div class="pt-2" style={{paddingLeft:"50px"}}>
+                              <h2 style={{ fontSize: "18px",fontFamily:"DM Sans" ,fontWeight:"600" }}>
                                 Leveraged tokens now available
                               </h2>
-                              <p>
+                              <p className="date-classhome pt-2">
                                 Good things come in 3s. Get 3x Leveraged tokens
                                 now.
                               </p>
-                              <p>Jun 1, 2021</p>
+                              <p className="date-classhome pt-4">Jun 1, 2021</p>
                             </div>
-                            <div class="pt-5">
-                              <h2 style={{ fontSize: "18px" }}>
+                            <div class="pt-" style={{paddingLeft:"50px"}}>
+                              <h2 style={{ fontSize: "18px",fontFamily:"DM Sans" ,fontWeight:"600" }}>
                                 Leveraged token now available
                               </h2>
-                              <p>
+                              <p className="date-classhome">
                                 Good things come in 3s. Get 3x Leveraged tokens
                                 now.
                               </p>
-                              <p>Jun 1, 2021</p>
+                              <p className="date-classhome pt-5">Jun 1, 2021</p>
                             </div>
-                            <div class="pt-5">
-                              <h2 style={{ fontSize: "18px" }}>
+                            <div class="" style={{paddingLeft:"50px"}}>
+                              <h2 style={{ fontSize: "18px",fontFamily:"DM Sans",fontWeight:"600" }}>
                                 Leveraged tokens now available
                               </h2>
-                              <p>
+                              <p className="date-classhome" >
                                 Good things come in 3s. Get 3x Leveraged tokens
                                 now.
                               </p>
-                              <p>Jun 1, 2021</p>
+                              <p className="pt-2 date-classhome pt-5">Jun 1, 2021</p>
                             </div>
                           </div>
                           <div class="col-lg-3">
@@ -597,7 +602,7 @@ export const HeroHome = () => {
                               <img src={Images.cr1} />
                             </div>
                             <div class="pt-2">
-                              <img src={Images.cr2} />
+                              <img style={{paddingTop:"5px"}} src={Images.cr2} />
                             </div>
                             <div class="pt-2">
                               <img src={Images.cr3} />

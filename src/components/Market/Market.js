@@ -10,6 +10,13 @@ import { useSelector, useDispatch } from "react-redux";
 const Market = () => {
   const dispatch = useDispatch();
   const [poolData, setPoolData] = useState([]);
+  const [Enum, set_Enum] = useState({
+    allType: "allType",
+    native: "native",
+    erc20: "erc20",
+    bep2: "bep2",
+  });
+  const [filterType, setFilterType] = useState(Enum.allType);
   const mainState = useSelector((state) => state.main.midgardPool);
   const loading = useSelector((state) => state.main.loading);
 
@@ -19,7 +26,48 @@ const Market = () => {
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
-  console.log("poolData=====>", poolData);
+  function filterAllType() {
+    setFilterType(Enum.allType);
+    setPoolData(mainState);
+  }
+  function filterNative() {
+    let res = mainState.filter(
+      (data) =>
+        data.blockchain === "LTC" ||
+        data.blockchain === "BTC" ||
+        data.blockchain === "BCH"
+    );
+    setFilterType(Enum.native);
+    setPoolData(res);
+  }
+  function filterERC20() {
+    let res = mainState.filter((data) => data.blockchain === "ETH");
+    setFilterType(Enum.erc20);
+    setPoolData(res);
+  }
+  function filterBEP2() {
+    let res = mainState.filter((data) => data.blockchain === "BNB");
+    console.log("res=====>>", res);
+    setFilterType(Enum.bep2);
+    setPoolData(res);
+  }
+
+  function InputSearch(e) {
+    if (!e.target.value) {
+      setPoolData(mainState);
+    } else {
+      let result2 = mainState.filter(
+        (value) =>
+          value.assetFullName
+            .toLowerCase()
+            .includes(e.target.value.toLowerCase()) && value
+      );
+      setPoolData(result2);
+    }
+  }
+  useEffect(() => {
+    setPoolData(mainState);
+  }, [mainState]);
   return (
     <div>
       {loading ? (
@@ -40,14 +88,18 @@ const Market = () => {
                       Cryptocurrency
                       <br /> Prices
                     </h2>
-                    <p>
+                    <p style={{ fontFamily: "DM Sans" }}>
                       The global crypto market cap is{" "}
-                      <span style={{ fontWeight: "bold" }}>$1.86T</span>
+                      <span
+                        style={{ fontWeight: "bold", fontFamily: "DM Sans" }}
+                      >
+                        $1.86T
+                      </span>
                     </p>
                   </div>
                 </div>
                 <div class="col-lg-6">
-                  <img style={{ width: "700px" }} src={Images.market} />
+                  <img className="marketmainimage" src={Images.market} />
                 </div>
               </div>
               <div class="row bitcoinclasss">
@@ -62,15 +114,30 @@ const Market = () => {
                                 style={{ width: "30px", height: "30px" }}
                                 src={Images.btc}
                               />
-                              <div style={{ paddingLeft: "10px" }}>
+                              <div
+                                style={{
+                                  paddingLeft: "10px",
+                                  fontFamily: "DM Sans",
+                                }}
+                              >
                                 <p class="marketparagraph">
                                   {d.asset}/USDT{" "}
-                                  <span class="spanclassmarket">+0.79%</span>
+                                  {d.change_24h >= 0 ? (
+                                    <span className="spanclassmarket">
+                                      +{financial(d.change_24h)}%
+                                    </span>
+                                  ) : (
+                                    <span className="spanclassmarkets">
+                                      {financial(d.change_24h)}%
+                                    </span>
+                                  )}{" "}
                                 </p>
                                 <p
                                   style={{
-                                    fontSize: "20px",
+                                    marginBottom: "0",
+                                    fontSize: "22px",
                                     fontWeight: "bold",
+                                    fontFamily: "DM Sans",
                                   }}
                                 >
                                   {" "}
@@ -78,7 +145,7 @@ const Market = () => {
                                     financial(d.assetPriceUSD)
                                   )}{" "}
                                 </p>
-                                <p>
+                                <p style={{ fontFamily: "DM Sans",color:"#777e90" }}>
                                   {numberWithCommas(financial(d.assetPriceUSD))}
                                 </p>
                               </div>
@@ -99,104 +166,304 @@ const Market = () => {
             <div class="container pt-5">
               <div class="d-flex justify-content-between">
                 <ul class="list-unstyled d-flex">
-                  <li class="alltype">
-                    <a href="#" style={{ color: "#fff" }}>
-                      All type{" "}
-                    </a>
+                  {/* {filterType === Enum.allType ? (
+                    <li>
+                      <button
+                        className="alltype"
+                        style={{ color: "#fff", fontFamily: "DM Sans" }}
+                        onClick={filterAllType}
+                      >
+                        All type
+                      </button>
+                    </li>
+                  ) : (
+                    <li class="pl-3 pt-2 marketparagraph">
+                      <span
+                        style={{
+                          color: "#777E90",
+                          cursor: "pointer",
+                          fontFamily: "DM Sans",
+                        }}
+                        onClick={filterAllType}
+                      >
+                        All Type
+                      </span>
+                    </li>
+                  )} */}
+                  <li>
+                    <button
+                      className={
+                        filterType === Enum.allType
+                          ? "alltype"
+                          : "alltype-nonActive"
+                      }
+                      onClick={filterAllType}
+                    >
+                      All Type
+                    </button>
                   </li>
-                  <li class="pl-3 pt-2 marketparagraph">
-                    <a href="#" style={{ color: "#777E90" }}>
+
+                  <li>
+                    <button
+                      className={
+                        filterType === Enum.native
+                          ? "alltype"
+                          : "alltype-nonActive"
+                      }
+                      style={{ color: "#fff", fontFamily: "DM Sans" }}
+                      onClick={filterNative}
+                    >
                       Native
-                    </a>
+                    </button>
                   </li>
-                  <li class="pl-3 pt-2 marketparagraph">
-                    <a style={{ color: "#777E90" }} href="#">
+
+                  <li>
+                    <button
+                      className={
+                        filterType === Enum.erc20
+                          ? "alltype"
+                          : "alltype-nonActive"
+                      }
+                      style={{ color: "#fff", fontFamily: "DM Sans" }}
+                      onClick={filterERC20}
+                    >
                       ERC-20
-                    </a>
+                    </button>
                   </li>
-                  <li class="pl-3 pt-2 marketparagraph">
-                    <a style={{ color: "#777E90" }} href="#">
+
+                  <li>
+                    <button
+                      className={
+                        filterType === Enum.bep2
+                          ? "alltype"
+                          : "alltype-nonActive"
+                      }
+                      style={{ color: "#fff", fontFamily: "DM Sans" }}
+                      onClick={filterBEP2}
+                    >
                       BEP2
-                    </a>
+                    </button>
                   </li>
                 </ul>
                 <div class=" d-flex form-group has-search">
                   <input
+                    style={{
+                      borderRadius: "8px",
+                      width: "280px",
+                      height:"35px",
+                      fontFamily: "DM Sans",
+                      backgroundColor:"#FCFCFD",
+                    }}
                     type="text"
                     class="form-control"
-                    placeholder="Search"
+                    placeholder="Search after coin..."
+                    onChange={InputSearch}
                   />
                   <span
-                    style={{ paddingTop: "10px", marginLeft: "-22px" }}
+                    style={{ paddingTop: "10px", marginLeft: "-20px",fontSize:"15px",color:"#777E90" }}
                     class=" fa fa-search form-control-feedback"
                   ></span>
                 </div>
               </div>
-              {mainState ? (
+              {poolData ? (
                 <div class="table-responsive">
                   <table class="table">
                     <thead>
                       <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">24h %</th>
-                        <th scope="col">7d %</th>
-                        <th scope="col">Marketcap $</th>
-                        <th scope="col">
+                        <th
+                          style={{
+                            border: "none",
+                            color: "#777E90",
+                            fontFamily: "DM Sans",
+                          }}
+                          scope="col"
+                        >
+                          #
+                        </th>
+                        <th
+                          style={{
+                            border: "none",
+                            color: "#777E90",
+                            fontFamily: "DM Sans",
+                          }}
+                          scope="col"
+                        >
+                          Name <img class="pl-1" src={Images.nameup} />
+                        </th>
+                        <th
+                          style={{
+                            border: "none",
+                            color: "#777E90",
+                            fontFamily: "DM Sans",
+                          }}
+                          scope="col"
+                        >
+                          Price <img class="pl-1" src={Images.nameup} />
+                        </th>
+                        <th
+                          style={{
+                            border: "none",
+                            color: "#777E90",
+                            fontFamily: "DM Sans",
+                          }}
+                          scope="col"
+                        >
+                          24h %
+                        </th>
+                        <th
+                          style={{
+                            border: "none",
+                            color: "#777E90",
+                            fontFamily: "DM Sans",
+                          }}
+                          style={{
+                            border: "none",
+                            color: "#777E90",
+                            fontFamily: "DM Sans",
+                          }}
+                          scope="col"
+                        >
+                          7d %
+                        </th>
+                        <th
+                          style={{
+                            border: "none",
+                            color: "#777E90",
+                            fontFamily: "DM Sans",
+                          }}
+                          scope="col"
+                        >
+                          Marketcap <img src={Images.dolaar} />
+                        </th>
+                        <th
+                          style={{
+                            border: "none",
+                            color: "#777E90",
+                            fontFamily: "DM Sans",
+                          }}
+                          scope="col"
+                        >
                           Volume(24h)
                           <img class="pl-2" src={Images.hourr} />
                         </th>
-                        <th scope="col">Chart</th>
+                        <th
+                          style={{
+                            border: "none",
+                            color: "#777E90",
+                            fontFamily: "DM Sans",
+                            textAlign: "right",
+                          }}
+                          scope="col"
+                        >
+                          Chart
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
-                      {mainState.slice(0, 10).map((d, key) => {
+                      {poolData.slice(0, 10).map((d, key) => {
                         return (
                           <tr>
-                            <th scope="row">{key + 1}</th>
+                            <th
+                              style={{
+                                border: "none",
+                                color: "#777E90",
+                                fontFamily: "DM Sans",
+                              }}
+                              scope="row"
+                            >
+                              {key + 1}
+                            </th>
                             <td>
                               <div class="d-flex ">
                                 <img
                                   style={{ width: "25px" }}
                                   src={Images.btc1}
                                 />
-                                <div style={{ paddingLeft: "5px" }}>
+                                <div
+                                  style={{
+                                    fontWeight: "bold",
+                                    fontFamily: "DM Sans",
+                                    paddingLeft: "5px",
+                                  }}
+                                >
                                   {d.assetFullName}
                                 </div>
                                 <div class="d-flex align-items-center">
-                                  <div class="pl-2 text-muted">{d.asset}</div>
+                                  <div
+                                    style={{ fontFamily: "DM Sans" }}
+                                    class="pl-2 text-muted"
+                                  >
+                                    {d.asset}
+                                  </div>
                                 </div>
                               </div>
                             </td>
 
-                            <td>
+                            <td
+                              style={{
+                                fontWeight: "bold",
+                                fontFamily: "DM Sans",
+                              }}
+                            >
                               {numberWithCommas(financial(d.assetPriceUSD))}
                             </td>
                             <td>
                               <div class="d-flex flex-column">
                                 <div>
-                                  <b class="percentage">+6.09%</b>
+                                  {d.change_24h >= 0 ? (
+                                    <b className="percentage">
+                                      +{financial(d.change_24h)}
+                                    </b>
+                                  ) : (
+                                    <b className="percentagetwo">
+                                      {financial(d.change_24h)}
+                                    </b>
+                                  )}
                                 </div>
                               </div>
                             </td>
                             <td>
                               <div class="d-flex flex-column">
                                 <div>
-                                  <b class="percentagetwo">-2.04%</b>
+                                  {d.change_7d >= 0 ? (
+                                    <b className="percentage">
+                                      +{financial(d.change_7d)}
+                                    </b>
+                                  ) : (
+                                    <b className="percentagetwo">
+                                      {financial(d.change_7d)}
+                                    </b>
+                                  )}{" "}
                                 </div>
                               </div>
                             </td>
-                            <td>$328,564,656,654</td>
-                            <td>${d.volume24h}</td>
+                            <td
+                              style={{
+                                fontWeight: "bold",
+                                fontFamily: "DM Sans",
+                              }}
+                            >
+                              ${numberWithCommas(financial(d.marketCap))}
+                            </td>
+                            <td
+                              style={{
+                                fontWeight: "bold",
+                                fontFamily: "DM Sans",
+                              }}
+                            >
+                              ${d.volume24h}
+                            </td>
                             <td className="buyTokenGraph">
                               <img src={Images.crt1} />
                             </td>
 
                             <td className="buyTokenbtn">
-                              <Link to={browserRoute.BUYMARKET}>
-                                <button className=" mt-1 ml-3 btn btn-primary">
-                                  Buy Token
+                              <Link to={`${browserRoute.BUYMARKET}/${d.asset}`}>
+                                <button
+                                  style={{ fontFamily: "DM Sans" }}
+                                  className=" mt-1 ml-3 pl-5 pr-5 btn btn-primary"
+                                >
+                                  Buy
                                 </button>
                               </Link>
                             </td>
@@ -567,7 +834,15 @@ const Market = () => {
                 <h2 class="d-flex justify-content-center marketmainheade">
                   Learn about DeFi
                 </h2>
-                <p class="d-flex justify-content-center">
+                <p
+                  class="d-flex justify-content-center"
+                  style={{
+                    textAlign: "center",
+                    fontFamily: "DM Sans",
+                    fontWeight: "600",
+                    color: "#545454",
+                  }}
+                >
                   Browse our library of resources to learn more about DeFi and
                   how
                   <br /> to use it to yield or trade
@@ -583,7 +858,10 @@ const Market = () => {
                     />
                     <div class="card-body">
                       <h6 class="marketcardone">Learn and Earn</h6>
-                      <p class="cardtext pt-4">
+                      <p
+                        style={{ fontFamily: "DM Sans" }}
+                        class="cardtext pt-4"
+                      >
                         Earn yield by providing liquidity to pools
                       </p>
                     </div>
@@ -599,7 +877,10 @@ const Market = () => {
                     />
                     <div class="card-body">
                       <h6 class="marketcardtwo">WEEKLY WATCHLIST AIRDROP</h6>
-                      <p class="cardtext pt-4">
+                      <p
+                        style={{ fontFamily: "DM Sans" }}
+                        class="cardtext pt-4"
+                      >
                         The biggest adventages of decentralized
                       </p>
                     </div>
@@ -615,7 +896,10 @@ const Market = () => {
                     />
                     <div class="card-body">
                       <h6 class="marketcardthree">FEATURED</h6>
-                      <p class="cardtext pt-4">
+                      <p
+                        style={{ fontFamily: "DM Sans" }}
+                        class="cardtext pt-4"
+                      >
                         Submit your watchlist and win USDT
                       </p>
                     </div>

@@ -1,31 +1,100 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Images from "../Helper/AllImages";
+import data from "../Helper/Data/TransactionHistory";
+import DatePicker from "react-multi-date-picker";
+import { Calendar } from "react-multi-date-picker";
 
 const Activity = () => {
+  const [tableData, setTableData] = useState([]);
+  const [showTime, setShowTIme] = useState(false);
+  const [Enum, set_Enum] = useState({
+    allType: "allType",
+    withdraw: "withdraw",
+    deposit: "deposit",
+    pending: "pending",
+  });
+  const [filterType, setFilterType] = useState(Enum.allType);
+  useEffect(() => {
+    setTableData(data);
+  }, []);
+
+  function SearchFilter(e) {
+    setFilterType("");
+    if (!e.target.value) {
+      setFilterType(Enum.allType);
+      setTableData(data);
+    } else {
+      const res = data.filter((data) => data.TransactionId === e.target.value);
+      setTableData(res);
+    }
+  }
+  function filterAllType() {
+    setFilterType(Enum.allType);
+    setTableData(data);
+  }
+  function filterWithdrawType() {
+    setFilterType(Enum.withdraw);
+    let res = data.filter((d) => d.Type === "Withdraw");
+    setTableData(res);
+  }
+  function filterDepositType() {
+    setFilterType(Enum.deposit);
+    let res = data.filter((d) => d.Type === "Deposit");
+    setTableData(res);
+  }
+  function filterPendingType() {
+    setFilterType(Enum.pending);
+    let res = data.filter((d) => d.Type === "Pending");
+    setTableData(res);
+  }
   return (
     <div className="col-lg-7 marginleftcol mt-2">
       <div className="sidebarcoleight pt-3">
         <div className="d-flex justify-content-between">
           <ul className="list-unstyled d-flex">
-            <li className="alltype">
-              <a style={{ color: "#fff" }} href="#">
-                All type{" "}
-              </a>
+            <li>
+              <button
+                className={
+                  filterType === Enum.allType ? "alltype" : "alltype-nonActive"
+                }
+                style={{ color: "#fff" }}
+                onClick={filterAllType}
+              >
+                All type
+              </button>
             </li>
-            <li className="pl-3 pt-2 marketparagraph">
-              <a style={{ color: "#777E90" }} href="#">
-                Withdraws
-              </a>
+            <li>
+              <button
+                className={
+                  filterType === Enum.withdraw ? "alltype" : "alltype-nonActive"
+                }
+                style={{ color: "#fff" }}
+                onClick={filterWithdrawType}
+              >
+                Withdrawals
+              </button>
             </li>
-            <li className="pl-3 pt-2 marketparagraph">
-              <a style={{ color: "#777E90" }} href="#">
+            <li>
+              <button
+                className={
+                  filterType === Enum.deposit ? "alltype" : "alltype-nonActive"
+                }
+                style={{ color: "#fff" }}
+                onClick={filterDepositType}
+              >
                 Deposit
-              </a>
+              </button>
             </li>
-            <li className="pl-3 pt-2 marketparagraph">
-              <a style={{ color: "#777E90" }} href="#">
-                Converting
-              </a>
+            <li>
+              <button
+                className={
+                  filterType === Enum.pending ? "alltype" : "alltype-nonActive"
+                }
+                style={{ color: "#fff" }}
+                onClick={filterPendingType}
+              >
+                Pending
+              </button>
             </li>
           </ul>
           <form className="pr-5">
@@ -34,20 +103,27 @@ const Activity = () => {
                 type="text"
                 className="form-control"
                 placeholder="Search after coin.."
+                onChange={SearchFilter}
               />
               <div className="input-group-btn">
                 <div style={{ float: "right" }}>
-                  <button
-                    type="button"
-                    className="btn btn-outline-secondary ml-2 "
-                    style={{
-                      fontWeight: "bold",
-                      color: "#000",
-                      borderRadius: "10px",
+                  <DatePicker
+                    render={() => {
+                      return (
+                        <button
+                          type="button"
+                          className="btn btn-outline-secondary ml-2 "
+                          style={{
+                            fontWeight: "bold",
+                            color: "#000",
+                            borderRadius: "10px",
+                          }}
+                        >
+                          All time
+                        </button>
+                      );
                     }}
-                  >
-                    All time
-                  </button>
+                  />
                 </div>
               </div>
             </div>
@@ -77,136 +153,48 @@ const Activity = () => {
               </tr>
             </thead>
             <tbody style={{ padding: "5px" }}>
-              <tr>
-                <td>
-                  <div className="d-flex flex-column">
-                    <div>
-                      <span className="depositclass">Withdraw</span>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <div className="d-flex ">
-                    <img style={{ width: "25px" }} src={Images.btc} />
-                    <div style={{ paddingLeft: "5px" }}>Bitcoin</div>
-                    <div className="d-flex align-items-center"></div>
-                  </div>
-                </td>
-                <td>1,641.20 BTC</td>
-                <td>
-                  <div className="d-flex flex-column">
-                    <div>
-                      <b>3DkQyAdif6kqlpMBu</b>
-                    </div>
-                  </div>
-                </td>
-                <td>3DkQyAdif6kqlpMBu</td>
-                <td>2021-06-05 04:12:30</td>
-              </tr>
-              <tr>
-                <td>
-                  <div className="d-flex flex-column">
-                    <div>
-                      <span className="depositclasss">Deposit </span>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <div className="d-flex ">
-                    <img style={{ width: "25px" }} src={Images.btc} />
-                    <div style={{ paddingLeft: "5px" }}>Bitcoin</div>
-                    <div className="d-flex align-items-center"></div>
-                  </div>
-                </td>
-                <td>1,641.20 BTC</td>
-                <td>
-                  <div className="d-flex flex-column">
-                    <div>
-                      <b>3DkQyAdif6kqlpMBu</b>
-                    </div>
-                  </div>
-                </td>
-                <td>3DkQyAdif6kqlpMBu</td>
-                <td>2021-06-05 04:12:30</td>
-              </tr>
-              <tr>
-                <td>
-                  <div className="d-flex flex-column">
-                    <div>
-                      <span className="depositclass">Withdraw</span>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <div className="d-flex ">
-                    <img style={{ width: "25px" }} src={Images.btc} />
-                    <div style={{ paddingLeft: "5px" }}>Bitcoin</div>
-                    <div className="d-flex align-items-center"></div>
-                  </div>
-                </td>
-                <td>1,641.20 BTC</td>
-                <td>
-                  <div className="d-flex flex-column">
-                    <div>
-                      <b>3DkQyAdif6kqlpMBu</b>
-                    </div>
-                  </div>
-                </td>
-                <td>3DkQyAdif6kqlpMBu</td>
-                <td>2021-06-05 04:12:30</td>
-              </tr>
-              <tr>
-                <td>
-                  <div className="d-flex flex-column">
-                    <div>
-                      <span className="depositclasss">Deposit</span>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <div className="d-flex ">
-                    <img style={{ width: "25px" }} src={Images.btc} />
-                    <div style={{ paddingLeft: "5px" }}>Bitcoin</div>
-                    <div className="d-flex align-items-center"></div>
-                  </div>
-                </td>
-                <td>1,641.20 BTC</td>
-                <td>
-                  <div className="d-flex flex-column">
-                    <div>
-                      <b>3DkQyAdif6kqlpMBu</b>
-                    </div>
-                  </div>
-                </td>
-                <td>3DkQyAdif6kqlpMBu</td>
-                <td>2021-06-05 04:12:30</td>
-              </tr>
-              <tr>
-                <td>
-                  <div className="d-flex flex-column">
-                    <div>
-                      <span className="depositclasss">Deposit</span>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <div className="d-flex ">
-                    <img style={{ width: "25px" }} src={Images.btc} />
-                    <div style={{ paddingLeft: "5px" }}>Bitcoin</div>
-                    <div className="d-flex align-items-center"></div>
-                  </div>
-                </td>
-                <td>1,641.20 BTC</td>
-                <td>
-                  <div className="d-flex flex-column">
-                    <div>
-                      <b>3DkQyAdif6kqlpMBu</b>
-                    </div>
-                  </div>
-                </td>
-                <td>3DkQyAdif6kqlpMBu</td>
-                <td>2021-06-05 04:12:30</td>
-              </tr>
+              {tableData.map((d, key) => {
+                return (
+                  <tr>
+                    <td>
+                      <div className="d-flex flex-column">
+                        <div>
+                          <span
+                            className={
+                              d.Type === "Withdraw"
+                                ? "depositclass"
+                                : "depositclasss"
+                            }
+                          >
+                            {d.Type}
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="d-flex ">
+                        <img
+                          style={{ width: "25px" }}
+                          style={{ width: "25px" }}
+                          src={Images.btc}
+                        />
+                        <div style={{ paddingLeft: "5px" }}>{d.Coin}</div>
+                        <div className="d-flex align-items-center"></div>
+                      </div>
+                    </td>
+                    <td>{d.Amount}</td>
+                    <td>
+                      <div className="d-flex flex-column">
+                        <div>
+                          <b>{d.Address}</b>
+                        </div>
+                      </div>
+                    </td>
+                    <td>{d.TransactionId}</td>
+                    <td>{d.Date}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
