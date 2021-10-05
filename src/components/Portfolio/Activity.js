@@ -1,12 +1,17 @@
 import React, {useState, useEffect} from "react";
 import Images from "../Helper/AllImages";
 import data from "../Helper/Data/TransactionHistory";
-import DatePicker from "react-multi-date-picker";
-import { Calendar } from "react-multi-date-picker";
+// import DatePicker from "react-multi-date-picker";
+// import { Calendar } from "react-multi-date-picker";
+// import Button from "react-multi-date-picker/components/button";
+
+import "react-modern-calendar-datepicker/lib/DatePicker.css";
+import DatePicker from "react-modern-calendar-datepicker";
 
 const Activity = () => {
   const [tableData, setTableData] = useState([]);
-  const [showTime, setShowTIme] = useState(false);
+  const [date, setDate] = useState(null);
+
   const [Enum, set_Enum] = useState({
     allType: "allType",
     withdraw: "withdraw",
@@ -47,6 +52,41 @@ const Activity = () => {
     let res = data.filter((d) => d.Type === "Pending");
     setTableData(res);
   }
+
+
+
+  const renderCustomFooter = () => {
+    return(
+    <div style={{ display: 'flex', justifyContent: 'center', padding: '1rem 2rem' }}  >
+    <button
+      type="button"
+      onClick={() => {
+        setDate(null)
+      }}
+      style={{
+        border: '#0fbcf9',
+        color: '#000',
+        borderRadius: '0.5rem',
+        padding: '1rem 2rem',
+      }}
+    >
+      Reset Value!
+    </button>
+      </div>
+    )
+  }
+
+
+  const renderCustomInput = ({ ref }) => (
+    <input
+      readOnly
+      ref={ref} // necessary
+      placeholder="All time"
+      style={{border:"1px solid"}}
+      className="btn btn-outline-secondary ml-2"
+      // a styling class
+    />
+  )
   return (
     <div className="col-lg-7 marginleftcol mt-2">
       <div className="sidebarcoleight pt-3">
@@ -107,22 +147,14 @@ const Activity = () => {
               />
               <div className="input-group-btn">
                 <div style={{ float: "right" }}>
-                  <DatePicker
-                    render={() => {
-                      return (
-                        <button
-                          type="button"
-                          className="btn btn-outline-secondary ml-2 "
-                          style={{
-                            fontWeight: "bold",
-                            color: "#000",
-                            borderRadius: "10px",
-                          }}
-                        >
-                          All time
-                        </button>
-                      );
-                    }}
+                
+                  <DatePicker  
+                  value={date}
+                  onChange={setDate}
+                  shouldHighlightWeekends
+                  renderInput={renderCustomInput} // render a custom input
+                  renderFooter={renderCustomFooter}
+
                   />
                 </div>
               </div>

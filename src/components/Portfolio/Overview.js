@@ -117,19 +117,12 @@ const Overview = () => {
       {showBalance ? (
         <>
           <div className="row">
-            <div className="col-lg-8  ml-3 mb-2  pt-3 pr-4">
+            <div style={{paddingLeft:"15px",paddingRight:"5px"}} className="col-lg-8">
               <div className="row">
-                <div
-                  className="col-lg-5"
-                  style={{ backgroundColor: "#FCFCFD", marginLeft: "15px" }}
-                >
+                <div style={{paddingRight:"0px"}} className="col-lg-6">
+                  <div  className="overview_portfoliobg">
                   <div
-                    className="d-flex justify-content-between pl-3 pt-2"
-                    style={{
-                      backgroundColor: "#fff",
-                      width: "240px",
-                      paddingRight: "15px",
-                    }}
+                    className="d-flex justify-content-between"
                   >
                     <div className="d-flex">
                       <img
@@ -160,12 +153,11 @@ const Overview = () => {
                       </p>
                     </div>
                   </div>
+                  </div>
                 </div>
-                <div
-                  className="col-lg-6"
-                  style={{ backgroundColor: "#FCFCFD", marginLeft: "18px" }}
-                >
-                  <div className="d-flex justify-content-between pl-3 pt-2">
+                <div style={{paddingLeft:"5px"}} className="col-lg-6">
+                <div className="overview_portfoliobg">
+                  <div className="d-flex justify-content-between ">
                     <div className="d-flex">
                       <img
                         style={{
@@ -198,13 +190,12 @@ const Overview = () => {
                     </div>
                   </div>
                 </div>
+                </div>
               </div>
-              <div
-                className="col-lg-12 mt-1 pt-2"
-                style={{ backgroundColor: "#FCFCFD" }}
-              >
+              <div style={{paddingLeft:"0px",paddingRight:"0px"}} className="col-lg-12">
+              <div className="overview_portfoliobg mt-1">
                 <div className="d-flex justify-content-between">
-                  <div className="d-flex" style={{ paddingLeft: "20px" }}>
+                  <div className="d-flex">
                     <img
                       style={{
                         width: "12px",
@@ -231,14 +222,12 @@ const Overview = () => {
                   </div>
                 </div>
               </div>
+              </div>
             </div>
-            <div
-              className="col-lg-3 mt-2"
-              style={{ marginLeft: "45px", backgroundColor: "#FCFCFD" }}
+            <div style={{paddingLeft:"0px"}} className="col-lg-4"
             >
               <div
-                className="sidebarcoleight ml-1 pr-3 pt-2 pb-2"
-                style={{ marginLeft: "65px" }}
+                className="sidebarcoleight"
               >
                 <div style={{ paddingLeft: "20px" }}>
                   <p
@@ -266,13 +255,13 @@ const Overview = () => {
                     style={{
                       fontWeight: "bold",
                       fontSize: "20px",
-                      paddingBottom: "5px",
+                      paddingBottom: "10px",
                       fontFamily: "DM Sans",
                     }}
                   >
                     $398.5K
                   </h3>
-                  <img style={{ paddingBottom: "0px" }} src={Images.qwq} />
+                  <img style={{ paddingBottom: "22px" }} src={Images.qwq} />
                 </div>
               </div>
             </div>
@@ -281,20 +270,13 @@ const Overview = () => {
         </>
       ) : (
         <>
-          <div className="row">
-            <div className="col-lg-8  ml-3 mb-2  pt-3 pr-4">
+           <div className="row">
+            <div style={{paddingLeft:"15px",paddingRight:"5px"}} className="col-lg-8">
               <div className="row">
-                <div
-                  className="col-lg-5"
-                  style={{ backgroundColor: "#FCFCFD", marginLeft: "15px" }}
-                >
+                <div style={{paddingRight:"0px"}} className="col-lg-6">
+                  <div  className="overview_portfoliobg">
                   <div
-                    className="d-flex justify-content-between pl-3 pt-2"
-                    style={{
-                      backgroundColor: "#fff",
-                      width: "240px",
-                      paddingRight: "15px",
-                    }}
+                    className="d-flex justify-content-between"
                   >
                     <div className="d-flex">
                       <img
@@ -325,12 +307,11 @@ const Overview = () => {
                       </p>
                     </div>
                   </div>
+                  </div>
                 </div>
-                <div
-                  className="col-lg-6"
-                  style={{ backgroundColor: "#FCFCFD", marginLeft: "18px" }}
-                >
-                  <div className="d-flex justify-content-between pl-3 pt-2">
+                <div style={{paddingLeft:"5px"}} className="col-lg-6">
+                <div className="overview_portfoliobg">
+                  <div className="d-flex justify-content-between ">
                     <div className="d-flex">
                       <img
                         style={{
@@ -363,13 +344,12 @@ const Overview = () => {
                     </div>
                   </div>
                 </div>
+                </div>
               </div>
-              <div
-                className="col-lg-12 mt-1 pt-2"
-                style={{ backgroundColor: "#FCFCFD" }}
-              >
+              <div style={{paddingLeft:"0px",paddingRight:"0px"}} className="col-lg-12">
+              <div className="overview_portfoliobg mt-1">
                 <div className="d-flex justify-content-between">
-                  <div className="d-flex" style={{ paddingLeft: "20px" }}>
+                  <div className="d-flex">
                     <img
                       style={{
                         width: "12px",
@@ -396,14 +376,12 @@ const Overview = () => {
                   </div>
                 </div>
               </div>
+              </div>
             </div>
-            <div
-              className="col-lg-3 mt-2"
-              style={{ marginLeft: "45px", backgroundColor: "#FCFCFD" }}
+            <div style={{paddingLeft:"0px"}} className="col-lg-4"
             >
               <div
-                className="sidebarcoleight ml-1 pr-3 pt-2 pb-2"
-                style={{ marginLeft: "65px" }}
+                className="sidebarcoleight"
               >
                 <div style={{ paddingLeft: "20px" }}>
                   <p
@@ -431,13 +409,13 @@ const Overview = () => {
                     style={{
                       fontWeight: "bold",
                       fontSize: "20px",
-                      paddingBottom: "5px",
+                      paddingBottom: "10px",
                       fontFamily: "DM Sans",
                     }}
                   >
-                    $****
+                    $****K
                   </h3>
-                  <img style={{ paddingBottom: "0px" }} src={Images.qwq} />
+                  <img style={{ paddingBottom: "22px" }} src={Images.qwq} />
                 </div>
               </div>
             </div>

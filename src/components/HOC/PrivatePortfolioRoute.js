@@ -23,8 +23,14 @@ const PrivatePortfolioRoute = ({ component: Component, path, ...rest }) => {
                   />
                   <p class="marketsidetitle pl-2">
                     <Link
-                      to={browserRoute.PORTFOLIO}
+                      to={browserRoute.PORTFOLIO_OVERVIEW}
                       style={{ textDecoration: "none", color: "#777E90" }}
+                      className={
+                        window.location.href.indexOf(browserRoute.PORTFOLIO_OVERVIEW) !==
+                        -1
+                          ? "sideBarActive"
+                          : null
+                      }
                     >
                       Overview
                     </Link>
@@ -39,6 +45,13 @@ const PrivatePortfolioRoute = ({ component: Component, path, ...rest }) => {
                     <Link
                       to={browserRoute.PORTFOLIO_ASSETS}
                       style={{ textDecoration: "none", color: "#777E90" }}
+                      className={
+                        window.location.href.indexOf(
+                          browserRoute.PORTFOLIO_ASSETS
+                        ) !== -1
+                          ? "sideBarActive"
+                          : null
+                      }
                     >
                       Assets
                     </Link>
@@ -53,6 +66,13 @@ const PrivatePortfolioRoute = ({ component: Component, path, ...rest }) => {
                     <Link
                       to={browserRoute.PORTFOLIO_LIQUIDITY}
                       style={{ textDecoration: "none", color: "#777E90" }}
+                      className={
+                        window.location.href.indexOf(
+                          browserRoute.PORTFOLIO_LIQUIDITY
+                        ) !== -1
+                          ? "sideBarActive"
+                          : null
+                      }
                     >
                       Liquidity providing
                     </Link>

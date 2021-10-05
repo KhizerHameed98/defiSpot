@@ -3,10 +3,11 @@ const browserRoute = {
   MARKET: "/market",
   BUYMARKET: "/market/buymarket",
   PORTFOLIO: "/portfolio",
+  PORTFOLIO_OVERVIEW: "/portfolio/overview",
   PORTFOLIO_ASSETS: "/portfolio/assets",
-  PORTFOLIO_ACTIVITY: "/portfolio/activity",
+  PORTFOLIO_ACTIVITY: "/portfolio/assets/activity",
   PORTFOLIO_LIQUIDITY: "/portfolio/liquidity",
-  
-  EARNYIELD: "/earnyield"
+
+  EARNYIELD: "/earnyield",
 };
   export default browserRoute;

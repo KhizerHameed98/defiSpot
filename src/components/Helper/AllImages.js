@@ -65,7 +65,10 @@ import pageyeild from "../../assets/images/pageyeild.png";
 import dolaar from "../../assets/images/dolaar.png";
 import uptwo from "../../assets/images/uptwo.png";
 import nameup from "../../assets/images/nameup.png";
+import searchbarr from "../../assets/images/searchbarr.png";
+
 const Images = {
+  searchbarr,
   pageyeild,
   ttt,
   goll,

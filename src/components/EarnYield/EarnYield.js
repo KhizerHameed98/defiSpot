@@ -1,6 +1,7 @@
 import React from "react";
 import Images from "../Helper/AllImages";
 import withMainLayout from "../HOC/withMainLayout";
+import { AddLiquidity } from "../PopModals/AddLiquidity_Modal";
 const EarnYield = () => {
   return (
     <>
@@ -10,13 +11,13 @@ const EarnYield = () => {
             <div class="col-lg-6">
               <div class="marketbanner">
                 <h2 class="marketbannerhed">Earn Yield now</h2>
-                <p style={{ fontSize: "18px",fontFamily:"DM Sans" }}>
+                <p style={{ fontSize: "18px", fontFamily: "DM Sans" }}>
                   Provide your tokens to earn annual yeild.
                 </p>
               </div>
             </div>
             <div class="col-lg-6">
-              <img className="earnyield-pagepic"  src={Images.pageyeild} />
+              <img className="earnyield-pagepic" src={Images.pageyeild} />
             </div>
           </div>
         </div>
@@ -66,16 +67,52 @@ const EarnYield = () => {
             <table class="table">
               <thead>
                 <tr>
-                  <th style={{border:"none",color:"#777E90",fontFamily:"DM Sans",fontSize:"18px",fontWeight:"400"}} scope="col">
+                  <th
+                    style={{
+                      border: "none",
+                      color: "#777E90",
+                      fontFamily: "DM Sans",
+                      fontSize: "18px",
+                      fontWeight: "400",
+                    }}
+                    scope="col"
+                  >
                     Name
                   </th>
-                  <th style={{border:"none",color:"#777E90",fontFamily:"DM Sans",fontSize:"18px",fontWeight:"400"}} scope="col">
+                  <th
+                    style={{
+                      border: "none",
+                      color: "#777E90",
+                      fontFamily: "DM Sans",
+                      fontSize: "18px",
+                      fontWeight: "400",
+                    }}
+                    scope="col"
+                  >
                     APY
                   </th>
-                  <th style={{border:"none",color:"#777E90",fontFamily:"DM Sans",fontSize:"18px",fontWeight:"400"}} scope="col">
+                  <th
+                    style={{
+                      border: "none",
+                      color: "#777E90",
+                      fontFamily: "DM Sans",
+                      fontSize: "18px",
+                      fontWeight: "400",
+                    }}
+                    scope="col"
+                  >
                     Liquidity
                   </th>
-                  <th style={{border:"none",color:"#777E90",fontFamily:"DM Sans",fontSize:"18px",fontWeight:"400"}} scope="col">
+                  <th
+                    style={{
+                      border: "none",
+                      color: "#777E90",
+                      fontFamily: "DM Sans",
+                      fontSize: "18px",
+                      fontWeight: "400",
+                    }}
+                    scope="col"
+                  >
                     Volume(24h)
                   </th>
                 </tr>
@@ -108,7 +145,7 @@ const EarnYield = () => {
                   <td>$10,098.36</td>
                   <td>
                     {" "}
-                    <button class="btn marketbuttonss ">Add Liquidity</button>
+                    <AddLiquidity />
                   </td>
                 </tr>
                 <tr>
@@ -138,7 +175,7 @@ const EarnYield = () => {
                   <td>$10,098.36</td>
                   <td>
                     {" "}
-                    <button class="btn marketbuttonss">Add Liquidity</button>
+                    <AddLiquidity />
                   </td>
                 </tr>
                 <tr>
@@ -168,7 +205,7 @@ const EarnYield = () => {
                   <td>$10,098.36</td>
                   <td>
                     {" "}
-                    <button class="btn marketbuttonss">Add Liquidity</button>
+                    <AddLiquidity />
                   </td>
                 </tr>
                 <tr>
@@ -198,7 +235,7 @@ const EarnYield = () => {
                   <td>$10,098.36</td>
                   <td>
                     {" "}
-                    <button class="btn marketbuttonss">Add Liquidity</button>
+                    <AddLiquidity />
                   </td>
                 </tr>
                 <tr>
@@ -231,7 +268,7 @@ const EarnYield = () => {
                   </td>
                   <td>
                     {" "}
-                    <button class="btn marketbuttonss">Add Liquidity</button>
+                    <AddLiquidity />
                   </td>
                 </tr>
               </tbody>

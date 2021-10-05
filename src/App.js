@@ -14,6 +14,8 @@ import Overview from "./components/Portfolio/Overview";
 import Activity from "./components/Portfolio/Activity";
 import LiquidityProvider from "./components/Portfolio/LiquidityProvider";
 import EarnYield from "./components/EarnYield/EarnYield";
+import Main from "./components/Portfolio/Main";
+
 function App() {
   return (
     <div>
@@ -40,6 +42,11 @@ function App() {
           <PrivatePortfolioRoute
             exact
             path={browserRoute.PORTFOLIO}
+            component={Main}
+          />
+          <PrivatePortfolioRoute
+            exact
+            path={browserRoute.PORTFOLIO_OVERVIEW}
             component={Overview}
           />
           <PrivatePortfolioRoute

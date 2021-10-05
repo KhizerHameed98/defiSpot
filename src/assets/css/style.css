@@ -2,7 +2,7 @@
 
 
 body {
-  overflow: auto;
+  overflow-x: auto;
   
 }
 * {
@@ -273,6 +273,9 @@ button:focus {
 
   border: none;
 }
+.sideBarActive{
+color: #000 !important;
+}
 .marketbannerhed {
   font-weight: bold;
   font-size: 65px;
@@ -428,7 +431,6 @@ button:focus {
 .sidebarcoleight {
   padding-left: 20px;
   background-color: #fcfcfd;
-  margin-left: 15px;
 }
 .marginleftcol {
   margin-left: 200px;
@@ -442,11 +444,11 @@ button:focus {
 }
 .popupcrosss {
   border: 3px solid #e6e8ec;
-  padding-left: 11px;
-  padding-right: 10px;
+  padding-left: 13px;
+  padding-right: 13px;
   border-radius: 28px;
   padding-bottom: 4px;
-  font-size: 30px;
+  font-size: 35px;
 }
 .mainimaggehomepage {
   width: 700px;
@@ -541,6 +543,13 @@ button:focus {
 .earnyield-pagepic{
   width: 500px;
 }
+.overview_portfoliobg{
+  background-color: #fff;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
 @media (max-width: 480px) {
   .mainimaggehomepage {
     width: 330px;
@@ -580,5 +589,8 @@ button:focus {
     padding-left: 15px;
     padding-right: 1px;
     font-size: 12px;
+  }
+  .marginleftcol{
+    margin-left: 0px;
   }
 }
