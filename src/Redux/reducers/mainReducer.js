@@ -4,6 +4,12 @@ import {
   MIDGARDPOOL_FAIL,
   MIDGARDPOOL_REQUESTING,
   MIDGARDPOOL_SUCCESS,
+  KEYSTORECONNECTION_REQUESTING,
+  KEYSTORECONNECTION_SUCCESS,
+  KEYSTORECONNECTION_FAIL,
+  KEYSTORE_TRANSACTIONHISTORY_FAIL,
+  KEYSTORE_TRANSACTIONHISTORY_REQUESTING,
+  KEYSTORE_TRANSACTIONHISTORY_SUCCESS,
 } from "../actions/types";
 
 const initialState = {
@@ -23,6 +29,7 @@ const initialState = {
   // error: {},
   // errors: [],
   midgardPool: [],
+  KeyStoreClient: [],
   loading: false,
 };
 
@@ -94,6 +101,7 @@ export default (state = initialState, { type, payload }) => {
     //   };
 
     case MIDGARDPOOL_FAIL:
+    case KEYSTORECONNECTION_FAIL:
       return {
         loading: false,
       };
@@ -108,7 +116,21 @@ export default (state = initialState, { type, payload }) => {
         ...payload,
         loading: false,
       };
+    case KEYSTORECONNECTION_REQUESTING:
+      return {
+        loading: true,
+      };
+    case KEYSTORECONNECTION_SUCCESS:
+      return {
+        ...state,
+        ...payload,
+        loading: false,
+      };
 
+    case KEYSTORECONNECTION_FAIL:
+      return {
+        loading: false,
+      };
     default:
       return state;
   }

@@ -41,12 +41,14 @@ export const Header = () => {
   let fileReader;
   const disptach = useDispatch();
 
-  const submitKeyStore = async () => {
-    disptach(createKeyStore(password));
+  const submitKeyStore = async (e) => {
+    e.preventDefault();
+    disptach(createKeyStore(password, setCreateKeyStoreModal));
   };
 
-  const connectKeyStoreFunction = async () => {
-    disptach(connectKeyStore(connectKeyStore_password, fileKeyStore));
+  const connectKeyStoreFunction = async (e) => {
+    e.preventDefault();
+    disptach(connectKeyStore(connectKeyStore_password, fileKeyStore, setConnectKeyStoreModal));
   };
   const connectMetaMask = async () => {
     disptach(MetaMaskConnection(setMainModel));
@@ -708,11 +710,8 @@ export const Header = () => {
             </button>
           </div>
         </nav>
-        <hr
-          style={{ width: "1320px", marginLeft: "-75px", marginBottom: "0px" }}
-          className="solid"
-        />
       </div>
+      <hr className="solid" />
     </div>
   );
 };

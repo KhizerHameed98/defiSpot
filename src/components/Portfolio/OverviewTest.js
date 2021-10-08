@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Images from "../Helper/AllImages";
 import data from "../Helper/Data/TransactionHistory";
 import { useSelector, useDispatch } from "react-redux";
@@ -8,7 +8,7 @@ const Overview = () => {
 
   const [tableData, setTableData] = useState([]);
   const [showBalance, setShowBalance] = useState(false);
-  const [KeyStoreClients, setKeyStoreClients] = useState([]);
+  const [TransactionHistory, setTransactionHistory] = useState([]);
   const [Enum, set_Enum] = useState({
     allType: "allType",
     withdraw: "withdraw",
@@ -21,7 +21,7 @@ const Overview = () => {
   }, []);
   useEffect(() => {
     console.log("my keyStore Instance===>>", keyStoreInstance);
-    setKeyStoreClients(keyStoreInstance.KeyStoreClient);
+    setTransactionHistory(keyStoreInstance.KeyStoreClient);
   }, [useSelector((state) => state.main)]);
 
   function SearchFilter(e) {
@@ -574,76 +574,53 @@ const Overview = () => {
               </tr>
             </thead>
             <tbody style={{ padding: "5px" }}>
-              {KeyStoreClients ? (
-                <>
-                  {KeyStoreClients.map((d, key) => {
-                    return (
-                      <>
-                        {d.Transactions.txs.map((t, key2) => {
-                          return (
-                            <tr>
-                              <td>
-                                <div className="d-flex flex-column">
-                                  <div>
-                                    <span
-                                      style={{ fontFamily: "DM Sans" }}
-                                      className={
-                                        d.Type === "Withdraw"
-                                          ? "depositclass"
-                                          : "depositclasss"
-                                      }
-                                    >
-                                      {t.type}
-                                    </span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td>
-                                <div className="d-flex ">
-                                  <img
-                                    style={{ width: "25px" }}
-                                    style={{ width: "25px" }}
-                                    src={Images.btc}
-                                  />
-                                  <div
-                                    style={{
-                                      paddingLeft: "5px",
-                                      fontFamily: "DM Sans",
-                                    }}
-                                  >
-                                    {t.asset.symbol}
-                                  </div>
-                                  <div className="d-flex align-items-center"></div>
-                                </div>
-                              </td>
-                              <td style={{ fontFamily: "DM Sans" }}>
-                                {Number(t.to[0].amount.amount().c[0]) /
-                                  Math.pow(10, Number(t.to[0].amount.decimal))}
-                                {/* {t.to[0].amount.amount().c[0]} */}
-                              </td>
-                              <td>
-                                <div className="d-flex flex-column">
-                                  <div>
-                                    <b style={{ fontFamily: "DM Sans" }}>
-                                      {t.to[0].to}
-                                    </b>
-                                  </div>
-                                </div>
-                              </td>
-                              <td style={{ fontFamily: "DM Sans" }}>
-                                {t.hash}
-                              </td>
-                              <td style={{ fontFamily: "DM Sans" }}>
-                                {t.date.toString().substring(0, 24)}
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </>
-                    );
-                  })}
-                </>
-              ) : null}
+              {tableData.map((d, key) => {
+                return (
+                  <tr>
+                    <td>
+                      <div className="d-flex flex-column">
+                        <div>
+                          <span
+                            style={{ fontFamily: "DM Sans" }}
+                            className={
+                              d.Type === "Withdraw"
+                                ? "depositclass"
+                                : "depositclasss"
+                            }
+                          >
+                            {d.Type}
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="d-flex ">
+                        <img
+                          style={{ width: "25px" }}
+                          style={{ width: "25px" }}
+                          src={Images.btc}
+                        />
+                        <div
+                          style={{ paddingLeft: "5px", fontFamily: "DM Sans" }}
+                        >
+                          {d.Coin}
+                        </div>
+                        <div className="d-flex align-items-center"></div>
+                      </div>
+                    </td>
+                    <td style={{ fontFamily: "DM Sans" }}>{d.Amount}</td>
+                    <td>
+                      <div className="d-flex flex-column">
+                        <div>
+                          <b style={{ fontFamily: "DM Sans" }}>{d.Address}</b>
+                        </div>
+                      </div>
+                    </td>
+                    <td style={{ fontFamily: "DM Sans" }}>{d.TransactionId}</td>
+                    <td style={{ fontFamily: "DM Sans" }}>{d.Date}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
