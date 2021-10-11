@@ -1,0 +1,47 @@
+diff --git a/node_modules/sr25519/sr25519.js b/node_modules/sr25519/sr25519.js
+index 6de0086..faf6984 100644
+--- a/node_modules/sr25519/sr25519.js
++++ b/node_modules/sr25519/sr25519.js
+@@ -1,2 +1,52 @@
+-import * as wasm from "./sr25519_bg.wasm";
+
+\ No newline at end of file
++// Patched version of `sr25519.js` (`cosmos-client`) to run in web
++
++async function load(module, imports) {
++  if (typeof Response === 'function' && module instanceof Response) {
++    if (typeof WebAssembly.instantiateStreaming === 'function') {
++      try {
++        return await WebAssembly.instantiateStreaming(module, imports)
++      } catch (e) {
++        if (module.headers.get('Content-Type') !== 'application/wasm') {
++          console.warn(
++            '`WebAssembly.instantiateStreaming` failed because your server does not serve wasm with `application/wasm` MIME type. Falling back to `WebAssembly.instantiate` which is slower. Original error:\n',
++            e
++          )
++        } else {
++          throw e
++        }
++      }
++    }
++
++    const bytes = await module.arrayBuffer()
++    return await WebAssembly.instantiate(bytes, imports)
++  } else {
++    const instance = await WebAssembly.instantiate(module, imports)
+++  }
++}
++
++async function init(input) {
++  const imports = {}
++
++  if (
++    typeof input === 'string' ||
++    (typeof Request === 'function' && input instanceof Request) ||
++    (typeof URL === 'function' && input instanceof URL)
++  ) {
++    input = fetch(input)
++  }
++
++
++exports.default = init
