@@ -10,6 +10,7 @@ import {
   KEYSTORE_TRANSACTIONHISTORY_FAIL,
   KEYSTORE_TRANSACTIONHISTORY_REQUESTING,
   KEYSTORE_TRANSACTIONHISTORY_SUCCESS,
+  LOGOUT,
 } from "../actions/types";
 
 const initialState = {
@@ -29,7 +30,7 @@ const initialState = {
   // error: {},
   // errors: [],
   midgardPool: [],
-  KeyStoreClient: [],
+  KeyStoreClient: null,
   loading: false,
 };
 
@@ -99,6 +100,12 @@ export default (state = initialState, { type, payload }) => {
     //     isAuthenticated: true,
     //     loading: false,
     //   };
+
+    case LOGOUT:
+      return {
+        ...state,
+        KeyStoreClient: null,
+      };
 
     case MIDGARDPOOL_FAIL:
     case KEYSTORECONNECTION_FAIL:

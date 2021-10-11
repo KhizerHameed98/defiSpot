@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import Images from "../Helper/AllImages";
 import data from "../Helper/Data/TransactionHistory";
+import { useSelector, useDispatch } from "react-redux";
 // import DatePicker from "react-multi-date-picker";
 // import { Calendar } from "react-multi-date-picker";
 // import Button from "react-multi-date-picker/components/button";
@@ -9,8 +10,11 @@ import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import DatePicker from "react-modern-calendar-datepicker";
 
 const Activity = () => {
+  const keyStoreInstance = useSelector((state) => state.main);
+
   const [tableData, setTableData] = useState([]);
   const [date, setDate] = useState(null);
+  const [KeyStoreClients, setKeyStoreClients] = useState([]);
 
   const [Enum, set_Enum] = useState({
     allType: "allType",
@@ -22,7 +26,10 @@ const Activity = () => {
   useEffect(() => {
     setTableData(data);
   }, []);
-
+  useEffect(() => {
+    console.log("my keyStore Instance===>>", keyStoreInstance);
+    setKeyStoreClients(keyStoreInstance.KeyStoreClient);
+  }, [keyStoreInstance]);
   function SearchFilter(e) {
     setFilterType("");
     if (!e.target.value) {
@@ -53,40 +60,43 @@ const Activity = () => {
     setTableData(res);
   }
 
-
-
   const renderCustomFooter = () => {
-    return(
-    <div style={{ display: 'flex', justifyContent: 'center', padding: '1rem 2rem' }}  >
-    <button
-      type="button"
-      onClick={() => {
-        setDate(null)
-      }}
-      style={{
-        border: '#0fbcf9',
-        color: '#000',
-        borderRadius: '0.5rem',
-        padding: '1rem 2rem',
-      }}
-    >
-      Reset Value!
-    </button>
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          padding: "1rem 2rem",
+        }}
+      >
+        <button
+          type="button"
+          onClick={() => {
+            setDate(null);
+          }}
+          style={{
+            border: "#0fbcf9",
+            color: "#000",
+            borderRadius: "0.5rem",
+            padding: "1rem 2rem",
+          }}
+        >
+          Reset Value!
+        </button>
       </div>
-    )
-  }
-
+    );
+  };
 
   const renderCustomInput = ({ ref }) => (
     <input
       readOnly
       ref={ref} // necessary
       placeholder="All time"
-      style={{border:"1px solid"}}
+      style={{ border: "1px solid" }}
       className="btn btn-outline-secondary ml-2"
       // a styling class
     />
-  )
+  );
   return (
     <div className="col-lg-7 marginleftcol mt-2">
       <div className="sidebarcoleight pt-3">
@@ -147,14 +157,12 @@ const Activity = () => {
               />
               <div className="input-group-btn">
                 <div style={{ float: "right" }}>
-                
-                  <DatePicker  
-                  value={date}
-                  onChange={setDate}
-                  shouldHighlightWeekends
-                  renderInput={renderCustomInput} // render a custom input
-                  renderFooter={renderCustomFooter}
-
+                  <DatePicker
+                    value={date}
+                    onChange={setDate}
+                    shouldHighlightWeekends
+                    renderInput={renderCustomInput} // render a custom input
+                    renderFooter={renderCustomFooter}
                   />
                 </div>
               </div>
@@ -185,48 +193,76 @@ const Activity = () => {
               </tr>
             </thead>
             <tbody style={{ padding: "5px" }}>
-              {tableData.map((d, key) => {
-                return (
-                  <tr>
-                    <td>
-                      <div className="d-flex flex-column">
-                        <div>
-                          <span
-                            className={
-                              d.Type === "Withdraw"
-                                ? "depositclass"
-                                : "depositclasss"
-                            }
-                          >
-                            {d.Type}
-                          </span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="d-flex ">
-                        <img
-                          style={{ width: "25px" }}
-                          style={{ width: "25px" }}
-                          src={Images.btc}
-                        />
-                        <div style={{ paddingLeft: "5px" }}>{d.Coin}</div>
-                        <div className="d-flex align-items-center"></div>
-                      </div>
-                    </td>
-                    <td>{d.Amount}</td>
-                    <td>
-                      <div className="d-flex flex-column">
-                        <div>
-                          <b>{d.Address}</b>
-                        </div>
-                      </div>
-                    </td>
-                    <td>{d.TransactionId}</td>
-                    <td>{d.Date}</td>
-                  </tr>
-                );
-              })}
+              {KeyStoreClients ? (
+                <>
+                  {KeyStoreClients.map((d, key) => {
+                    return (
+                      <>
+                        {d.Transactions.txs.map((t, key2) => {
+                          return (
+                            <tr>
+                              <td>
+                                <div className="d-flex flex-column">
+                                  <div>
+                                    <span
+                                      style={{ fontFamily: "DM Sans" }}
+                                      className={
+                                        d.Type === "Withdraw"
+                                          ? "depositclass"
+                                          : "depositclasss"
+                                      }
+                                    >
+                                      {t.type.toUpperCase()}
+                                    </span>
+                                  </div>
+                                </div>
+                              </td>
+                              <td>
+                                <div className="d-flex ">
+                                  <img
+                                    style={{ width: "25px" }}
+                                    style={{ width: "25px" }}
+                                    src={Images.btc}
+                                  />
+                                  <div
+                                    style={{
+                                      paddingLeft: "5px",
+                                      fontFamily: "DM Sans",
+                                    }}
+                                  >
+                                    {t.asset.symbol}
+                                  </div>
+                                  <div className="d-flex align-items-center"></div>
+                                </div>
+                              </td>
+                              <td style={{ fontFamily: "DM Sans" }}>
+                                {Number(t.to[0].amount.amount().c[0]) /
+                                  Math.pow(10, Number(t.to[0].amount.decimal))}
+                                {/* {t.to[0].amount.amount().c[0]} */}
+                              </td>
+                              <td>
+                                <div className="d-flex flex-column">
+                                  <div>
+                                    <b style={{ fontFamily: "DM Sans" }}>
+                                      {t.to[0].to}
+                                    </b>
+                                  </div>
+                                </div>
+                              </td>
+                              <td style={{ fontFamily: "DM Sans" }}>
+                                {t.hash}
+                              </td>
+                              <td style={{ fontFamily: "DM Sans" }}>
+                                {t.date.toString().substring(0, 24)}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </>
+                    );
+                  })}
+                </>
+              ) : null}
             </tbody>
           </table>
         </div>

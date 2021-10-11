@@ -22,7 +22,7 @@ const Overview = () => {
   useEffect(() => {
     console.log("my keyStore Instance===>>", keyStoreInstance);
     setKeyStoreClients(keyStoreInstance.KeyStoreClient);
-  }, [useSelector((state) => state.main)]);
+  }, [keyStoreInstance]);
 
   function SearchFilter(e) {
     setFilterType("");
@@ -593,7 +593,7 @@ const Overview = () => {
                                           : "depositclasss"
                                       }
                                     >
-                                      {t.type}
+                                      {t.type.toUpperCase()}
                                     </span>
                                   </div>
                                 </div>

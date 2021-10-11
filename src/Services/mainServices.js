@@ -14,6 +14,7 @@ import {
   TYPE,
   METAMASK,
   KEYSTORE,
+  LOGOUT,
 } from "../Redux/actions/types";
 import { mainRoute } from "../Routes/serverRoutes";
 import { toast } from "react-toastify";
@@ -68,29 +69,6 @@ const alertToast = (error, message) => {
       draggable: true,
       progress: undefined,
     });
-  }
-};
-//COnnect MetaMask
-let web3, account;
-
-export const MetaMaskConnection = (setMainModel) => async (dispatch) => {
-  if (!window.ethereum) {
-    alert("Please install metamask first");
-  } else {
-    try {
-      web3 = new Web3(window.ethereum);
-      await window.ethereum.enable();
-      account = await web3.eth.getAccounts();
-      console.log("accounts====>>>", account);
-      localStorage.clear();
-      localStorage.setItem("walletAccount", account);
-      localStorage.setItem("isLoggedin", true);
-      localStorage.setItem(TYPE, METAMASK);
-      setMainModel(false);
-      alertToast(false, "MetaMask Connected Successfully!");
-    } catch (error) {
-      console.log(error);
-    }
   }
 };
 
@@ -164,9 +142,36 @@ async function serverDecryption(encryptedData) {
   }
 }
 
+//COnnect MetaMask
+let web3, account;
+
+export const MetaMaskConnection = (setMainModel) => async (dispatch) => {
+  if (!window.ethereum) {
+    alert("Please install metamask first");
+  } else {
+    try {
+      web3 = new Web3(window.ethereum);
+      await window.ethereum.enable();
+      account = await web3.eth.getAccounts();
+      console.log("accounts====>>>", account);
+      localStorage.clear();
+      dispatch({ type: LOGOUT });
+      localStorage.setItem("walletAccount", account);
+      localStorage.setItem("isLoggedin", true);
+      localStorage.setItem(TYPE, METAMASK);
+      setMainModel(false);
+      alertToast(false, "MetaMask Connected Successfully!");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+};
+
 export const connectKeyStore =
   (password, fileKeyStore, setConnectKeyStoreModal) => async (dispatch) => {
     try {
+      localStorage.clear();
+      dispatch({ type: LOGOUT });
       const handleFileRead = async () => {
         const content = JSON.parse(fileReader.result);
         console.log(content);
@@ -175,14 +180,8 @@ export const connectKeyStore =
         // … do something with the 'content' …
 
         //Network is defined here for all the general networks
-        let clients = {
-          Binance: {},
-          BTC: {},
-          Thorchain: {},
-          Ethereum: {},
-          LTC: {},
-          BCH: {},
-        };
+        let clients = {};
+        let mainClients = [];
         const network =
           environment.network === "testnet" ? Network.Testnet : Network.Mainnet;
         console.log("Enabled Network: ---------------> ", network);
@@ -205,9 +204,10 @@ export const connectKeyStore =
           transationResultOfBinanceClient
         );
         const balanceBinance = await userBinanceClient.getBalance();
-        clients.Binance.Balance = balanceBinance;
-        clients.Binance.Transactions = transationResultOfBinanceClient;
-        clients.Binance.Address = BinanceClientAddress;
+        clients.Balance = balanceBinance;
+        clients.Transactions = transationResultOfBinanceClient;
+        clients.Address = BinanceClientAddress;
+        mainClients.push({...clients});
 
         //Bitcoin Client is set here
         const userBtcClient = new bitcoinClient({
@@ -237,9 +237,11 @@ export const connectKeyStore =
           "Transaction Data of BTC CLient",
           transationResultOfBTCClient
         );
-        clients.BTC.Address = addressBtc;
-        clients.BTC.Balance = balanceBtc;
-        clients.BTC.Transactions = transationResultOfBTCClient;
+        clients.Address = addressBtc;
+        clients.Balance = balanceBtc;
+        clients.Transactions = transationResultOfBTCClient;
+        mainClients.push({...clients});
+
         //Thorchain Client is set here
         const userThorchainClient = new thorchainClient({
           network,
@@ -264,9 +266,11 @@ export const connectKeyStore =
           "Transaction Data of THORChain CLient",
           transationResultOfTHORChain
         );
-        clients.Thorchain.Address = thorAddress;
-        clients.Thorchain.Balance = balanceThor;
-        clients.Thorchain.Transactions = transationResultOfTHORChain;
+        clients.Address = thorAddress;
+        clients.Balance = balanceThor;
+        clients.Transactions = transationResultOfTHORChain;
+        mainClients.push({...clients});
+
         // Ethereum CLinet is set here
         const userEthereumClient = new ethereumClient({
           network: "testnet",
@@ -306,9 +310,11 @@ export const connectKeyStore =
           "Transaction Data of Ethereum CLient",
           transationResultOfEthereum
         );
-        clients.Ethereum.Address = addressEth;
-        clients.Ethereum.Balance = balance1eth;
-        clients.Ethereum.Transactions = transationResultOfEthereum;
+        clients.Address = addressEth;
+        clients.Balance = balance1eth;
+        clients.Transactions = transationResultOfEthereum;
+        mainClients.push({...clients});
+
         //LTC Client is setup here
         const userLtcClient = new litecoinClient({
           network,
@@ -327,9 +333,11 @@ export const connectKeyStore =
           address: addressLTC,
         });
         console.log("Transaction Data of LTC CLient", transationResultOfLTC);
-        clients.LTC.Address = addressLTC;
-        clients.LTC.Balance = balanceLTC;
-        clients.LTC.Transactions = transationResultOfLTC;
+        clients.Address = addressLTC;
+        clients.Balance = balanceLTC;
+        clients.Transactions = transationResultOfLTC;
+        mainClients.push({...clients});
+
         //BCH Client is setup here
         const userbchClient = new bitcoinCashClient({ network, phrase: res });
 
@@ -346,11 +354,12 @@ export const connectKeyStore =
           address: addressBCH,
         });
         console.log("Transaction Data of LTC CLient", transationResultOfBCH);
-        clients.BCH.Address = addressBCH;
-        clients.BCH.Balance = balanceBCH;
-        clients.BCH.Transactions = transationResultOfBCH;
+        clients.Address = addressBCH;
+        clients.Balance = balanceBCH;
+        clients.Transactions = transationResultOfBCH;
+        mainClients.push({...clients});
+
         console.log("Clients===>>>", clients);
-        localStorage.clear();
         localStorage.setItem("isLoggedin", true);
         localStorage.setItem(TYPE, KEYSTORE);
         const EncryptedClients = await serverEncryption(
@@ -366,7 +375,7 @@ export const connectKeyStore =
         alertToast(false, "KeyStore Connected Successfully!");
         dispatch({
           type: KEYSTORECONNECTION_SUCCESS,
-          payload: { KeyStoreClient: clients },
+          payload: { KeyStoreClient: mainClients },
         });
 
         //PolkaDot Client is setup here
@@ -427,7 +436,6 @@ export const GetKeyStore_TransactionHistory = () => async (dispatch) => {
     clients.Balance = balanceBinance;
     clients.Transactions = transationResultOfBinanceClient;
     clients.Address = BinanceClientAddress;
-    console.log(1, clients);
     mainClients.push({...clients});
 
     //Bitcoin Client is set here
@@ -457,7 +465,6 @@ export const GetKeyStore_TransactionHistory = () => async (dispatch) => {
     clients.Balance = balanceBtc;
     clients.Transactions = transationResultOfBTCClient;
     mainClients.push({...clients});
-    console.log(2, clients);
     //Thorchain Client is set here
     const userThorchainClient = new thorchainClient({
       network,
