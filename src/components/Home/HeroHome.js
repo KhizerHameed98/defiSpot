@@ -62,14 +62,14 @@ export const HeroHome = () => {
                     <p
                       style={{
                         color: "#777E90",
-                        fontSize: "17px",
-                        fontFamily: "DM Sans",
-                        fontWeight: "300",
+                        fontSize: "16px",
+                        fontFamily: "Poppins",
+                        fontWeight: "400",
                       }}
                     >
                       Trade Bitcoin, Ethereum, USDT, and the top altcoins on the
-                      legendary
-                      <br /> crypto asset exchange.{" "}
+                      
+                      <br />legendary crypto asset exchange.{" "}
                     </p>
                     <Link to={browserRoute.MARKET}>
                       <button type="button" class="btn btn-primary">
@@ -96,13 +96,15 @@ export const HeroHome = () => {
                               class="pt-3 mainhover"
                               style={{
                                 paddingLeft: "20px",
-                                paddingBottom: "15px",
+                                paddingBottom: "1px",
+                                
                               }}
                             >
                               <img
                                 style={{
                                   paddingLeft: "15px",
                                   paddingTop: "10px",
+                                  marginBottom:"16px",
                                 }}
                                 src={Images.btc}
                               />
@@ -121,9 +123,11 @@ export const HeroHome = () => {
                                 </p>
                                 <p
                                   style={{
-                                    fontSize: "20px",
-                                    fontWeight: "bold",
-                                    fontFamily: "DM Sans",
+                                    fontSize: "24px",
+                                    fontWeight: "600",
+                                    fontFamily: "Poppins",
+                                    lineHeight:"32px",
+                                    marginBottom:"2px",
                                     color: "#23262F",
                                   }}
                                 >
@@ -131,9 +135,11 @@ export const HeroHome = () => {
                                 </p>
                                 <p
                                   style={{
-                                    fontSize: "15px",
-                                    fontWeight: "bold",
-                                    fontFamily: "DM Sans",
+                                    fontSize: "12px",
+                                    fontWeight: "400",
+                                    fontFamily: "Poppins",
+                                    lineHeight:"20px",
+                                    height:"20px",
                                     color: "#23262F",
                                   }}
                                 >
@@ -167,12 +173,12 @@ export const HeroHome = () => {
                   <table class="table border-0">
                     <thead>
                       <tr style={{borderBottom:"1px solid #E6E8EC"}}>
-                        <th style={{border:"none",color:"#777E90",fontFamily:"DM Sans",fontSize:"18px",fontWeight:"400"}} scope="col">#</th>
-                        <th style={{border:"none",color:"#777E90",fontFamily:"DM Sans",fontSize:"18px",fontWeight:"400"}} scope="col">Name</th>
-                        <th style={{border:"none",color:"#777E90",fontFamily:"DM Sans",fontSize:"18px",fontWeight:"400"}} scope="col">Price</th>
-                        <th style={{border:"none",color:"#777E90",fontFamily:"DM Sans",fontSize:"18px",fontWeight:"400"}} scope="col">24h change</th>
-                        <th style={{border:"none",color:"#777E90",fontFamily:"DM Sans",fontSize:"18px",fontWeight:"400"}} scope="col">Chart</th>
-                        <th style={{border:"none",color:"#777E90",fontFamily:"DM Sans",fontSize:"18px",fontWeight:"400"}} scope="col">Trade</th>
+                        <th style={{border:"none",color:"#777E90",fontFamily:"Poppins",fontSize:"12px ",fontWeight:"600"}}    scope="col">#</th>
+                        <th style={{border:"none",color:"#777E90",fontFamily:"Poppins",fontSize:"12px ",fontWeight:"600"}} scope="col">Name</th>
+                        <th style={{border:"none",color:"#777E90",fontFamily:"Poppins",fontSize:"12px ",fontWeight:"600"}} scope="col">Price</th>
+                        <th style={{border:"none",color:"#777E90",fontFamily:"Poppins",fontSize:"12px ",fontWeight:"600"}} scope="col">24h change</th>
+                        <th style={{border:"none",color:"#777E90",fontFamily:"Poppins",fontSize:"12px ",fontWeight:"600"}} scope="col">Chart</th>
+                        <th style={{border:"none",color:"#777E90",fontFamily:"Poppins",fontSize:"12px ",fontWeight:"600"}} scope="col">Trade</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -182,14 +188,14 @@ export const HeroHome = () => {
                           {mainState.slice(0, 5).map((d, key) => {
                             return (
                               <>
-                                <tr>
-                                  <td style={{ border: "none" }}>
+                                <tr className="maintdclasshover">
+                                  <td  style={{ border: "none" }}>
                                     <div class="d-flex flex-column">
                                       <div
                                         style={{
                                           border: "none",
                                           color: "#777E90",
-                                          fontFamily: "DM Sans",
+                                          fontFamily: "Poppins",
                                         }}
                                       >
                                         {key + 1}
@@ -202,9 +208,9 @@ export const HeroHome = () => {
                                       <div
                                         class="pt-2 pl-3"
                                         style={{
-                                          fontWeight: "bold",
-                                          fontSize: "17px",
-                                          fontFamily: "DM Sans",
+                                          fontWeight: "600",
+                                          fontSize: "16px",
+                                          fontFamily: "Poppins",
                                         }}
                                       >
                                         {" "}
@@ -215,7 +221,7 @@ export const HeroHome = () => {
                                         style={{
                                           fontWeight: "bold",
                                           fontSize: "17px",
-                                          fontFamily: "sans-serif",
+                                          fontFamily: "Poppins",
                                         }}
                                       >
                                         {d.assetFullName}
@@ -230,7 +236,7 @@ export const HeroHome = () => {
                                   <td style={{ border: "none" }}>
                                     <div class="d-flex flex-column">
                                       <div>
-                                        <b style={{ fontFamily: "DM Sans" }}>
+                                        <b style={{ fontFamily: "Poppins" }}>
                                           $
                                           {numberWithCommas(
                                             financial(d.assetPriceUSD)
@@ -289,25 +295,27 @@ export const HeroHome = () => {
                   <br />
                   trader in seconds
                 </h2>
-                <p class="d-flex justify-content-center" style={{color:"#777E90",fontWeight:"600"}}>
+                <p class="d-flex justify-content-center" style={{color:"#777E90",fontWeight:"400",fontFamily:"Poppins",fontSize:"16px",marginBottom:"60px"}}>
                   We've got everything you need to start trading.
                 </p>
               </div>
               <div class="row">
                 <div class="col-lg-4">
                   <div
-                    class="card"
-                    style={{ border: "none", borderRadius: "25px" }}
+                    class="card shadowclass"
+                    // style={{ border: "none", borderRadius: "25px" }}
                   >
+                   <div class="d-flex justify-content-center">
                     <img
+                    style={{width:"160px",paddingTop:"50px",paddingBottom:"30px"}}
                       class="card-img-top"
                       src={Images.comp}
                       alt="Card image cap"
-                    />
+                    /></div>
                     <div class="card-body">
                       <h5
                         class="card-title d-flex justify-content-center"
-                        style={{ color: "#23262F",fontFamily:"DM Sans",fontSize:"25px",fontWeight:"600"   }}
+                        style={{ color: "#23262F",fontFamily:"Poppins",fontSize:"16px",fontWeight:"600"   }}
                       >
                         Buy & Sell Crypto
                       </h5>
@@ -316,9 +324,10 @@ export const HeroHome = () => {
                         style={{
                           color: "#777E90",
                           textAlign: "center",
-                          fontSize: "16px",
-                          fontWeight:"500",
-                          fontFamily: "DM Sans",
+                          fontSize: "14px",
+                          fontWeight:"400",
+                          lineHeight:"24px",
+                          fontFamily: "Poppins",
                         }}
                       >
                         We realize ideas from simple to complex, everything
@@ -334,13 +343,14 @@ export const HeroHome = () => {
                             paddingRight: "15px",
                             paddingTop: "5px",
                             paddingBottom: "8px",
+                            fontSize:"14px",
                             fontWeight: "bold",
                             borderRadius: "20px",
                             textDecoration: "none",
                             fontFamily:"DM Sans",
                           }}
                           href="#"
-                          class="btn-outline-secondary"
+                          class="btn-outline-secondary mb-3"
                         >
                           Buy crypto
                         </a>
@@ -350,18 +360,20 @@ export const HeroHome = () => {
                 </div>
                 <div class="col-lg-4">
                   <div
-                    class="card"
-                    style={{ border: "none", borderRadius: "25px" }}
+                    class="card shadowclass"
+                    // style={{ border: "none", borderRadius: "25px" }}
                   >
+                    <div class="d-flex justify-content-center">
                     <img
+                    style={{width:"160px",paddingTop:"50px",paddingBottom:"30px"}}
                       class="card-img-top"
                       src={Images.assest}
                       alt="Card image cap"
-                    />
+                    /></div>
                     <div class="card-body">
                       <h5
                         class="card-title d-flex justify-content-center"
-                        style={{ color: "#23262F",fontFamily:"DM Sans",fontSize:"25px",fontWeight:"600"  }}
+                        style={{ color: "#23262F",fontFamily:"Poppins",fontSize:"16px",fontWeight:"600"  }}
                       >
                         Trade Assets
                       </h5>
@@ -370,9 +382,10 @@ export const HeroHome = () => {
                         style={{
                           color: "#777E90",
                           textAlign: "center",
-                          fontSize: "16px",
-                          fontWeight:"500",
-                          fontFamily: "DM Sans",
+                          fontSize: "14px",
+                          fontWeight:"400",
+                          lineHeight:"24px",
+                          fontFamily: "Poppins",
                         }}
                       >
                         We realize ideas from simple to complex, everything
@@ -388,13 +401,14 @@ export const HeroHome = () => {
                             paddingRight: "15px",
                             paddingTop: "5px",
                             paddingBottom: "8px",
+                            fontSize:"14px",
                             fontWeight: "bold",
                             borderRadius: "20px",
                             textDecoration: "none",
                             fontFamily:"DM Sans",
                           }}
                           href="#"
-                          class="btn-outline-secondary"
+                          class="btn-outline-secondary mb-3"
                         >
                           Trade now{" "}
                         </a>
@@ -404,18 +418,20 @@ export const HeroHome = () => {
                 </div>
                 <div class="col-lg-4">
                   <div
-                    class="card"
-                    style={{ border: "none", borderRadius: "25px" }}
+                    class="card shadowclass"
+                    // style={{ border: "none", borderRadius: "25px" }}
                   >
+                   <div class="d-flex justify-content-center">
                     <img
+                    style={{width:"160px",paddingTop:"50px",paddingBottom:"30px"}}
                       class="card-img-top"
                       src={Images.Yield}
                       alt="Card image cap"
-                    />
+                    /></div>
                     <div class="card-body">
                       <h5
                         class="card-title d-flex justify-content-center"
-                        style={{ color: "#23262F",fontFamily:"DM Sans",fontSize:"25px",fontWeight:"600"  }}
+                        style={{ color: "#23262F",fontFamily:"Poppins",fontSize:"16px",fontWeight:"600"  }}
                       >
                         Earn yield
                       </h5>
@@ -424,9 +440,10 @@ export const HeroHome = () => {
                         style={{
                           color: "#777E90",
                           textAlign: "center",
-                          fontSize: "16px",
-                          fontWeight:"500",
-                          fontFamily: "DM Sans",
+                          fontSize: "14px",
+                          fontWeight:"400",
+                          lineHeight:'24px',
+                          fontFamily: "Poppins",
                         }}
                       >
                         We realize ideas from simple to complex, everything
@@ -445,10 +462,11 @@ export const HeroHome = () => {
                             fontWeight: "bold",
                             borderRadius: "20px",
                             textDecoration: "none",
+                            fontSize:"14px",
                             fontFamily:"DM Sans",
                           }}
                           href="#"
-                          class="btn-outline-secondary"
+                          class="btn-outline-secondary mb-3"
                         >
                           Earn now
                         </a>
@@ -469,10 +487,10 @@ export const HeroHome = () => {
           </section>
           <section style={{ backgroundColor: "#FCFCFD" }}>
             <div class="container pt-5">
-              <h2 class="d-flex justify-content-center" style={{color:"#23262F",fontWeight:"700",fontFamily:"DM Sans"}}>
+              <h2 class="d-flex justify-content-center" style={{color:"#23262F",fontWeight:"700",fontFamily:"DM Sans",fontSize:"48px",marginTop:"75px"}}>
                 Get started in a few minutes
               </h2>
-              <p class="d-flex justify-content-center" style={{color:"#353945"}}>
+              <p class="d-flex justify-content-center" style={{color:"#353945",fontFamily:"Poppins",fontSize:"16px"}}>
                 Suipe supports a variety of the most popular digital currencies.
               </p>
               <div class="d-flex justify-content-center pt-5">
@@ -484,7 +502,7 @@ export const HeroHome = () => {
                     Trade assets
                   </h2>
                   <p
-                    style={{ textAlign: "center",color:"#353945",fontWeight:"600" }}
+                    // style={{ textAlign: "center",color:"#353945",fontWeight:"600" }}
                     class="d-flex justify-content-center mintparagraph"
                   >
                     Trade assets cross-chain fully
@@ -496,7 +514,7 @@ export const HeroHome = () => {
                     Connect wallet
                   </h2>
                   <p
-                    style={{ textAlign: "center",color:"#353945",fontWeight:"600"  }}
+                    // style={{ textAlign: "center",color:"#353945",fontWeight:"600"  }}
                     class="d-flex justify-content-center mintparagraph"
                   >
                     Simply connect your wallet without
@@ -508,7 +526,7 @@ export const HeroHome = () => {
                     Earn yield
                   </h2>
                   <p
-                    style={{ textAlign: "center",color:"#353945",fontWeight:"600" }}
+                    // style={{ textAlign: "center",color:"#353945",fontWeight:"600" }}
                     class="d-flex justify-content-center mintparagraph"
                   >
                     Provide liquidity to one of our pools
@@ -544,7 +562,7 @@ export const HeroHome = () => {
                           <div class="col-lg-6">
                             <img className="imagebannnerssss" src={Images.Img} />
                             <div class="   pt-5">
-                              <h2 style={{ fontSize: "25px",fontWeight:"600" }}>
+                              <h2 style={{ fontSize: "32px",fontWeight:"700",lineHeight:"40px",fontFamily:"DM Sans" }}>
                                 Leveraged tokens
                                 <br /> now available
                               </h2>
@@ -560,14 +578,14 @@ export const HeroHome = () => {
                                 />
                               </button>
                             </div>
-                            <p className="date-classhome">
+                            <p className="date-classhomess">
                               Good things come in 3s. Get 3x Leveraged
                               <br /> tokens now.
                             </p>
                           </div>
                           <div class="col-lg-3">
-                            <div class="pt-2" style={{paddingLeft:"50px"}}>
-                              <h2 style={{ fontSize: "18px",fontFamily:"DM Sans" ,fontWeight:"600" }}>
+                            <div class="pt-5" style={{paddingLeft:"50px"}}>
+                              <h2 style={{ fontSize: "16px",fontFamily:"Poppins" ,fontWeight:"500",lineHeight:"24px" }}>
                                 Leveraged tokens now available
                               </h2>
                               <p className="date-classhome pt-2">
@@ -577,7 +595,7 @@ export const HeroHome = () => {
                               <p className="date-classhome pt-4">Jun 1, 2021</p>
                             </div>
                             <div class="pt-" style={{paddingLeft:"50px"}}>
-                              <h2 style={{ fontSize: "18px",fontFamily:"DM Sans" ,fontWeight:"600" }}>
+                              <h2 style={{ fontSize: "16px",fontFamily:"Poppins" ,fontWeight:"500",lineHeight:"24px" }}>
                                 Leveraged token now available
                               </h2>
                               <p className="date-classhome">
@@ -587,7 +605,7 @@ export const HeroHome = () => {
                               <p className="date-classhome pt-5">Jun 1, 2021</p>
                             </div>
                             <div class="" style={{paddingLeft:"50px"}}>
-                              <h2 style={{ fontSize: "18px",fontFamily:"DM Sans",fontWeight:"600" }}>
+                              <h2 style={{fontSize: "16px",fontFamily:"Poppins" ,fontWeight:"500",lineHeight:"24px"}}>
                                 Leveraged tokens now available
                               </h2>
                               <p className="date-classhome" >

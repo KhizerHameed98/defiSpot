@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import Images from "./../../Helper/AllImages";
+import Darkmode from "darkmode-js";
 
 import {
   createKeyStore,
@@ -19,6 +20,20 @@ import {
   MetaMaskConnection,
 } from "../../../Services/mainServices";
 export const Header = () => {
+  const options = {
+    bottom: "64px", // default: '32px'
+    right: "unset", // default: '32px'
+    left: "32px", // default: 'unset'
+    time: "0.5s", // default: '0.3s'
+    mixColor: "#fff", // default: '#fff'
+    backgroundColor: "#fff", // default: '#fff'
+    buttonColorDark: "#100f2c", // default: '#100f2c'
+    buttonColorLight: "#fff", // default: '#fff'
+    saveInCookies: false, // default: true,
+    autoMatchOsTheme: true, // default: true
+  };
+  const darkmode = new Darkmode(options);
+  const [loading, setLoading] = useState(false);
   const [createKeyStoreModal, setCreateKeyStoreModal] = useState(false);
   const [connectKeyStoreModal, setConnectKeyStoreModal] = useState(false);
   const [mainModal, setMainModel] = useState(false);
@@ -41,14 +56,19 @@ export const Header = () => {
   let fileReader;
   const disptach = useDispatch();
 
-  const submitKeyStore = async (e) => {
-    e.preventDefault();
+  const submitKeyStore = async () => {
     disptach(createKeyStore(password, setCreateKeyStoreModal));
   };
 
-  const connectKeyStoreFunction = async (e) => {
-    e.preventDefault();
-    disptach(connectKeyStore(connectKeyStore_password, fileKeyStore, setConnectKeyStoreModal));
+  const connectKeyStoreFunction = async () => {
+    disptach(
+      connectKeyStore(
+        connectKeyStore_password,
+        fileKeyStore,
+        setConnectKeyStoreModal,
+        setLoading
+      )
+    );
   };
   const connectMetaMask = async () => {
     disptach(MetaMaskConnection(setMainModel));
@@ -222,6 +242,17 @@ export const Header = () => {
                         onClick={connectKeyStoreFunction}
                       >
                         Connect
+                        {loading ? (
+                          <div
+                            class="spinner-border"
+                            style={{
+                              height: "20px",
+                              width: "20px",
+                              marginLeft: "10px",
+                            }}
+                            role="status"
+                          ></div>
+                        ) : null}
                       </button>
                     </div>
                   </div>
@@ -268,7 +299,7 @@ export const Header = () => {
                       color: "#23262F",
                       fontFamily: "DM Sans",
                       fontWeight: "bold",
-                      fontSize: "30px",
+                      fontSize: "32px",
                     }}
                   >
                     Connect wallet
@@ -291,8 +322,9 @@ export const Header = () => {
                     <p
                       style={{
                         color: "#777E90",
-                        fontSize: "17px",
-                        fontFamily: "DM Sans",
+                        fontSize: "14px",
+                        fontWeight: "400",
+                        fontFamily: "Poppins",
                       }}
                     >
                       To use our platform you will need to connect a wallet.
@@ -301,9 +333,10 @@ export const Header = () => {
                   </div>
                   <h5
                     style={{
-                      fontSize: "17px",
+                      fontSize: "12px",
                       color: "#B1B5C3",
-                      fontFamily: "DM Sans",
+                      fontWeight: "400",
+                      fontFamily: "Poppins",
                       paddingBottom: "10px",
                       paddingTop: "10px",
                     }}
@@ -319,9 +352,11 @@ export const Header = () => {
                       <a
                         style={{
                           color: "#23262F",
-                          fontSize: "16px",
+                          fontSize: "14px",
+                          fontFamily: "Poppins",
                           paddingLeft: "5px",
                           fontWeight: "600",
+                          paddingTop: "4px",
                         }}
                       >
                         WALLETCONNECT
@@ -347,7 +382,8 @@ export const Header = () => {
                       <a
                         style={{
                           color: "#23262F",
-                          fontSize: "16px",
+                          fontSize: "14px",
+                          fontFamily: "Poppins",
                           paddingLeft: "10px",
                           fontWeight: "600",
                         }}
@@ -377,7 +413,8 @@ export const Header = () => {
                       <a
                         style={{
                           color: "#23262F",
-                          fontSize: "16px",
+                          fontSize: "14px",
+                          fontFamily: "Poppins",
                           paddingLeft: "14px",
                           fontWeight: "600",
                         }}
@@ -403,14 +440,21 @@ export const Header = () => {
                     {" "}
                     <div class="d-flex">
                       <img
-                        style={{ paddingRight: "4px", paddingLeft: "7px" }}
+                        style={{
+                          paddingRight: "5px",
+                          paddingLeft: "8px",
+                          height: "20px",
+                          width: "30px",
+                          paddingTop: "3px",
+                        }}
                         src={ledger}
                       />
                       <a
                         style={{
                           color: "#23262F",
-                          fontSize: "16px",
+                          fontSize: "14px",
                           paddingLeft: "15px",
+                          fontFamily: "Poppins",
                           fontWeight: "600",
                         }}
                       >
@@ -420,7 +464,7 @@ export const Header = () => {
                     <img
                       style={{
                         width: "16px",
-                        height: "15px",
+                        height: "16px",
                         paddingTop: "8px",
                         paddingRight: "10px",
                       }}
@@ -439,7 +483,8 @@ export const Header = () => {
                     <a
                       style={{
                         color: "#23262F",
-                        fontSize: "16px",
+                        fontSize: "14px",
+                        fontFamily: "Poppins",
                         fontWeight: "600",
                       }}
                     >
@@ -578,6 +623,7 @@ export const Header = () => {
                         Connect KeyStore
                       </a>
                     </div>
+
                     <img
                       style={{
                         width: "16px",
@@ -672,7 +718,7 @@ export const Header = () => {
                   </a>
                   <img
                     class="pt-4"
-                    style={{ height: "40px" }}
+                    style={{ height: "35px" }}
                     src={headerdown}
                   />
                 </div>
@@ -695,9 +741,14 @@ export const Header = () => {
             <Link className="navbar-brand pr-3" to="/">
               <img src={bell} />
             </Link>
-            <Link className="navbar-brand pr-3" to="/">
-              <img src={doticon} />
-            </Link>
+            <span className="navbar-brand pr-3" to="/">
+              <img
+                src={doticon}
+                onClick={() => {
+                  darkmode.toggle();
+                }}
+              />
+            </span>
 
             <button
               class="btn walletbutton my-2 my-sm-0"
@@ -711,7 +762,7 @@ export const Header = () => {
           </div>
         </nav>
       </div>
-      <hr className="solid" />
+      <hr className="solid solidclasssheader" />
     </div>
   );
 };

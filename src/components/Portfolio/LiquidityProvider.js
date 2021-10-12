@@ -24,9 +24,10 @@ const LiquidityProvider = () => {
                   padding: "5px",
                   fontFamily:"DM Sans",
                   color: "#fff",
-                  paddingLeft: "15px",
-                  paddingRight: "15px",
-                  borderRadius: "15px",
+                  paddingLeft: "10px",
+                  marginLeft:"10px",
+                  paddingRight: "10px",
+                  borderRadius: "5px",
                 }}
               >
                 BTC
@@ -39,7 +40,7 @@ const LiquidityProvider = () => {
               <img src={Images.percentage} />
             </div>
             <div class="pl-4">
-              <p style={{ margin: "0px",fontFamily:"DM Sans" }}>APY percentage</p>
+              <p style={{ margin: "0px",fontFamily:"Poppins",fontSize:"14px",color:"#353945",fontWeight:"500" }}>APY percentage</p>
               <p
                 style={{ fontWeight: "bold", margin: "0px", color: "#58BD7D",fontFamily:"DM Sans" }}
               >
@@ -51,9 +52,10 @@ const LiquidityProvider = () => {
                     padding: "5px",
                     fontFamily:"DM Sans",
                     color: "#fff",
-                    paddingLeft: "15px",
-                    paddingRight: "15px",
-                    borderRadius: "15px",
+                    paddingLeft: "10px",
+                    paddingRight: "10px",
+                    marginLeft:"10px",
+                    borderRadius: "5px",
                   }}
                 >
                   Low Risk
@@ -72,9 +74,10 @@ const LiquidityProvider = () => {
                   padding: "5px",
                   color: "#fff",
                   fontFamily:"DM Sans",
-                  paddingLeft: "15px",
-                  paddingRight: "15px",
-                  borderRadius: "15px",
+                  paddingLeft: "10px",
+                  marginLeft:"10px",
+                  paddingRight: "10px",
+                  borderRadius: "5px",
                 }}
               >
                 BTC
@@ -88,17 +91,43 @@ const LiquidityProvider = () => {
       </p>
       <div class="sidebarcoleight pt-3">
         <div class="d-flex justify-content-between">
-          <input
+        <form className="pr-5">
+            <div class=" d-flex form-group has-search">
+              <input
+                style={{
+                  borderRadius: "25px",
+                  width: "250px",
+                  paddingTop:"20px",
+                  paddingBottom:"20px",
+                  fontFamily: "DM Sans",
+                }}
+                type="text"
+                class="form-control"
+                placeholder="Search pool"
+                aria-label="Search"
+            
+              />
+              <span
+                style={{ paddingTop: "15px", marginLeft: "-30px" }}
+                class=" fa fa-search form-control-feedback"
+              ></span>
+            </div>
+          </form>
+          {/* <input
             style={{ width: "25%", borderRadius: "20px" }}
             class="form-control mr-sm-2"
             type="text"
             placeholder="Search"
             aria-label="Search"
-          />
+          /> */}
           <p class="pr-5" style={{ color: "#777E90" }}>
             <Link
               to={browserRoute.PORTFOLIO_ACTIVITY}
-              style={{ color: "#777E90", textDecoration: "none",fontFamily:"DM Sans" }}
+              style={{ color: "rgb(119, 126, 144)",
+                textDecoration: "none",
+                fontSize: "12px",
+                fontWeight: "600",
+                fontFamily: "Poppins" }}
             >
               Transaction History
               <i

@@ -53,11 +53,8 @@ const TableBody = ({ d }) => {
           <div class="d-flex flex-column">
             <div>
               <span
-                class="pl-2 pr-2 pt-1 pb-1"
-                style={{
-                  backgroundColor: "#58BD7D",
-                  borderRadius: "10px",
-                }}
+                className="depositclasss"
+                
               >
                 {d.Yield_Rate}% APR
               </span>

@@ -60,7 +60,7 @@ export const Footer = () => {
               >
                 {/* <!--Column1--> */}
                 <div class="footer-pad pl-5">
-                  <h4 style={{ fontSize: "16px",fontFamily:"DM Sans" }}>Contact</h4>
+                  <h4 style={{ fontSize: "12px",fontFamily:"Poppins", color: "#23262f",fontWeight:"100",textTransform:"uppercase" }}>Contact</h4>
                   <ul class="list-unstyled">
                     <li class="pt-4  pb-2">
                       <a class="footerlinks" href="#">
@@ -81,8 +81,8 @@ export const Footer = () => {
                 </div>
               </div>
               <div class="col-md-3 pl-5 pt-5 pb-4">
-                <h6 style={{fontFamily:"DM Sans"}}>SUIPE LEARNING ACADEMY</h6>
-                <p class="pt-2 pb-2" style={{color:"#23262F",fontFamily:"DM Sans",fontSize:"13px",fontWeight:"600"}}>
+                <h6 style={{fontFamily:"Poppins",fontSize:"12px",fontWeight:"400"}}>SUIPE LEARNING ACADEMY</h6>
+                <p class="pt-2 pb-2" style={{color:"#23262F",fontFamily:"Poppins",fontSize:"14px",fontWeight:"400"}}>
                   Subscribe our newsletter to get more free articles and
                   resources about defi.
                 </p>
@@ -92,6 +92,10 @@ export const Footer = () => {
                       borderRadius: "20px",
                       paddingTop: "20px",
                       paddingBottom: "20px",
+                      fontFamily:"Poppins",
+                      fontSize:"14px",
+                      fontWeight:"400",
+                      lineHeight:"24px"
                     }}
                     class="form-control mr-sm-2"
                     type="text"
@@ -119,7 +123,7 @@ export const Footer = () => {
             <hr class="solid" style={{ margin: "0px" }} />
             <div class="container mt-3">
               <div class="d-flex justify-content-between">
-                <h6 style={{fontFamily:"DM Sans",color:"#777E90",fontSize:"18px"}}>Copyright © 2021 Suipe. All rights reserved</h6>
+                <h6 style={{fontFamily:"Poppins",color:"#777E90",fontSize:"12px",fontWeight:"400"}}>Copyright © 2021 Suipe. All rights reserved</h6>
                 <ul
                   class="menu simple d-flex list-unstyled"
                   style={{ letterSpacing: "25px" }}

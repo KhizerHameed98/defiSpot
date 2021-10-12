@@ -62,7 +62,8 @@ const Overview = () => {
             style={{
               fontFamily: "DM Sans",
               fontWeight: "bold",
-              fontSize: "30px",
+              fontSize: "32px",
+              lineHeight: "40px",
             }}
           >
             Overview
@@ -79,19 +80,31 @@ const Overview = () => {
               setShowBalance(!showBalance);
             }}
           >
-            {showBalance ? <>Hide Balance</> : <>Show Balance</>}
+            {showBalance ? <>Hide balance</> : <>Show balance</>}
           </button>
         </div>
         <div className="d-flex justify-content-between pt-3">
           <div>
-            <p style={{ margin: "0px", fontFamily: "DM Sans" }}>
+            <p
+              style={{
+                margin: "0px",
+                fontFamily: "Poppins",
+                fontSize: "14px",
+                fontWeight: "500",
+                lineHeight: "24px",
+                color: "#353945",
+              }}
+            >
               Your Net Worth
             </p>
             <p
               style={{
                 fontWeight: "bold",
-                margin: "0px",
-                fontFamily: "DM Sans",
+                marginBottom: "0px",
+                fontSize: "24px",
+                lineHeight: "36px",
+                fontFamily: "Poppins",
+                color: "#23262F",
               }}
             >
               {showBalance ? <>7.25495219 </> : <>**** </>}
@@ -104,12 +117,21 @@ const Overview = () => {
                   color: "#fff",
                   fontFamily: "DM Sans",
                   marginLeft: "50px",
+                  borderRadius: "5px",
                 }}
               >
                 BTC
               </span>
             </p>
-            <p style={{ fontFamily: "DM Sans" }}>
+            <p
+              style={{
+                fontFamily: "Poppins",
+                fontSize: "16px",
+                fontWeight: "400",
+                lineHeight: "24px",
+                color: "#777E90",
+              }}
+            >
               ${showBalance ? <>278,523.42</> : <>****</>}
             </p>
           </div>
@@ -119,7 +141,7 @@ const Overview = () => {
         className="pt-3 pl-5"
         style={{ color: "#777E90", fontWeight: "bold", fontFamily: "DM Sans" }}
       >
-        Account Balance
+        Account Balances
       </p>
       {showBalance ? (
         <>
@@ -237,7 +259,7 @@ const Overview = () => {
             </div>
             <div style={{ paddingLeft: "0px" }} className="col-lg-4">
               <div className="sidebarcoleight">
-                <div style={{ paddingLeft: "20px" }}>
+                <div style={{ paddingLeft: "5px" }}>
                   <p
                     style={{
                       fontSize: "12px",
@@ -263,13 +285,13 @@ const Overview = () => {
                     style={{
                       fontWeight: "bold",
                       fontSize: "20px",
-                      paddingBottom: "10px",
+                      paddingBottom: "5px",
                       fontFamily: "DM Sans",
                     }}
                   >
                     $398.5K
                   </h3>
-                  <img style={{ paddingBottom: "22px" }} src={Images.qwq} />
+                  <img style={{ paddingBottom: "8px" }} src={Images.overview} />
                 </div>
               </div>
             </div>
@@ -418,13 +440,13 @@ const Overview = () => {
                     style={{
                       fontWeight: "bold",
                       fontSize: "20px",
-                      paddingBottom: "10px",
+                      paddingBottom: "5px",
                       fontFamily: "DM Sans",
                     }}
                   >
                     $****K
                   </h3>
-                  <img style={{ paddingBottom: "22px" }} src={Images.qwq} />
+                  <img style={{ paddingBottom: "8px" }} src={Images.overview} />
                 </div>
               </div>
             </div>
@@ -486,86 +508,61 @@ const Overview = () => {
               </button>
             </li>
           </ul>
-          <form className="pr-5">
-            <div class=" d-flex form-group has-search">
-              <input
-                style={{
-                  borderRadius: "10px",
-                  width: "300px",
-                  fontFamily: "DM Sans",
-                }}
-                type="text"
-                class="form-control"
-                placeholder="Search after coin..."
-                onChange={SearchFilter}
-              />
-              <span
-                style={{ paddingTop: "10px", marginLeft: "-22px" }}
-                class=" fa fa-search form-control-feedback"
-              ></span>
-            </div>
-          </form>
+          <div class="d-flex">
+            <form className="pr-5">
+              <div class=" d-flex form-group has-search">
+                <input
+                  style={{
+                    borderRadius: "10px",
+                    width: "300px",
+                    fontFamily: "DM Sans",
+                  }}
+                  type="text"
+                  class="form-control"
+                  placeholder="Search"
+                  onChange={SearchFilter}
+                />
+                <span
+                  style={{ paddingTop: "10px", marginLeft: "-22px" }}
+                  class=" fa fa-search form-control-feedback"
+                ></span>
+              </div>
+            </form>
+            <button class="mb-4  mr-4 seeallbutton">
+              See all{" "}
+              <img src={Images.seeall} style={{ paddingLeft: "10px" }} />
+            </button>
+          </div>
         </div>
         <div className="d-flex justify-content-between"></div>
         <div className="table-responsive">
           <table className="table">
             <thead>
               <tr>
-                <th
-                  style={{
-                    border: "none",
-                    color: "#777E90",
-                    fontFamily: "DM Sans",
-                  }}
-                  scope="col"
-                >
-                  Type
+                <th class="pt-3 pb-3 overview-tablehead" scope="col">
+                  Type <img class="pl-1" src={Images.nameup} />
+                </th>
+                <th class="pt-3 pb-3 overview-tablehead" scope="col">
+                  Coin <img class="pl-1" src={Images.nameup} />
+                </th>
+                <th class="pt-3 pb-3 overview-tablehead" scope="col">
+                  Amount <img class="pl-1" src={Images.nameup} />
+                </th>
+                <th class="pt-3 pb-3 overview-tablehead" scope="col">
+                  Address <img class="pl-1" src={Images.nameup} />
+                </th>
+                <th class="pt-3 pb-3 overview-tablehead" scope="col">
+                  Transaction ID <img class="pl-1" src={Images.nameup} />
                 </th>
                 <th
+                  class="pt-3 pb-3"
                   style={{
-                    border: "none",
                     color: "#777E90",
-                    fontFamily: "DM Sans",
-                  }}
-                  scope="col"
-                >
-                  Coin
-                </th>
-                <th
-                  style={{
-                    border: "none",
-                    color: "#777E90",
-                    fontFamily: "DM Sans",
-                  }}
-                  scope="col"
-                >
-                  Amount
-                </th>
-                <th
-                  style={{
-                    border: "none",
-                    color: "#777E90",
-                    fontFamily: "DM Sans",
-                  }}
-                  scope="col"
-                >
-                  Address
-                </th>
-                <th
-                  style={{
-                    border: "none",
-                    color: "#777E90",
-                    fontFamily: "DM Sans",
-                  }}
-                  scope="col"
-                >
-                  Transaction ID
-                </th>
-                <th
-                  style={{
-                    border: "none",
-                    color: "#777E90",
-                    fontFamily: "DM Sans",
+                    fontFamily: "Poppins",
+                    textAlign: "right",
+                    paddingRight: "55px",
+                    fontSize: "12px",
+                    lineHeight: "20px",
                   }}
                   scope="col"
                 >

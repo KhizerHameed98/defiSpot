@@ -1,20 +1,20 @@
 import React, {useState, useEffect} from "react";
 import Images from "../Helper/AllImages";
 import data from "../Helper/Data/TransactionHistory";
-import { useSelector, useDispatch } from "react-redux";
 // import DatePicker from "react-multi-date-picker";
 // import { Calendar } from "react-multi-date-picker";
 // import Button from "react-multi-date-picker/components/button";
+import { useSelector, useDispatch } from "react-redux";
 
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import DatePicker from "react-modern-calendar-datepicker";
 
 const Activity = () => {
   const keyStoreInstance = useSelector((state) => state.main);
+  const [KeyStoreClients, setKeyStoreClients] = useState([]);
 
   const [tableData, setTableData] = useState([]);
   const [date, setDate] = useState(null);
-  const [KeyStoreClients, setKeyStoreClients] = useState([]);
 
   const [Enum, set_Enum] = useState({
     allType: "allType",
@@ -81,7 +81,7 @@ const Activity = () => {
             padding: "1rem 2rem",
           }}
         >
-          Reset Value!
+          Download .CSV
         </button>
       </div>
     );
@@ -92,9 +92,27 @@ const Activity = () => {
       readOnly
       ref={ref} // necessary
       placeholder="All time"
-      style={{ border: "1px solid" }}
-      className="btn btn-outline-secondary ml-2"
+      style={{ border: "1px solid", width: "78px", fontSize: "13px" }}
+      className="btn btn-outline-secondary ml-3 pl-3"
       // a styling class
+    />
+  );
+  const renderCustomInput2 = ({ ref }) => (
+    // <input
+    //   readOnly
+    //   ref={ref} // necessary
+    //   placeholder="All time"
+    //   style={{border:"1px solid"}}
+    //   className="btn btn-outline-secondary ml-2"
+    //   // a styling class
+    // />
+    <input
+      style={{}}
+      type="text"
+      className="btn btn-primary mr-5"
+      ref={ref}
+      readOnly
+      placeholder="Export"
     />
   );
   return (
@@ -107,7 +125,7 @@ const Activity = () => {
                 className={
                   filterType === Enum.allType ? "alltype" : "alltype-nonActive"
                 }
-                style={{ color: "#fff" }}
+                style={{ color: "#fff", fontFamily: "DM Sans" }}
                 onClick={filterAllType}
               >
                 All type
@@ -118,7 +136,7 @@ const Activity = () => {
                 className={
                   filterType === Enum.withdraw ? "alltype" : "alltype-nonActive"
                 }
-                style={{ color: "#fff" }}
+                style={{ color: "#fff", fontFamily: "DM Sans" }}
                 onClick={filterWithdrawType}
               >
                 Withdrawals
@@ -129,7 +147,7 @@ const Activity = () => {
                 className={
                   filterType === Enum.deposit ? "alltype" : "alltype-nonActive"
                 }
-                style={{ color: "#fff" }}
+                style={{ color: "#fff", fontFamily: "DM Sans" }}
                 onClick={filterDepositType}
               >
                 Deposit
@@ -140,7 +158,7 @@ const Activity = () => {
                 className={
                   filterType === Enum.pending ? "alltype" : "alltype-nonActive"
                 }
-                style={{ color: "#fff" }}
+                style={{ color: "#fff", fontFamily: "DM Sans" }}
                 onClick={filterPendingType}
               >
                 Pending
@@ -148,13 +166,23 @@ const Activity = () => {
             </li>
           </ul>
           <form className="pr-5">
-            <div className="input-group">
+            <div class=" d-flex form-group has-search">
               <input
+                style={{
+                  borderRadius: "10px",
+                  width: "300px",
+                  fontFamily: "DM Sans",
+                  backgroundColor: "#fcfcfd",
+                }}
                 type="text"
-                className="form-control"
-                placeholder="Search after coin.."
+                class="form-control"
+                placeholder="Search"
                 onChange={SearchFilter}
               />
+              <span
+                style={{ paddingTop: "10px", marginLeft: "-22px" }}
+                class=" fa fa-search form-control-feedback"
+              ></span>
               <div className="input-group-btn">
                 <div style={{ float: "right" }}>
                   <DatePicker
@@ -162,34 +190,105 @@ const Activity = () => {
                     onChange={setDate}
                     shouldHighlightWeekends
                     renderInput={renderCustomInput} // render a custom input
-                    renderFooter={renderCustomFooter}
                   />
                 </div>
               </div>
             </div>
           </form>
+          {/* <form className="pr-5">
+            <div className="input-group">
+              <input
+              style={{fontFamily:"DM Sans"}}
+                type="text"
+                className="form-control"
+                placeholder="Search after coin.."
+                onChange={SearchFilter}
+              />
+              <div className="input-group-btn">
+                <div style={{ float: "right" }}>
+                
+                  <DatePicker  
+                  value={date}
+                  onChange={setDate}
+                  shouldHighlightWeekends
+                  renderInput={renderCustomInput} // render a custom input
+
+                  />
+                </div>
+              </div>
+            </div>
+          </form> */}
         </div>
+        <hr class="solid" />
         <div className="d-flex justify-content-between">
           <div className="pt-4 pb-3">
-            <h3>Activity</h3>
+            <h3 className="activaty-headingss">Activity</h3>
           </div>
           <div style={{ float: "right", marginTop: "25px" }}>
-            <button type="button" className="btn btn-primary mr-3">
+            {/* <button type="button" className="btn btn-primary mr-3">
               {" "}
               Export
-            </button>
+            </button> */}
+            <DatePicker
+              value={date}
+              onChange={setDate}
+              shouldHighlightWeekends
+              renderInput={renderCustomInput2} // render a custom input
+              renderFooter={renderCustomFooter}
+            />
           </div>
         </div>
         <div className="table-responsive">
           <table className="table">
             <thead>
               <tr>
-                <th scope="col">Type</th>
-                <th scope="col">Coin</th>
-                <th scope="col">Amount</th>
-                <th scope="col">Address</th>
-                <th scope="col">Transaction</th>
-                <th scope="col">Date</th>
+                <th
+                  style={{ borderTop: "none" }}
+                  class="pt-3 pb-3 overview-tablehead"
+                  scope="col"
+                >
+                  Type <img class="pl-1" src={Images.nameup} />
+                </th>
+                <th
+                  style={{ borderTop: "none" }}
+                  class="pt-3 pb-3 overview-tablehead"
+                  scope="col"
+                >
+                  Coin <img class="pl-1" src={Images.nameup} />
+                </th>
+                <th
+                  style={{ borderTop: "none" }}
+                  class="pt-3 pb-3 overview-tablehead"
+                  scope="col"
+                >
+                  Amount <img class="pl-1" src={Images.nameup} />
+                </th>
+                <th
+                  style={{ borderTop: "none" }}
+                  class="pt-3 pb-3 overview-tablehead"
+                  scope="col"
+                >
+                  Address <img class="pl-1" src={Images.nameup} />
+                </th>
+                <th
+                  style={{ borderTop: "none" }}
+                  class="pt-3 pb-3 overview-tablehead"
+                  scope="col"
+                >
+                  Transaction ID
+                  <img class="pl-1" src={Images.nameup} />
+                </th>
+                <th
+                  style={{
+                    textAlign: "right",
+                    paddingRight: "60px",
+                    borderTop: "none",
+                  }}
+                  class="pt-3 pb-3 overview-tablehead"
+                  scope="col"
+                >
+                  Date
+                </th>
               </tr>
             </thead>
             <tbody style={{ padding: "5px" }}>
@@ -263,7 +362,7 @@ const Activity = () => {
                   })}
                 </>
               ) : null}
-            </tbody>
+            </tbody>{" "}
           </table>
         </div>
       </div>

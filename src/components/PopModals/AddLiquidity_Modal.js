@@ -107,12 +107,12 @@ export const AddLiquidity = () => {
                           />
                         </div>
                         <div class="input-group-append">
-                          <button type="button" class="btn liquiditybutton">
+                          <button type="button" class="btn liquiditybuttonssss">
                             ($234,435.50)
                           </button>
-                          <img
+                          <img className="liquidtyimage"
                             src={Images.searchbarr}
-                            class="search_icon_image"
+                            // class="search_icon_image"
                           />
                           <button
                             type="button"

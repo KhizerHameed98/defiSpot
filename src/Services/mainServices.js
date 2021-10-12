@@ -168,10 +168,12 @@ export const MetaMaskConnection = (setMainModel) => async (dispatch) => {
 };
 
 export const connectKeyStore =
-  (password, fileKeyStore, setConnectKeyStoreModal) => async (dispatch) => {
+  (password, fileKeyStore, setConnectKeyStoreModal, setLoading) =>
+  async (dispatch) => {
     try {
       localStorage.clear();
       dispatch({ type: LOGOUT });
+      setLoading(true);
       const handleFileRead = async () => {
         const content = JSON.parse(fileReader.result);
         console.log(content);
@@ -207,7 +209,7 @@ export const connectKeyStore =
         clients.Balance = balanceBinance;
         clients.Transactions = transationResultOfBinanceClient;
         clients.Address = BinanceClientAddress;
-        mainClients.push({...clients});
+        mainClients.push({ ...clients });
 
         //Bitcoin Client is set here
         const userBtcClient = new bitcoinClient({
@@ -240,7 +242,7 @@ export const connectKeyStore =
         clients.Address = addressBtc;
         clients.Balance = balanceBtc;
         clients.Transactions = transationResultOfBTCClient;
-        mainClients.push({...clients});
+        mainClients.push({ ...clients });
 
         //Thorchain Client is set here
         const userThorchainClient = new thorchainClient({
@@ -269,7 +271,7 @@ export const connectKeyStore =
         clients.Address = thorAddress;
         clients.Balance = balanceThor;
         clients.Transactions = transationResultOfTHORChain;
-        mainClients.push({...clients});
+        mainClients.push({ ...clients });
 
         // Ethereum CLinet is set here
         const userEthereumClient = new ethereumClient({
@@ -313,7 +315,7 @@ export const connectKeyStore =
         clients.Address = addressEth;
         clients.Balance = balance1eth;
         clients.Transactions = transationResultOfEthereum;
-        mainClients.push({...clients});
+        mainClients.push({ ...clients });
 
         //LTC Client is setup here
         const userLtcClient = new litecoinClient({
@@ -336,7 +338,7 @@ export const connectKeyStore =
         clients.Address = addressLTC;
         clients.Balance = balanceLTC;
         clients.Transactions = transationResultOfLTC;
-        mainClients.push({...clients});
+        mainClients.push({ ...clients });
 
         //BCH Client is setup here
         const userbchClient = new bitcoinCashClient({ network, phrase: res });
@@ -357,7 +359,7 @@ export const connectKeyStore =
         clients.Address = addressBCH;
         clients.Balance = balanceBCH;
         clients.Transactions = transationResultOfBCH;
-        mainClients.push({...clients});
+        mainClients.push({ ...clients });
 
         console.log("Clients===>>>", clients);
         localStorage.setItem("isLoggedin", true);
@@ -377,6 +379,7 @@ export const connectKeyStore =
           type: KEYSTORECONNECTION_SUCCESS,
           payload: { KeyStoreClient: mainClients },
         });
+        setLoading(false);
 
         //PolkaDot Client is setup here
         //  const userPolkaDotClient = new PolkadotClient({
@@ -391,6 +394,9 @@ export const connectKeyStore =
       fileReader.readAsText(fileKeyStore);
     } catch (error) {
       alertToast(true, error?.message || "Something went wrong");
+
+      setLoading(false);
+      setConnectKeyStoreModal(false);
     }
   };
 

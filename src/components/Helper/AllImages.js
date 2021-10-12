@@ -66,9 +66,16 @@ import dolaar from "../../assets/images/dolaar.png";
 import uptwo from "../../assets/images/uptwo.png";
 import nameup from "../../assets/images/nameup.png";
 import searchbarr from "../../assets/images/searchbarr.png";
+import overview from "../../assets/images/overview.png";
+import seeall from "../../assets/images/seeall.png";
+import bitcoinnn from "../../assets/images/bitcoinnn.png";
+
 
 const Images = {
   searchbarr,
+  overview,
+  seeall,
+  bitcoinnn,
   pageyeild,
   ttt,
   goll,

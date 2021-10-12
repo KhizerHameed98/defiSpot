@@ -88,10 +88,10 @@ const Market = () => {
                       Cryptocurrency
                       <br /> Prices
                     </h2>
-                    <p style={{ fontFamily: "DM Sans" }}>
+                    <p style={{ fontFamily: "Poppins" }}>
                       The global crypto market cap is{" "}
                       <span
-                        style={{ fontWeight: "bold", fontFamily: "DM Sans" }}
+                        style={{ fontWeight: "bold", fontFamily: "Poppins" }}
                       >
                         $1.86T
                       </span>
@@ -116,8 +116,8 @@ const Market = () => {
                               />
                               <div
                                 style={{
-                                  paddingLeft: "10px",
-                                  fontFamily: "DM Sans",
+                                  paddingLeft: "15px",
+                                  
                                 }}
                               >
                                 <p class="marketparagraph">
@@ -135,9 +135,9 @@ const Market = () => {
                                 <p
                                   style={{
                                     marginBottom: "0",
-                                    fontSize: "22px",
-                                    fontWeight: "bold",
-                                    fontFamily: "DM Sans",
+                                    fontSize: "24px",
+                                    fontWeight: "600",
+                                    fontFamily: "Poppins",
                                   }}
                                 >
                                   {" "}
@@ -145,7 +145,7 @@ const Market = () => {
                                     financial(d.assetPriceUSD)
                                   )}{" "}
                                 </p>
-                                <p style={{ fontFamily: "DM Sans",color:"#777e90" }}>
+                                <p style={{ fontFamily: "Poppins",color:"#23262F",fontSize:"12px" }}>
                                   {numberWithCommas(financial(d.assetPriceUSD))}
                                 </p>
                               </div>
@@ -271,88 +271,50 @@ const Market = () => {
                     <thead>
                       <tr>
                         <th
-                          style={{
-                            border: "none",
-                            color: "#777E90",
-                            fontFamily: "DM Sans",
-                          }}
+                         style={{border:"none",color:"#777E90",fontFamily:"Poppins",fontSize:"14px ",fontWeight:"400"}}
                           scope="col"
                         >
-                          #
+                          #  <img class="pl-1" src={Images.nameup} />
                         </th>
                         <th
-                          style={{
-                            border: "none",
-                            color: "#777E90",
-                            fontFamily: "DM Sans",
-                          }}
+                          style={{border:"none",color:"#777E90",fontFamily:"Poppins",fontSize:"14px ",fontWeight:"400"}}
                           scope="col"
                         >
                           Name <img class="pl-1" src={Images.nameup} />
                         </th>
                         <th
-                          style={{
-                            border: "none",
-                            color: "#777E90",
-                            fontFamily: "DM Sans",
-                          }}
+                         style={{border:"none",color:"#777E90",fontFamily:"Poppins",fontSize:"14px ",fontWeight:"400"}}
                           scope="col"
                         >
                           Price <img class="pl-1" src={Images.nameup} />
                         </th>
                         <th
-                          style={{
-                            border: "none",
-                            color: "#777E90",
-                            fontFamily: "DM Sans",
-                          }}
+                          style={{border:"none",color:"#777E90",fontFamily:"Poppins",fontSize:"14px ",fontWeight:"400"}}
                           scope="col"
                         >
                           24h %
                         </th>
                         <th
-                          style={{
-                            border: "none",
-                            color: "#777E90",
-                            fontFamily: "DM Sans",
-                          }}
-                          style={{
-                            border: "none",
-                            color: "#777E90",
-                            fontFamily: "DM Sans",
-                          }}
+                       style={{border:"none",color:"#777E90",fontFamily:"Poppins",fontSize:"14px ",fontWeight:"400"}}
                           scope="col"
                         >
                           7d %
                         </th>
                         <th
-                          style={{
-                            border: "none",
-                            color: "#777E90",
-                            fontFamily: "DM Sans",
-                          }}
+                          style={{border:"none",color:"#777E90",fontFamily:"Poppins",fontSize:"14px ",fontWeight:"400"}}
                           scope="col"
                         >
                           Marketcap <img src={Images.dolaar} />
                         </th>
                         <th
-                          style={{
-                            border: "none",
-                            color: "#777E90",
-                            fontFamily: "DM Sans",
-                          }}
+                          style={{border:"none",color:"#777E90",fontFamily:"Poppins",fontSize:"14px ",fontWeight:"400"}}
                           scope="col"
                         >
                           Volume(24h)
                           <img class="pl-2" src={Images.hourr} />
                         </th>
                         <th
-                          style={{
-                            border: "none",
-                            color: "#777E90",
-                            fontFamily: "DM Sans",
-                            textAlign: "right",
-                          }}
+                         style={{border:"none",color:"#777E90",fontFamily:"Poppins",fontSize:"14px ",fontWeight:"400",textAlign:"right",paddingRight:"30px"}}
                           scope="col"
                         >
                           Chart
@@ -365,9 +327,10 @@ const Market = () => {
                           <tr>
                             <th
                               style={{
-                                border: "none",
                                 color: "#777E90",
-                                fontFamily: "DM Sans",
+                                fontFamily: "Poppins",
+                                fontSize:"12px",
+                                paddingTop:"17px"
                               }}
                               scope="row"
                             >
@@ -382,8 +345,11 @@ const Market = () => {
                                 <div
                                   style={{
                                     fontWeight: "bold",
-                                    fontFamily: "DM Sans",
+                                    fontFamily: "Poppins",
                                     paddingLeft: "5px",
+                                    fontSize:"14px",
+                                    paddingLeft:"12px",
+                                    paddingTop:"3px"
                                   }}
                                 >
                                   {d.assetFullName}
@@ -402,7 +368,9 @@ const Market = () => {
                             <td
                               style={{
                                 fontWeight: "bold",
-                                fontFamily: "DM Sans",
+                                fontFamily: "Poppins",
+                                fontSize:"14px",
+                                paddingTop:"17px"
                               }}
                             >
                               {numberWithCommas(financial(d.assetPriceUSD))}
@@ -440,21 +408,25 @@ const Market = () => {
                             <td
                               style={{
                                 fontWeight: "bold",
-                                fontFamily: "DM Sans",
+                                fontFamily: "Poppins",
+                                fontSize:"14px",
+                                paddingTop:"17px"
                               }}
                             >
                               ${numberWithCommas(financial(d.marketCap))}
                             </td>
                             <td
-                              style={{
-                                fontWeight: "bold",
-                                fontFamily: "DM Sans",
-                              }}
+                             style={{
+                              fontWeight: "bold",
+                              fontFamily: "Poppins",
+                              fontSize:"14px",
+                              paddingTop:"17px"
+                            }}
                             >
                               ${d.volume24h}
                             </td>
-                            <td className="buyTokenGraph">
-                              <img src={Images.crt1} />
+                            <td >
+                              <img src={Images.crt1} className="buyTokenGraph"/>
                             </td>
 
                             <td className="buyTokenbtn">
@@ -838,8 +810,9 @@ const Market = () => {
                   class="d-flex justify-content-center"
                   style={{
                     textAlign: "center",
-                    fontFamily: "DM Sans",
-                    fontWeight: "600",
+                    fontFamily: "Poppins",
+                    fontWeight: "400",
+                    fontSize:"16px",
                     color: "#545454",
                   }}
                 >
@@ -859,7 +832,7 @@ const Market = () => {
                     <div class="card-body">
                       <h6 class="marketcardone">Learn and Earn</h6>
                       <p
-                        style={{ fontFamily: "DM Sans" }}
+                        // style={{ fontFamily: "DM Sans" }}
                         class="cardtext pt-4"
                       >
                         Earn yield by providing liquidity to pools
@@ -878,10 +851,10 @@ const Market = () => {
                     <div class="card-body">
                       <h6 class="marketcardtwo">WEEKLY WATCHLIST AIRDROP</h6>
                       <p
-                        style={{ fontFamily: "DM Sans" }}
+                        // style={{ fontFamily: "DM Sans" }}
                         class="cardtext pt-4"
                       >
-                        The biggest adventages of decentralized
+                        The biggest advantages of decentralized exchange
                       </p>
                     </div>
                   </div>
@@ -897,7 +870,7 @@ const Market = () => {
                     <div class="card-body">
                       <h6 class="marketcardthree">FEATURED</h6>
                       <p
-                        style={{ fontFamily: "DM Sans" }}
+                        // style={{ fontFamily: "DM Sans" }}
                         class="cardtext pt-4"
                       >
                         Submit your watchlist and win USDT

@@ -1,15 +1,11 @@
-
-
-
 body {
   overflow-x: auto;
-  
 }
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  
 }
 
 /* html
@@ -78,9 +74,12 @@ body {
 .nav-link {
   color: #777e90;
   padding-left: 30px;
+  font-size: 14px;
+  font-weight: 700;
   border-right: 1px;
+  line-height: 16px;
   font-weight: bold;
-  font-family: sans-serif;
+  font-family: DM Sans;
   cursor: pointer;
 }
 .mainimage {
@@ -94,15 +93,15 @@ body {
   background-color: #fff;
   padding-left: 25px;
   padding-right: 25px;
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 700;
   border-radius: 35px;
   border: 1px solid #e6e8ec;
 }
 .markettrend {
-  font-size: 55px;
+  font-size: 48px;
   font-family: "DM Sans";
-  font-weight: 600;
+  font-weight: 700;
 }
 button:focus {
   outline: 0px dotted;
@@ -111,14 +110,19 @@ button:focus {
 }
 .tradingbutton {
   border: 2px solid #e6e8ec;
-  border-radius: 25px;
+  border-radius: 22px;
+  font-family: DM Sans;
+  font-size: 14px;
   font-weight: bold;
   color: #23262f;
 }
 .percentage {
   color: #58bd7d;
-  font-size: 15px;
-  font-family: "DM Sans";
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  font-family: "Poppins";
+  padding-top: 17px;
 }
 .percentagetwo {
   color: #ff6838;
@@ -136,14 +140,17 @@ button:focus {
 .minutstart {
   font-size: 16px;
   padding-top: 40px;
-  font-family: DM Sans;
+  font-family: Poppins;
   color: #23262f;
   font-weight: 600;
 }
 .mintparagraph {
   font-size: 14px;
-  color: #23262f;
-  font-family: DM Sans;
+  color: #353945;;
+  line-height: 24px;
+  text-align: center;
+  font-family: Poppins;
+  font-weight: 400;
 }
 .cryptobutton {
   padding-left: 25px;
@@ -151,11 +158,13 @@ button:focus {
   padding-top: 10px;
   padding-bottom: 10px;
   border: 1px solid #e6e8ec;
+  font-family: DM Sans;
+  font-size: 16px;
   border-radius: 30px;
   color: #23262f;
   font-weight: bold;
   float: right;
-  margin-top: -55px;
+  margin-top: -75px;
 }
 .footerlinkcoltwo {
   display: block;
@@ -169,22 +178,25 @@ button:focus {
   padding-left: 25px;
   padding-right: 25px;
   border: 2px solid #e6e8ec;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 14px;
   font-family: DM Sans;
   border-radius: 20px;
   color: #23262f;
 }
 .footerlink {
   color: #777e90;
-  line-height: 5px;
+  line-height: 16px;
   font-weight: bold;
+  font-size: 14px;
   font-family: "DM Sans";
 }
 .footerlinks {
   color: #23262f;
-  font-size: 18px;
-  font-family: "DM Sans";
-  font-weight: 600;
+  font-size: 14px;
+  font-family: "Poppins";
+  font-weight: 400;
+  line-height: 24px;
 }
 .modalparagraph {
   background-color: #f4f5f6;
@@ -210,45 +222,53 @@ button:focus {
 }
 .marketparagraph {
   color: #777e90;
-  font-size: 13px;
-  font-weight: bold;
-  font-family: DM Sans;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: Poppins;
 }
 
 .spanclassmarket {
   background-color: #58bd7d;
-  color: #fff;
-  padding-left: 13px;
-  padding-right: 13px;
-  font-size: 13px;
+  color: #fcfcfd;
+  padding-left: 8px;
+  padding-right: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 20px;
   border-radius: 20px;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding-top: 2px;
+  padding-bottom: 2px;
   margin-left: 10px;
-  font-family: "DM Sans";
+  font-family: "Poppins";
 }
 .spanclassmarkets {
   background-color: #ff6838;
-  color: #fff;
-  padding-left: 13px;
-  padding-right: 13px;
-  font-size: 13px;
+  color: #fcfcfd;
+  padding-left: 8px;
+  padding-right: 8px;
+  font-size: 12px;
   border-radius: 20px;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  font-weight: 600;
+  line-height: 20px;
+  padding-top: 2px;
+  padding-bottom: 2px;
   margin-left: 10px;
-  font-family: "DM Sans";
+  font-family: "Poppins";
 }
 .bitcoinclasss {
   background-color: #fcfcfd;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  border-bottom: 1px solid #E6E8EC;
+  border-bottom: 1px solid #e6e8ec;
 }
 .bitcoinclasssmian {
   background-color: #f4f5f6;
   border-radius: 20px;
+  height: 256px;
 }
+.fa{
+  color:#777E90;
+  }
 .alltype {
   background-color: #353945;
   color: #fff;
@@ -273,22 +293,29 @@ button:focus {
 
   border: none;
 }
-.sideBarActive{
-color: #000 !important;
+.sideBarActive {
+  color: #000 !important;
 }
 .marketbannerhed {
   font-weight: bold;
-  font-size: 65px;
+  font-size: 64px;
+  line-height: 64px;
   padding-bottom: 10px;
   font-family: "DM Sans";
 }
 .mainhover:hover {
-  background-color: #fff;
+  background-color: #ffffff;
   border-radius: 15px;
+  box-shadow: 0px 64px 64px -48px rgba(15,15,15,0.1);
 }
 .btn-primary {
   padding-left: 20px;
   padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 16px;
+  font-family: DM Sans;
+  line-height: 16px;
   border-radius: 20px;
 }
 .marketcardone {
@@ -298,8 +325,9 @@ color: #000 !important;
   color: #fff;
   padding: 10px;
   text-transform: uppercase;
-  font-size: 11px;
-  font-family: DM Sans;
+  font-size: 12px;
+  font-weight: 400;
+  font-family: Poppins;
   text-align: center;
 }
 .marketcardtwo {
@@ -309,8 +337,9 @@ color: #000 !important;
   border-radius: 5px;
   text-transform: uppercase;
   padding: 10px;
-  font-size: 11px;
-  font-family: Dm Sans;
+  font-size: 12px;
+  font-weight: 400;
+  font-family: Poppins;
   text-align: center;
 }
 .marketcardthree {
@@ -318,45 +347,60 @@ color: #000 !important;
   color: #fff;
   width: 80px;
   border-radius: 5px;
-  font-size: 11px;
-  font-family: DM Sans;
+  font-size: 12px;
+  font-weight: 400;
+  font-family: Poppins;
   padding: 10px;
   text-align: center;
 }
 .marketmainheade {
-  font-size: 55px;
+  font-size: 48px;
   font-weight: bold;
   font-family: "DM Sans";
+  padding-bottom: 20px;
 }
 .cardtext {
   font-weight: bold;
-  font-family: sans-serif;
+  font-family: Poppins;
   font-size: 22px;
 }
 .loaderbutton {
   font-weight: bold;
-  font-size: 12px;
-  padding-right: 25px;
+  font-size: 14px;
+  font-family: DM Sans;
+  padding-right: 16px;
+  padding-top: 12px;
+  padding-bottom: 12px;
   padding-left: 25px;
   border: 1px solid #e6e8ec;
-  border-radius: 15px;
+  border-radius: 22px;
+  color: #23262F;
 }
 /*new css */
 .numberheading {
-  font-weight: bold;
+  font-weight: 600;
   color: #f04e4e;
-  font-family: DM Sans;
+  font-family: Poppins;
+  font-size: 24px;
 }
 .marketparatwow {
   font-size: 14px;
+  font-weight: 400;
   color: #777e90;
-  font-family: DM Sans;
+  font-family: Poppins;
 }
 .yahparagraph {
   color: #23262f;
-  font-size: 30px;
+  font-size: 16px;
   font-weight: 600;
-  font-family: DM Sans;
+  font-family: Poppins;
+  margin: 0;
+}
+.yahparagraphs {
+  color: #23262f;
+  font-size: 24px;
+  font-weight: 600;
+  font-family: Poppins;
   margin: 0;
 }
 .transactionclasss {
@@ -374,7 +418,8 @@ color: #000 !important;
 .servicefee {
   color: #777e90;
   font-size: 16px;
-  font-family: DM Sans;
+  font-family: Poppins;
+  font-weight: 400;
 }
 .spannnumberss {
   background-color: #4fbf67;
@@ -382,16 +427,17 @@ color: #000 !important;
 .graphbutton {
   background: none;
   border: none;
-  font-size: 15px;
+  font-size: 14px;
+  font-weight: 600;
   margin-top: -48px;
   margin-left: 6px;
   color: #808191;
 }
 .bitcoinheadeing {
   color: #11142d;
-  font-size: 25px;
-  font-family: DM Sans;
-  font-weight: 600;
+  font-size: 18px;
+  font-family: Poppins;
+  font-weight: 400;
 }
 
 .buyTokenGraph:hover + .buyTokenbtn {
@@ -405,21 +451,29 @@ color: #000 !important;
 }
 .depositclass {
   background-color: #3772ff;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  border-radius: 5px;
-  color: #fff;
+  padding-left: 13px;
+    padding-right: 13px;
+    padding-top: 7px;
+    font-family: Poppins;
+    padding-bottom: 7px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 200;
+    color: #FCFCFD;
 }
 .depositclasss {
   background-color: #58bd7d;
-  padding-left: 18px;
-  padding-right: 18px;
+  padding-left: 17px;
+  padding-right: 17px;
   padding-top: 5px;
   padding-bottom: 5px;
+  font-family: Poppins;
+  text-transform: uppercase;
   border-radius: 5px;
-  color: #fff;
+  font-size: 14px;
+  font-weight: 400;;
+  color:#23262F;
 }
 .marketsidetitle {
   color: #777e90;
@@ -431,6 +485,7 @@ color: #000 !important;
 .sidebarcoleight {
   padding-left: 20px;
   background-color: #fcfcfd;
+  border-radius: 5px;
 }
 .marginleftcol {
   margin-left: 200px;
@@ -443,11 +498,11 @@ color: #000 !important;
   border-bottom: 1px solid #dee2e6;
 }
 .popupcrosss {
-  border: 3px solid #e6e8ec;
-  padding-left: 13px;
-  padding-right: 13px;
-  border-radius: 28px;
-  padding-bottom: 4px;
+  border: 4px solid #d4d8e1;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 50px;
+  padding-bottom: 5px;
   font-size: 35px;
 }
 .mainimaggehomepage {
@@ -459,12 +514,14 @@ color: #000 !important;
 
 .marketbuttonss {
   background-color: #fff;
-  padding-left: 25px;
-  padding-right: 25px;
-  font-size: 15px;
-  font-weight: 600;
-  border-radius: 35px;
-  border: 1px solid #e6e8ec;
+  padding-left: 14px;
+  padding-right: 14px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 25px;
+  border: 1px solid #808080;
 }
 .popupaddliquidty {
   font-weight: bold;
@@ -526,44 +583,194 @@ color: #000 !important;
   border: 1px solid #e6e8ec;
   border-left: none;
 }
+.liquiditybuttonssss {
+  border: 1px solid #e6e8ec;
+  border-right: none;
+  border-left: none;
+}
 
 .date-classhome {
-  font-family: DM Sans;
+  font-family: Poppins;
   color: #777e90;
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 400;
 }
-.marketmainimage{
+.marketmainimage {
   width: 700px;
 }
-.cryptotrader-home{
-  color:"#23262F";
-  font-Weight: 700;
+.cryptotrader-home {
+  color: "#23262F";
+  font-weight: 700;
   font-family: DM Sans;
-  font-size: 45px;
+  font-size: 48px;
+  line-height: 56px;
 }
-.earnyield-pagepic{
+.earnyield-pagepic {
   width: 500px;
 }
-.overview_portfoliobg{
+.overview_portfoliobg {
   background-color: #fff;
-  padding-left: 10px;
+  padding-left: 25px;
   padding-right: 10px;
   padding-top: 5px;
   padding-bottom: 5px;
+  border-radius: 5px;
 }
-@media (max-width: 480px) {
+.liquidtyimage {
+  border: 1px solid;
+  border-color: #e6e8ec;
+  border-left: none;
+  border-right: none;
+  width: 35px;
+}
+.solidclasssheader {
+    width: 1320;
+    margin-left: 131px;
+    margin-bottom: 0px;
+    width: 100%;
+    max-width: 1220px;
+}
+.overview-tablehead{
+  color: #777E90;
+  font-family: Poppins;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 20px;
+
+}
+.overview-tableheadss{
+  color: #23262F;
+  font-family: Poppins;
+  font-size: 12px;
+  font-weight: 600;
+  border-top: none;
+  line-height: 20px;
+
+}
+input::-webkit-input-placeholder { /* WebKit browsers */
+  color:    #000;
+}
+.seeallbutton{
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color: #23262f;
+  border: 2px solid #e6e8ec;
+  border-radius: 22px;
+  background-color: #FCFCFD;
+  font-family: DM Sans;
+  font-weight: 600;
+}
+.shadowclass{
+  border: none;
+  border-radius: 20px;
+}
+.shadowclass:hover{
+  box-shadow: 0px 64px 64px -48px rgba(15,15,15,0.1);
+}
+.date-classhomess {
+  font-family: Poppins;
+  color: #777e90;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+}
+.date-overviewtable{
+  border-top: none;
+  color: #777e90;
+  font-family: Poppins;
+  font-size: 14px;
+  font-weight: 500;
+}
+.maintdclasshover:hover{
+  border-radius: 12px;
+  background: #f8f8f9;
+}
+.earnyield-value{
+  font-size: 14px;
+  font-weight: 600;
+  color: #777E90;
+}
+.depositclasssss{
+  background-color: #58bd7d;
+    padding-left: 22px;
+    padding-right: 22px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    font-family: Poppins;
+    text-transform: uppercase;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #FCFCFD;
+
+}
+.text-muted {
+  color: #6c757d!important;
+  font-size: 14px;
+  font-family: 'Poppins';
+}
+.activaty-headingss{
+  font-family: DM Sans;
+  font-size: 32px;
+  font-weight: bold;
+  color: #23262F;
+}
+.darkmode--activated .navbar{
+background-color: #000 !important;
+}
+.darkmode--activated .nav-link{
+  color: white !important;
+}
+.assetsprice-b{
+  color: #777E90;
+  font-size: 14px;
+  font-family: Poppins;
+  font-weight: 400;
+}
+.asset-totalquantity{
+  color: #23262F;
+  font-size: 14px;
+  font-family: Poppins;
+  font-weight: 400;
+}
+.activity-coin{
+  font-size: 14px;
+  color: #23262F;
+  font-weight: 600;
+  font-family: Poppins;
+  padding-top: 3px;
+  padding-left: 10px;
+}
+.activity-coins{
+  font-size: 14px;
+  color: #777e90;
+  font-weight: 600;
+  font-family: Poppins;
+  padding-top: 3px;
+  padding-left: 10px;
+}
+/* media quiryyy start   here for mobile responsivnesss      sssssssssssssssssssssssssssssssssssssssssssssssssssssssssss */
+@media screen and (max-width: 480px) {
   .mainimaggehomepage {
     width: 330px;
   }
-  .earnyield-pagepic{
+  .solid {
+    width: 350px;
+    margin-left: 15px;
+  }
+  .earnyield-pagepic {
     width: 330px;
   }
-  .depositclasss{
-    font-size: 0px;
+  .depositclasss {
+    font-size: 15px;
   }
-  .cryptotrader-home{
+  .cryptotrader-home {
     font-size: 35px;
   }
-  .marketmainimage{
+  .marketmainimage {
     width: 330px;
   }
   .imagewidth {
@@ -572,13 +779,13 @@ color: #000 !important;
   .imagebannnerssss {
     width: 330px;
   }
-  .marketbannerhed{
+  .marketbannerhed {
     font-size: 35px;
   }
   .marketmainheade {
     font-size: 35px;
   }
-  .marketbanner{
+  .marketbanner {
     margin-top: 40px;
   }
   .markettrend {
@@ -590,7 +797,15 @@ color: #000 !important;
     padding-right: 1px;
     font-size: 12px;
   }
-  .marginleftcol{
+  .marginleftcol {
     margin-left: 0px;
   }
+  .navbar-expand-lg .navbar-nav .nav-link {
+    padding-right: 0.5rem;
+    padding-left: 0px;
+    padding-top: 20px;
+}
+.bitcoinclasssmian{
+  height: 990px;
+}
 }

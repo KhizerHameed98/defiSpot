@@ -11,8 +11,8 @@ const EarnYield = () => {
             <div class="col-lg-6">
               <div class="marketbanner">
                 <h2 class="marketbannerhed">Earn Yield now</h2>
-                <p style={{ fontSize: "18px", fontFamily: "DM Sans" }}>
-                  Provide your tokens to earn annual yeild.
+                <p style={{ fontSize: "24px", fontFamily: "Poppins",fontWeight:"400" }}>
+                  Provide your tokens to earn annual yield.
                 </p>
               </div>
             </div>
@@ -39,7 +39,7 @@ const EarnYield = () => {
               </li>
               <li class="pl-3 pt-2 marketparagraph">
                 <a style={{ color: "#777E90" }} href="#">
-                  Erc-20
+                  ERC-20
                 </a>
               </li>
               <li class="pl-3 pt-2 marketparagraph">
@@ -48,7 +48,26 @@ const EarnYield = () => {
                 </a>
               </li>
             </ul>
-            <form>
+            <form className="pr-5">
+            <div class=" d-flex form-group has-search">
+              <input
+                style={{
+                  borderRadius: "10px",
+                  width: "300px",
+                  fontFamily: "DM Sans",
+                  backgroundColor:"#fcfcfd"
+                }}
+                type="text"
+                class="form-control"
+                placeholder="Search after pool.."
+              />
+              <span
+                style={{ paddingTop: "10px", marginLeft: "-22px" }}
+                class=" fa fa-search form-control-feedback"
+              ></span>
+            </div>
+          </form>
+            {/* <form>
               <div class="input-group">
                 <input
                   type="text"
@@ -61,56 +80,32 @@ const EarnYield = () => {
                   </button>
                 </div>
               </div>
-            </form>
+            </form> */}
           </div>
           <div class="table-responsive">
             <table class="table">
               <thead>
                 <tr>
                   <th
-                    style={{
-                      border: "none",
-                      color: "#777E90",
-                      fontFamily: "DM Sans",
-                      fontSize: "18px",
-                      fontWeight: "400",
-                    }}
+                    style={{border:"none",color:"#777E90",fontFamily:"Poppins",fontSize:"12px ",fontWeight:"600"}}
                     scope="col"
                   >
-                    Name
+                    Name <img class="pl-1" src={Images.nameup}/>
                   </th>
                   <th
-                    style={{
-                      border: "none",
-                      color: "#777E90",
-                      fontFamily: "DM Sans",
-                      fontSize: "18px",
-                      fontWeight: "400",
-                    }}
+                    style={{border:"none",color:"#777E90",fontFamily:"Poppins",fontSize:"12px ",fontWeight:"600"}}
                     scope="col"
                   >
-                    APY
+                    APY <img class="pl-1" src={Images.nameup}/>
                   </th>
                   <th
-                    style={{
-                      border: "none",
-                      color: "#777E90",
-                      fontFamily: "DM Sans",
-                      fontSize: "18px",
-                      fontWeight: "400",
-                    }}
+                    style={{border:"none",color:"#777E90",fontFamily:"Poppins",fontSize:"12px ",fontWeight:"600"}}
                     scope="col"
                   >
-                    Liquidity
+                    Liquidity <img class="pl-1" src={Images.nameup}/>
                   </th>
                   <th
-                    style={{
-                      border: "none",
-                      color: "#777E90",
-                      fontFamily: "DM Sans",
-                      fontSize: "18px",
-                      fontWeight: "400",
-                    }}
+                    style={{border:"none",color:"#777E90",fontFamily:"Poppins",fontSize:"12px ",fontWeight:"600"}}
                     scope="col"
                   >
                     Volume(24h)
@@ -127,7 +122,7 @@ const EarnYield = () => {
                         src={Images.goll}
                       />
                       <div class="d-block pl-3">
-                        <div style={{ paddingLeft: "5px", fontWeight: "bold" }}>
+                        <div  style={{ paddingLeft: "5px", fontWeight: "bold",fontFamily:"Poppins",fontSize:"14px",fontWeight:"400" }}>
                           BTC
                         </div>
                         <div class="d-flex align-items-center">
@@ -141,8 +136,8 @@ const EarnYield = () => {
                       <span class="depositclasss">17% APR </span>
                     </div>
                   </td>
-                  <td>$10,098.36</td>
-                  <td>$10,098.36</td>
+                  <td className="earnyield-value">$10,098.36</td>
+                  <td className="earnyield-value">$10,098.36</td>
                   <td>
                     {" "}
                     <AddLiquidity />
@@ -157,7 +152,7 @@ const EarnYield = () => {
                         src={Images.goll}
                       />
                       <div class="d-block pl-3">
-                        <div style={{ paddingLeft: "5px", fontWeight: "bold" }}>
+                        <div  style={{ paddingLeft: "5px", fontWeight: "bold",fontFamily:"Poppins",fontSize:"14px",fontWeight:"400" }}>
                           XRUNE
                         </div>
                         <div class="d-flex align-items-center">
@@ -171,8 +166,8 @@ const EarnYield = () => {
                       <span class="depositclasss">17% APR</span>
                     </div>
                   </td>
-                  <td>$10,098.36</td>
-                  <td>$10,098.36</td>
+                  <td className="earnyield-value">$10,098.36</td>
+                  <td className="earnyield-value">$10,098.36</td>
                   <td>
                     {" "}
                     <AddLiquidity />
@@ -187,7 +182,7 @@ const EarnYield = () => {
                         src={Images.goll}
                       />
                       <div class="d-block pl-3">
-                        <div style={{ paddingLeft: "5px", fontWeight: "bold" }}>
+                        <div  style={{ paddingLeft: "5px", fontWeight: "bold",fontFamily:"Poppins",fontSize:"14px",fontWeight:"400" }}>
                           ETH
                         </div>
                         <div class="d-flex align-items-center">
@@ -201,8 +196,8 @@ const EarnYield = () => {
                       <span class="depositclasss">17% APR</span>
                     </div>
                   </td>
-                  <td>$10,098.36</td>
-                  <td>$10,098.36</td>
+                  <td className="earnyield-value">$10,098.36</td>
+                  <td className="earnyield-value">$10,098.36</td>
                   <td>
                     {" "}
                     <AddLiquidity />
@@ -217,7 +212,7 @@ const EarnYield = () => {
                         src={Images.goll}
                       />
                       <div class="d-block pl-3">
-                        <div style={{ paddingLeft: "5px", fontWeight: "bold" }}>
+                        <div  style={{ paddingLeft: "5px", fontWeight: "bold",fontFamily:"Poppins",fontSize:"14px",fontWeight:"400" }}>
                           BUSD
                         </div>
                         <div class="d-flex align-items-center">
@@ -231,8 +226,8 @@ const EarnYield = () => {
                       <span class="depositclasss">17% APR</span>
                     </div>
                   </td>
-                  <td>$10,098.36</td>
-                  <td>$10,098.36</td>
+                  <td className="earnyield-value">$10,098.36</td>
+                  <td className="earnyield-value">$10,098.36</td>
                   <td>
                     {" "}
                     <AddLiquidity />
@@ -247,7 +242,7 @@ const EarnYield = () => {
                         src={Images.ttt}
                       />
                       <div class="d-block pl-3">
-                        <div style={{ paddingLeft: "5px", fontWeight: "bold" }}>
+                        <div style={{ paddingLeft: "5px", fontWeight: "bold",fontFamily:"Poppins",fontSize:"14px",fontWeight:"400" }}>
                           BNB
                         </div>
                         <div class="d-flex align-items-center">
@@ -261,8 +256,8 @@ const EarnYield = () => {
                       <span class="depositclasss">17% APR</span>
                     </div>
                   </td>
-                  <td>$10,098.36</td>
-                  <td>
+                  <td className="earnyield-value">$10,098.36</td>
+                  <td className="earnyield-value">
                     {" "}
                     <div>$10,098.36</div>
                   </td>
@@ -286,8 +281,9 @@ const EarnYield = () => {
               class="d-flex justify-content-center"
               style={{
                 textAlign: "center",
-                fontFamily: "DM Sans",
-                fontWeight: "600",
+                fontFamily: "Poppins",
+                fontSize:"16px",
+                fontWeight: "400",
                 color: "#353945",
               }}
             >
@@ -305,7 +301,7 @@ const EarnYield = () => {
                 />
                 <div class="card-body">
                   <h6 class="marketcardone">Learn and Earn</h6>
-                  <p style={{ fontFamily: "DM Sans" }} class="cardtext pt-4">
+                  <p  class="cardtext pt-4">
                     Earn yield by providing liquidity to pools
                   </p>
                 </div>
@@ -321,7 +317,7 @@ const EarnYield = () => {
                 />
                 <div class="card-body">
                   <h6 class="marketcardtwo">WEEKLY WATCHLIST AIRDROP</h6>
-                  <p style={{ fontFamily: "DM Sans" }} class="cardtext pt-4">
+                  <p  class="cardtext pt-4">
                     The biggest adventages of decentralized
                   </p>
                 </div>
@@ -337,7 +333,7 @@ const EarnYield = () => {
                 />
                 <div class="card-body">
                   <h6 class="marketcardthree">FEATURED</h6>
-                  <p style={{ fontFamily: "DM Sans" }} class="cardtext pt-4">
+                  <p  class="cardtext pt-4">
                     Submit your watchlist and win USDT
                   </p>
                 </div>
