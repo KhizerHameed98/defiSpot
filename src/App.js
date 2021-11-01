@@ -34,11 +34,11 @@ function App() {
             path={browserRoute.EARNYIELD}
             component={EarnYield}
           />
-             <PrivateRoute
+          {/* <PrivateRoute
             exact
             path={browserRoute.LEARN}
             component={Learn}
-          />
+          /> */}
 
           <PrivatePortfolioRoute
             exact
