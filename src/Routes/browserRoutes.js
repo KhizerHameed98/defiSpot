@@ -3,6 +3,7 @@ const browserRoute = {
   MARKET: "/market",
   BUYMARKET: "/market/buymarket",
   PORTFOLIO: "/portfolio",
+  LEARN: "/learn",
   PORTFOLIO_OVERVIEW: "/portfolio/overview",
   PORTFOLIO_ASSETS: "/portfolio/assets",
   PORTFOLIO_ACTIVITY: "/portfolio/assets/activity",

@@ -15,6 +15,7 @@ import Activity from "./components/Portfolio/Activity";
 import LiquidityProvider from "./components/Portfolio/LiquidityProvider";
 import EarnYield from "./components/EarnYield/EarnYield";
 import Main from "./components/Portfolio/Main";
+import Learn from "./components/Learn/Learn";
 
 function App() {
   return (
@@ -32,6 +33,11 @@ function App() {
             exact
             path={browserRoute.EARNYIELD}
             component={EarnYield}
+          />
+             <PrivateRoute
+            exact
+            path={browserRoute.LEARN}
+            component={Learn}
           />
 
           <PrivatePortfolioRoute

@@ -44,9 +44,11 @@ import {
   baseAmount,
   AssetETH,
   AssetBNB,
+  formatAssetAmountCurrency,
 } from "@xchainjs/xchain-util";
 import { environment } from "./environment";
 import CryptoJS from "crypto-js";
+import { formatBaseAsAssetAmount } from "@xchainjs/xchain-util";
 //alert toast
 const alertToast = (error, message) => {
   if (!error) {
@@ -205,7 +207,10 @@ export const connectKeyStore =
           "Transaction Data of Binance CLient",
           transationResultOfBinanceClient
         );
-        const balanceBinance = await userBinanceClient.getBalance();
+        const balanceBinance = await userBinanceClient.getBalance(
+          BinanceClientAddress
+        );
+        console.log("balance ee oy!!", balanceBinance);
         clients.Balance = balanceBinance;
         clients.Transactions = transationResultOfBinanceClient;
         clients.Address = BinanceClientAddress;
@@ -302,9 +307,6 @@ export const connectKeyStore =
         console.log("Ethereum Client Balance: ---------------> ", balance1eth);
         console.log(res);
         let check = balance1eth[0];
-        console.log("check====>>", check);
-        let check2 = check.amount.amount();
-        console.log("check2", check2);
         //Transactions history of Ethereum Client getting here
         const transationResultOfEthereum =
           await userEthereumClient.getTransactions({ address: addressEth });
@@ -360,7 +362,14 @@ export const connectKeyStore =
         clients.Balance = balanceBCH;
         clients.Transactions = transationResultOfBCH;
         mainClients.push({ ...clients });
-
+        mainClients.map((d, key) => {
+          d.Transactions.txs.map((t, key) => {
+            let res =
+              Number(t?.to[0]?.amount?.amount()?.c[0]) /
+              Math.pow(10, Number(t?.to[0]?.amount?.decimal));
+            t.transferAmount = res;
+          });
+        });
         console.log("Clients===>>>", clients);
         localStorage.setItem("isLoggedin", true);
         localStorage.setItem(TYPE, KEYSTORE);
@@ -373,12 +382,73 @@ export const connectKeyStore =
         // let clientsDescryption = await serverDecryption(clientsEncryption);
         // console.log("Check6====>>>", JSON.parse(clientsDescryption));
 
-        setConnectKeyStoreModal(false);
-        alertToast(false, "KeyStore Connected Successfully!");
-        dispatch({
-          type: KEYSTORECONNECTION_SUCCESS,
-          payload: { KeyStoreClient: mainClients },
-        });
+        let concatAssetName = "";
+    let totalAmountInBTC = 0;
+    let totalAmountInUSD=0;
+    mainClients.map((d, mainKey) => {
+      d.Balance.map((t, key) => {
+        let asset = t?.asset?.ticker?.split("/");
+        if (asset[1]) {
+          asset = asset[1];
+        } else {
+          asset = asset[0];
+        }
+        concatAssetName = concatAssetName + asset + ",";
+
+        // console.log("TICKER", asset, t.amount.amount());
+      });
+      d.Transactions.txs.map((t, key) => {
+        let res =
+          Number(t?.to[0]?.amount?.amount()?.c[0]) /
+          Math.pow(10, Number(t?.to[0]?.amount?.decimal));
+        t.transferAmount = res;
+      });
+    });
+    let apiDataBTC = await axios.get(
+      `https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=${concatAssetName}`
+    );
+    let apiDataUSD= await axios.get( `https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=${concatAssetName}`);
+    
+    let dataBTC = apiDataBTC.data;
+    let dataUSD = apiDataUSD.data;
+    console.log("DATA IN USD==========>>", dataUSD);
+    mainClients.map((d, mainKey) => {
+      d.Balance.map((t, key) => {
+        let asset = t?.asset?.ticker?.split("/");
+        if (asset[1]) {
+          asset = asset[1];
+        } else {
+          asset = asset[0];
+        }
+        // console.log("heyData=====>>",asset, data[asset]);
+        let value =
+          Number(t.amount.amount().c[0]) /
+          Math.pow(10, Number(t.amount.decimal));
+        // totalAmountInBTC = totalAmountInBTC + value;
+        // console.log("Value Before", asset, value);
+        let valueBTC = value / dataBTC[asset];
+        let valueUSD= value/dataUSD[asset];
+        totalAmountInUSD = totalAmountInUSD + valueUSD;
+        totalAmountInBTC = totalAmountInBTC + valueBTC;
+      });
+    });
+    // .then((res) => {
+
+    // })
+    // .catch((err) => {
+    //   alertToast(true, "CryptoCompare: Failed");
+    // });
+    console.log("TOTAL AMOUNTBTC======>>>", totalAmountInBTC);
+    console.log("TOTAL AMOUNTUSD======>>>", totalAmountInUSD);
+
+    console.log("mainClients======>>>", mainClients);
+    
+    setConnectKeyStoreModal(false);
+    alertToast(false, "KeyStore Connected Successfully!");
+    dispatch({
+      type: KEYSTORECONNECTION_SUCCESS,
+      payload: { KeyStoreClient: mainClients, overallBalance_USD:totalAmountInUSD, overallBalance_BTC:totalAmountInBTC },
+    });
         setLoading(false);
 
         //PolkaDot Client is setup here
@@ -438,11 +508,20 @@ export const GetKeyStore_TransactionHistory = () => async (dispatch) => {
       "Transaction Data of Binance CLient",
       transationResultOfBinanceClient
     );
-    const balanceBinance = await userBinanceClient.getBalance();
+    const balanceBinance = await userBinanceClient.getBalance(
+      BinanceClientAddress
+    );
+    for (let i = 0; i < balanceBinance.length; i++) {
+      console.log(
+        "balance: ---------------> ",
+
+        balanceBinance[i].amount.amount()
+      );
+    }
     clients.Balance = balanceBinance;
     clients.Transactions = transationResultOfBinanceClient;
     clients.Address = BinanceClientAddress;
-    mainClients.push({...clients});
+    mainClients.push({ ...clients });
 
     //Bitcoin Client is set here
     const userBtcClient = new bitcoinClient({
@@ -470,7 +549,7 @@ export const GetKeyStore_TransactionHistory = () => async (dispatch) => {
     clients.Address = addressBtc;
     clients.Balance = balanceBtc;
     clients.Transactions = transationResultOfBTCClient;
-    mainClients.push({...clients});
+    mainClients.push({ ...clients });
     //Thorchain Client is set here
     const userThorchainClient = new thorchainClient({
       network,
@@ -498,7 +577,7 @@ export const GetKeyStore_TransactionHistory = () => async (dispatch) => {
     clients.Address = thorAddress;
     clients.Balance = balanceThor;
     clients.Transactions = transationResultOfTHORChain;
-    mainClients.push({...clients});
+    mainClients.push({ ...clients });
     console.log(3, clients);
     // Ethereum CLinet is set here
     const userEthereumClient = new ethereumClient({
@@ -524,10 +603,7 @@ export const GetKeyStore_TransactionHistory = () => async (dispatch) => {
     //Ethereum Client Balance is getting from here
     const balance1eth = await userEthereumClient.getBalance(addressEth);
     console.log("Ethereum Client Balance: ---------------> ", balance1eth);
-    let check = balance1eth[0];
-    console.log("check====>>", check);
-    let check2 = check.amount.amount();
-    console.log("check2", check2);
+
     //Transactions history of Ethereum Client getting here
     const transationResultOfEthereum = await userEthereumClient.getTransactions(
       { address: addressEth }
@@ -539,7 +615,7 @@ export const GetKeyStore_TransactionHistory = () => async (dispatch) => {
     clients.Address = addressEth;
     clients.Balance = balance1eth;
     clients.Transactions = transationResultOfEthereum;
-    mainClients.push({...clients});
+    mainClients.push({ ...clients });
     //LTC Client is setup here
     const userLtcClient = new litecoinClient({
       network,
@@ -561,7 +637,7 @@ export const GetKeyStore_TransactionHistory = () => async (dispatch) => {
     clients.Address = addressLTC;
     clients.Balance = balanceLTC;
     clients.Transactions = transationResultOfLTC;
-    mainClients.push({...clients});
+    mainClients.push({ ...clients });
     //BCH Client is setup here
     const userbchClient = new bitcoinCashClient({
       network,
@@ -584,62 +660,186 @@ export const GetKeyStore_TransactionHistory = () => async (dispatch) => {
     clients.Address = addressBCH;
     clients.Balance = balanceBCH;
     clients.Transactions = transationResultOfBCH;
-    mainClients.push({...clients});
-    console.log("Clients===>>>", clients);
+    mainClients.push({ ...clients });
+    let concatAssetName = "";
+    let totalAmountInBTC = 0;
+    let totalAmountInUSD=0;
+    mainClients.map((d, mainKey) => {
+      d.Balance.map((t, key) => {
+        let asset = t?.asset?.ticker?.split("/");
+        if (asset[1]) {
+          asset = asset[1];
+        } else {
+          asset = asset[0];
+        }
+        concatAssetName = concatAssetName + asset + ",";
+
+        // console.log("TICKER", asset, t.amount.amount());
+      });
+      d.Transactions.txs.map((t, key) => {
+        let res =
+          Number(t?.to[0]?.amount?.amount()?.c[0]) /
+          Math.pow(10, Number(t?.to[0]?.amount?.decimal));
+        t.transferAmount = res;
+      });
+    });
+    let apiDataBTC = await axios.get(
+      `https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=${concatAssetName}`
+    );
+    let apiDataUSD= await axios.get( `https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=${concatAssetName}`);
+    
+    let dataBTC = apiDataBTC.data;
+    let dataUSD = apiDataUSD.data;
+    console.log("DATA IN USD==========>>", dataUSD);
+    mainClients.map((d, mainKey) => {
+      d.Balance.map((t, key) => {
+        let asset = t?.asset?.ticker?.split("/");
+        if (asset[1]) {
+          asset = asset[1];
+        } else {
+          asset = asset[0];
+        }
+        // console.log("heyData=====>>",asset, data[asset]);
+        let value =
+          Number(t.amount.amount().c[0]) /
+          Math.pow(10, Number(t.amount.decimal));
+        // totalAmountInBTC = totalAmountInBTC + value;
+        // console.log("Value Before", asset, value);
+        let valueBTC = value / dataBTC[asset];
+        let valueUSD= value/dataUSD[asset];
+        totalAmountInUSD = totalAmountInUSD + valueUSD;
+        totalAmountInBTC = totalAmountInBTC + valueBTC;
+      });
+    });
+    // .then((res) => {
+
+    // })
+    // .catch((err) => {
+    //   alertToast(true, "CryptoCompare: Failed");
+    // });
+    console.log("TOTAL AMOUNTBTC======>>>", totalAmountInBTC);
+    console.log("TOTAL AMOUNTUSD======>>>", totalAmountInUSD);
+
+    console.log("mainClients======>>>", mainClients);
     alertToast(false, "KeyStore Connected Successfully!");
     dispatch({
       type: KEYSTORECONNECTION_SUCCESS,
-      payload: { KeyStoreClient: mainClients },
+      payload: { KeyStoreClient: mainClients, overallBalance_USD:totalAmountInUSD, overallBalance_BTC:totalAmountInBTC },
     });
   } catch (error) {
     alertToast(true, error?.message || "Something Went Wrong");
   }
 };
 //BNB-BUSD
+
+// export const MidgardPool_Action = () => async (dispatch) => {
+//   try {
+//     dispatch({
+//       type: MIDGARDPOOL_REQUESTING,
+//     });
+
+//     let res = await axios.get(mainRoute.MIDGARD_POOL);
+//     let marketCap = await axios.get(mainRoute.MarketCap);
+//     marketCap = marketCap.data;
+//     console.log("data=============", res.data);
+//     let data = res.data;
+
+//     for (let i = 0; i < data.length; i++) {
+//       let v = data[i].asset.split("-");
+//       data[i].asset = v[0];
+
+//       let s = data[i].asset.split(".");
+//       data[i].blockchain = s[0];
+//       data[i].asset = s[1];
+//       data[i].address = v[1];
+//       data[i].assetFullName = TokenName[data[i].asset].name;
+//       let marketData = marketCap.find((d) => d.symbol === data[i].asset);
+//       data[i].coinMarketCap = marketData;
+//       // data[i].change_24h = marketData.quote.USD.percent_change_24h;
+//       // data[i].change_7d = marketData.quote.USD.percent_change_7d;
+//       data[i].marketCap = marketData.quote.USD.market_cap;
+//       data[i].circulating_supply = marketData.circulating_supply;
+//       data[i].total_supply = marketData.total_supply;
+//     }
+
+//     data = data.sort((a, b) => b.assetPrice - a.assetPrice);
+
+//     dispatch({
+//       type: MIDGARDPOOL_SUCCESS,
+//       payload: { midgardPool: data },
+//     });
+
+//     alertToast(false, "Successfull");
+//     // setLoading(false);
+//   } catch (err) {
+//     // setLoading(false);
+//     console.log(err);
+//     dispatch({
+//       type: MIDGARDPOOL_FAIL,
+//     });
+//     const errorMsg = err?.response?.data?.msg || err.message;
+
+//     alertToast(true, errorMsg);
+//   }
+// };
 export const MidgardPool_Action = () => async (dispatch) => {
-  try {
-    dispatch({
-      type: MIDGARDPOOL_REQUESTING,
+  dispatch({
+    type: MIDGARDPOOL_REQUESTING,
+  });
+  let poolData = [];
+  let coinMarketCapData = [];
+  await axios
+    .get(mainRoute.MIDGARD_POOL)
+    .then((res) => {
+      poolData = res;
+    })
+    .catch((err) => {
+      // setLoading(false);
+      console.log(err);
+      dispatch({
+        type: MIDGARDPOOL_FAIL,
+      });
+      const errorMsg = err?.response?.data?.msg || err.message;
+
+      alertToast(true, errorMsg);
+    });
+  await axios
+    .get(mainRoute.MarketCap)
+    .then((res) => {
+      coinMarketCapData = res;
+    })
+    .catch((err) => {
+      // setLoading(false);
+      console.log(err);
+      dispatch({
+        type: MIDGARDPOOL_FAIL,
+      });
+      const errorMsg = err?.response?.data?.msg || err.message;
+
+      alertToast(true, errorMsg);
     });
 
-    let d = "";
-    let res = await axios.get(MIDGARD_POOL);
-    let marketCap = await axios.get(mainRoute.MarketCap);
-    marketCap = marketCap.data;
-    console.log("data", res.data);
-    let data = res.data;
+  Promise.all([poolData, coinMarketCapData]).then((res) => {
+    let marketCap = res[1].data;
+    let data = res[0].data;
 
     for (let i = 0; i < data.length; i++) {
       let v = data[i].asset.split("-");
-
       data[i].asset = v[0];
+
       let s = data[i].asset.split(".");
       data[i].blockchain = s[0];
       data[i].asset = s[1];
       data[i].address = v[1];
-      data[i].assetFullName = TokenName[data[i].asset].name;
-      let marketData = marketCap.find((d) => d.symbol === data[i].asset);
+      data[i].assetFullName = TokenName[data[i]?.asset]?.name;
+      let marketData = marketCap?.find((d) => d?.symbol === data[i]?.asset);
       data[i].coinMarketCap = marketData;
-      data[i].change_24h = marketData.quote.USD.percent_change_24h;
-      data[i].change_7d = marketData.quote.USD.percent_change_7d;
-      data[i].marketCap = marketData.quote.USD.market_cap;
-      data[i].circulating_supply = marketData.circulating_supply;
-      data[i].total_supply = marketData.total_supply;
-
-      // let check = await axios.get(
-      //   `https://api.nomics.com/v1/currencies?key=74dab9ea0b25111d3692742725381a8a982c91ae&ids=${data[i].asset}&attributes=name,id`
-      // );
-      // console.log("check=====>", check);
-      // if (i === data.length - 1) {
-      //   d = d + data[i].asset;
-      // } else {
-      //   d = d + data[i].asset + ",";
-      // }
+      // data[i].change_24h = marketData.quote.USD.percent_change_24h;
+      // data[i].change_7d = marketData.quote.USD.percent_change_7d;
+      data[i].marketCap = marketData?.quote?.USD?.market_cap;
+      data[i].circulating_supply = marketData?.circulating_supply;
+      data[i].total_supply = marketData?.total_supply;
     }
-    // let des = await axios.get(
-    //   `https://api.nomics.com/v1/currencies?key=74dab9ea0b25111d3692742725381a8a982c91ae&ids=${d}&attributes=name,id`
-    // );
-    // setPoolData(data);
 
     data = data.sort((a, b) => b.assetPrice - a.assetPrice);
 
@@ -647,38 +847,11 @@ export const MidgardPool_Action = () => async (dispatch) => {
       type: MIDGARDPOOL_SUCCESS,
       payload: { midgardPool: data },
     });
-    // const config = {
-    //   headers: {
-    //     // "Content-Type": "application/json",
-    //     "X-CMC_PRO_API_KEY": "356979e7-00ff-4a80-9e94-577e22c7cf9b",
-    //     "Access-Control-Allow-Origin": "*",
-    //     "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-    //   },
-    //   // qs: {
-    //   //   start: "1",
-    //   //   limit: "5000",
-    //   //   convert: "USD",
-    //   // },
-    //   // json: true,
-    //   // gzip: true,
-    // };
-    // let res = await axios.get(
-    //   "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=5&convert=USD"
-    //   // config
-    // );
-    // console.log("res=========>>>>", res);
-    alertToast(false, "Successfull");
-    // setLoading(false);
-  } catch (err) {
-    // setLoading(false);
-    console.log(err);
-    dispatch({
-      type: MIDGARDPOOL_FAIL,
-    });
-    const errorMsg = err?.response?.data?.msg || err.message;
 
-    alertToast(true, errorMsg);
-  }
+    alertToast(false, "Successfull");
+  });
+
+  // setLoading(false);
 };
 
 //Forget Password

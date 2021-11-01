@@ -59,7 +59,7 @@ import lefttwoline from "../../assets/images/lefttwoline.png";
 import fb from "../../assets/images/fb.png";
 import twit from "../../assets/images/twit.png";
 import insta from "../../assets/images/insta.png";
-import ttt from "../../assets/images/ttt.png";
+import tether from "../../assets/images/tether.png";
 import goll from "../../assets/images/goll.png";
 import pageyeild from "../../assets/images/pageyeild.png";
 import dolaar from "../../assets/images/dolaar.png";
@@ -69,15 +69,43 @@ import searchbarr from "../../assets/images/searchbarr.png";
 import overview from "../../assets/images/overview.png";
 import seeall from "../../assets/images/seeall.png";
 import bitcoinnn from "../../assets/images/bitcoinnn.png";
-
-
+import at6 from "../../assets/images/at6.png";
+import at5 from "../../assets/images/at5.png";
+import purple from "../../assets/images/purple.png";
+import crossicon from "../../assets/images/crossicon.png";
+import searchicon from "../../assets/images/searchicon.png";
+import iconarowdown from "../../assets/images/iconarowdown.png";
+import iconsrightline from "../../assets/images/iconsrightline.png";
+import loadicon from "../../assets/images/loadicon.png"
+import learnsearch from "../../assets/images/learnsearch.png"
+import ButtonSecondarySmall from "../../assets/images/ButtonSecondarySmall.png"
+import learnvideo from "../../assets/images/learnvideo.png"
+import trainer from "../../assets/images/trainer.png"
+import exportIcon from "../../assets/images/exportIcon.png";
+import traineravatar from "../../assets/images/traineravatar.png"
+import morearticle from "../../assets/images/morearticle.png"
 const Images = {
+  exportIcon,
   searchbarr,
   overview,
+  traineravatar,
+  morearticle,
+  trainer,
+  ButtonSecondarySmall,
+  learnvideo,
+  iconarowdown,
+  learnsearch,
+  loadicon,
+  searchicon,
+  iconsrightline,
   seeall,
+  purple,
+  crossicon,
+  at6,
+  at5,
   bitcoinnn,
   pageyeild,
-  ttt,
+  tether,
   goll,
   Img,
   fb,

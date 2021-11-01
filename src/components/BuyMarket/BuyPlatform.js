@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import browserRoute from "../../Routes/browserRoutes";
 import { useHistory, useParams, withRouter } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-
+import axios from "axios";
 // import Images from "../../Helper/AllImages";
 const BuyPlatform = () => {
   let history = useHistory();
@@ -14,7 +14,9 @@ const BuyPlatform = () => {
   const { id } = useParams();
   const [YayModal, setYayModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
-
+  const [fromAmount, setFromAmount] = useState("");
+  const [toAmount, setToAmount] = useState("");
+  const [TokenPriceUSD, setTokenPriceUSD] = useState("");
   const [tokenData, setTokenData] = useState([]);
   const mainState = useSelector((state) => state.main.midgardPool);
 
@@ -29,11 +31,38 @@ const BuyPlatform = () => {
   const handleShowConfirm = () => {
     setConfirmModal(true);
   };
-  useEffect(() => {
-    let data = mainState.filter((d) => d.asset === id);
-    setTokenData(data[0]);
-    console.log(data[0]);
-  }, []);
+  function financial(x) {
+    return Number.parseFloat(x).toFixed(2);
+  }
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+  const fromAmountHandler = (e) => {
+    setFromAmount(e.target.value);
+    setToAmount(financial(Number(e.target.value) / Number(TokenPriceUSD)));
+  };
+  const toAmountHandler = (e) => {
+    setToAmount(e.target.value);
+    setFromAmount(financial(Number(e.target.value) * Number(TokenPriceUSD)));
+  };
+
+  useEffect(async () => {
+    if (mainState) {
+      let data = mainState?.filter((d) => d.asset === id);
+
+      setTokenData(data[0]);
+      await axios
+        .get(
+          `https://min-api.cryptocompare.com/data/price?fsym=${data[0].asset}&tsyms=USD`
+        )
+        .then((res) => {
+          console.log("res===>>", res.data.USD);
+          setTokenPriceUSD(res.data.USD);
+        });
+    } else {
+      history.push("/");
+    }
+  }, [mainState]);
 
   function financial(x) {
     return Number.parseFloat(x).toFixed(2);
@@ -75,8 +104,8 @@ const BuyPlatform = () => {
                       style={{
                         fontWeight: "bold",
                         paddingTop: "12px",
-                        fontFamily:"DM Sans",
-                        fontSize:"48px",
+                        fontFamily: "DM Sans",
+                        fontSize: "48px",
                         paddingRight: "10px",
                       }}
                     >
@@ -88,12 +117,31 @@ const BuyPlatform = () => {
                     <p class="yahparagraph">You successfully bought</p>
                   </div>
                   <div class="d-flex justify-content-center">
-                    <p style={{ fontWeight: "bold",fontFamily:"Poppins",fontSize:"16px" }}>
-                      <span style={{ color: "#58BD7D", fontWeight: "bold",fontFamily:"Poppins",fontSize:"16px"  }}>
+                    <p
+                      style={{
+                        fontWeight: "bold",
+                        fontFamily: "Poppins",
+                        fontSize: "16px",
+                      }}
+                    >
+                      <span
+                        style={{
+                          color: "#58BD7D",
+                          fontWeight: "bold",
+                          fontFamily: "Poppins",
+                          fontSize: "16px",
+                        }}
+                      >
                         1.1123 BTC
                       </span>{" "}
                       for{" "}
-                      <span style={{ color: "#07C078", fontWeight: "bold",fontFamily:"Poppins"  }}>
+                      <span
+                        style={{
+                          color: "#07C078",
+                          fontWeight: "bold",
+                          fontFamily: "Poppins",
+                        }}
+                      >
                         35,000 USDT
                       </span>
                       !
@@ -101,7 +149,14 @@ const BuyPlatform = () => {
                   </div>
                   <div class="transactionclasss">
                     <div class="d-flex justify-content-between pt-2">
-                      <p style={{ color: "#777E90", fontSize: "14px",fontFamily:"Poppins",paddingTop:"24px"  }}>
+                      <p
+                        style={{
+                          color: "#777E90",
+                          fontSize: "14px",
+                          fontFamily: "Poppins",
+                          paddingTop: "24px",
+                        }}
+                      >
                         Status
                       </p>
                       <p
@@ -109,24 +164,54 @@ const BuyPlatform = () => {
                           color: "#777E90",
                           fontSize: "14px",
                           paddingRight: "48px",
-                          paddingTop:"24px",
-                          fontFamily:"Poppins" 
+                          paddingTop: "24px",
+                          fontFamily: "Poppins",
                         }}
                       >
                         Transaction ID
                       </p>
                     </div>
                     <div class="d-flex justify-content-between">
-                      <p style={{ color: "#58BD7D", fontWeight: "bold",fontFamily:"Poppins",fontSize:"14px"  }}>
+                      <p
+                        style={{
+                          color: "#58BD7D",
+                          fontWeight: "bold",
+                          fontFamily: "Poppins",
+                          fontSize: "14px",
+                        }}
+                      >
                         Completed
                       </p>
-                      <p style={{ fontWeight: "bold",fontFamily:"Poppins",fontSize:"14px"  }}>0msx836930...87r398</p>
+                      <p
+                        style={{
+                          fontWeight: "bold",
+                          fontFamily: "Poppins",
+                          fontSize: "14px",
+                        }}
+                      >
+                        0msx836930...87r398
+                      </p>
                     </div>
                     <hr class="solid" />
-                    <p style={{ color: "#777E90", fontSize: "18px",fontFamily:"Poppins",fontSize:"14px"  }}>
+                    <p
+                      style={{
+                        color: "#777E90",
+                        fontSize: "18px",
+                        fontFamily: "Poppins",
+                        fontSize: "14px",
+                      }}
+                    >
                       Address
                     </p>
-                    <p style={{ fontWeight: "bold",fontFamily:"Poppins" ,fontSize:"14px" }}>0msx836930...87r398</p>
+                    <p
+                      style={{
+                        fontWeight: "bold",
+                        fontFamily: "Poppins",
+                        fontSize: "14px",
+                      }}
+                    >
+                      0msx836930...87r398
+                    </p>
                   </div>
                 </div>
                 <div class="d-flex justify-content-center pb-3 pt-2 pl-3 pr-3">
@@ -210,7 +295,7 @@ const BuyPlatform = () => {
                           style={{
                             fontWeight: "bold",
                             fontFamily: "Poppins",
-                            fontSize:"14px"
+                            fontSize: "14px",
                           }}
                         >
                           35,000 USDT
@@ -235,7 +320,7 @@ const BuyPlatform = () => {
                           style={{
                             fontWeight: "bold",
                             fontFamily: "Poppins",
-                            fontSize:"14px"
+                            fontSize: "14px",
                           }}
                         >
                           1.1137 BTC
@@ -260,7 +345,7 @@ const BuyPlatform = () => {
                           style={{
                             fontWeight: "bold",
                             fontFamily: "Poppins",
-                            fontSize:"14px"
+                            fontSize: "14px",
                           }}
                         >
                           THORChain
@@ -326,8 +411,8 @@ const BuyPlatform = () => {
         <div
           class="container-fluid mt-1 pt-4 pb-3"
           style={{
-            paddingLeft: "195px",
-            paddingRight: "195px",
+            paddingLeft: "150px",
+            paddingRight: "150px",
             backgroundColor: "#FCFCFD",
           }}
         >
@@ -362,30 +447,116 @@ const BuyPlatform = () => {
                 {" "}
                 <img src={Images.clock} /> 24h change
               </p>
-              <h5 style={{ color: "#00C076", fontFamily: "Poppins",fontWeight:"400",fontSize:"16px" }}>
-                520.80 +1.25%
-              </h5>
+
+              {tokenData.change_24h >= 0 ? (
+                <>
+                  <h5
+                    style={{
+                      color: "#00C076",
+                      fontFamily: "Poppins",
+                      fontWeight: "400",
+                      fontSize: "16px",
+                    }}
+                  >
+                    {numberWithCommas(financial(tokenData?.assetPriceUSD))} +
+                    {financial(tokenData?.change_24h)}%
+                  </h5>
+                </>
+              ) : (
+                <>
+                  <>
+                    <h5
+                      style={{
+                        color: "#f04e4e",
+                        fontFamily: "Poppins",
+                        fontWeight: "400",
+                        fontSize: "16px",
+                      }}
+                    >
+                      {numberWithCommas(financial(tokenData?.assetPriceUSD))}{" "}
+                      {financial(tokenData?.change_24h)}%
+                    </h5>
+                  </>
+                </>
+              )}
             </div>
             <div class="col-lg-2" style={{ borderRight: "1px solid #E6E8EC" }}>
               <p class="marketparatwow">
                 {" "}
                 <img src={Images.up} /> 24h high
               </p>
-              <h5 style={{ fontFamily: "DM Sans", fontFamily: "Poppins",fontWeight:"400",fontSize:"16px" }}>520.80 +1.25%</h5>
+              <h5
+                style={{
+                  fontFamily: "DM Sans",
+                  fontFamily: "Poppins",
+                  fontWeight: "400",
+                  fontSize: "16px",
+                }}
+              >
+                {tokenData.change_24h_Highest >= 0 ? (
+                  <>
+                    {numberWithCommas(financial(tokenData?.biggestVal))} +
+                    {financial(tokenData?.change_24h_Highest)}%
+                  </>
+                ) : (
+                  <>
+                    {numberWithCommas(financial(tokenData?.biggestVal))}{" "}
+                    {financial(tokenData?.change_24h_Highest)}%
+                  </>
+                )}
+              </h5>
             </div>
             <div class="col-lg-2" style={{ borderRight: "1px solid #E6E8EC" }}>
               <p class="marketparatwow">
                 {" "}
                 <img src={Images.down} /> 24h low
               </p>
-              <h5 style={{ fontFamily: "DM Sans", fontFamily: "Poppins",fontWeight:"400",fontSize:"16px"}}>520.80 +1.25%</h5>
+              <h5
+                style={{
+                  fontFamily: "DM Sans",
+                  fontFamily: "Poppins",
+                  fontWeight: "400",
+                  fontSize: "16px",
+                }}
+              >
+                {tokenData.change_24h_Lowest >= 0 ? (
+                  <>
+                    {numberWithCommas(financial(tokenData?.smallestVal))} +
+                    {financial(tokenData?.change_24h_Lowest)}%
+                  </>
+                ) : (
+                  <>
+                    {numberWithCommas(financial(tokenData?.smallestVal))}{" "}
+                    {financial(tokenData?.change_24h_Lowest)}%
+                  </>
+                )}{" "}
+              </h5>
             </div>
             <div class="col-lg-2">
               <p class="marketparatwow">
                 {" "}
                 <img src={Images.hourr} /> 24h volume
               </p>
-              <h5 style={{ fontFamily: "DM Sans", fontFamily: "Poppins",fontWeight:"400",fontSize:"16px"}}>520.80 +1.25%</h5>
+              <h5
+                style={{
+                  fontFamily: "DM Sans",
+                  fontFamily: "Poppins",
+                  fontWeight: "400",
+                  fontSize: "16px",
+                }}
+              >
+                {tokenData.change_24h >= 0 ? (
+                  <>
+                    {numberWithCommas(financial(tokenData?.volume24h))} +
+                    {financial(tokenData?.change_24h)}%
+                  </>
+                ) : (
+                  <>
+                    {numberWithCommas(financial(tokenData?.volume24h))}{" "}
+                    {financial(tokenData?.change_24h)}%
+                  </>
+                )}{" "}
+              </h5>
             </div>
           </div>
         </div>
@@ -395,7 +566,7 @@ const BuyPlatform = () => {
           <div class="row">
             <div
               class="col-lg-4 mt-1 mb-3 pt-4 pb-4"
-              style={{ backgroundColor: "#FCFCFD", height: "325px" }}
+              style={{ backgroundColor: "#FCFCFD", height: "350px" }}
             >
               <button
                 class="mt-2"
@@ -423,10 +594,10 @@ const BuyPlatform = () => {
                     color: "#23262F",
                     fontWeight: "600",
                     fontFamily: "Poppins",
-                    fontSize:"24px"
+                    fontSize: "24px",
                   }}
                 >
-                  Buy {tokenData?.Asset}
+                  Buy {tokenData?.asset}
                 </h2>
                 <div class="d-flex">
                   <img
@@ -437,80 +608,99 @@ const BuyPlatform = () => {
                     }}
                     src={Images.bbbtc}
                   />
-                  <p style={{ fontFamily: "Poppins",fontSize:"12px",fontWeight:"600" }} class="pl-2">
+                  <p
+                    style={{
+                      fontFamily: "Poppins",
+                      fontSize: "12px",
+                      fontWeight: "600",
+                    }}
+                    class="pl-2"
+                  >
                     10,098,36 USDT
                   </p>
                 </div>
               </div>
               <form>
-              <div class="input-group mb-3 mt-3">
-                <input
-                  style={{borderRadius:"10px",border:"3px solid #E6E8EC",color:"#777E90",
-                  fontSize:"14px",
-                  fontWeight:"bold",
-                  fontFamily: "Poppins", }}
-                  type="text"
-                  class="form-control pt-4 pb-4"
-                  placeholder="From"
-                  aria-label="From"
-                  aria-describedby="basic-addon2"
-                
-                />
-                {/* <div class="input-group-append"> */}
+                <div class="input-group mb-3 mt-3">
+                  <input
+                    style={{
+                      borderRadius: "10px",
+                      border: "3px solid #E6E8EC",
+                      color: "#777E90",
+                      fontSize: "14px",
+                      backgroundColor: "#fcfcfd",
+                      fontWeight: "bold",
+                      fontFamily: "Poppins",
+                    }}
+                    type="text"
+                    value={fromAmount}
+                    onChange={fromAmountHandler}
+                    class="form-control pt-4 pb-4"
+                    placeholder="From"
+                    aria-label="From"
+                    aria-describedby="basic-addon2"
+                  />
+                  {/* <div class="input-group-append"> */}
                   <button
                     style={{
-                      
-                      border:"none",
-                      position:"absolute",
-                      right:"4px",
-                      top:'10px',
-                      color:"#777E90",
-                      fontSize:"14px",
-                      fontWeight:"bold",
+                      border: "none",
+                      position: "absolute",
+                      right: "4px",
+                      top: "10px",
+                      color: "#777E90",
+                      fontSize: "14px",
+                      fontWeight: "bold",
                       fontFamily: "Poppins",
+                      zIndex: "4",
                     }}
                     class="btn"
                     type="button"
                   >
                     USDT
                   </button>
-                {/* </div> */}
-              </div>
+                  {/* </div> */}
+                </div>
               </form>
               <form>
-              <div class="input-group mb-3 mt-3">
-                <input
-                  style={{borderRadius:"10px",border:"3px solid #E6E8EC", color:"#777E90",
-                  fontSize:"14px",
-                  fontWeight:"bold",
-                  fontFamily: "Poppins", }}
-                  type="text"
-                  class="form-control pt-4 pb-4"
-                  placeholder="TO"
-                  aria-label="From"
-                  aria-describedby="basic-addon2"
-                
-                />
-                {/* <div class="input-group-append"> */}
+                <div class="input-group mb-3 mt-3">
+                  <input
+                    style={{
+                      borderRadius: "10px",
+                      border: "3px solid #E6E8EC",
+                      color: "#777E90",
+                      fontSize: "14px",
+                      backgroundColor: "#fcfcfd",
+                      fontWeight: "bold",
+                      fontFamily: "Poppins",
+                    }}
+                    type="text"
+                    value={toAmount}
+                    onChange={toAmountHandler}
+                    class="form-control pt-4 pb-4"
+                    placeholder="TO"
+                    aria-label="From"
+                    aria-describedby="basic-addon2"
+                  />
+                  {/* <div class="input-group-append"> */}
                   <button
                     style={{
-                      
-                      border:"none",
-                      position:"absolute",
-                      right:"12px",
-                      top:'10px',
-                      color:"#777E90",
-                      fontSize:"14px",
-                      fontWeight:"bold",
+                      border: "none",
+                      position: "absolute",
+                      right: "12px",
+                      top: "10px",
+                      color: "#777E90",
+                      fontSize: "14px",
+                      fontWeight: "bold",
                       fontFamily: "Poppins",
+                      zIndex: "4",
                     }}
                     class="btn"
                     type="button"
                   >
-                    BTC
+                    {tokenData?.asset}
                   </button>
-                {/* </div> */}
-              </div>
+                  {/* </div> */}
+                </div>
               </form>
 
               {/* <div class="input-group mb-3 mt-3">
@@ -534,15 +724,15 @@ const BuyPlatform = () => {
               </div> */}
 
               <button
-                style={{ fontSize: "15px", fontFamily: "Dm Sans" }}
+                style={{ fontSize: "16px", fontFamily: "Dm Sans" }}
                 type="button"
-                class="btn btn-primary btn-lg btn-block mb-2"
+                class="btn btn-primary btn-lg btn-block"
                 onClick={handleShowConfirm}
               >
                 Buy {tokenData?.asset}
               </button>
             </div>
-            <div style={{paddingLeft:"5px"}} class="col-lg-8  mt-1 mb-3">
+            <div style={{ paddingLeft: "5px" }} class="col-lg-8  mt-1 mb-3">
               <div class="pl-3 pt-5" style={{ backgroundColor: "#FCFCFD" }}>
                 <div class="d-flex justify-content-between">
                   <p
@@ -553,7 +743,14 @@ const BuyPlatform = () => {
                     }}
                   >
                     {numberWithCommas(financial(tokenData?.assetPriceUSD))} USD{" "}
-                    <span style={{ color: "#4FBF67", fontSize: "18px",fontFamily:"Poppins",fontWeight:"400" }}>
+                    <span
+                      style={{
+                        color: "#4FBF67",
+                        fontSize: "18px",
+                        fontFamily: "Poppins",
+                        fontWeight: "400",
+                      }}
+                    >
                       +0.92%
                     </span>
                   </p>
@@ -576,13 +773,27 @@ const BuyPlatform = () => {
                   src={Images.linechart}
                 />
                 <div class="d-flex justify-content-between pr-3">
-                  <p style={{ fontFamily: "DM Sans",fontWeight:"bold" }}>09:00</p>
-                  <p style={{ fontFamily: "DM Sans",fontWeight:"bold" }}>09:00</p>
-                  <p style={{ fontFamily: "DM Sans" ,fontWeight:"bold"}}>09:00</p>
-                  <p style={{ fontFamily: "DM Sans",fontWeight:"bold" }}>09:00</p>
-                  <p style={{ fontFamily: "DM Sans",fontWeight:"bold" }}>09:00</p>
-                  <p style={{ fontFamily: "DM Sans" ,fontWeight:"bold"}}>09:00</p>
-                  <p style={{ fontFamily: "DM Sans" ,fontWeight:"bold"}}>09:00</p>
+                  <p style={{ fontFamily: "DM Sans", fontWeight: "bold" }}>
+                    09:00
+                  </p>
+                  <p style={{ fontFamily: "DM Sans", fontWeight: "bold" }}>
+                    09:00
+                  </p>
+                  <p style={{ fontFamily: "DM Sans", fontWeight: "bold" }}>
+                    09:00
+                  </p>
+                  <p style={{ fontFamily: "DM Sans", fontWeight: "bold" }}>
+                    09:00
+                  </p>
+                  <p style={{ fontFamily: "DM Sans", fontWeight: "bold" }}>
+                    09:00
+                  </p>
+                  <p style={{ fontFamily: "DM Sans", fontWeight: "bold" }}>
+                    09:00
+                  </p>
+                  <p style={{ fontFamily: "DM Sans", fontWeight: "bold" }}>
+                    09:00
+                  </p>
                 </div>
                 <hr class="solid" style={{ margin: "0px" }} />
                 <div class="row">
@@ -598,8 +809,8 @@ const BuyPlatform = () => {
                             margin: "0px",
                             color: "#808191",
                             fontFamily: "Poppins",
-                            fontSize:"14px",
-                            fontWeight:"bold"
+                            fontSize: "14px",
+                            fontWeight: "bold",
                           }}
                         >
                           Market cap
@@ -618,12 +829,12 @@ const BuyPlatform = () => {
                       <img style={{ height: "40px" }} src={Images.pt2} />
                       <div class="pl-2">
                         <p
-                           style={{
+                          style={{
                             margin: "0px",
                             color: "#808191",
                             fontFamily: "Poppins",
-                            fontSize:"14px",
-                            fontWeight:"bold"
+                            fontSize: "14px",
+                            fontWeight: "bold",
                           }}
                         >
                           Volume(24h)
@@ -647,12 +858,12 @@ const BuyPlatform = () => {
                       <img style={{ height: "40px" }} src={Images.pt3} />
                       <div class="pl-2">
                         <p
-                           style={{
+                          style={{
                             margin: "0px",
                             color: "#808191",
                             fontFamily: "Poppins",
-                            fontSize:"14px",
-                            fontWeight:"bold"
+                            fontSize: "14px",
+                            fontWeight: "bold",
                           }}
                         >
                           Circulating Supply
@@ -672,12 +883,12 @@ const BuyPlatform = () => {
                       <img style={{ height: "40px" }} src={Images.pt4} />
                       <div class="pl-2">
                         <p
-                           style={{
+                          style={{
                             margin: "0px",
                             color: "#808191",
                             fontFamily: "Poppins",
-                            fontSize:"14px",
-                            fontWeight:"bold"
+                            fontSize: "14px",
+                            fontWeight: "bold",
                           }}
                         >
                           Total Supply
@@ -695,7 +906,13 @@ const BuyPlatform = () => {
                 <div class="row">
                   <div class="col-lg-8 pl-5 pt-5 pb-4">
                     <h2 class="bitcoinheadeing">About Bitcoin</h2>
-                    <p style={{ color: "#5e5b5b", fontFamily: "Poppins",fontSize:"14px" }}>
+                    <p
+                      style={{
+                        color: "#5e5b5b",
+                        fontFamily: "Poppins",
+                        fontSize: "14px",
+                      }}
+                    >
                       The worlds first Cryptocurrency, Bitcoin is stored and
                       exchange securely on the internet through a digital ledger
                       known as a blochchain. Bitcoins are divisible into smaller
@@ -713,7 +930,11 @@ const BuyPlatform = () => {
                       <a
                         class="pt-2 pl-3"
                         href="#"
-                        style={{ fontWeight: "700", fontFamily: "Poppins",fontSize:"14px" }}
+                        style={{
+                          fontWeight: "700",
+                          fontFamily: "Poppins",
+                          fontSize: "14px",
+                        }}
                       >
                         Official Website
                       </a>
@@ -727,7 +948,11 @@ const BuyPlatform = () => {
                       <a
                         class="pt-2 pl-3"
                         href="#"
-                        style={{ fontWeight: "700", fontFamily: "Poppins",fontSize:"14px" }}
+                        style={{
+                          fontWeight: "700",
+                          fontFamily: "Poppins",
+                          fontSize: "14px",
+                        }}
                       >
                         White Paper
                       </a>
@@ -741,7 +966,11 @@ const BuyPlatform = () => {
                       <a
                         class="pt-2 pl-3"
                         href="#"
-                        style={{ fontWeight: "700", fontFamily: "Poppins",fontSize:"14px"}}
+                        style={{
+                          fontWeight: "700",
+                          fontFamily: "Poppins",
+                          fontSize: "14px",
+                        }}
                       >
                         Source Code
                       </a>

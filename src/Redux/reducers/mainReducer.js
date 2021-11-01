@@ -29,9 +29,11 @@ const initialState = {
   // users: [],
   // error: {},
   // errors: [],
-  midgardPool: [],
-  KeyStoreClient: null,
+  midgardPool: null,
+  KeyStoreClient: [],
   loading: false,
+  overallBalance_USD:0,
+  overallBalance_BTC:0
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -131,7 +133,6 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         ...payload,
-        loading: false,
       };
 
     case KEYSTORECONNECTION_FAIL:

@@ -1,7 +1,9 @@
 import React from "react";
 import Logo from "../../../assets/images/logo.png";
 import Images from "./../../Helper/AllImages";
-import { Link } from "react-router-dom";
+import { BrowserRouter, Link } from "react-router-dom";
+import browserRoute from "../../../Routes/browserRoutes";
+
 export const Footer = () => {
   return (
     <div>
@@ -14,7 +16,7 @@ export const Footer = () => {
                 {/* <!--Column1--> */}
                 <div class="footer-pad pt-5">
                   <Link to="/">
-                    <img src={Logo} />
+                    <img src={Images.defilogo} style={{ width: "112px" }} />
                   </Link>
                 </div>
               </div>
@@ -26,19 +28,19 @@ export const Footer = () => {
                 <div class="footer-pad">
                   <ul class="list-unstyled">
                     <li>
-                      <Link class="footerlink" to="/market">
+                      <Link class="footerlink" to={browserRoute.MARKET}>
                         Market
                       </Link>
                     </li>
                     <li class="pt-2 pb-2">
-                      <a class="footerlink" href="#">
+                      <Link class="footerlink" to={browserRoute.EARNYIELD}>
                         Earn yield
-                      </a>
+                      </Link>
                     </li>
                     <li class="pb-2">
-                      <a class="footerlink" href="#">
+                      <Link class="footerlink" to={browserRoute.PORTFOLIO}>
                         Portfolio
-                      </a>
+                      </Link>
                     </li>
                     <li class="pb-2">
                       <a class="footerlink" href="#">
@@ -50,7 +52,6 @@ export const Footer = () => {
                         Learn
                       </a>
                     </li>
-                  
                   </ul>
                 </div>
               </div>
@@ -60,7 +61,17 @@ export const Footer = () => {
               >
                 {/* <!--Column1--> */}
                 <div class="footer-pad pl-5">
-                  <h4 style={{ fontSize: "12px",fontFamily:"Poppins", color: "#23262f",fontWeight:"100",textTransform:"uppercase" }}>Contact</h4>
+                  <h4
+                    style={{
+                      fontSize: "12px",
+                      fontFamily: "Poppins",
+                      color: "#23262f",
+                      fontWeight: "100",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    Contact
+                  </h4>
                   <ul class="list-unstyled">
                     <li class="pt-4  pb-2">
                       <a class="footerlinks" href="#">
@@ -81,8 +92,24 @@ export const Footer = () => {
                 </div>
               </div>
               <div class="col-md-3 pl-5 pt-5 pb-4">
-                <h6 style={{fontFamily:"Poppins",fontSize:"12px",fontWeight:"400"}}>SUIPE LEARNING ACADEMY</h6>
-                <p class="pt-2 pb-2" style={{color:"#23262F",fontFamily:"Poppins",fontSize:"14px",fontWeight:"400"}}>
+                <h6
+                  style={{
+                    fontFamily: "Poppins",
+                    fontSize: "12px",
+                    fontWeight: "400",
+                  }}
+                >
+                  SUIPE LEARNING ACADEMY
+                </h6>
+                <p
+                  class="pt-2 pb-2"
+                  style={{
+                    color: "#23262F",
+                    fontFamily: "Poppins",
+                    fontSize: "14px",
+                    fontWeight: "400",
+                  }}
+                >
                   Subscribe our newsletter to get more free articles and
                   resources about defi.
                 </p>
@@ -92,10 +119,10 @@ export const Footer = () => {
                       borderRadius: "20px",
                       paddingTop: "20px",
                       paddingBottom: "20px",
-                      fontFamily:"Poppins",
-                      fontSize:"14px",
-                      fontWeight:"400",
-                      lineHeight:"24px"
+                      fontFamily: "Poppins",
+                      fontSize: "14px",
+                      fontWeight: "400",
+                      lineHeight: "24px",
                     }}
                     class="form-control mr-sm-2"
                     type="text"
@@ -111,7 +138,7 @@ export const Footer = () => {
                       marginTop: "7px",
                       marginBottom: "6px",
                       paddingTop: "8px",
-                      fontSize:"14px",
+                      fontSize: "14px",
                       borderRadius: "20px",
                     }}
                     class="fa fa-long-arrow-right"
@@ -123,7 +150,16 @@ export const Footer = () => {
             <hr class="solid" style={{ margin: "0px" }} />
             <div class="container mt-3">
               <div class="d-flex justify-content-between">
-                <h6 style={{fontFamily:"Poppins",color:"#777E90",fontSize:"12px",fontWeight:"400"}}>Copyright © 2021 Suipe. All rights reserved</h6>
+                <h6
+                  style={{
+                    fontFamily: "Poppins",
+                    color: "#777E90",
+                    fontSize: "12px",
+                    fontWeight: "400",
+                  }}
+                >
+                  Copyright © 2021 Suipe. All rights reserved
+                </h6>
                 <ul
                   class="menu simple d-flex list-unstyled"
                   style={{ letterSpacing: "25px" }}
@@ -132,19 +168,19 @@ export const Footer = () => {
                     {/* <a href="https://www.facebook.com/">
                       <i style={{color:"#777E90"}} class="fa fa-facebook" aria-hidden="true"></i>
                     </a> */}
-                    <img src={Images.fb}/>
+                    <img src={Images.fb} />
                   </li>
                   <li>
                     {/* <a href="https://www.instagram.com/?hl=en">
                       <i style={{color:"#777E90"}} class="fa fa-instagram" aria-hidden="true"></i>
                     </a> */}
-                    <img class="pl-3" src={Images.twit}/>
+                    <img class="pl-3" src={Images.twit} />
                   </li>
                   <li>
                     {/* <a href="https://twitter.com/?lang=en">
                       <i style={{color:"#777E90"}} class="fa fa-twitter" aria-hidden="true"></i>
                     </a> */}
-                    <img class="pl-3" src={Images.insta}/>
+                    <img class="pl-3" src={Images.insta} />
                   </li>
                 </ul>
               </div>

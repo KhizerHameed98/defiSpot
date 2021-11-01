@@ -1,3 +1,5 @@
+import Images from "../AllImages";
+
 let Funds = [
   {
     Pool: "BNB",
@@ -7,6 +9,17 @@ let Funds = [
     Total_Balance: "0.2785689852",
     Available_Balance: "0.2785689852",
     Interest: "0.2785689852",
+    image: Images.bnb,
+  },
+  {
+    Pool: "BTC",
+    Price: "10,098.36",
+    FullName: "Tether USD",
+    Yield_Rate: "7.46",
+    Total_Balance: "0.2785689852",
+    Available_Balance: "0.2785689852",
+    Interest: "0.2785689852",
+    image: Images.btc,
   },
   {
     Pool: "USDT",
@@ -16,6 +29,7 @@ let Funds = [
     Total_Balance: "0.2785689852",
     Available_Balance: "0.2785689852",
     Interest: "0.2785689852",
+    image: Images.tether,
   },
   {
     Pool: "USDT",
@@ -25,6 +39,7 @@ let Funds = [
     Total_Balance: "0.2785689852",
     Available_Balance: "0.2785689852",
     Interest: "0.2785689852",
+    image: Images.tether,
   },
   {
     Pool: "USDT",
@@ -34,6 +49,7 @@ let Funds = [
     Total_Balance: "0.2785689852",
     Available_Balance: "0.2785689852",
     Interest: "0.2785689852",
+    image: Images.tether,
   },
   {
     Pool: "USDT",
@@ -43,15 +59,17 @@ let Funds = [
     Total_Balance: "0.2785689852",
     Available_Balance: "0.2785689852",
     Interest: "0.2785689852",
+    image: Images.tether,
   },
   {
-    Pool: "USDT",
+    Pool: "BNB",
     Price: "10,098.36",
-    FullName: "Tether USD",
+    FullName: "Binance",
     Yield_Rate: "7.46",
     Total_Balance: "0.2785689852",
     Available_Balance: "0.2785689852",
     Interest: "0.2785689852",
+    image: Images.bnb,
   },
 ];
 

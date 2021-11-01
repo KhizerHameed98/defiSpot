@@ -47,7 +47,7 @@ export const AddLiquidity = () => {
                         }}
                         src={Images.lefttwoline}
                       />
-                      <p class="yahparagraph pl-2 pt-1">Add Liquidity</p>
+                      <p class="yahparagraph pl-2 pt-3">Add Liquidity</p>
                     </div>
                     <div>
                       <img
@@ -57,7 +57,7 @@ export const AddLiquidity = () => {
                     </div>
                   </div>
                   <div
-                    class="d-flex justify-content-between mt-5 pl-5 pr-5 pt-3"
+                    class="d-flex justify-content-between mt-5 pl-5 pr-5 pt-1 pb-1"
                     style={{ backgroundColor: "#F4F5F6", borderRadius: "55px" }}
                   >
                     <button
@@ -67,7 +67,15 @@ export const AddLiquidity = () => {
                         setLiquidityType(Enum.BTC);
                       }}
                     >
-                      <p class="popupaddliquidty">BTC</p>
+                      <p
+                        className={
+                          liquidityType === Enum.BTC
+                            ? "popupaddliquidtyActive"
+                            : "popupaddliquidty"
+                        }
+                      >
+                        BTC
+                      </p>
                     </button>
                     <button
                       class="d-flex"
@@ -76,7 +84,15 @@ export const AddLiquidity = () => {
                         setLiquidityType(Enum.BTC_RUNE);
                       }}
                     >
-                      <p class="popupaddliquidty">BTC + RUNE</p>
+                      <p
+                        className={
+                          liquidityType === Enum.BTC_RUNE
+                            ? "popupaddliquidtyActive"
+                            : "popupaddliquidty"
+                        }
+                      >
+                        BTC + RUNE
+                      </p>
                     </button>
                     <button
                       class="d-flex"
@@ -85,7 +101,15 @@ export const AddLiquidity = () => {
                         setLiquidityType(Enum.RUNE);
                       }}
                     >
-                      <p class="popupaddliquidty">Rune</p>
+                      <p
+                        className={
+                          liquidityType === Enum.RUNE
+                            ? "popupaddliquidtyActive"
+                            : "popupaddliquidty"
+                        }
+                      >
+                        RUNE
+                      </p>
                     </button>
                   </div>
                   {/*BTC*/}
@@ -97,42 +121,61 @@ export const AddLiquidity = () => {
                       <div class="d-flex">
                         <div class="input-group">
                           <input
-                            style={{
-                              borderRight: "none",
-                              borderColor: "#E6E8EC",
-                            }}
-                            type="text"
+                            type="number"
                             class="form-control"
+                            style={{
+                              color: "#23262f",
+                              fontSize: "14px",
+                              fontFamily: "Poppins",
+                              paddingBottom: "25px",
+                              borderRadius: "10px",
+                              border: "2px solid #E6E8EC",
+                              paddingTop: "25px",
+                              fontWeight: "400",
+                            }}
                             aria-label="Text input with segmented dropdown button"
                           />
-                        </div>
-                        <div class="input-group-append">
-                          <button type="button" class="btn liquiditybuttonssss">
-                            ($234,435.50)
-                          </button>
-                          <img className="liquidtyimage"
-                            src={Images.searchbarr}
-                            // class="search_icon_image"
-                          />
-                          <button
-                            type="button"
-                            class="btn liquiditybutton dropdown-toggle dropdown-toggle-split"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
+                          <div
+                            style={{
+                              position: "absolute",
+                              right: "4px",
+                              zIndex: "4",
+                              paddingTop: "8px",
+                            }}
+                            class="d-flex"
                           >
-                            <span class="sr-only">Toggle Dropdown</span>
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">
-                              BTC
-                            </a>
-                            <a class="dropdown-item" href="#">
-                              BNB
-                            </a>
-                            <a class="dropdown-item" href="#">
-                              ETH
-                            </a>
+                            <button
+                              type="button"
+                              class="btn liquiditybuttonssss"
+                            >
+                              ($234,435.50)
+                            </button>
+                            <img
+                              className="liquidtyimage"
+                              src={Images.searchbarr}
+                              // class="search_icon_image"
+                            />
+                            <button
+                              type="button"
+                              class="btn liquiditybutton "
+                              data-toggle="dropdown"
+                              aria-haspopup="true"
+                              aria-expanded="false"
+                            >
+                              <img className="mb-1" src={Images.iconarowdown} />
+                              {/* <span class="sr-only">Toggle Dropdown</span> */}
+                            </button>
+                            <div class="dropdown-menu">
+                              <a class="dropdown-item" href="#">
+                                BTC
+                              </a>
+                              <a class="dropdown-item" href="#">
+                                BNB
+                              </a>
+                              <a class="dropdown-item" href="#">
+                                ETH
+                              </a>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -143,12 +186,16 @@ export const AddLiquidity = () => {
                     <div class="pt-4 pl-3">
                       <div class="d-flex justify-content-between">
                         <p
-                          style={{ fontWeight: "bold", fontFamily: "DM Sans" }}
+                          style={{ fontWeight: "bold", fontFamily: "Poppins" }}
                         >
                           Select BTC amount
                         </p>
                         <p
-                          style={{ fontWeight: "bold", fontFamily: "DM Sans" }}
+                          style={{
+                            fontWeight: "bold",
+                            fontFamily: "Poppins",
+                            paddingRight: "240px",
+                          }}
                         >
                           RUNE amount
                         </p>
@@ -156,59 +203,96 @@ export const AddLiquidity = () => {
                       <div class="d-flex justify-content-between">
                         <div class="input-group">
                           <input
-                            style={{
-                              borderRight: "none",
-                              borderColor: "#E6E8EC",
-                            }}
-                            type="text"
+                            type="number"
                             class="form-control"
+                            style={{
+                              color: "#23262f",
+                              fontSize: "14px",
+                              fontFamily: "Poppins",
+                              paddingBottom: "25px",
+                              borderRadius: "10px",
+                              border: "2px solid #E6E8EC",
+                              paddingTop: "25px",
+                              fontWeight: "400",
+                            }}
                             aria-label="Text input with segmented dropdown button"
                           />
-                        </div>
-                        <div class="input-group-append">
-                          <button type="button" class="btn liquiditybutton">
-                            ($234,435.50)
-                          </button>
-                          <img
-                            src={Images.searchbarr}
-                            class="search_icon_image"
-                          />
-                          <button
-                            type="button"
-                            class="btn liquiditybutton dropdown-toggle dropdown-toggle-split"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
+                          <div
+                            style={{
+                              position: "absolute",
+                              right: "4px",
+                              zIndex: "4",
+                              paddingTop: "8px",
+                            }}
+                            class="d-flex"
                           >
-                            <span class="sr-only">Toggle Dropdown</span>
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">
-                              BTC
-                            </a>
-                            <a class="dropdown-item" href="#">
-                              BNB
-                            </a>
-                            <a class="dropdown-item" href="#">
-                              ETH
-                            </a>
+                            <button
+                              type="button"
+                              class="btn liquiditybuttonssss"
+                            >
+                              ($234,435.50)
+                            </button>
+                            <img
+                              className="liquidtyimage"
+                              src={Images.searchbarr}
+                              // class="search_icon_image"
+                            />
+                            <button
+                              type="button"
+                              class="btn liquiditybutton "
+                              data-toggle="dropdown"
+                              aria-haspopup="true"
+                              aria-expanded="false"
+                            >
+                              <img className="mb-1" src={Images.iconarowdown} />
+                              {/* <span class="sr-only">Toggle Dropdown</span> */}
+                            </button>
+                            <div class="dropdown-menu">
+                              <a class="dropdown-item" href="#">
+                                BTC
+                              </a>
+                              <a class="dropdown-item" href="#">
+                                BNB
+                              </a>
+                              <a class="dropdown-item" href="#">
+                                ETH
+                              </a>
+                            </div>
                           </div>
                         </div>
+
                         <div class="input-group ml-3">
                           <input
-                            style={{
-                              borderRight: "none",
-                              borderColor: "#E6E8EC",
-                            }}
-                            type="text"
+                            type="number"
                             class="form-control"
+                            style={{
+                              color: "#23262f",
+                              fontSize: "14px",
+                              fontFamily: "Poppins",
+                              paddingBottom: "25px",
+                              borderRadius: "10px",
+                              border: "2px solid #E6E8EC",
+                              paddingTop: "25px",
+                              fontWeight: "400",
+                            }}
                             aria-label="Text input with segmented dropdown button"
                           />
-                        </div>
-                        <div class="input-group-append">
-                          <button type="button" class="btn liquiditybutton">
-                            ($234,435.50)
-                          </button>
+                          <div
+                            style={{
+                              position: "absolute",
+                              right: "4px",
+                              zIndex: "4",
+                              paddingTop: "8px",
+                            }}
+                            class="d-flex"
+                          >
+                            <button
+                              type="button"
+                              class="btn liquiditybuttonssss"
+                            >
+                              ($234,435.50)
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -222,42 +306,61 @@ export const AddLiquidity = () => {
                       <div class="d-flex">
                         <div class="input-group">
                           <input
-                            style={{
-                              borderRight: "none",
-                              borderColor: "#E6E8EC",
-                            }}
-                            type="text"
+                            type="number"
                             class="form-control"
+                            style={{
+                              color: "#23262f",
+                              fontSize: "14px",
+                              fontFamily: "Poppins",
+                              paddingBottom: "25px",
+                              borderRadius: "10px",
+                              border: "2px solid #E6E8EC",
+                              paddingTop: "25px",
+                              fontWeight: "400",
+                            }}
                             aria-label="Text input with segmented dropdown button"
                           />
-                        </div>
-                        <div class="input-group-append">
-                          <button type="button" class="btn liquiditybutton">
-                            ($234,435.50)
-                          </button>
-                          <img
-                            src={Images.searchbarr}
-                            class="search_icon_image"
-                          />
-                          <button
-                            type="button"
-                            class="btn liquiditybutton dropdown-toggle dropdown-toggle-split"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
+                          <div
+                            style={{
+                              position: "absolute",
+                              right: "4px",
+                              zIndex: "4",
+                              paddingTop: "8px",
+                            }}
+                            class="d-flex"
                           >
-                            <span class="sr-only">Toggle Dropdown</span>
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">
-                              BTC
-                            </a>
-                            <a class="dropdown-item" href="#">
-                              BNB
-                            </a>
-                            <a class="dropdown-item" href="#">
-                              ETH
-                            </a>
+                            <button
+                              type="button"
+                              class="btn liquiditybuttonssss"
+                            >
+                              ($234,435.50)
+                            </button>
+                            <img
+                              className="liquidtyimage"
+                              src={Images.searchbarr}
+                              // class="search_icon_image"
+                            />
+                            <button
+                              type="button"
+                              class="btn liquiditybutton "
+                              data-toggle="dropdown"
+                              aria-haspopup="true"
+                              aria-expanded="false"
+                            >
+                              <img className="mb-1" src={Images.iconarowdown} />
+                              {/* <span class="sr-only">Toggle Dropdown</span> */}
+                            </button>
+                            <div class="dropdown-menu">
+                              <a class="dropdown-item" href="#">
+                                BTC
+                              </a>
+                              <a class="dropdown-item" href="#">
+                                BNB
+                              </a>
+                              <a class="dropdown-item" href="#">
+                                ETH
+                              </a>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -289,7 +392,9 @@ export const AddLiquidity = () => {
                       paddingLeft: "30px",
                       paddingRight: "30px",
                       borderColor: "#E6E8EC",
-                      borderRadius: "20px",
+                      fontFamily: "Poppins",
+                      borderRadius: "25px",
+                      fontWeight: "bold",
                       color: "#000",
                     }}
                     type="button"
@@ -304,7 +409,7 @@ export const AddLiquidity = () => {
                       setAddLiquidity_Modal(false);
                     }}
                   >
-                    I understand,continue
+                    I understand, continue
                   </button>
                 </div>
               </div>
@@ -315,7 +420,7 @@ export const AddLiquidity = () => {
       </Modal>
 
       <button
-        class="btn marketbuttonss "
+        class="btn marketbuttonrrr "
         onClick={() => {
           setAddLiquidity_Modal(true);
         }}

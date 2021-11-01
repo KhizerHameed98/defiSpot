@@ -5,9 +5,13 @@ import { useSelector, useDispatch } from "react-redux";
 
 const Overview = () => {
   const keyStoreInstance = useSelector((state) => state.main);
-
+const [searchInput, setSearchInput] = useState("");
   const [tableData, setTableData] = useState([]);
-  const [showBalance, setShowBalance] = useState(false);
+  const [tempData, setTempData] = useState([]);
+  const [reduxState, setReduxData] = useState("");
+  const [overallBalance_BTC, setOverallBalance_BTC] = useState(0);
+  const [overallBalance_USD, setOverallBalance_USD] = useState(0);
+  const [showBalance, setShowBalance] = useState(true);
   const [KeyStoreClients, setKeyStoreClients] = useState([]);
   const [Enum, set_Enum] = useState({
     allType: "allType",
@@ -19,41 +23,96 @@ const Overview = () => {
   useEffect(() => {
     setTableData(data);
   }, []);
+
   useEffect(() => {
     console.log("my keyStore Instance===>>", keyStoreInstance);
     setKeyStoreClients(keyStoreInstance.KeyStoreClient);
-  }, [keyStoreInstance]);
-
+    setOverallBalance_BTC(keyStoreInstance.overallBalance_BTC);
+    setOverallBalance_USD(keyStoreInstance.overallBalance_USD);
+    const data = JSON.stringify(keyStoreInstance.KeyStoreClient);
+    setReduxData(data);
+    setTempData(keyStoreInstance.KeyStoreClient);
+  }, [keyStoreInstance.KeyStoreClient, keyStoreInstance]);
   function SearchFilter(e) {
+    setSearchInput(e.target.value);
     setFilterType("");
     if (!e.target.value) {
       setFilterType(Enum.allType);
-      setTableData(data);
+      setKeyStoreClients(keyStoreInstance?.KeyStoreClient);
+      setTempData(reduxState && JSON.parse(reduxState));
     } else {
-      const res = data.filter((data) => data.TransactionId === e.target.value);
-      setTableData(res);
+      let res =
+        tempData?.length &&
+        tempData?.filter((d, key) => {
+          // console.log("record", d);
+          let res2 = d?.Transactions?.txs?.filter((value) => {
+            // console.log("value========", value);
+            return (
+              value?.hash
+                ?.toLowerCase()
+                .includes(e.target.value.toLowerCase()) && value
+            );
+          });
+
+          console.log("res2=====>>>", res2?.length && res2);
+          d.Transactions.txs = res2;
+          return d.Transactions.txs.length && d;
+
+          // return d.Transactions.txs.length && d;
+        });
+      console.log("res====>>>", res);
+      setKeyStoreClients(res);
     }
   }
+  useEffect(() => {
+    setTempData(reduxState && JSON.parse(reduxState));
+  }, [searchInput]);
+
   function filterAllType() {
+    setSearchInput("");
     setFilterType(Enum.allType);
-    setTableData(data);
+    setKeyStoreClients(keyStoreInstance.KeyStoreClient);
   }
   function filterWithdrawType() {
+    setSearchInput("");
     setFilterType(Enum.withdraw);
-    let res = data.filter((d) => d.Type === "Withdraw");
-    setTableData(res);
+    let res = keyStoreInstance.KeyStoreClient.filter((d, key) => {
+      let res2 = d.Transactions.txs.filter(
+        (value) => value.type.toLowerCase() === "withdraw"
+      );
+      return res2.length && res2;
+    });
+    setKeyStoreClients(res);
   }
   function filterDepositType() {
+    setSearchInput("");
     setFilterType(Enum.deposit);
-    let res = data.filter((d) => d.Type === "Deposit");
-    setTableData(res);
+    let res = keyStoreInstance.KeyStoreClient.filter((d, key) => {
+      let res2 = d.Transactions.txs.filter(
+        (value) => value.type.toLowerCase() === "deposit"
+      );
+      return res2.length && res2;
+    });
+    setKeyStoreClients(res);
   }
   function filterPendingType() {
+    setSearchInput("");
     setFilterType(Enum.pending);
-    let res = data.filter((d) => d.Type === "Pending");
-    setTableData(res);
+    let res = keyStoreInstance.KeyStoreClient.filter((d, key) => {
+      let res2 = d.Transactions.txs.filter(
+        (value) => value.type.toLowerCase() === "pending"
+      );
+      return res2.length && res2;
+    });
+    setKeyStoreClients(res);
   }
 
+  function financial(x) {
+    return Number.parseFloat(x).toFixed(4);
+  }
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
   return (
     <div className="col-lg-7 marginleftcol mt-2">
       <div className="sidebarcoleight pt-3">
@@ -93,36 +152,52 @@ const Overview = () => {
                 fontWeight: "500",
                 lineHeight: "24px",
                 color: "#353945",
+                paddingBottom: "3px",
               }}
             >
               Your Net Worth
             </p>
-            <p
-              style={{
-                fontWeight: "bold",
-                marginBottom: "0px",
-                fontSize: "24px",
-                lineHeight: "36px",
-                fontFamily: "Poppins",
-                color: "#23262F",
-              }}
-            >
-              {showBalance ? <>7.25495219 </> : <>**** </>}
-
-              <span
+            <div class="d-flex">
+              <p
+                style={{
+                  fontWeight: "bold",
+                  marginBottom: "0px",
+                  fontSize: "24px",
+                  lineHeight: "36px",
+                  fontFamily: "Poppins",
+                  color: "#23262F",
+                }}
+              >
+                {showBalance ? (
+                  <>
+                    {overallBalance_BTC ? (
+                      <>{financial(overallBalance_BTC)}</>
+                    ) : (
+                      0
+                    )}{" "}
+                  </>
+                ) : (
+                  <>**** </>
+                )}
+              </p>
+              <p
                 style={{
                   backgroundColor: "#58BD7D",
                   fontSize: "10px",
-                  padding: "5px",
+                  paddingTop: "4px",
+                  paddingBottom: "4px",
+                  paddingLeft: "10px",
+                  paddingRight: "10px",
                   color: "#fff",
-                  fontFamily: "DM Sans",
-                  marginLeft: "50px",
-                  borderRadius: "5px",
+                  lineHeight: "24px",
+                  fontFamily: "Poppins",
+                  marginLeft: "12px",
+                  borderRadius: "4px",
                 }}
               >
                 BTC
-              </span>
-            </p>
+              </p>
+            </div>
             <p
               style={{
                 fontFamily: "Poppins",
@@ -132,7 +207,18 @@ const Overview = () => {
                 color: "#777E90",
               }}
             >
-              ${showBalance ? <>278,523.42</> : <>****</>}
+              $
+              {showBalance ? (
+                <>
+                  {overallBalance_USD ? (
+                    <>{numberWithCommas(financial(overallBalance_USD))}</>
+                  ) : (
+                    0
+                  )}
+                </>
+              ) : (
+                <>****</>
+              )}
             </p>
           </div>
         </div>
@@ -168,16 +254,23 @@ const Overview = () => {
                       <div>
                         <p
                           style={{
-                            fontWeight: "bold",
+                            fontWeight: "400",
+                            fontSize: "16px",
                             margin: "0px",
-                            fontFamily: "DM Sans",
+                            fontFamily: "Poppins",
                           }}
                         >
                           3.12194287 BTC
                         </p>
                         <p
                           className="d-flex justify-content-end"
-                          style={{ magin: "0px", fontFamily: "DM Sans" }}
+                          style={{
+                            magin: "0px",
+                            fontFamily: "Poppins",
+                            color: "#777390",
+                            fontSize: "14px",
+                            fontWeight: "400",
+                          }}
                         >
                           $10,095.35
                         </p>
@@ -204,16 +297,23 @@ const Overview = () => {
                       <div>
                         <p
                           style={{
-                            fontWeight: "bold",
+                            fontWeight: "400",
+                            fontSize: "16px",
                             margin: "0px",
-                            fontFamily: "DM Sans",
+                            fontFamily: "Poppins",
                           }}
                         >
                           3.1219 BTC
                         </p>
                         <p
                           className="d-flex justify-content-end"
-                          style={{ magin: "0px", fontFamily: "DM Sans" }}
+                          style={{
+                            magin: "0px",
+                            fontFamily: "Poppins",
+                            color: "#777390",
+                            fontSize: "14px",
+                            fontWeight: "400",
+                          }}
                         >
                           $10,095.35
                         </p>
@@ -235,19 +335,29 @@ const Overview = () => {
                           height: "12px",
                           marginTop: "4px",
                         }}
-                        src={Images.frame2}
+                        src={Images.purple}
                       />
                       <p className="marketsidetitle pl-2">Total</p>
                     </div>
                     <div>
                       <p
                         className="my-sm-0"
-                        style={{ fontWeight: "bold", fontFamily: "DM Sans" }}
+                        style={{
+                          fontWeight: "400",
+                          fontSize: "16px",
+                          margin: "0px",
+                          fontFamily: "Poppins",
+                        }}
                       >
                         10.376987555 BTC
                       </p>
                       <p
-                        style={{ fontFamily: "DM Sans" }}
+                        style={{
+                          fontFamily: "Poppins",
+                          color: "#777390",
+                          fontSize: "14px",
+                          fontWeight: "400",
+                        }}
                         className="d-flex justify-content-end"
                       >
                         $398,50286
@@ -259,7 +369,7 @@ const Overview = () => {
             </div>
             <div style={{ paddingLeft: "0px" }} className="col-lg-4">
               <div className="sidebarcoleight">
-                <div style={{ paddingLeft: "5px" }}>
+                <div style={{ paddingLeft: "20px" }}>
                   <p
                     style={{
                       fontSize: "12px",
@@ -286,12 +396,19 @@ const Overview = () => {
                       fontWeight: "bold",
                       fontSize: "20px",
                       paddingBottom: "5px",
-                      fontFamily: "DM Sans",
+                      fontFamily: "Poppins",
                     }}
                   >
                     $398.5K
                   </h3>
-                  <img style={{ paddingBottom: "8px" }} src={Images.overview} />
+                  <img
+                    style={{
+                      paddingBottom: "8px",
+                      width: "220px",
+                      paddingRight: "20px",
+                    }}
+                    src={Images.overview}
+                  />
                 </div>
               </div>
             </div>
@@ -332,7 +449,13 @@ const Overview = () => {
                         </p>
                         <p
                           className="d-flex justify-content-end"
-                          style={{ magin: "0px", fontFamily: "DM Sans" }}
+                          style={{
+                            magin: "0px",
+                            fontFamily: "Poppins",
+                            color: "777390",
+                            fontSize: "14px",
+                            fontWeight: "400",
+                          }}
                         >
                           $****
                         </p>
@@ -368,7 +491,13 @@ const Overview = () => {
                         </p>
                         <p
                           className="d-flex justify-content-end"
-                          style={{ magin: "0px", fontFamily: "DM Sans" }}
+                          style={{
+                            magin: "0px",
+                            fontFamily: "Poppins",
+                            color: "777390",
+                            fontSize: "14px",
+                            fontWeight: "400",
+                          }}
                         >
                           $****
                         </p>
@@ -390,7 +519,7 @@ const Overview = () => {
                           height: "12px",
                           marginTop: "4px",
                         }}
-                        src={Images.frame2}
+                        src={Images.purple}
                       />
                       <p className="marketsidetitle pl-2">Total</p>
                     </div>
@@ -402,7 +531,12 @@ const Overview = () => {
                         **** BTC
                       </p>
                       <p
-                        style={{ fontFamily: "DM Sans" }}
+                        style={{
+                          fontFamily: "Poppins",
+                          color: "777390",
+                          fontSize: "14px",
+                          fontWeight: "400",
+                        }}
                         className="d-flex justify-content-end"
                       >
                         $****
@@ -441,12 +575,19 @@ const Overview = () => {
                       fontWeight: "bold",
                       fontSize: "20px",
                       paddingBottom: "5px",
-                      fontFamily: "DM Sans",
+                      fontFamily: "Poppins",
                     }}
                   >
                     $****K
                   </h3>
-                  <img style={{ paddingBottom: "8px" }} src={Images.overview} />
+                  <img
+                    style={{
+                      paddingBottom: "8px",
+                      width: "220px",
+                      paddingRight: "20px",
+                    }}
+                    src={Images.overview}
+                  />
                 </div>
               </div>
             </div>
@@ -509,23 +650,33 @@ const Overview = () => {
             </li>
           </ul>
           <div class="d-flex">
-            <form className="pr-5">
+            <form className="pr-3">
               <div class=" d-flex form-group has-search">
                 <input
                   style={{
                     borderRadius: "10px",
-                    width: "300px",
+                    width: "250px",
                     fontFamily: "DM Sans",
                   }}
                   type="text"
                   class="form-control"
                   placeholder="Search"
+                  value={searchInput}
                   onChange={SearchFilter}
                 />
-                <span
-                  style={{ paddingTop: "10px", marginLeft: "-22px" }}
-                  class=" fa fa-search form-control-feedback"
-                ></span>
+                <img
+                  style={{
+                    width: "17px",
+                    height: "17px",
+                    marginLeft: "-25px",
+                    marginTop: "10px",
+                  }}
+                  src={Images.searchicon}
+                />
+                {/* <span
+            style={{ paddingTop: "10px", marginLeft: "-22px" }}
+            class=" fa fa-search form-control-feedback"
+          ></span> */}
               </div>
             </form>
             <button class="mb-4  mr-4 seeallbutton">
@@ -560,7 +711,7 @@ const Overview = () => {
                     color: "#777E90",
                     fontFamily: "Poppins",
                     textAlign: "right",
-                    paddingRight: "55px",
+                    paddingRight: "20px",
                     fontSize: "12px",
                     lineHeight: "20px",
                   }}
@@ -583,7 +734,7 @@ const Overview = () => {
                                 <div className="d-flex flex-column">
                                   <div>
                                     <span
-                                      style={{ fontFamily: "DM Sans" }}
+                                      style={{ fontFamily: "Poppins" }}
                                       className={
                                         d.Type === "Withdraw"
                                           ? "depositclass"
@@ -600,37 +751,46 @@ const Overview = () => {
                                   <img
                                     style={{ width: "25px" }}
                                     style={{ width: "25px" }}
-                                    src={Images.btc}
+                                    src={Images.bitcoinnn}
                                   />
                                   <div
                                     style={{
                                       paddingLeft: "5px",
-                                      fontFamily: "DM Sans",
+                                      fontFamily: "Poppins",
                                     }}
                                   >
-                                    {t.asset.symbol}
+                                    {t.asset.ticker}
                                   </div>
                                   <div className="d-flex align-items-center"></div>
                                 </div>
                               </td>
                               <td style={{ fontFamily: "DM Sans" }}>
-                                {Number(t.to[0].amount.amount().c[0]) /
-                                  Math.pow(10, Number(t.to[0].amount.decimal))}
+                                {t.transferAmount}
                                 {/* {t.to[0].amount.amount().c[0]} */}
                               </td>
                               <td>
                                 <div className="d-flex flex-column">
                                   <div>
-                                    <b style={{ fontFamily: "DM Sans" }}>
+                                    <b style={{ fontFamily: "Poppins" }}>
                                       {t.to[0].to}
                                     </b>
                                   </div>
                                 </div>
                               </td>
-                              <td style={{ fontFamily: "DM Sans" }}>
+                              <td
+                                style={{
+                                  fontFamily: "Poppins",
+                                  color: "#777e90",
+                                }}
+                              >
                                 {t.hash}
                               </td>
-                              <td style={{ fontFamily: "DM Sans" }}>
+                              <td
+                                style={{
+                                  fontFamily: "Poppins",
+                                  color: "#777e90",
+                                }}
+                              >
                                 {t.date.toString().substring(0, 24)}
                               </td>
                             </tr>
@@ -647,6 +807,7 @@ const Overview = () => {
       </div>
     </div>
   );
-};
+
+}
 
 export default Overview;

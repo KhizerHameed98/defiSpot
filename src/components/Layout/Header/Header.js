@@ -304,7 +304,7 @@ export const Header = () => {
                   >
                     Connect wallet
                   </h5>
-                  <button
+                  {/* <button
                     type="button"
                     class="close"
                     aria-label="Close"
@@ -315,7 +315,14 @@ export const Header = () => {
                     <span className="popupcrosss" aria-hidden="true">
                       &times;
                     </span>
-                  </button>
+                  </button> */}
+                  <img
+                    className="popupcrosss"
+                    onClick={() => {
+                      setMainModel(false);
+                    }}
+                    src={Images.crossicon}
+                  />
                 </div>
                 <div class="modal-body">
                   <div class="d-flex justify-content-center modalparagraph mb-3">
@@ -650,9 +657,9 @@ export const Header = () => {
           <Link className="navbar-brand" to={browserRoute.HOME}>
             <img
               style={{
-                width: "115px",
                 borderRight: "1px solid #E6E8EC",
                 paddingRight: "15px",
+                width: "112px",
               }}
               src={Images.defilogo}
             />
@@ -695,7 +702,7 @@ export const Header = () => {
                       : null)
                   }
                 >
-                  Earn Yield
+                  Earn yield
                 </Link>
               </li>
               <li class="nav-item">
@@ -713,31 +720,48 @@ export const Header = () => {
               </li>
               <li class="nav-item">
                 <div class="d-flex">
-                  <a class="nav-link" href="#">
+                  <Link
+                    to={browserRoute.LEARN}
+                    className={
+                      "nav-link " +
+                      (window.location.href.indexOf(browserRoute.LEARN) !== -1
+                        ? "active"
+                        : null)
+                    }
+                  >
                     Learn
-                  </a>
+                  </Link>
                   <img
-                    class="pt-4"
-                    style={{ height: "35px" }}
+                    style={{
+                      height: "15px",
+                      marginTop: "22px",
+                      marginLeft: "5px",
+                    }}
                     src={headerdown}
                   />
                 </div>
               </li>
             </ul>
             <select
-              class="mt-2 mr-4 styled-select"
+              class="mt-3  select"
               style={{
                 width: "70px",
                 listStyle: "none",
                 border: "none",
                 fontWeight: "bold",
                 background: "none",
+                color: "#23262F",
+                marginRight: "-25px",
                 fontFamily: "DM Sans",
               }}
             >
               <option style={{ color: "#23262F" }}>ENG</option>
               <option style={{ color: "#23262F" }}>ESP</option>
             </select>
+            <img
+              style={{ marginRight: "40px", marginTop: "15px" }}
+              src={Images.iconarowdown}
+            />
             <Link className="navbar-brand pr-3" to="/">
               <img src={bell} />
             </Link>
@@ -762,7 +786,6 @@ export const Header = () => {
           </div>
         </nav>
       </div>
-      <hr className="solid solidclasssheader" />
     </div>
   );
 };

@@ -2,11 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import Images from "../Helper/AllImages";
 
+
 const Withdraw_Modal = () => {
   const [withdraw_Modal, setWithdraw_Modal] = useState(false);
+  
 
   return (
+
     <div>
+      {/* settong modal */}
+      
       {/*AddLiquidity PopUp Modal BTC */}
 
       <Modal
@@ -43,12 +48,13 @@ const Withdraw_Modal = () => {
                         }}
                         src={Images.lefttwoline}
                       />
-                      <p class="yahparagraph pl-2 pt-1">Withdraw</p>
+                      <p class="yahparagraph pl-2 pt-3">Withdraw</p>
                     </div>
                     <div>
                       <img
                         style={{ height: "25px", marginTop: "15px" }}
                         src={Images.setting}
+                      
                       />
                     </div>
                   </div>
@@ -62,7 +68,8 @@ const Withdraw_Modal = () => {
                     class="d-flex justify-content-between mt-2 pl-5 pr-5 pt-3"
                     style={{
                       backgroundColor: "#F4F5F6",
-                      borderCollapse: "55px",
+                      // borderCollapse: "55px",
+                      borderRadius: "55px",
                     }}
                   >
                     <div class="d-flex">
@@ -72,7 +79,7 @@ const Withdraw_Modal = () => {
                       <p class="popupaddliquidty">BTC + RUNE</p>
                     </div>
                     <div class="d-flex">
-                      <p class="popupaddliquidty">Rune</p>
+                      <p class="popupaddliquidty">RUNE</p>
                     </div>
                   </div>
                   <div class="pl-5 pr-5 mt-5 bordewithdraw">
@@ -90,7 +97,7 @@ const Withdraw_Modal = () => {
                             style={{
                               color: "#23262F",
                               fontSize: "12px",
-                              fontFamily: "DM Sans",
+                              fontFamily: "Poppins",
                             }}
                           >
                             Native
@@ -99,63 +106,75 @@ const Withdraw_Modal = () => {
                       </div>
                       <p
                         class="pt-4"
-                        style={{ fontWeight: "bold", fontFamily: "DM Sans" }}
+                        style={{ fontWeight: "bold", fontFamily: "Poppins" }}
                       >
-                        Pool Share:0.7054%
+                        Pool Share: 0.7054%
                       </p>
                     </div>
-                    <hr class="solid" />
+                    </div>
+                    {/* <hr class="solid" /> */}
+                    <div class="pl-5 pr-5  bordewithdrawe234">
                     <div class="d-flex justify-content-between">
-                      <p class="servicefee">BTC share</p>
-                      <p style={{ fontWeight: "bold", fontFamily: "DM Sans" }}>
+                      <p class="servicefee pt-4">BTC share</p>
+                      <p class="pt-4" style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
                         5 BTC
                       </p>
                     </div>
                     <div class="d-flex justify-content-between">
                       <p class="servicefee">RUNE share</p>
-                      <p style={{ fontWeight: "bold", fontFamily: "DM Sans" }}>
+                      <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
                         2,222,369.93 RUNE
                       </p>
                     </div>
                     <div class="d-flex justify-content-between ">
                       <p class="servicefee">LP Units</p>
-                      <p style={{ fontWeight: "bold", fontFamily: "DM Sans" }}>
+                      <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
                         17.19
                       </p>
                     </div>
                     <div class="d-flex justify-content-between ">
                       <p class="servicefee">Last added</p>
-                      <p style={{ fontWeight: "bold", fontFamily: "DM Sans" }}>
+                      <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
                         17.19
                       </p>
                     </div>
                   </div>
                   <div class="pt-5 pb-5 pl-3 pr-3">
-                    <div class="progress">
+                    {/* <div class="progress">
                       <div
                         class="progress-bar bg-c-blue"
                         style={{ width: "65%" }}
                       ></div>
-                    </div>
+                    </div> */}
+
+                    <input
+                      style={{ width: "700px" }}
+                      type="range"
+                      class="form-range"
+                      onChange={(e) => {
+                        console.log("e======>>", e.target.value);
+                      }}
+                      id="customRange1"
+                    ></input>
                   </div>
                   <hr class="solid" />
                   <div class="d-flex justify-content-between">
                     <p class="servicefee">BTC</p>
-                    <p style={{ fontWeight: "bold", fontFamily: "DM Sans" }}>
+                    <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
                       2.5
                     </p>
                   </div>
                   <div class="d-flex justify-content-between">
                     <p class="servicefee">RUNE</p>
-                    <p style={{ fontWeight: "bold", fontFamily: "DM Sans" }}>
+                    <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
                       1,142,761.32
                     </p>
                   </div>
                   <div class="d-flex justify-content-between ">
-                    <p style={{ fontWeight: "bold", fontFamily: "DM Sans" }}>
+                    <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
                       Total Fee
                     </p>
-                    <p style={{ fontWeight: "bold", fontFamily: "DM Sans" }}>
+                    <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
                       $0.927
                     </p>
                   </div>
@@ -166,7 +185,10 @@ const Withdraw_Modal = () => {
                       paddingLeft: "30px",
                       paddingRight: "30px",
                       borderColor: "#E6E8EC",
-                      borderRadius: "20px",
+                      fontWeight:"bold",
+                      fontFamily:"Poppins",
+                      borderRadius: "25px",
+                      fontSize:"16px",
                       color: "#000",
                     }}
                     type="button"
@@ -196,7 +218,7 @@ const Withdraw_Modal = () => {
       </Modal>
 
       <button
-        class="btn marketbuttonss ml-2 "
+        class="btn marketbuttonrrr ml-2 "
         onClick={() => {
           setWithdraw_Modal(true);
         }}

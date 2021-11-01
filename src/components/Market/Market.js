@@ -8,8 +8,9 @@ import { MidgardPool_Action } from "../../Redux/actions/actions";
 import { useSelector, useDispatch } from "react-redux";
 
 const Market = () => {
-  const dispatch = useDispatch();
+ const dispatch = useDispatch();
   const [poolData, setPoolData] = useState([]);
+  const [tempPool, setTempPool] = useState([]);
   const [Enum, set_Enum] = useState({
     allType: "allType",
     native: "native",
@@ -17,6 +18,7 @@ const Market = () => {
     bep2: "bep2",
   });
   const [filterType, setFilterType] = useState(Enum.allType);
+  const [searchInput, setSearchInput] = useState("");
   const mainState = useSelector((state) => state.main.midgardPool);
   const loading = useSelector((state) => state.main.loading);
 
@@ -27,10 +29,13 @@ const Market = () => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
   function filterAllType() {
+    setSearchInput("");
     setFilterType(Enum.allType);
     setPoolData(mainState);
+    setTempPool(mainState);
   }
   function filterNative() {
+    setSearchInput("");
     let res = mainState.filter(
       (data) =>
         data.blockchain === "LTC" ||
@@ -39,24 +44,32 @@ const Market = () => {
     );
     setFilterType(Enum.native);
     setPoolData(res);
+    setTempPool(res);
   }
   function filterERC20() {
+    setSearchInput("");
     let res = mainState.filter((data) => data.blockchain === "ETH");
     setFilterType(Enum.erc20);
     setPoolData(res);
+    setTempPool(res);
   }
   function filterBEP2() {
+    setSearchInput("");
     let res = mainState.filter((data) => data.blockchain === "BNB");
     console.log("res=====>>", res);
     setFilterType(Enum.bep2);
     setPoolData(res);
+    setTempPool(res);
   }
+function InputSearch(e) {
+    setSearchInput(e.target.value);
 
-  function InputSearch(e) {
     if (!e.target.value) {
-      setPoolData(mainState);
+      setPoolData(tempPool);
+
+      // setFilterType(Enum.allType);
     } else {
-      let result2 = mainState.filter(
+      let result2 = tempPool.filter(
         (value) =>
           value.assetFullName
             .toLowerCase()
@@ -67,6 +80,7 @@ const Market = () => {
   }
   useEffect(() => {
     setPoolData(mainState);
+    setTempPool(mainState);
   }, [mainState]);
   return (
     <div>
@@ -88,10 +102,10 @@ const Market = () => {
                       Cryptocurrency
                       <br /> Prices
                     </h2>
-                    <p style={{ fontFamily: "Poppins" }}>
+                    <p style={{ fontFamily: "Poppins",fontSize:"24px",fontWeight:"400" }}>
                       The global crypto market cap is{" "}
                       <span
-                        style={{ fontWeight: "bold", fontFamily: "Poppins" }}
+                        style={{ fontWeight: "bold", fontFamily: "Poppins",fontSize:"24px" }}
                       >
                         $1.86T
                       </span>
@@ -108,27 +122,26 @@ const Market = () => {
                     {mainState.slice(0, 3).map((d, key) => {
                       return (
                         <>
-                          <div class="col-lg-4 pt-4">
-                            <div class="d-flex">
+                          <div class="col-lg-4 pt-3 pb-3">
+                            <div class="d-flex markethover">
                               <img
-                                style={{ width: "30px", height: "30px" }}
-                                src={Images.btc}
+                                style={{ width: "32px", height: "32px" }}
+                                src={d?.logo}
                               />
                               <div
                                 style={{
                                   paddingLeft: "15px",
-                                  
                                 }}
                               >
                                 <p class="marketparagraph">
-                                  {d.asset}/USDT{" "}
-                                  {d.change_24h >= 0 ? (
+                                  {d?.asset}/USDT{" "}
+                                  {d?.change_24h >= 0 ? (
                                     <span className="spanclassmarket">
-                                      +{financial(d.change_24h)}%
+                                      +{financial(d?.change_24h)}%
                                     </span>
                                   ) : (
                                     <span className="spanclassmarkets">
-                                      {financial(d.change_24h)}%
+                                      {financial(d?.change_24h)}%
                                     </span>
                                   )}{" "}
                                 </p>
@@ -142,11 +155,17 @@ const Market = () => {
                                 >
                                   {" "}
                                   {numberWithCommas(
-                                    financial(d.assetPriceUSD)
+                                    financial(d?.assetPriceUSD)
                                   )}{" "}
                                 </p>
-                                <p style={{ fontFamily: "Poppins",color:"#23262F",fontSize:"12px" }}>
-                                  {numberWithCommas(financial(d.assetPriceUSD))}
+                                <p
+                                  style={{
+                                    fontFamily: "Poppins",
+                                    color: "#23262F",
+                                    fontSize: "12px",
+                                  }}
+                                >
+                                  {numberWithCommas(financial(d?.assetPriceUSD))}
                                 </p>
                               </div>
                               <div style={{ paddingLeft: "7px" }}>
@@ -166,30 +185,6 @@ const Market = () => {
             <div class="container pt-5">
               <div class="d-flex justify-content-between">
                 <ul class="list-unstyled d-flex">
-                  {/* {filterType === Enum.allType ? (
-                    <li>
-                      <button
-                        className="alltype"
-                        style={{ color: "#fff", fontFamily: "DM Sans" }}
-                        onClick={filterAllType}
-                      >
-                        All type
-                      </button>
-                    </li>
-                  ) : (
-                    <li class="pl-3 pt-2 marketparagraph">
-                      <span
-                        style={{
-                          color: "#777E90",
-                          cursor: "pointer",
-                          fontFamily: "DM Sans",
-                        }}
-                        onClick={filterAllType}
-                      >
-                        All Type
-                      </span>
-                    </li>
-                  )} */}
                   <li>
                     <button
                       className={
@@ -250,19 +245,26 @@ const Market = () => {
                     style={{
                       borderRadius: "8px",
                       width: "280px",
-                      height:"35px",
+                      height: "35px",
                       fontFamily: "DM Sans",
-                      backgroundColor:"#FCFCFD",
+                      backgroundColor: "#FCFCFD",
                     }}
                     type="text"
                     class="form-control"
                     placeholder="Search after coin..."
+                    value={searchInput}
                     onChange={InputSearch}
                   />
-                  <span
-                    style={{ paddingTop: "10px", marginLeft: "-20px",fontSize:"15px",color:"#777E90" }}
-                    class=" fa fa-search form-control-feedback"
-                  ></span>
+                  <img style={{width:"17px",height:"17px",marginLeft: "-25px",marginTop: "10px"}} src={Images.searchicon}/>
+                  {/* <span
+                    style={{
+                      paddingTop: "10px",
+                      marginLeft: "-20px",
+                      fontSize: "15px",
+                      color: "#777E90",
+                    }}
+                    <img src={Images.searchicon}/>
+                  </span> */}
                 </div>
               </div>
               {poolData ? (
@@ -270,51 +272,101 @@ const Market = () => {
                   <table class="table">
                     <thead>
                       <tr>
-                        <th
-                         style={{border:"none",color:"#777E90",fontFamily:"Poppins",fontSize:"14px ",fontWeight:"400"}}
+                        <th  className="pt-5 pb-5"
+                          style={{
+                            border: "none",
+                            color: "#777E90",
+                            fontFamily: "Poppins",
+                            fontSize: "14px ",
+                            fontWeight: "600",
+                          }}
                           scope="col"
                         >
-                          #  <img class="pl-1" src={Images.nameup} />
+                          # <img class="pl-1" src={Images.nameup} />
                         </th>
-                        <th
-                          style={{border:"none",color:"#777E90",fontFamily:"Poppins",fontSize:"14px ",fontWeight:"400"}}
+                        <th  className="pt-5 pb-5"
+                          style={{
+                            border: "none",
+                            color: "#777E90",
+                            fontFamily: "Poppins",
+                            fontSize: "14px ",
+                            fontWeight: "600",
+                          }}
                           scope="col"
                         >
                           Name <img class="pl-1" src={Images.nameup} />
                         </th>
-                        <th
-                         style={{border:"none",color:"#777E90",fontFamily:"Poppins",fontSize:"14px ",fontWeight:"400"}}
+                        <th  className="pt-5 pb-5"
+                          style={{
+                            border: "none",
+                            color: "#777E90",
+                            fontFamily: "Poppins",
+                            fontSize: "14px ",
+                            fontWeight: "600",
+                          }}
                           scope="col"
                         >
                           Price <img class="pl-1" src={Images.nameup} />
                         </th>
-                        <th
-                          style={{border:"none",color:"#777E90",fontFamily:"Poppins",fontSize:"14px ",fontWeight:"400"}}
+                        <th  className="pt-5 pb-5"
+                          style={{
+                            border: "none",
+                            color: "#777E90",
+                            fontFamily: "Poppins",
+                            fontSize: "14px ",
+                            fontWeight: "600",
+                          }}
                           scope="col"
                         >
                           24h %
                         </th>
-                        <th
-                       style={{border:"none",color:"#777E90",fontFamily:"Poppins",fontSize:"14px ",fontWeight:"400"}}
+                        <th  className="pt-5 pb-5"
+                          style={{
+                            border: "none",
+                            color: "#777E90",
+                            fontFamily: "Poppins",
+                            fontSize: "14px ",
+                            fontWeight: "600",
+                          }}
                           scope="col"
                         >
                           7d %
                         </th>
-                        <th
-                          style={{border:"none",color:"#777E90",fontFamily:"Poppins",fontSize:"14px ",fontWeight:"400"}}
+                        <th  className="pt-5 pb-5"
+                          style={{
+                            border: "none",
+                            color: "#777E90",
+                            fontFamily: "Poppins",
+                            fontSize: "14px ",
+                            fontWeight: "600",
+                          }}
                           scope="col"
                         >
                           Marketcap <img src={Images.dolaar} />
                         </th>
-                        <th
-                          style={{border:"none",color:"#777E90",fontFamily:"Poppins",fontSize:"14px ",fontWeight:"400"}}
+                        <th  className="pt-5 pb-5"
+                          style={{
+                            border: "none",
+                            color: "#777E90",
+                            fontFamily: "Poppins",
+                            fontSize: "14px ",
+                            fontWeight: "600",
+                          }}
                           scope="col"
                         >
                           Volume(24h)
                           <img class="pl-2" src={Images.hourr} />
                         </th>
-                        <th
-                         style={{border:"none",color:"#777E90",fontFamily:"Poppins",fontSize:"14px ",fontWeight:"400",textAlign:"right",paddingRight:"30px"}}
+                        <th  className="pt-5 pb-5"
+                          style={{
+                            border: "none",
+                            color: "#777E90",
+                            fontFamily: "Poppins",
+                            fontSize: "14px ",
+                            fontWeight: "600",
+                            textAlign: "right",
+                            paddingRight: "30px",
+                          }}
                           scope="col"
                         >
                           Chart
@@ -324,476 +376,127 @@ const Market = () => {
                     <tbody>
                       {poolData.slice(0, 10).map((d, key) => {
                         return (
-                          <tr>
-                            <th
+                          <tr className="maintdclasshover">
+                            <th className="pt-4"
                               style={{
                                 color: "#777E90",
                                 fontFamily: "Poppins",
-                                fontSize:"12px",
-                                paddingTop:"17px"
+                                fontSize: "12px",
+                                paddingTop: "17px",
                               }}
                               scope="row"
                             >
                               {key + 1}
                             </th>
-                            <td>
+                            <td className="pt-3">
                               <div class="d-flex ">
                                 <img
-                                  style={{ width: "25px" }}
-                                  src={Images.btc1}
+                                  style={{ width: "32px" }}
+                                  src={d?.logo}
                                 />
                                 <div
                                   style={{
                                     fontWeight: "bold",
                                     fontFamily: "Poppins",
                                     paddingLeft: "5px",
-                                    fontSize:"14px",
-                                    paddingLeft:"12px",
-                                    paddingTop:"3px"
+                                    fontSize: "14px",
+                                    paddingLeft: "12px",
+                                    paddingTop: "3px",
                                   }}
                                 >
-                                  {d.assetFullName}
+                                  {d?.assetFullName}
                                 </div>
                                 <div class="d-flex align-items-center">
                                   <div
                                     style={{ fontFamily: "DM Sans" }}
                                     class="pl-2 text-muted"
                                   >
-                                    {d.asset}
+                                    {d?.asset}
                                   </div>
                                 </div>
                               </div>
                             </td>
 
-                            <td
+                            <td className="pt-4"
                               style={{
                                 fontWeight: "bold",
                                 fontFamily: "Poppins",
-                                fontSize:"14px",
-                                paddingTop:"17px"
+                                fontSize: "14px",
+                                paddingTop: "17px",
                               }}
                             >
-                              {numberWithCommas(financial(d.assetPriceUSD))}
+                              ${numberWithCommas(financial(d?.assetPriceUSD))}
                             </td>
-                            <td>
+                            <td className="pt-4">
                               <div class="d-flex flex-column">
                                 <div>
-                                  {d.change_24h >= 0 ? (
+                                  {d?.change_24h >= 0 ? (
                                     <b className="percentage">
-                                      +{financial(d.change_24h)}
+                                      +{financial(d?.change_24h)}%
                                     </b>
                                   ) : (
                                     <b className="percentagetwo">
-                                      {financial(d.change_24h)}
+                                      {financial(d?.change_24h)}%
                                     </b>
                                   )}
                                 </div>
                               </div>
                             </td>
-                            <td>
+                            <td className="pt-4">
                               <div class="d-flex flex-column">
                                 <div>
-                                  {d.change_7d >= 0 ? (
+                                  {d?.change_7d >= 0 ? (
                                     <b className="percentage">
-                                      +{financial(d.change_7d)}
+                                      +{financial(d?.change_7d)}%
                                     </b>
                                   ) : (
                                     <b className="percentagetwo">
-                                      {financial(d.change_7d)}
+                                      {financial(d?.change_7d)}%
                                     </b>
                                   )}{" "}
                                 </div>
                               </div>
                             </td>
-                            <td
+                            <td className="pt-4"
                               style={{
                                 fontWeight: "bold",
                                 fontFamily: "Poppins",
-                                fontSize:"14px",
-                                paddingTop:"17px"
+                                fontSize: "14px",
+                                paddingTop: "17px",
                               }}
                             >
-                              ${numberWithCommas(financial(d.marketCap))}
+                              ${numberWithCommas(financial(d?.marketCap))}
                             </td>
-                            <td
-                             style={{
-                              fontWeight: "bold",
-                              fontFamily: "Poppins",
-                              fontSize:"14px",
-                              paddingTop:"17px"
-                            }}
+                            <td className="pt-4"
+                              style={{
+                                fontWeight: "bold",
+                                fontFamily: "Poppins",
+                                fontSize: "14px",
+                                paddingTop: "17px",
+                              }}
                             >
-                              ${d.volume24h}
+                              ${d?.volume24h}
                             </td>
-                            <td >
-                              <img src={Images.crt1} className="buyTokenGraph"/>
-                            </td>
-
-                            <td className="buyTokenbtn">
-                              <Link to={`${browserRoute.BUYMARKET}/${d.asset}`}>
+                            <td style={{Height:"42px"}}>
+                              <div className="buytoken-buttonvalue">
+                              <span    className="buyTokenGraph">
+                            {d.change_24h>0?(<><img src={Images.crt1}/></>):(<><img src={Images.crt2}/></>)}
+                              </span>
+                            <span  className="buyTokenbtn">
+                              <Link to={`${browserRoute.BUYMARKET}/${d?.asset}`}>
                                 <button
                                   style={{ fontFamily: "DM Sans" }}
-                                  className=" mt-1 ml-3 pl-5 pr-5 btn btn-primary"
+                                  className=" mt-1 ml-3 pl-5 pr-5 pt-2 pb-2 btn btn-primary"
                                 >
                                   Buy
                                 </button>
                               </Link>
+                              </span>
+                              </div>
                             </td>
                           </tr>
                         );
                       })}
-                      {/* 
-                      <tr>
-                        <th scope="row">2</th>
-                        <td>
-                          <div class="d-flex ">
-                            <img style={{ width: "25px" }} src={Images.btc2} />
-                            <div style={{ paddingLeft: "5px" }}>Ethereum</div>
-                            <div class="d-flex align-items-center">
-                              <div class="pl-2 text-muted">ETH</div>
-                            </div>
-                          </div>
-                        </td>
-                        <td>36,641.20</td>
-                        <td>
-                          <div class="d-flex flex-column">
-                            <div>
-                              <b class="percentage">+6.09%</b>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="d-flex flex-column">
-                            <div>
-                              <b class="percentagetwo">-2.04%</b>
-                            </div>
-                          </div>
-                        </td>
-                        <td>$328,564,656,654</td>
-                        <td>$328,564,656,654</td>
-                        <td className="buyTokenGraph">
-                          <img src={Images.crt1} />
-                        </td>
-                        <td className="buyTokenbtn">
-                          <Link to={browserRoute.BUYMARKET}>
-                            <button className=" mt-1 ml-3 btn btn-primary">
-                              Buy Token
-                            </button>
-                          </Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td>
-                          <div class="d-flex ">
-                            <img style={{ width: "25px" }} src={Images.btc3} />
-                            <div style={{ paddingLeft: "5px" }}>Ethereum</div>
-                            <div class="d-flex align-items-center">
-                              <div class="pl-2 text-muted">ETH</div>
-                            </div>
-                          </div>
-                        </td>
-                        <td>36,641.20</td>
-                        <td>
-                          <div class="d-flex flex-column">
-                            <div>
-                              <b class="percentage">+6.09%</b>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="d-flex flex-column">
-                            <div>
-                              <b class="percentagetwo">-2.04%</b>
-                            </div>
-                          </div>
-                        </td>
-                        <td>$328,564,656,654</td>
-                        <td>$328,564,656,654</td>
-                        <td className="buyTokenGraph">
-                          <img src={Images.crt1} />
-                        </td>
-                        <td className="buyTokenbtn">
-                          <Link to={browserRoute.BUYMARKET}>
-                            <button className=" mt-1 ml-3 btn btn-primary">
-                              Buy Token
-                            </button>
-                          </Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row">4</th>
-                        <td>
-                          <div class="d-flex ">
-                            <img style={{ width: "25px" }} src={Images.btc4} />
-                            <div style={{ paddingLeft: "5px" }}>Ethereum</div>
-                            <div class="d-flex align-items-center">
-                              <div class="pl-2 text-muted">ETH</div>
-                            </div>
-                          </div>
-                        </td>
-                        <td>36,641.20</td>
-                        <td>
-                          <div class="d-flex flex-column">
-                            <div>
-                              <b class="percentage">+6.09%</b>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="d-flex flex-column">
-                            <div>
-                              <b class="percentagetwo">-2.04%</b>
-                            </div>
-                          </div>
-                        </td>
-                        <td>$328,564,656,654</td>
-                        <td>$328,564,656,654</td>
-                        <td className="buyTokenGraph">
-                          <img src={Images.crt2} />
-                        </td>
-                        <td className="buyTokenbtn">
-                          <Link to={browserRoute.BUYMARKET}>
-                            <button className=" mt-1 ml-3 btn btn-primary">
-                              Buy Token
-                            </button>
-                          </Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row">5</th>
-                        <td>
-                          <div class="d-flex ">
-                            <img style={{ width: "25px" }} src={Images.btc5} />
-                            <div style={{ paddingLeft: "5px" }}>Ethereum</div>
-                            <div class="d-flex align-items-center">
-                              <div class="pl-2 text-muted">ETH</div>
-                            </div>
-                          </div>
-                        </td>
-                        <td>36,641.20</td>
-                        <td>
-                          <div class="d-flex flex-column">
-                            <div>
-                              <b class="percentage">+6.09%</b>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="d-flex flex-column">
-                            <div>
-                              <b class="percentagetwo">-2.04%</b>
-                            </div>
-                          </div>
-                        </td>
-                        <td>$328,564,656,654</td>
-                        <td>$328,564,656,654</td>
-                        <td className="buyTokenGraph">
-                          <img src={Images.crt1} />
-                        </td>
-                        <td className="buyTokenbtn">
-                          <Link to={browserRoute.BUYMARKET}>
-                            <button className=" mt-1 ml-3 btn btn-primary">
-                              Buy Token
-                            </button>
-                          </Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row">6</th>
-                        <td>
-                          <div class="d-flex ">
-                            <img style={{ width: "25px" }} src={Images.btc6} />
-                            <div style={{ paddingLeft: "5px" }}>Ethereum</div>
-                            <div class="d-flex align-items-center">
-                              <div class="pl-2 text-muted">ETH</div>
-                            </div>
-                          </div>
-                        </td>
-                        <td>36,641.20</td>
-                        <td>
-                          <div class="d-flex flex-column">
-                            <div>
-                              <b class="percentage">+6.09%</b>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="d-flex flex-column">
-                            <div>
-                              <b class="percentagetwo">-2.04%</b>
-                            </div>
-                          </div>
-                        </td>
-                        <td>$328,564,656,654</td>
-                        <td>$328,564,656,654</td>
-                        <td className="buyTokenGraph">
-                          <img src={Images.crt1} />
-                        </td>
-                        <td className="buyTokenbtn">
-                          <Link to={browserRoute.BUYMARKET}>
-                            <button className=" mt-1 ml-3 btn btn-primary">
-                              Buy Token
-                            </button>
-                          </Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row">7</th>
-                        <td>
-                          <div class="d-flex ">
-                            <img style={{ width: "25px" }} src={Images.btc7} />
-                            <div style={{ paddingLeft: "5px" }}>Ethereum</div>
-                            <div class="d-flex align-items-center">
-                              <div class="pl-2 text-muted">ETH</div>
-                            </div>
-                          </div>
-                        </td>
-                        <td>36,641.20</td>
-                        <td>
-                          <div class="d-flex flex-column">
-                            <div>
-                              <b class="percentage">+6.09%</b>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="d-flex flex-column">
-                            <div>
-                              <b class="percentagetwo">-2.04%</b>
-                            </div>
-                          </div>
-                        </td>
-                        <td>$328,564,656,654</td>
-                        <td>$328,564,656,654</td>
-                        <td className="buyTokenGraph">
-                          <img src={Images.crt2} />
-                        </td>
-                        <td className="buyTokenbtn">
-                          <Link to={browserRoute.BUYMARKET}>
-                            <button className=" mt-1 ml-3 btn btn-primary">
-                              Buy Token
-                            </button>
-                          </Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row">8</th>
-                        <td>
-                          <div class="d-flex ">
-                            <img style={{ width: "25px" }} src={Images.btc8} />
-                            <div style={{ paddingLeft: "5px" }}>Ethereum</div>
-                            <div class="d-flex align-items-center">
-                              <div class="pl-2 text-muted">ETH</div>
-                            </div>
-                          </div>
-                        </td>
-                        <td>36,641.20</td>
-                        <td>
-                          <div class="d-flex flex-column">
-                            <div>
-                              <b class="percentage">+6.09%</b>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="d-flex flex-column">
-                            <div>
-                              <b class="percentagetwo">-2.04%</b>
-                            </div>
-                          </div>
-                        </td>
-                        <td>$328,564,656,654</td>
-                        <td>$328,564,656,654</td>
-                        <td className="buyTokenGraph">
-                          <img src={Images.crt1} />
-                        </td>
-                        <td className="buyTokenbtn">
-                          <Link to={browserRoute.BUYMARKET}>
-                            <button className=" mt-1 ml-3 btn btn-primary">
-                              Buy Token
-                            </button>
-                          </Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row">9</th>
-                        <td>
-                          <div class="d-flex ">
-                            <img style={{ width: "25px" }} src={Images.btc9} />
-                            <div style={{ paddingLeft: "5px" }}>Ethereum</div>
-                            <div class="d-flex align-items-center">
-                              <div class="pl-2 text-muted">ETH</div>
-                            </div>
-                          </div>
-                        </td>
-                        <td>36,641.20</td>
-                        <td>
-                          <div class="d-flex flex-column">
-                            <div>
-                              <b class="percentage">+6.09%</b>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="d-flex flex-column">
-                            <div>
-                              <b class="percentagetwo">-2.04%</b>
-                            </div>
-                          </div>
-                        </td>
-                        <td>$328,564,656,654</td>
-                        <td>$328,564,656,654</td>
-                        <td className="buyTokenGraph">
-                          <img src={Images.crt2} />
-                        </td>
-                        <td className="buyTokenbtn">
-                          <Link to={browserRoute.BUYMARKET}>
-                            <button className=" mt-1 ml-3 btn btn-primary">
-                              Buy Token
-                            </button>
-                          </Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row">10</th>
-                        <td>
-                          <div class="d-flex ">
-                            <img style={{ width: "25px" }} src={Images.btc10} />
-                            <div style={{ paddingLeft: "5px" }}>Ethereum</div>
-                            <div class="d-flex align-items-center">
-                              <div class="pl-2 text-muted">ETH</div>
-                            </div>
-                          </div>
-                        </td>
-                        <td>36,641.20</td>
-                        <td>
-                          <div class="d-flex flex-column">
-                            <div>
-                              <b class="percentage">+6.09%</b>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="d-flex flex-column">
-                            <div>
-                              <b class="percentagetwo">-2.04%</b>
-                            </div>
-                          </div>
-                        </td>
-                        <td>$328,564,656,654</td>
-                        <td>$328,564,656,654</td>
-                        <td className="buyTokenGraph">
-                          <img src={Images.crt1} />
-                        </td>
-                        <td className="buyTokenbtn">
-                          <Link to={browserRoute.BUYMARKET}>
-                            <button className=" mt-1 ml-3 btn btn-primary">
-                              Buy Token
-                            </button>
-                          </Link>
-                        </td>
-                      </tr> */}
                     </tbody>
                   </table>
                 </div>
@@ -812,7 +515,7 @@ const Market = () => {
                     textAlign: "center",
                     fontFamily: "Poppins",
                     fontWeight: "400",
-                    fontSize:"16px",
+                    fontSize: "16px",
                     color: "#545454",
                   }}
                 >
@@ -823,14 +526,14 @@ const Market = () => {
               </div>
               <div class="row">
                 <div class="col-lg-4">
-                  <div class="card" style={{ border: "none" }}>
+                  <div class="card cardborder" >
                     <img
                       class="card-img-top"
                       src={Images.comp}
                       alt="Card image cap"
                     />
                     <div class="card-body">
-                      <h6 class="marketcardone">Learn and Earn</h6>
+                      <h6 class="marketcardone">Learn & Earn</h6>
                       <p
                         // style={{ fontFamily: "DM Sans" }}
                         class="cardtext pt-4"
@@ -839,10 +542,10 @@ const Market = () => {
                       </p>
                     </div>
                   </div>
-                  <hr class="solid" />
+                 
                 </div>
                 <div class="col-lg-4">
-                  <div class="card" style={{ border: "none" }}>
+                  <div class="card cardborder">
                     <img
                       class="card-img-top"
                       src={Images.assest}
@@ -858,10 +561,10 @@ const Market = () => {
                       </p>
                     </div>
                   </div>
-                  <hr class="solid" />
+                 
                 </div>
                 <div class="col-lg-4">
-                  <div class="card" style={{ border: "none" }}>
+                  <div class="card cardborder">
                     <img
                       class="card-img-top"
                       src={Images.Yield}
@@ -877,14 +580,14 @@ const Market = () => {
                       </p>
                     </div>
                   </div>
-                  <hr class="solid" />
                 </div>
               </div>
             </div>
           </section>
           <div class="d-flex justify-content-center mb-5">
             <button type="button" class="btn loaderbutton">
-              <i class="mr-2 fa fa-spinner"></i>
+              {/* <i class="mr-2 fa fa-spinner"></i> */}
+              <img className="pr-2 mb-1" src={Images.loadicon}/>
               Load more
             </button>
           </div>
