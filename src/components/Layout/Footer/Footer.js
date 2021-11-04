@@ -64,9 +64,9 @@ export const Footer = () => {
                   <h4
                     style={{
                       fontSize: "12px",
-                      fontFamily: "Poppins",
+                      // fontFamily: "Poppins",
                       color: "#23262f",
-                      fontWeight: "100",
+                      // fontWeight: "100",
                       textTransform: "uppercase",
                     }}
                   >
@@ -94,12 +94,12 @@ export const Footer = () => {
               <div class="col-md-3 pl-5 pt-5 pb-4">
                 <h6
                   style={{
-                    fontFamily: "Poppins",
+                    // fontFamily: "Poppins",
                     fontSize: "12px",
-                    fontWeight: "400",
+                    // fontWeight: "400",
                   }}
                 >
-                  SUIPE LEARNING ACADEMY
+                  DEFISPOT LEARNING ACADEMY
                 </h6>
                 <p
                   class="pt-2 pb-2"
@@ -126,7 +126,7 @@ export const Footer = () => {
                     }}
                     class="form-control mr-sm-2"
                     type="text"
-                    placeholder="Enter Your Email"
+                    placeholder="Enter your email"
                   ></input>
                   <i
                     style={{
@@ -146,6 +146,7 @@ export const Footer = () => {
                   ></i>
                 </div>
               </div>
+            </div>
             </div>
             <hr class="solid" style={{ margin: "0px" }} />
             <div class="container mt-3">
@@ -186,7 +187,7 @@ export const Footer = () => {
               </div>
             </div>
           </div>
-        </div>
+        
       </footer>
     </div>
   );

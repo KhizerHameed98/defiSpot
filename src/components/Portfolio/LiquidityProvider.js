@@ -60,6 +60,8 @@ const LiquidityProvider = () => {
                   padding: "5px",
                   fontFamily: "Poppins",
                   color: "#fff",
+                  position:"relative",
+                  top:"-4px",
                   paddingLeft: "10px",
                   fontWeight: "100",
                   marginLeft: "10px",
@@ -100,7 +102,7 @@ const LiquidityProvider = () => {
                 style={{
                   fontWeight: "bold",
                   margin: "0px",
-                  color: "#58BD7D",
+                  color: "#545454",
                   fontFamily: "Poppins",
                   fontSize: "24px",
                 }}
@@ -115,6 +117,7 @@ const LiquidityProvider = () => {
                     color: "#fff",
                     fontWeight: "100",
                     paddingLeft: "10px",
+                    letterSpacing: "0.5px",
                     fontWeight: "100",
                     paddingRight: "10px",
                     marginLeft: "10px",
@@ -157,6 +160,8 @@ const LiquidityProvider = () => {
                   paddingLeft: "10px",
                   marginLeft: "10px",
                   fontWeight: "100",
+                  position:"relative",
+                  top:"-4px",
                   paddingRight: "10px",
                   borderRadius: "5px",
                 }}
@@ -168,7 +173,7 @@ const LiquidityProvider = () => {
         </div>
       </div>
       <p
-        class="pt-3 pl-5"
+        class="pt-3 pl-3"
         style={{
           color: "#777E90",
           fontWeight: "400",
@@ -180,7 +185,7 @@ const LiquidityProvider = () => {
       </p>
       <div class="sidebarcoleight pt-3">
         <div class="d-flex justify-content-between">
-          <form className="pr-5">
+          <div className="pr-5">
             <div class=" d-flex form-group has-search">
               <input
                 style={{
@@ -205,7 +210,7 @@ const LiquidityProvider = () => {
                 src={Images.searchicon}
               />
             </div>
-          </form>
+          </div>
           {/* <input
             style={{ width: "25%", borderRadius: "20px" }}
             class="form-control mr-sm-2"
@@ -268,6 +273,7 @@ const LiquidityProvider = () => {
                       fontFamily: "Poppins",
                       borderTop: "none",
                       borderBottom: "none",
+                      textAlign: "end",
                     }}
                     scope="col"
                   >
@@ -280,6 +286,7 @@ const LiquidityProvider = () => {
                       fontFamily: "Poppins",
                       borderTop: "none",
                       borderBottom: "none",
+                      textAlign: "end",
                     }}
                     scope="col"
                   >
@@ -292,6 +299,7 @@ const LiquidityProvider = () => {
                       fontFamily: "Poppins",
                       borderTop: "none",
                       borderBottom: "none",
+                      textAlign: "end",
                     }}
                     scope="col"
                     class="d-flex justify-content-end"

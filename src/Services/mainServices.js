@@ -831,9 +831,10 @@ export const MidgardPool_Action = () => async (dispatch) => {
       data[i].blockchain = s[0];
       data[i].asset = s[1];
       data[i].address = v[1];
-      data[i].assetFullName = TokenName[data[i]?.asset]?.name;
       let marketData = marketCap?.find((d) => d?.symbol === data[i]?.asset);
       data[i].coinMarketCap = marketData;
+      data[i].assetFullName = marketData?.name;
+
       // data[i].change_24h = marketData.quote.USD.percent_change_24h;
       // data[i].change_7d = marketData.quote.USD.percent_change_7d;
       data[i].marketCap = marketData?.quote?.USD?.market_cap;

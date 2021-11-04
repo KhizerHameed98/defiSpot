@@ -41,7 +41,7 @@ export const AddLiquidity = () => {
                     <div class="d-flex">
                       <img
                         class="pt-3"
-                        style={{ height: "25px", marginTop: "6px" }}
+                        style={{ height: "25px", marginTop: "12px" }}
                         onClick={() => {
                           setAddLiquidity_Modal(false);
                         }}

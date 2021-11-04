@@ -16,8 +16,16 @@ const Activity = () => {
   const [exportModal, setExportModal] = useState(false);
   const [tempData, setTempData] = useState([]);
   const [searchInput, setSearchInput] = useState("");
-  const [date, setDate] = useState(null);
   const [toggle, setToggle] = useState(false);
+  const [EnumRanges, setEnumRanges] = useState({
+    CUSTOM_RANGE: "CUSTOM RANGE",
+    ONE_DAY: "ONE DAY",
+    ONE_WEEK: "ONE WEEK",
+    ONE_MONTH: "ONE MONTH",
+    ONE_YEAR: "ONE YEAR",
+    ALL_TIME: "ALL TIME",
+  });
+  const [rangeType, setRangeType] = useState(EnumRanges.ALL_TIME);
   const [customToggle, setCustomToggle] = useState(false);
   const [state, setState] = useState([
     {
@@ -37,12 +45,49 @@ const Activity = () => {
   const [filterType, setFilterType] = useState(Enum.allType);
 
   useEffect(() => {
+    if (toggle) {
+      const weekDay = document.getElementsByClassName("rdrWeekDay");
+      console.log("weekDay========>>>", weekDay);
+      console.log("weekDay========>>>", weekDay[0].innerHTML);
+      for (let i = 0; i < weekDay.length; i++) {
+        console.log("week" + i, weekDay[i].innerHTML);
+        // weekDay[i].innerText = "some";
+        switch (weekDay[i].innerText) {
+          case "Sun":
+            weekDay[i].innerText = "Su";
+            break;
+          case "Mon":
+            weekDay[i].innerText = "Mo";
+            break;
+          case "Tue":
+            weekDay[i].innerText = "Tu";
+            break;
+          case "Wed":
+            weekDay[i].innerText = "We";
+            break;
+          case "Thu":
+            weekDay[i].innerText = "Th";
+            break;
+          case "Fri":
+            weekDay[i].innerText = "Fr";
+            break;
+          case "Sat":
+            weekDay[i].innerText = "Sa";
+            break;
+          default:
+            break;
+        }
+      }
+    }
+  }, [toggle]);
+
+  useEffect(() => {
     console.log("my keyStore Instance===>>", keyStoreInstance);
-    setKeyStoreClients(keyStoreInstance.KeyStoreClient);
-    const data = JSON.stringify(keyStoreInstance.KeyStoreClient);
+    setKeyStoreClients(keyStoreInstance?.KeyStoreClient);
+    const data = JSON.stringify(keyStoreInstance?.KeyStoreClient);
     setReduxData(data);
-    setTempData(keyStoreInstance.KeyStoreClient);
-  }, [keyStoreInstance.KeyStoreClient, keyStoreInstance]);
+    setTempData(keyStoreInstance?.KeyStoreClient);
+  }, [keyStoreInstance?.KeyStoreClient, keyStoreInstance]);
 
   useEffect(() => {
     console.log(
@@ -73,7 +118,6 @@ const Activity = () => {
           console.log("res2=====>>>", res2?.length && res2);
           d.Transactions.txs = res2;
           return d.Transactions.txs.length && d;
-
         });
       console.log("res====>>>", res);
       setKeyStoreClients(res);
@@ -168,12 +212,15 @@ const Activity = () => {
   };
   //ALL TIME HANDLER
   const handleAllTime = () => {
+    setRangeType(EnumRanges.ALL_TIME);
     setCustomToggle(false);
+    setToggle(false);
     setKeyStoreClients(keyStoreInstance.KeyStoreClient);
   };
 
   //ONE DAY HANDLER
   const handleOneDay = () => {
+    setRangeType(EnumRanges.ONE_DAY);
     setCustomToggle(false);
     const newState = [...state];
     newState[0].startDate = new Date();
@@ -212,6 +259,7 @@ const Activity = () => {
   //One Week Handler
 
   const handleOneWeek = () => {
+    setRangeType(EnumRanges.ONE_WEEK);
     setCustomToggle(false);
     let curr = new Date();
 
@@ -235,7 +283,14 @@ const Activity = () => {
     setState(newState);
     let start = new Date(week[0]);
     let end = new Date(week[week.length - 1]);
-
+    start.setHours(0);
+    start.setMinutes(0);
+    start.setSeconds(0);
+    start.setMilliseconds(0);
+    end.setHours(0);
+    end.setMinutes(0);
+    end.setSeconds(0);
+    end.setMilliseconds(0);
     //for filteration
     let dateFilter =
       tempData?.length &&
@@ -244,14 +299,12 @@ const Activity = () => {
         let res2 = d?.Transactions?.txs?.filter((value) => {
           // console.log("value========", value);
           let tempDate = new Date(value.date);
+          tempDate.setHours(0);
+          tempDate.setMinutes(0);
+          tempDate.setSeconds(0);
+          tempDate.setMilliseconds(0);
           console.log("Date====>>", tempDate.getFullYear());
-          return (
-            tempDate.getMonth() == start.getMonth() &&
-            tempDate.getFullYear() == start.getFullYear() &&
-            tempDate.getDate() >= start.getDate() &&
-            tempDate.getDate() <= start.getDate() &&
-            value
-          );
+          return tempDate >= start && tempDate <= end && value;
         });
         // d.Transactions.txs = res2;
         // console.log("res2====>>>", d);
@@ -269,6 +322,7 @@ const Activity = () => {
     return new Date(year, month, 0).getDate();
   }
   const handleOneMonth = () => {
+    setRangeType(EnumRanges.ONE_MONTH);
     setCustomToggle(false);
     // for date Component
     const date = new Date();
@@ -319,6 +373,7 @@ const Activity = () => {
   };
   //ONE YEAR HANDLER
   const handleOneYear = () => {
+    setRangeType(EnumRanges.ONE_YEAR);
     setCustomToggle(false);
     // for date Component
     const date = new Date();
@@ -355,7 +410,10 @@ const Activity = () => {
       });
     setKeyStoreClients(dateFilter);
   };
-
+  const handleCustomRange = () => {
+    setRangeType(EnumRanges.CUSTOM_RANGE);
+    setCustomToggle(true);
+  };
   function downloadCSVFile(csv_data) {
     // Create CSV file object and feed our
 
@@ -445,13 +503,14 @@ const Activity = () => {
           >
             <div role="document">
               <div>
-                <div class="modal-body">
+                <div class="modal-body" style={{display:"flex",justifyContent:"center"}}>
                   <DateRangePicker
                     onChange={
                       customToggle
                         ? handleCustom
                         : (item) => setState([...state])
                     }
+                    
                     showSelectionPreview={false}
                     moveRangeOnFirstSelection={false}
                     months={2}
@@ -460,12 +519,17 @@ const Activity = () => {
                     preventSnapRefocus={true}
                     calendarFocus="backwards"
                   />
+                  
                 </div>
+                <div className="d-flex justify-content-center">
                 <button
-                  className="btn btn-outline-secondary ml-3 pl-3"
-                  onClick={() => {
-                    setCustomToggle(true);
-                  }}
+                  className={
+                    "btn btn-outline-secondary ml-3 pl-3 " +
+                    (rangeType === EnumRanges.CUSTOM_RANGE
+                      ? "rangeActive"
+                      : null)
+                  }
+                  onClick={handleCustomRange}
                   style={{
                     border: "1px solid",
 
@@ -475,10 +539,13 @@ const Activity = () => {
                     borderRadius: "20px",
                   }}
                 >
-                  Custom Range{" "}
+                  Custom range{" "}
                 </button>
                 <button
-                  className="btn btn-outline-secondary ml-3 pl-3"
+                  className={
+                    "btn btn-outline-secondary ml-3 pl-3 " +
+                    (rangeType === EnumRanges.ONE_DAY ? "rangeActive" : null)
+                  }
                   onClick={handleOneDay}
                   style={{
                     border: "1px solid",
@@ -492,7 +559,10 @@ const Activity = () => {
                   One day{" "}
                 </button>{" "}
                 <button
-                  className="btn btn-outline-secondary ml-3 pl-3"
+                  className={
+                    "btn btn-outline-secondary ml-3 pl-3 " +
+                    (rangeType === EnumRanges.ONE_WEEK ? "rangeActive" : null)
+                  }
                   onClick={handleOneWeek}
                   style={{
                     border: "1px solid",
@@ -506,7 +576,10 @@ const Activity = () => {
                   One week
                 </button>
                 <button
-                  className="btn btn-outline-secondary ml-3 pl-3"
+                  className={
+                    "btn btn-outline-secondary ml-3 pl-3 " +
+                    (rangeType === EnumRanges.ONE_MONTH ? "rangeActive" : null)
+                  }
                   style={{
                     border: "1px solid",
 
@@ -520,7 +593,10 @@ const Activity = () => {
                   One month
                 </button>{" "}
                 <button
-                  className="btn btn-outline-secondary ml-3 pl-3"
+                  className={
+                    "btn btn-outline-secondary ml-3 pl-3 " +
+                    (rangeType === EnumRanges.ONE_YEAR ? "rangeActive" : null)
+                  }
                   onClick={handleOneYear}
                   style={{
                     border: "1px solid",
@@ -534,7 +610,10 @@ const Activity = () => {
                   One year
                 </button>
                 <button
-                  className="btn btn-outline-secondary ml-3 pl-3"
+                  className={
+                    "btn btn-outline-secondary ml-3 pl-3 " +
+                    (rangeType === EnumRanges.ALL_TIME ? "rangeActive" : null)
+                  }
                   onClick={handleAllTime}
                   style={{
                     border: "1px solid",
@@ -546,7 +625,8 @@ const Activity = () => {
                   }}
                 >
                   All time
-                </button>
+                </button>  
+                </div>
               </div>
             </div>
           </div>
@@ -696,18 +776,21 @@ const Activity = () => {
           <div style={{ float: "right", marginTop: "25px" }}>
             <button
               type="button"
-              className="btn btn-primary mr-3"
+              className="btn btn-primary exportbuttonactivity mr-5"
               onClick={() => {
                 setExportModal(true);
               }}
             >
               {" "}
-              <img src={Images.exportIcon} className="mr-2" />
+              <img src={Images.exportIcon} className="mr-2 mb-1" />
               Export
             </button>
           </div>
         </div>
-        <div className="table-responsive">
+        <div
+          className="table-responsive"
+          // style={{ height: "500px", overflowY: "auto" }}
+        >
           <table className="table">
             <thead>
               <tr>
@@ -774,16 +857,16 @@ const Activity = () => {
                       <>
                         {d.Transactions.txs.map((t, key2) => {
                           return (
-                            <tr>
+                            <tr className="maintdclasshover">
                               <td style={{ marginBottom: "5px" }}>
                                 <div className="d-flex flex-column">
                                   <div>
                                     <span
-                                      style={{ fontFamily: "Poppins" }}
+                                      style={{ fontFamily: "Poppins"}}
                                       className={
                                         d.Type === "Withdraw"
-                                          ? "depositclass"
-                                          : "depositclasss"
+                                          ? ""
+                                          :"depositclasssliquid"
                                       }
                                     >
                                       {t.type.toUpperCase()}
@@ -802,6 +885,8 @@ const Activity = () => {
                                     style={{
                                       paddingLeft: "5px",
                                       fontFamily: "Poppins",
+                                      fontSize:"14px",
+                                      marginTop:"3px"
                                     }}
                                   >
                                     <span>{t.asset.ticker}</span>
@@ -816,16 +901,16 @@ const Activity = () => {
                               <td>
                                 <div className="d-flex flex-column">
                                   <div>
-                                    <b style={{ fontFamily: "Poppins" }}>
+                                    <b style={{ fontFamily: "Poppins",fontSize:"14px" }}>
                                       <span>{t?.to[0]?.to}</span>
                                     </b>
                                   </div>
                                 </div>
                               </td>
-                              <td style={{ fontFamily: "Poppins" }}>
+                              <td style={{ fontFamily: "Poppins",fontSize:"14px",color:"#777e90" }}>
                                 <span>{t?.hash}</span>
                               </td>
-                              <td style={{ fontFamily: "Poppins" }}>
+                              <td style={{ fontFamily: "Poppins",fontSize:"14px",color:"#777e90",textAlign:"left" }}>
                                 <span>
                                   {new Date(t?.date)
                                     ?.toString()

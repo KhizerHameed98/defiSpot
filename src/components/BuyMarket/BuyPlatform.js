@@ -564,175 +564,7 @@ const BuyPlatform = () => {
       <section style={{ backgroundColor: "#F1F2F4" }}>
         <div class="container mt-3">
           <div class="row">
-            <div
-              class="col-lg-4 mt-1 mb-3 pt-4 pb-4"
-              style={{ backgroundColor: "#FCFCFD", height: "350px" }}
-            >
-              <button
-                class="mt-2"
-                style={{
-                  padding: "5px 15px 5px 15px",
-                  border: "none",
-                  borderRadius: "15px",
-                  fontWeight: "bold",
-                }}
-              >
-                <Link
-                  to={browserRoute.MARKET}
-                  style={{
-                    textDecoration: "none",
-                    color: "black",
-                    fontFamily: "DM Sans",
-                  }}
-                >
-                  Market
-                </Link>
-              </button>
-              <div class="d-flex justify-content-between pt-4">
-                <h2
-                  style={{
-                    color: "#23262F",
-                    fontWeight: "600",
-                    fontFamily: "Poppins",
-                    fontSize: "24px",
-                  }}
-                >
-                  Buy {tokenData?.asset}
-                </h2>
-                <div class="d-flex">
-                  <img
-                    style={{
-                      height: "15px",
-                      width: "15px",
-                      paddingTop: "2px",
-                    }}
-                    src={Images.bbbtc}
-                  />
-                  <p
-                    style={{
-                      fontFamily: "Poppins",
-                      fontSize: "12px",
-                      fontWeight: "600",
-                    }}
-                    class="pl-2"
-                  >
-                    10,098,36 USDT
-                  </p>
-                </div>
-              </div>
-              <form>
-                <div class="input-group mb-3 mt-3">
-                  <input
-                    style={{
-                      borderRadius: "10px",
-                      border: "3px solid #E6E8EC",
-                      color: "#777E90",
-                      fontSize: "14px",
-                      backgroundColor: "#fcfcfd",
-                      fontWeight: "bold",
-                      fontFamily: "Poppins",
-                    }}
-                    type="text"
-                    value={fromAmount}
-                    onChange={fromAmountHandler}
-                    class="form-control pt-4 pb-4"
-                    placeholder="From"
-                    aria-label="From"
-                    aria-describedby="basic-addon2"
-                  />
-                  {/* <div class="input-group-append"> */}
-                  <button
-                    style={{
-                      border: "none",
-                      position: "absolute",
-                      right: "4px",
-                      top: "10px",
-                      color: "#777E90",
-                      fontSize: "14px",
-                      fontWeight: "bold",
-                      fontFamily: "Poppins",
-                      zIndex: "4",
-                    }}
-                    class="btn"
-                    type="button"
-                  >
-                    USDT
-                  </button>
-                  {/* </div> */}
-                </div>
-              </form>
-              <form>
-                <div class="input-group mb-3 mt-3">
-                  <input
-                    style={{
-                      borderRadius: "10px",
-                      border: "3px solid #E6E8EC",
-                      color: "#777E90",
-                      fontSize: "14px",
-                      backgroundColor: "#fcfcfd",
-                      fontWeight: "bold",
-                      fontFamily: "Poppins",
-                    }}
-                    type="text"
-                    value={toAmount}
-                    onChange={toAmountHandler}
-                    class="form-control pt-4 pb-4"
-                    placeholder="TO"
-                    aria-label="From"
-                    aria-describedby="basic-addon2"
-                  />
-                  {/* <div class="input-group-append"> */}
-                  <button
-                    style={{
-                      border: "none",
-                      position: "absolute",
-                      right: "12px",
-                      top: "10px",
-                      color: "#777E90",
-                      fontSize: "14px",
-                      fontWeight: "bold",
-                      fontFamily: "Poppins",
-                      zIndex: "4",
-                    }}
-                    class="btn"
-                    type="button"
-                  >
-                    {tokenData?.asset}
-                  </button>
-                  {/* </div> */}
-                </div>
-              </form>
-
-              {/* <div class="input-group mb-3 mt-3">
-                <input
-                  style={{ borderRight: "none" }}
-                  type="text"
-                  class="form-control"
-                  placeholder="To"
-                  aria-label="To"
-                  aria-describedby="basic-addon2"
-                />
-                <div class="input-group-append">
-                  <button
-                    style={{ borderLeft: "none", borderColor: "#ced4da" }}
-                    class="btn btn-outline-secondary"
-                    type="button"
-                  >
-                    {tokenData?.asset}
-                  </button>
-                </div>
-              </div> */}
-
-              <button
-                style={{ fontSize: "16px", fontFamily: "Dm Sans" }}
-                type="button"
-                class="btn btn-primary btn-lg btn-block"
-                onClick={handleShowConfirm}
-              >
-                Buy {tokenData?.asset}
-              </button>
-            </div>
-            <div style={{ paddingLeft: "5px" }} class="col-lg-8  mt-1 mb-3">
+           <div style={{ paddingLeft: "5px" }} class="col-lg-8  mt-1 mb-3">
               <div class="pl-3 pt-5" style={{ backgroundColor: "#FCFCFD" }}>
                 <div class="d-flex justify-content-between">
                   <p
@@ -978,6 +810,174 @@ const BuyPlatform = () => {
                   </div>
                 </div>
               </div>
+            </div>
+            <div
+              class="col-lg-4 mt-1 mb-3 pt-4 pb-4"
+              style={{ backgroundColor: "#FCFCFD", height: "350px" }}
+            >
+              <button
+                class="mt-2"
+                style={{
+                  padding: "5px 15px 5px 15px",
+                  border: "none",
+                  borderRadius: "15px",
+                  fontWeight: "bold",
+                }}
+              >
+                <Link
+                  to={browserRoute.MARKET}
+                  style={{
+                    textDecoration: "none",
+                    color: "black",
+                    fontFamily: "DM Sans",
+                  }}
+                >
+                  Market
+                </Link>
+              </button>
+              <div class="d-flex justify-content-between pt-4">
+                <h2
+                  style={{
+                    color: "#23262F",
+                    fontWeight: "600",
+                    fontFamily: "Poppins",
+                    fontSize: "24px",
+                  }}
+                >
+                  Buy {tokenData?.asset}
+                </h2>
+                <div class="d-flex">
+                  <img
+                    style={{
+                      height: "15px",
+                      width: "15px",
+                      paddingTop: "2px",
+                    }}
+                    src={Images.bbbtc}
+                  />
+                  <p
+                    style={{
+                      fontFamily: "Poppins",
+                      fontSize: "12px",
+                      fontWeight: "600",
+                    }}
+                    class="pl-2"
+                  >
+                    10,098,36 USDT
+                  </p>
+                </div>
+              </div>
+              <form>
+                <div class="input-group mb-3 mt-3">
+                  <input
+                    style={{
+                      borderRadius: "10px",
+                      border: "3px solid #E6E8EC",
+                      color: "#777E90",
+                      fontSize: "14px",
+                      backgroundColor: "#fcfcfd",
+                      fontWeight: "bold",
+                      fontFamily: "Poppins",
+                    }}
+                    type="text"
+                    value={fromAmount}
+                    onChange={fromAmountHandler}
+                    class="form-control pt-4 pb-4"
+                    placeholder="From"
+                    aria-label="From"
+                    aria-describedby="basic-addon2"
+                  />
+                  {/* <div class="input-group-append"> */}
+                  <button
+                    style={{
+                      border: "none",
+                      position: "absolute",
+                      right: "4px",
+                      top: "10px",
+                      color: "#777E90",
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                      fontFamily: "Poppins",
+                      zIndex: "4",
+                    }}
+                    class="btn"
+                    type="button"
+                  >
+                    USDT
+                  </button>
+                  {/* </div> */}
+                </div>
+              </form>
+              <form>
+                <div class="input-group mb-3 mt-3">
+                  <input
+                    style={{
+                      borderRadius: "10px",
+                      border: "3px solid #E6E8EC",
+                      color: "#777E90",
+                      fontSize: "14px",
+                      backgroundColor: "#fcfcfd",
+                      fontWeight: "bold",
+                      fontFamily: "Poppins",
+                    }}
+                    type="text"
+                    value={toAmount}
+                    onChange={toAmountHandler}
+                    class="form-control pt-4 pb-4"
+                    placeholder="TO"
+                    aria-label="From"
+                    aria-describedby="basic-addon2"
+                  />
+                  {/* <div class="input-group-append"> */}
+                  <button
+                    style={{
+                      border: "none",
+                      position: "absolute",
+                      right: "12px",
+                      top: "10px",
+                      color: "#777E90",
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                      fontFamily: "Poppins",
+                      zIndex: "4",
+                    }}
+                    class="btn"
+                    type="button"
+                  >
+                    {tokenData?.asset}
+                  </button>
+                  {/* </div> */}
+                </div>
+              </form>
+
+              {/* <div class="input-group mb-3 mt-3">
+                <input
+                  style={{ borderRight: "none" }}
+                  type="text"
+                  class="form-control"
+                  placeholder="To"
+                  aria-label="To"
+                  aria-describedby="basic-addon2"
+                />
+                <div class="input-group-append">
+                  <button
+                    style={{ borderLeft: "none", borderColor: "#ced4da" }}
+                    class="btn btn-outline-secondary"
+                    type="button"
+                  >
+                    {tokenData?.asset}
+                  </button>
+                </div>
+              </div> */}
+
+              <button
+                style={{ fontSize: "16px", fontFamily: "Dm Sans" }}
+                type="button"
+                class="btn btn-primary btn-lg btn-block"
+                onClick={handleShowConfirm}
+              >
+                Buy {tokenData?.asset}
+              </button>
             </div>
           </div>
         </div>

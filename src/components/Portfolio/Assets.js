@@ -37,17 +37,20 @@ const Assets = () => {
   return (
     <div className="col-lg-7 marginleftcol mt-2">
       <div className="sidebarcoleight pt-3">
-        <h2 style={{ fontFamily: "Poppins", fontWeight: "bold" }}>Assets</h2>
+        <h2 style={{ fontFamily: "DM Sans", fontWeight: "bold",fontSize:"32px",lineHeight:"48px" }}>Assets</h2>
         <div className="d-flex justify-content-between pt-3">
           <div>
             <p
-              style={{
+               style={{
                 margin: "0px",
                 fontFamily: "Poppins",
                 fontSize: "14px",
-                fontWeight: "400",
+                fontWeight: "600",
+                lineHeight: "24px",
                 color: "#353945",
+                paddingBottom: "3px",
               }}
+            
             >
               Total balance
             </p>
@@ -83,11 +86,16 @@ const Assets = () => {
               </p>
             </div>
             <p
-              style={{
+              style={{  
                 fontFamily: "Poppins",
-                paddingTop: "5px",
+                fontSize: "16px",
+                fontWeight: "400",
+                lineHeight: "24px",
+                position:"relative",
+                top:"-10px",
                 color: "#777E90",
                 marginBottom: "0px",
+                marginTop: "-20px",
                 paddingBottom: "32px",
               }}
             >
@@ -103,19 +111,20 @@ const Assets = () => {
         </div>
       </div>
       <p
-        className="pt-3 pl-4"
+        className="pt-3"
         style={{
           color: "#777E90",
-          fontWeight: "400",
+          fontWeight: "500",
+          paddingLeft: "22px",
           fontSize: "12px",
           fontFamily: "Poppins",
         }}
       >
         Funds
       </p>
-      <div className="sidebarcoleight pt-3">
+      <div className="sidebarcoleight pl-0 pt-3">
         <div className="d-flex justify-content-between">
-          <form className="pr-5">
+          <div className="ml-3 pr-5">
             <div class=" d-flex form-group has-search">
               <input
                 style={{
@@ -145,7 +154,7 @@ const Assets = () => {
                 class=" fa fa-search form-control-feedback"
               ></span> */}
             </div>
-          </form>
+          </div>
           {/* <input
             style={{ width: "25%", borderRadius: "20px" }}
             className="form-control mr-sm-2"
@@ -173,13 +182,13 @@ const Assets = () => {
             </Link>
           </p>
         </div>
-        <div id="starred" className="bg-white px-2  mt-3 pb-5">
+        <div id="starred" className="bg-white  mt-3 pb-5">
           <div className="table-responsive">
             <table className="table">
               <thead>
                 <tr>
                   <th
-                    style={{ borderTop: "none", paddingLeft: "0px" }}
+                    style={{ borderTop: "none" }}
                     class="pt-3 pb-3 overview-tableheadss"
                     scope="col"
                   >
@@ -223,8 +232,14 @@ const Assets = () => {
               <tbody>
                 {tableData.map((d, key) => {
                   return (
-                    <tr>
-                      <td class="pt-3" style={{ paddingLeft: "0px" }}>
+                    <tr commponent="div">
+                      <td
+                        class="pt-3"
+                        style={{
+                          paddingLeft: "0px",
+                          borderBottom: "1px solid #dee2e6",
+                        }}
+                      >
                         <div className="d-flex">
                           <img
                             style={{ width: "32px", height: "35px" }}
@@ -254,14 +269,20 @@ const Assets = () => {
                           </div>
                         </div>
                       </td>
-                      <td class="pt-4">
+                      <td
+                        class="pt-4"
+                        style={{ borderBottom: "1px solid #dee2e6" }}
+                      >
                         <div className="d-flex flex-column">
                           <div>
                             <b className="assetsprice-b">${d.Price}</b>
                           </div>
                         </div>
                       </td>
-                      <td class="pt-4">
+                      <td
+                        class="pt-4"
+                        style={{ borderBottom: "1px solid #dee2e6" }}
+                      >
                         <div className="d-flex flex-column">
                           <div>
                             <b className="asset-totalquantity">
@@ -270,14 +291,20 @@ const Assets = () => {
                           </div>
                         </div>
                       </td>
-                      <td class="pt-4">
+                      <td
+                        class="pt-4"
+                        style={{ borderBottom: "1px solid #dee2e6" }}
+                      >
                         <div className="d-flex flex-column">
                           <div>
                             <b className="assetsprice-b">${d.Holding}</b>
                           </div>
                         </div>
                       </td>
-                      <td class="pt-4">
+                      <td
+                        class="pt-4"
+                        style={{ borderBottom: "1px solid #dee2e6" }}
+                      >
                         <div
                           className="d-flex justify-content-end"
                           className="asset-totalquantity"

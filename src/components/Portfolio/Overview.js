@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Images from "../Helper/AllImages";
 import data from "../Helper/Data/TransactionHistory";
 import { useSelector, useDispatch } from "react-redux";
 
 const Overview = () => {
   const keyStoreInstance = useSelector((state) => state.main);
-const [searchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState("");
   const [tableData, setTableData] = useState([]);
   const [tempData, setTempData] = useState([]);
   const [reduxState, setReduxData] = useState("");
@@ -31,8 +31,11 @@ const [searchInput, setSearchInput] = useState("");
     setOverallBalance_USD(keyStoreInstance.overallBalance_USD);
     const data = JSON.stringify(keyStoreInstance.KeyStoreClient);
     setReduxData(data);
-    setTempData(keyStoreInstance.KeyStoreClient);
   }, [keyStoreInstance.KeyStoreClient, keyStoreInstance]);
+
+  useEffect(() => {
+    setTempData(reduxState && JSON.parse(reduxState));
+  }, [reduxState]);
   function SearchFilter(e) {
     setSearchInput(e.target.value);
     setFilterType("");
@@ -122,7 +125,7 @@ const [searchInput, setSearchInput] = useState("");
               fontFamily: "DM Sans",
               fontWeight: "bold",
               fontSize: "32px",
-              lineHeight: "40px",
+              lineHeight: "48px",
             }}
           >
             Overview
@@ -149,7 +152,7 @@ const [searchInput, setSearchInput] = useState("");
                 margin: "0px",
                 fontFamily: "Poppins",
                 fontSize: "14px",
-                fontWeight: "500",
+                fontWeight: "600",
                 lineHeight: "24px",
                 color: "#353945",
                 paddingBottom: "3px",
@@ -183,15 +186,14 @@ const [searchInput, setSearchInput] = useState("");
               <p
                 style={{
                   backgroundColor: "#58BD7D",
-                  fontSize: "10px",
-                  paddingTop: "4px",
-                  paddingBottom: "4px",
-                  paddingLeft: "10px",
-                  paddingRight: "10px",
+                  fontSize: "12px",
+                  paddingTop: "8px",
+                  paddingBottom: "8px",
+                  paddingLeft: "8px",
+                  paddingRight: "8px",
                   color: "#fff",
-                  lineHeight: "24px",
                   fontFamily: "Poppins",
-                  marginLeft: "12px",
+                  marginLeft: "8px",
                   borderRadius: "4px",
                 }}
               >
@@ -199,11 +201,13 @@ const [searchInput, setSearchInput] = useState("");
               </p>
             </div>
             <p
-              style={{
+              style={{  
                 fontFamily: "Poppins",
                 fontSize: "16px",
                 fontWeight: "400",
                 lineHeight: "24px",
+                position:"relative",
+                top:"-10px",
                 color: "#777E90",
               }}
             >
@@ -599,7 +603,7 @@ const [searchInput, setSearchInput] = useState("");
         className="pt-3 pl-5"
         style={{ color: "#777E90", fontWeight: "bold", fontFamily: "DM Sans" }}
       >
-        Transaction history
+        Transaction History
       </p>
       <div className="sidebarcoleight pt-3">
         <div className="d-flex justify-content-between">
@@ -650,7 +654,7 @@ const [searchInput, setSearchInput] = useState("");
             </li>
           </ul>
           <div class="d-flex">
-            <form className="pr-3">
+            <div className="pr-3">
               <div class=" d-flex form-group has-search">
                 <input
                   style={{
@@ -678,7 +682,7 @@ const [searchInput, setSearchInput] = useState("");
             class=" fa fa-search form-control-feedback"
           ></span> */}
               </div>
-            </form>
+            </div>
             <button class="mb-4  mr-4 seeallbutton">
               See all{" "}
               <img src={Images.seeall} style={{ paddingLeft: "10px" }} />
@@ -729,7 +733,7 @@ const [searchInput, setSearchInput] = useState("");
                       <>
                         {d.Transactions.txs.map((t, key2) => {
                           return (
-                            <tr>
+                            <tr className="maintdclasshover">
                               <td>
                                 <div className="d-flex flex-column">
                                   <div>
@@ -757,6 +761,7 @@ const [searchInput, setSearchInput] = useState("");
                                     style={{
                                       paddingLeft: "5px",
                                       fontFamily: "Poppins",
+                                      fontWeight: "500",
                                     }}
                                   >
                                     {t.asset.ticker}
@@ -764,16 +769,25 @@ const [searchInput, setSearchInput] = useState("");
                                   <div className="d-flex align-items-center"></div>
                                 </div>
                               </td>
-                              <td style={{ fontFamily: "DM Sans" }}>
+                              <td
+                                style={{
+                                  fontFamily: "Poppins",
+                                  fontWeight: "500",
+                                }}
+                              >
                                 {t.transferAmount}
                                 {/* {t.to[0].amount.amount().c[0]} */}
                               </td>
                               <td>
                                 <div className="d-flex flex-column">
-                                  <div>
-                                    <b style={{ fontFamily: "Poppins" }}>
-                                      {t.to[0].to}
-                                    </b>
+                                  <div
+                                    style={{
+                                      paddingLeft: "5px",
+                                      fontFamily: "Poppins",
+                                      fontWeight: "500",
+                                    }}
+                                  >
+                                    {t.to[0].to}
                                   </div>
                                 </div>
                               </td>
@@ -781,6 +795,7 @@ const [searchInput, setSearchInput] = useState("");
                                 style={{
                                   fontFamily: "Poppins",
                                   color: "#777e90",
+                                  fontWeight: "500",
                                 }}
                               >
                                 {t.hash}
@@ -789,6 +804,7 @@ const [searchInput, setSearchInput] = useState("");
                                 style={{
                                   fontFamily: "Poppins",
                                   color: "#777e90",
+                                  whiteSpace:"nowrap",
                                 }}
                               >
                                 {t.date.toString().substring(0, 24)}
@@ -807,7 +823,7 @@ const [searchInput, setSearchInput] = useState("");
       </div>
     </div>
   );
-
-}
+};
 
 export default Overview;
+

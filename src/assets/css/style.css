@@ -104,7 +104,7 @@ body {
   font-family: "DM Sans";
   font-weight: 700;
 }
-.rdrDefinedRangesWrapper{
+.rdrDefinedRangesWrapper {
   display: none;
 }
 button:focus {
@@ -122,7 +122,7 @@ button:focus {
 }
 .percentage {
   color: #58bd7d;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 24px;
   font-family: "Poppins";
@@ -130,11 +130,11 @@ button:focus {
 }
 .percentagetwo {
   color: #ff6838;
-  font-size: 16px;
-    font-weight: 500;
-    line-height: 24px;
-    font-family: "Poppins";
-    padding-top: 17px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  font-family: "Poppins";
+  padding-top: 17px;
 }
 .cryptotraders {
   background-color: #f4f5f6;
@@ -153,7 +153,7 @@ button:focus {
 }
 .mintparagraph {
   font-size: 14px;
-  color: #353945;;
+  color: #353945;
   line-height: 24px;
   text-align: center;
   font-family: Poppins;
@@ -272,11 +272,13 @@ button:focus {
 .bitcoinclasssmian {
   background-color: #f4f5f6;
   border-radius: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
   height: 256px;
 }
-.fa{
-  color:#777E90;
-  }
+.fa {
+  color: #777e90;
+}
 .alltype {
   background-color: #353945;
   color: #fff;
@@ -284,6 +286,7 @@ button:focus {
   padding-right: 12px;
   border-radius: 20px;
   border-color: #353945;
+  font-size: 14px;
   padding-top: 6px;
   font-family: DM Sans;
   padding-bottom: 6px;
@@ -311,17 +314,25 @@ button:focus {
   padding-bottom: 10px;
   font-family: "DM Sans";
 }
+.mainhover{
+  height: 204px;
+  width: 244px;
+  padding: 32px 32px 32px 32px;
+}
 .mainhover:hover {
   background-color: #ffffff;
+  height: 204px;
+  width: 244px;
+  padding: 32px 32px 32px 32px;
   border-radius: 15px;
-  box-shadow: 0px 64px 64px -48px rgba(15,15,15,0.1);
+  box-shadow: 0px 64px 64px -48px rgba(15, 15, 15, 0.1);
 }
-.markethover:hover{
+.markethover:hover {
   background-color: rgb(238, 236, 236);
   border-radius: 15px;
-  box-shadow: 0px 64px 64px -48px rgba(15,15,15,0.1);
+  box-shadow: 0px 64px 64px -48px rgba(15, 15, 15, 0.1);
 }
-.markethover{
+.markethover {
   padding-top: 20px;
   padding-left: 10px;
 }
@@ -333,7 +344,7 @@ button:focus {
   font-size: 16px;
   background-color: "#3772FF" !important;
   color: "#fcfcfd";
-  color: #FCFCFD;
+  color: #fcfcfd;
   font-family: DM Sans;
   font-weight: 700;
   line-height: 16px;
@@ -347,7 +358,7 @@ button:focus {
   font-size: 16px;
   background-color: "#3772FF";
   color: "#fcfcfd";
-  color: #FCFCFD;
+  color: #fcfcfd;
   font-family: DM Sans;
   font-weight: 700;
   line-height: 16px;
@@ -393,7 +404,7 @@ button:focus {
   font-weight: bold;
   font-family: "DM Sans";
   padding-bottom: 20px;
-  color: #23262F;
+  color: #23262f;
 }
 .cardtext {
   font-weight: bold;
@@ -410,7 +421,7 @@ button:focus {
   padding-left: 16px;
   border: 2px solid #e6e8ec;
   border-radius: 28px;
-  color: #23262F;
+  color: #23262f;
 }
 /*new css */
 .numberheading {
@@ -427,7 +438,7 @@ button:focus {
 }
 .yahparagraph {
   color: #23262f;
-  font-size: 16px;
+  font-size: 24px;
   font-weight: 600;
   font-family: Poppins;
   margin: 0;
@@ -475,40 +486,54 @@ button:focus {
   font-family: Poppins;
   font-weight: 400;
 }
-.buyTokenbtn{
+.buyTokenbtn {
   display: none;
 }
-.buytoken-buttonvalue:hover .buyTokenbtn{
- display: block;
+.buytoken-buttonvalue:hover .buyTokenbtn {
+  display: block;
 }
-.buytoken-buttonvalue:hover .buyTokenGraph{
+.buytoken-buttonvalue:hover .buyTokenGraph {
   display: none;
- }
+}
 .depositclass {
   background-color: #3772ff;
   padding-left: 13px;
-    padding-right: 13px;
-    padding-top: 7px;
-    font-family: Poppins;
-    padding-bottom: 7px;
-    text-transform: uppercase;
-    border-radius: 5px;
-    font-size: 12px;
-    font-weight: 200;
-    color: #FCFCFD;
+  padding-right: 13px;
+  padding-top: 7px;
+  font-family: Poppins;
+  padding-bottom: 7px;
+  text-transform: uppercase;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 200;
+  color: #fcfcfd;
 }
 .depositclasss {
-  background-color: #aadcbd;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  background-color: #58bd7d;
+  padding-left: 12.5px;
+  padding-right: 12.5px;
+  padding-top: 8px;
+  padding-bottom: 8px;
   font-family: Poppins;
   text-transform: uppercase;
   border-radius: 5px;
   font-size: 12px;
-  font-weight: 100;;
-  color:#23262F;
+  font-weight: 600;
+  color: #23262f;
+}
+.depositclasssliquid {
+  background-color: #58bd7d;
+  padding-left: 12.5px;
+  padding-right: 12.5px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-family: Poppins;
+  text-transform: uppercase;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fcfcfd;
+  letter-spacing: 0.5px;
 }
 .marketsidetitle {
   color: #353945;
@@ -532,6 +557,9 @@ button:focus {
   vertical-align: bottom;
   border-bottom: 1px solid #dee2e6;
 }
+.table tbody td {
+  font-size: 14px;
+}
 .popupcrosss {
   border: 3px solid #d4d8e1;
   padding-left: 8px;
@@ -549,8 +577,8 @@ button:focus {
 }
 
 .marketbuttonss {
-  background-color: #fff;
-  padding-left: 14px;
+  background-color: #fcfcfd;
+  padding-left: 13px;
   padding-right: 14px;
   padding-top: 12px;
   padding-bottom: 12px;
@@ -558,19 +586,19 @@ button:focus {
   font-weight: 700;
   font-family: DM Sans;
   border-radius: 25px;
-  border: 1px solid #808080;
+  border: 2px solid #e6e8ec;
 }
 .marketbuttonrrr {
-  background-color: #fff;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  background-color: #fcfcfd;
+  padding-left: 13px;
+  padding-right: 14px;
+  padding-top: 12px;
+  padding-bottom: 12px;
   font-size: 12px;
   font-family: DM Sans;
   font-weight: 700;
   border-radius: 25px;
-  border: 1px solid #808080;
+  border: 2px solid #e6e8ec;
 }
 .popupaddliquidty {
   font-weight: bold;
@@ -584,7 +612,7 @@ button:focus {
   border-radius: 25px;
   margin-bottom: 1px;
 }
-.popupaddliquidtyActive{
+.popupaddliquidtyActive {
   font-weight: bold;
   background-color: #fefefe;
   padding: 5px, 10px, 10px, 5px;
@@ -594,7 +622,18 @@ button:focus {
   padding-bottom: 9px;
   border-radius: 25px;
   margin-bottom: 0px;
-  font-family:'DM Sans';
+  font-family: "DM Sans";
+}
+.rdrDayPassive .rdrDayNumber span {
+  color: white !important;
+}
+.rdrDayPassive .rdrDayNumber span:after {
+  background: none !important;
+}
+.rangeActive {
+  color: black;
+  border: 3px solid !important;
+  font-weight: bold;
 }
 .popupaddliquidty:hover {
   font-weight: bold;
@@ -648,7 +687,7 @@ button:focus {
   text-align: center;
   white-space: nowrap;
   background-color: #007bff;
-  transition: width .6s ease;
+  transition: width 0.6s ease;
 }
 .bg-c-blue {
   background: #4099ff;
@@ -692,7 +731,7 @@ button:focus {
   width: 500px;
 }
 .overview_portfoliobg {
-  background-color: #fff;
+  background-color: #fcfcfd;
   padding-left: 25px;
   padding-right: 10px;
   padding-top: 5px;
@@ -703,36 +742,34 @@ button:focus {
   border: none;
   height: 25px;
   margin-top: 6px;
-  
 }
 .solidclasssheader {
-    width: 1320;
-    margin-left: 100px;
-    margin-bottom: 0px;
-    width: 100%;
-    max-width: 1300px;
+  width: 1320;
+  margin-left: 100px;
+  margin-bottom: 0px;
+  width: 100%;
+  max-width: 1300px;
 }
-.overview-tablehead{
-  color: #777E90;
+.overview-tablehead {
+  color: #777e90;
   font-family: Poppins;
   font-size: 12px;
   font-weight: 600;
   line-height: 20px;
-
 }
-.overview-tableheadss{
-  color: #23262F;
+.overview-tableheadss {
+  color: #23262f;
   font-family: Poppins;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 400;
   border-top: none;
-  line-height: 20px;
-
+  line-height: 24px;
 }
-input::-webkit-input-placeholder { /* WebKit browsers */
-  color:    #000;
+input::-webkit-input-placeholder {
+  /* WebKit browsers */
+  color: #000;
 }
-.seeallbutton{
+.seeallbutton {
   padding-left: 15px;
   padding-right: 15px;
   padding-top: 5px;
@@ -740,16 +777,17 @@ input::-webkit-input-placeholder { /* WebKit browsers */
   color: #23262f;
   border: 2px solid #e6e8ec;
   border-radius: 22px;
-  background-color: #FCFCFD;
+  background-color: #fcfcfd;
   font-family: DM Sans;
   font-weight: 600;
 }
-.shadowclass{
+.shadowclass {
   border: none;
   border-radius: 20px;
+  background-color: #fcfcfd;
 }
-.shadowclass:hover{
-  box-shadow: 0px 64px 64px -48px rgba(15,15,15,0.1);
+.shadowclass:hover {
+  box-shadow: 0px 64px 64px -48px rgba(15, 15, 15, 0.1);
 }
 .date-classhomess {
   font-family: Poppins;
@@ -758,76 +796,75 @@ input::-webkit-input-placeholder { /* WebKit browsers */
   line-height: 24px;
   font-weight: 400;
 }
-.date-overviewtable{
+.date-overviewtable {
   border-top: none;
   color: #777e90;
   font-family: Poppins;
   font-size: 14px;
   font-weight: 400;
 }
-.maintdclasshover:hover{
+.maintdclasshover:hover {
   border-radius: 12px;
   background: #f8f8f9;
 }
-.earnyield-value{
+.earnyield-value {
   font-size: 14px;
   font-weight: 600;
-  color: #777E90;
+  color: #777e90;
 }
-.depositclasssss{
+.depositclasssss {
   background-color: #58bd7d;
-    padding-left: 22px;
-    padding-right: 22px;
-    padding-top: 7px;
-    padding-bottom: 7px;
-    font-family: Poppins;
-    text-transform: uppercase;
-    border-radius: 5px;
-    font-size: 12px;
-    font-weight: 400;
-    color: #FCFCFD;
-
+  padding-left: 22px;
+  padding-right: 22px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  font-family: Poppins;
+  text-transform: uppercase;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #fcfcfd;
 }
 .text-muted {
-  color: #6c757d!important;
+  color: #6c757d !important;
   font-size: 14px;
   font-weight: 700;
-  font-family: 'Poppins';
+  font-family: "Poppins";
 }
-.activaty-headingss{
+.activaty-headingss {
   font-family: DM Sans;
   font-size: 32px;
   font-weight: bold;
-  color: #23262F;
+  color: #23262f;
 }
-.darkmode--activated .navbar{
-background-color: #000 !important;
+.darkmode--activated .navbar {
+  background-color: #000 !important;
 }
-.darkmode--activated .nav-link{
+.darkmode--activated .nav-link {
   color: white !important;
 }
 
-.assetsprice-b{
-  color: #777E90;
+.assetsprice-b {
+  color: #777e90;
   font-size: 14px;
   font-family: Poppins;
   font-weight: 400;
 }
-.asset-totalquantity{
-  color: #23262F;
+.asset-totalquantity {
+  color: #23262f;
   font-size: 14px;
   font-family: Poppins;
   font-weight: 400;
 }
-.activity-coin{
+.activity-coin {
   font-size: 14px;
-  color: #23262F;
+  color: #23262f;
   font-weight: 600;
   font-family: Poppins;
   padding-top: 3px;
   padding-left: 10px;
 }
-.activity-coins{
+.activity-coins {
   font-size: 14px;
   color: #777e90;
   font-weight: 600;
@@ -835,94 +872,92 @@ background-color: #000 !important;
   padding-top: 3px;
   padding-left: 10px;
 }
-.exportbutton{
+.exportbutton {
   background-color: #fcfcfd;
   border: 1px solid #545454;
   padding-left: 1px;
   border-radius: 30px;
   padding-right: 1px;
 }
-.earn-yieldbuttonactivity{
+.earn-yieldbuttonactivity {
   color: #23262f;
   font-family: DM Sans;
   font-weight: bold;
   border: 2px solid;
-  border-color: #E6E8EC;
-  background-color: #FCFCFD;
+  border-color: #e6e8ec;
+  background-color: #fcfcfd;
   border-radius: 40px;
   padding-left: 18px;
   padding-top: 12px;
   padding-bottom: 12px;
   padding-right: 40px;
-
 }
-.earn-yieldbuttonactivityss{
+.earn-yieldbuttonactivityss {
   color: #23262f;
   font-family: DM Sans;
   font-weight: bold;
   border: 2px solid;
-  border-color: #E6E8EC;
-  background-color: #FCFCFD;
+  border-color: #e6e8ec;
+  background-color: #fcfcfd;
   border-radius: 40px;
   padding-left: 18px;
   padding-top: 12px;
   padding-bottom: 12px;
   padding-right: 30px;
-
 }
-.cardborder{
+.cardborder {
   border-left: none;
   border-right: none;
   border-top: none;
   border-bottom: 3px solid;
-  border-color: #E6E8EC;
+  border-color: #e6e8ec;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    /* display: none; <- Crashes Chrome on hover */
-    -webkit-appearance: none;
-    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
-.form-control:focus{
-  box-shadow: #3772FF;
+.form-control:focus {
+  box-shadow: #3772ff;
 }
-.select{
+.select {
   -webkit-appearance: none;
   padding: 2px 30px 2px 2px;
   border: none;
 }
 /* new */
-.form-range-thumb{
+.form-range-thumb {
   width: 2rem;
-}   
-.learnp111{
+}
+.learnp111 {
   font-family: Poppins;
   font-size: 24px;
   color: #777e90;
   font-weight: 400;
   display: flex;
   justify-content: center;
-}   
-.buttonlearnmore1234{
+}
+.buttonlearnmore1234 {
   font-size: 16px;
   font-family: DM Sans;
-  color: #FCFCFD;
+  color: #fcfcfd;
   font-weight: 700;
-  background-color: #3772FF;
+  background-color: #3772ff;
   padding-left: 24px;
   padding-right: 24px;
   padding-top: 14px;
   padding-bottom: 14px;
   border: none;
   border-radius: 25px;
-} 
-.learnpage-234{
+}
+.learnpage-234 {
   font-size: 24px;
   font-family: Poppins;
   font-weight: 600;
   color: #353945;
-}  
-.btn-secondary234{
+}
+.btn-secondary234 {
   color: #23262f;
   font-size: 14px;
   font-family: Poppins;
@@ -933,40 +968,40 @@ input::-webkit-inner-spin-button {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-right: 8px;
-}   
-.spanclass-343{
-font-family: Poppins;
-font-size: 12px;
-font-weight: 100;
-background-color: #9757D7;
-width: 140px;
-text-align: center;
-text-transform: uppercase;
-color:#FCFCFD;
-padding-top: 7px;
-padding-left: 11px;
-padding-right: 17px;
-padding-bottom: 7px;
-border-radius: 5px;
-position: absolute;
-top: 8px;
-left: 8px;
-} 
-.cardtitle234{
+}
+.spanclass-343 {
+  font-family: Poppins;
+  font-size: 12px;
+  font-weight: 100;
+  background-color: #9757d7;
+  width: 140px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #fcfcfd;
+  padding-top: 7px;
+  padding-left: 11px;
+  padding-right: 17px;
+  padding-bottom: 7px;
+  border-radius: 5px;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+}
+.cardtitle234 {
   font-size: 16px;
   font-family: Poppins;
   font-weight: 400;
   color: #23262f;
   margin-top: 5px;
   margin-bottom: 0px;
-}  
-.pname4566{
+}
+.pname4566 {
   font-size: 12px;
   font-family: Poppins;
   font-weight: 400;
   color: #777e90;
-}    
-.pname456667{
+}
+.pname456667 {
   font-size: 10px;
   font-family: Poppins;
   font-weight: 100;
@@ -978,16 +1013,16 @@ left: 8px;
   float: right;
   margin-bottom: 10px;
   margin-top: -35px;
-}    
-.spanclass-343900{
+}
+.spanclass-343900 {
   font-family: Poppins;
   font-size: 12px;
   font-weight: 100;
-  background-color: #23262F;
+  background-color: #23262f;
   width: 90px;
   text-align: center;
   text-transform: uppercase;
-  color:#FCFCFD;
+  color: #fcfcfd;
   padding-top: 7px;
   padding-left: 11px;
   padding-right: 17px;
@@ -997,15 +1032,15 @@ left: 8px;
   top: 8px;
   left: 8px;
 }
-.spanclass-343339{
+.spanclass-343339 {
   font-family: Poppins;
   font-size: 12px;
   font-weight: 100;
-  background-color: #FF6838;
+  background-color: #ff6838;
   width: 60px;
   text-align: center;
   text-transform: uppercase;
-  color:#FCFCFD;
+  color: #fcfcfd;
   padding-top: 7px;
   padding-left: 11px;
   padding-right: 17px;
@@ -1015,18 +1050,101 @@ left: 8px;
   top: 8px;
   left: 8px;
 }
-.outline-secondary:hover{
-  color: #FCFCFD;
-  }
-  .homebuttom-3444{
-    border: 2px solid #e6e8ec;
-    color: rgb(35, 38, 47);
-    padding: 5px 15px;
-    font-size: 14px;
-    font-weight: bold;
-    border-radius: 20px;
-    text-decoration: none;
-    font-family: "DM Sans";
+.outline-secondary:hover {
+  color: #fcfcfd;
+}
+.homebuttom-3444 {
+  border: 2px solid #e6e8ec;
+  color: rgb(35, 38, 47);
+  padding: 5px 15px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 20px;
+  text-decoration: none;
+  font-family: "DM Sans";
+}
+.exportbuttonactivity {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-right: 17px;
+  padding-left: 16px;
+  font-size: 14px;
+  font-family: DM Sans;
+  font-weight: bold;
+}
+.rdrSelected,
+.rdrInRange,
+.rdrStartEdge,
+.rdrEndEdge {
+  background: #23262f !important;
+  position: absolute;
+  top: 3px !important;
+  left: 3px !important;
+  right: 3px !important;
+  border-radius: 35px !important;
+  bottom: 3px !important;
+}
+.rdrDayHovered {
+  background-color: #777e90 !important;
+}
+.rdrDay {
+  outline-color: #23262f !important;
+}
+.rdrWeekDay {
+  font-weight: 400;
+  line-height: 2.667em;
+  font-size: 14px !important;
+  font-family: Poppins !important;
+  color: #777e90;
+  color: rgb(132, 144, 149);
+}
+.rdrDayNumber {
+  font-size: 14px !important;
+  font-family: POppins !important;
+  color: #23262f !important;
+}
+.rdrDateDisplay {
+  display: none !important;
+}
+.rdrMonthAndYearWrapper {
+  display: none;
+}
+.rdrMonthAndYearPickers {
+  display: none !important;
+}
+.rdrMonthName {
+  text-align: center !important;
+  font-weight: 600;
+  color: #849095;
+  margin-top: -48px;
+  font-size: 16px !important;
+  font-family: Poppins !important;
+  margin-bottom: 16px;
+  color: #23262f !important;
+  padding: 0.833em;
+}
+.form-control {
+  background-color: #fcfcfd !important;
+}
+.table {
+  background-color: #fcfcfd !important;
+}
+.buybutttonmarket{
+  font-size: 14px;
+  line-height: 16px;
+  text-align: center;
+  background-color: #3772ff;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 35px;
+  padding-right: 35px;
+  font-family: DM Sans;
+  font-weight: 700;
+}
+.buytoken-buttonvalue:hover .buyTokenbtn{
+
+  text-align: center;
+  
   }
 /* media quiryyy start   here for mobile responsivnesss      sssssssssssssssssssssssssssssssssssssssssssssssssssssssssss */
 @media screen and (max-width: 480px) {
@@ -1080,8 +1198,8 @@ left: 8px;
     padding-right: 0.5rem;
     padding-left: 0px;
     padding-top: 20px;
-}
-.bitcoinclasssmian{
-  height: 990px;
-}
+  }
+  .bitcoinclasssmian {
+    height: 990px;
+  }
 }

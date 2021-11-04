@@ -8,8 +8,10 @@ import Loader from "../Loader/Loader";
 
 const EarnYield = () => {
   const dispatch = useDispatch();
+  const [mainState, setMainState] = useState([]);
   const [poolData, setPoolData] = useState([]);
   const [tempPool, setTempPool] = useState([]);
+
   const [Enum, set_Enum] = useState({
     allType: "allType",
     native: "native",
@@ -18,8 +20,15 @@ const EarnYield = () => {
   });
   const [filterType, setFilterType] = useState(Enum.allType);
   const [searchInput, setSearchInput] = useState("");
-  const mainState = useSelector((state) => state.main.midgardPool);
+
+  const mainStateRedux = useSelector((state) => state.main.midgardPool);
   const loading = useSelector((state) => state.main.loading);
+
+  useEffect(() => {
+    setPoolData(mainStateRedux);
+    setTempPool(mainStateRedux);
+    setMainState(mainStateRedux);
+  }, [mainStateRedux]);
 
   function financial(x) {
     return Number.parseFloat(x).toFixed(2);
@@ -30,12 +39,13 @@ const EarnYield = () => {
   function filterAllType() {
     setSearchInput("");
     setFilterType(Enum.allType);
-    setPoolData(mainState);
-    setTempPool(mainState);
+    setPoolData(mainStateRedux);
+    setTempPool(mainStateRedux);
+    setMainState(mainStateRedux);
   }
   function filterNative() {
     setSearchInput("");
-    let res = mainState.filter(
+    let res = mainStateRedux.filter(
       (data) =>
         data.blockchain === "LTC" ||
         data.blockchain === "BTC" ||
@@ -47,14 +57,14 @@ const EarnYield = () => {
   }
   function filterERC20() {
     setSearchInput("");
-    let res = mainState.filter((data) => data.blockchain === "ETH");
+    let res = mainStateRedux.filter((data) => data.blockchain === "ETH");
     setFilterType(Enum.erc20);
     setPoolData(res);
     setTempPool(res);
   }
   function filterBEP2() {
     setSearchInput("");
-    let res = mainState.filter((data) => data.blockchain === "BNB");
+    let res = mainStateRedux.filter((data) => data.blockchain === "BNB");
     console.log("res=====>>", res);
     setFilterType(Enum.bep2);
     setPoolData(res);
@@ -78,10 +88,93 @@ const EarnYield = () => {
       setPoolData(result2);
     }
   }
-  useEffect(() => {
-    setPoolData(mainState);
-    setTempPool(mainState);
-  }, [mainState]);
+  //Ascending Order Filter Name
+  const handleAscendingName = () => {
+    let check = [...mainState];
+    let res = check.sort((a, b) =>
+      a.assetFullName.toLowerCase() > b.assetFullName.toLowerCase() ? 1 : -1
+    );
+    setMainState(res);
+    let check2 = [...poolData];
+    let res2 = check2.sort((a, b) =>
+      a.assetFullName.toLowerCase() > b.assetFullName.toLowerCase() ? 1 : -1
+    );
+    setPoolData(res2);
+    let check3 = [...tempPool];
+    let res3 = check3.sort((a, b) =>
+      a.assetFullName.toLowerCase() > b.assetFullName.toLowerCase() ? 1 : -1
+    );
+    setTempPool(res3);
+  };
+
+  //Descending Order Filter Name
+  const handleDescendingName = () => {
+    let check = [...mainState];
+    let res = check.sort((a, b) =>
+      a.assetFullName.toLowerCase() < b.assetFullName.toLowerCase() ? 1 : -1
+    );
+    setMainState(res);
+    let check2 = [...poolData];
+    let res2 = check2.sort((a, b) =>
+      a.assetFullName.toLowerCase() < b.assetFullName.toLowerCase() ? 1 : -1
+    );
+    setPoolData(res2);
+    let check3 = [...tempPool];
+    let res3 = check3.sort((a, b) =>
+      a.assetFullName.toLowerCase() < b.assetFullName.toLowerCase() ? 1 : -1
+    );
+    setTempPool(res3);
+  };
+  //Ascending Order Filter APY
+  const handleAscendingAPY = () => {
+    let check = [...mainState];
+    let res = check.sort((a, b) => a.poolAPY - b.poolAPY);
+    setMainState(res);
+    let check2 = [...poolData];
+    let res2 = check2.sort((a, b) => a.poolAPY - b.poolAPY);
+    setPoolData(res2);
+    let check3 = [...tempPool];
+    let res3 = check3.sort((a, b) => a.poolAPY - b.poolAPY);
+    setTempPool(res3);
+  };
+  //Descending Order Filter APY
+  const handleDescendingAPY = () => {
+    let check = [...mainState];
+    let res = check.sort((a, b) => b.poolAPY - a.poolAPY);
+    setMainState(res);
+    let check2 = [...poolData];
+    let res2 = check2.sort((a, b) => b.poolAPY - a.poolAPY);
+    setPoolData(res2);
+    let check3 = [...tempPool];
+    let res3 = check3.sort((a, b) => b.poolAPY - a.poolAPY);
+    setTempPool(res3);
+  };
+
+  //Ascending Order Filter Liquidity
+  const handleAscendingLiquidity = () => {
+    let check = [...mainState];
+    let res = check.sort((a, b) => a.liquidityUnits - b.liquidityUnits);
+    setMainState(res);
+    let check2 = [...poolData];
+    let res2 = check2.sort((a, b) => a.liquidityUnits - b.liquidityUnits);
+    setPoolData(res2);
+    let check3 = [...tempPool];
+    let res3 = check3.sort((a, b) => a.liquidityUnits - b.liquidityUnits);
+    setTempPool(res3);
+  };
+  //Descending Order Filter Liquidity
+  const handleDescendingLiquidity = () => {
+    let check = [...mainState];
+    let res = check.sort((a, b) => b.liquidityUnits - a.liquidityUnits);
+    setMainState(res);
+    let check2 = [...poolData];
+    let res2 = check2.sort((a, b) => b.liquidityUnits - a.liquidityUnits);
+    setPoolData(res2);
+    let check3 = [...tempPool];
+    let res3 = check3.sort((a, b) => b.liquidityUnits - a.liquidityUnits);
+    setTempPool(res3);
+  };
+
   return (
     <>
       {loading ? (
@@ -127,7 +220,7 @@ const EarnYield = () => {
                       }
                       onClick={filterAllType}
                     >
-                      All Type
+                      All type
                     </button>
                   </li>
 
@@ -173,7 +266,7 @@ const EarnYield = () => {
                     </button>
                   </li>
                 </ul>
-                <form className="pr-5">
+                <div className="pr-5">
                   <div class=" d-flex form-group has-search">
                     <input
                       style={{
@@ -193,7 +286,7 @@ const EarnYield = () => {
                       class=" fa fa-search form-control-feedback"
                     ></span>
                   </div>
-                </form>
+                </div>
               </div>
               <div class="table-responsive">
                 <table class="table">
@@ -211,7 +304,30 @@ const EarnYield = () => {
                         }}
                         scope="col"
                       >
-                        Name <img class="pl-1" src={Images.nameup} />
+                        Name{" "}
+                        <div
+                          style={{
+                            display: "inline-grid",
+                            paddingBottom: "4px",
+                            marginLeft: "3px",
+                          }}
+                        >
+                          <img
+                            class="pl-1"
+                            src={Images.FilterUp}
+                            onClick={handleDescendingName}
+                            style={{
+                              marginBottom: "3px",
+                              cursor: "pointer",
+                            }}
+                          />
+                          <img
+                            class="pl-1"
+                            src={Images.FilterDown}
+                            onClick={handleAscendingName}
+                            style={{ cursor: "pointer" }}
+                          />
+                        </div>
                       </th>
                       <th
                         className="pt-5 pb-5"
@@ -225,7 +341,29 @@ const EarnYield = () => {
                         }}
                         scope="col"
                       >
-                        APY <img class="pl-1" src={Images.nameup} />
+                        APY <div
+                          style={{
+                            display: "inline-grid",
+                            paddingBottom: "4px",
+                            marginLeft: "3px",
+                          }}
+                        >
+                          <img
+                            class="pl-1"
+                            src={Images.FilterUp}
+                            onClick={handleDescendingAPY}
+                            style={{
+                              marginBottom: "3px",
+                              cursor: "pointer",
+                            }}
+                          />
+                          <img
+                            class="pl-1"
+                            src={Images.FilterDown}
+                            onClick={handleAscendingAPY}
+                            style={{ cursor: "pointer" }}
+                          />
+                        </div>
                       </th>
                       <th
                         className="pt-5 pb-5"
@@ -239,7 +377,29 @@ const EarnYield = () => {
                         }}
                         scope="col"
                       >
-                        Liquidity <img class="pl-1" src={Images.nameup} />
+                        Liquidity <div
+                          style={{
+                            display: "inline-grid",
+                            paddingBottom: "4px",
+                            marginLeft: "3px",
+                          }}
+                        >
+                          <img
+                            class="pl-1"
+                            src={Images.FilterUp}
+                            onClick={handleDescendingLiquidity}
+                            style={{
+                              marginBottom: "3px",
+                              cursor: "pointer",
+                            }}
+                          />
+                          <img
+                            class="pl-1"
+                            src={Images.FilterDown}
+                            onClick={handleAscendingLiquidity}
+                            style={{ cursor: "pointer" }}
+                          />
+                        </div>
                       </th>
                       <th
                         className="pt-5 pb-5"
@@ -263,7 +423,7 @@ const EarnYield = () => {
                       <>
                         {poolData.map((d, key) => {
                           return (
-                            <tr>
+                            <tr className="maintdclasshover">
                               <td>
                                 <div class="d-flex ">
                                   <img
@@ -291,26 +451,32 @@ const EarnYield = () => {
                                   </div>
                                 </div>
                               </td>
-                              <td className="pt-4" style={{ textAlign: "right" }}>
+                              <td
+                                className="pt-4"
+                                style={{ textAlign: "right" }}
+                              >
                                 <div>
                                   <span class="depositclasss">
                                     {financial(d.poolAPY)}% APR{" "}
                                   </span>
                                 </div>
                               </td>
-                              <td 
+                              <td
                                 style={{ textAlign: "right" }}
                                 className="earnyield-value pt-4"
                               >
                                 ${d.liquidityUnits}
                               </td>
-                              <td 
+                              <td
                                 style={{ textAlign: "right" }}
                                 className="earnyield-value pt-4"
                               >
                                 ${d.volume24h}
                               </td>
-                              <td  className="pt-4" style={{ textAlign: "right" }}>
+                              <td
+                                className="pt-4"
+                                style={{ textAlign: "right" }}
+                              >
                                 {" "}
                                 <AddLiquidity data={d} />
                               </td>
@@ -345,12 +511,12 @@ const EarnYield = () => {
                   <br /> to use it to yield or trade
                 </p>
               </div>
-              <div class="row">
+              <div class="row mt-3">
                 <div class="col-lg-4">
                   <div class="card cardborder">
                     <img
                       class="card-img-top"
-                      src={Images.comp}
+                      src={Images.mediacontainer}
                       alt="Card image cap"
                     />
                     <div class="card-body">
@@ -366,7 +532,7 @@ const EarnYield = () => {
                   <div class="card cardborder">
                     <img
                       class="card-img-top"
-                      src={Images.assest}
+                      src={Images.mediacontainer}
                       alt="Card image cap"
                     />
                     <div class="card-body">
@@ -381,7 +547,7 @@ const EarnYield = () => {
                   <div class="card cardborder">
                     <img
                       class="card-img-top"
-                      src={Images.Yield}
+                      src={Images.mediacontainer}
                       alt="Card image cap"
                     />
                     <div class="card-body">
@@ -395,9 +561,9 @@ const EarnYield = () => {
               </div>
             </div>
           </section>
-          <div class="d-flex justify-content-center mb-5">
+          <div class="d-flex justify-content-center" style={{marginBottom: "136px", marginTop: "16px"}}>
             <button type="button" class="btn loaderbutton">
-            <img className="pr-3 mb-1" src={Images.loadicon}/>
+              <img className="pr-3 mb-1" src={Images.loadicon} />
               Load more
             </button>
           </div>

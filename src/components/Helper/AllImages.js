@@ -84,11 +84,23 @@ import trainer from "../../assets/images/trainer.png"
 import exportIcon from "../../assets/images/exportIcon.png";
 import traineravatar from "../../assets/images/traineravatar.png"
 import morearticle from "../../assets/images/morearticle.png"
+import FilterUp from "../../assets/images/FilterUp.png";
+import FilterDown from "../../assets/images/FilterDown.png";
+import mediacontainer from "../../assets/images/mediacontainer.png"
+import homevideo from "../../assets/images/homevideo.png"
+import homeimg from "../../assets/images/homeimg.png"
+import chartmarket from "../../assets/images/chartmarket.png";
 const Images = {
+  FilterDown,
+  FilterUp,
   exportIcon,
+  chartmarket,
   searchbarr,
+  homeimg,
+  homevideo,
   overview,
   traineravatar,
+  mediacontainer,
   morearticle,
   trainer,
   ButtonSecondarySmall,

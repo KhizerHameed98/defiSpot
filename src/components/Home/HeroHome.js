@@ -98,18 +98,18 @@ export const HeroHome = () => {
                     {mainState.slice(0, 4).map((d, key) => {
                       return (
                         <Fragment key={d.address}>
-                          <div class="col-lg-3 pt-4 pb-4">
+                          <div class="col-lg-3 pt-4 pb-4 pl-4 pr-4">
                             <div
-                              class="pt-3 mainhover"
-                              style={{
-                                paddingLeft: "20px",
-                                paddingBottom: "1px",
-                              }}
+                              class=" mainhover"
+                              // style={{
+                              //   paddingLeft: "20px",
+                              //   paddingBottom: "1px",
+                              // }}
                             >
                               <img
                                 style={{
                                   paddingLeft: "15px",
-                                  paddingTop: "10px",
+                                 
                                   marginBottom: "16px",
                                   width: "60px",
                                 }}
@@ -762,7 +762,7 @@ export const HeroHome = () => {
                                   Jun 1, 2021
                                 </p>
                               </div>
-                              <div class="pt-" style={{ paddingLeft: "50px" }}>
+                              <div class="pt-" style={{ paddingLeft: "50px",paddingTop:"15px" }}>
                                 <h2
                                   style={{
                                     fontSize: "16px",
@@ -779,12 +779,12 @@ export const HeroHome = () => {
                                 </p>
                                 <p
                                   className="date-classhome"
-                                  style={{ paddingTop: "80px",marginBottom:"0px" }}
+                                  style={{ paddingTop: "70px",marginBottom:"0px" }}
                                 >
                                   Jun 1, 2021
                                 </p>
                               </div>
-                              <div class="" style={{ paddingLeft: "50px" }}>
+                              <div class="" style={{ paddingLeft: "50px",paddingTop:"5px" }}>
                                 <h2
                                   style={{
                                     fontSize: "16px",
@@ -800,23 +800,23 @@ export const HeroHome = () => {
                                   Good things come in 3s. Get 3x Leveraged
                                   tokens now.
                                 </p>
-                                <p className=" date-classhome" style={{paddingTop:"70px"}}>
+                                <p className=" date-classhome" style={{paddingTop:"80px"}}>
                                   Jun 1, 2021
                                 </p>
                               </div>
                             </div>
                             <div class="col-lg-3">
                               <div>
-                                <img src={Images.cr1} />
+                                <img src={Images.homeimg} />
                               </div>
                               <div class="pt-2">
                                 <img
                                   style={{ paddingTop: "5px" }}
-                                  src={Images.cr2}
+                                  src={Images.homevideo}
                                 />
                               </div>
                               <div class="pt-2">
-                                <img src={Images.cr3} />
+                                <img src={Images.homevideo} />
                               </div>
                             </div>
                           </div>

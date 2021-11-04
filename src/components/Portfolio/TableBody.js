@@ -81,6 +81,7 @@ const TableBody = ({
               fontSize: "14px",
               fontFamily: "Poppins",
               color: "#23262f",
+              textAlign: "end",
             }}
           >
             {d.Total_Balance} BTC
@@ -92,6 +93,7 @@ const TableBody = ({
                 color: "#777E90",
                 fontFamily: "Poppins",
                 fontSize: "14px",
+                textAlign: "end",
               }}
             >
               ${d.Price}
@@ -105,6 +107,7 @@ const TableBody = ({
               fontSize: "14px",
               fontFamily: "Poppins",
               color: "#23262f",
+              textAlign: "end",
             }}
           >
             {d.Available_Balance} BTC
@@ -116,6 +119,7 @@ const TableBody = ({
                 color: "#777E90",
                 fontFamily: "Poppins",
                 fontSize: "14px",
+                textAlign: "end",
               }}
             >
               ${d.Price}
@@ -130,6 +134,7 @@ const TableBody = ({
               fontSize: "14px",
               fontFamily: "Poppins",
               color: "#23262f",
+              textAlign: "end",
             }}
           >
             {d.Interest} BTC
@@ -141,6 +146,7 @@ const TableBody = ({
                 color: "#777E90",
                 fontFamily: "Poppins",
                 fontSize: "14px",
+                textAlign: "end",
               }}
             >
               ${d.Price}
