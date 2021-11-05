@@ -36,9 +36,9 @@ const Assets = () => {
 
   return (
     <div className="col-lg-7 marginleftcol mt-2">
-      <div className="sidebarcoleight pt-3">
+      <div className="sidebarcoleight pt-2">
         <h2 style={{ fontFamily: "DM Sans", fontWeight: "bold",fontSize:"32px",lineHeight:"48px" }}>Assets</h2>
-        <div className="d-flex justify-content-between pt-3">
+        <div style={{paddingTop:"12px"}} className="d-flex justify-content-between">
           <div>
             <p
                style={{
@@ -70,16 +70,17 @@ const Assets = () => {
               <p
                 style={{
                   backgroundColor: "#58BD7D",
-                  fontSize: "10px",
-                  paddingTop: "4px",
-                  paddingBottom: "4px",
-                  paddingLeft: "10px",
-                  paddingRight: "10px",
-                  color: "#fff",
-                  lineHeight: "24px",
+                  fontSize: "12px",
+                  padding: "5px",
                   fontFamily: "Poppins",
-                  marginLeft: "12px",
-                  borderRadius: "4px",
+                  color: "#fff",
+                  position:"relative",
+                  top:"2px",
+                  paddingLeft: "10px",
+                  fontWeight: "700",
+                  marginLeft: "8px",
+                  paddingRight: "8px",
+                  borderRadius: "5px",
                 }}
               >
                 BTC
@@ -95,8 +96,8 @@ const Assets = () => {
                 top:"-10px",
                 color: "#777E90",
                 marginBottom: "0px",
-                marginTop: "-20px",
-                paddingBottom: "32px",
+                marginTop: "0px",
+              
               }}
             >
               {" "}
@@ -108,6 +109,7 @@ const Assets = () => {
               )}
             </p>
           </div>
+          
         </div>
       </div>
       <p
@@ -236,7 +238,7 @@ const Assets = () => {
                       <td
                         class="pt-3"
                         style={{
-                          paddingLeft: "0px",
+                          paddingLeft: "20px",
                           borderBottom: "1px solid #dee2e6",
                         }}
                       >
@@ -270,7 +272,7 @@ const Assets = () => {
                         </div>
                       </td>
                       <td
-                        class="pt-4"
+                        class="pt-4 pl-2"
                         style={{ borderBottom: "1px solid #dee2e6" }}
                       >
                         <div className="d-flex flex-column">

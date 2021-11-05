@@ -795,7 +795,7 @@ const Activity = () => {
             <thead>
               <tr>
                 <th
-                  style={{ borderTop: "none" }}
+                  style={{ border: "none" }}
                   class="pt-3 pb-3 overview-tablehead"
                   scope="col"
                 >
@@ -803,7 +803,7 @@ const Activity = () => {
                   <img class="pl-1" src={Images.nameup} />
                 </th>
                 <th
-                  style={{ borderTop: "none" }}
+                  style={{ border: "none" }}
                   class="pt-3 pb-3 overview-tablehead"
                   scope="col"
                 >
@@ -811,21 +811,21 @@ const Activity = () => {
                   <img class="pl-1" src={Images.nameup} />
                 </th>
                 <th
-                  style={{ borderTop: "none" }}
+                  style={{ border: "none" }}
                   class="pt-3 pb-3 overview-tablehead"
                   scope="col"
                 >
                   <span>Amount</span> <img class="pl-1" src={Images.nameup} />
                 </th>
                 <th
-                  style={{ borderTop: "none" }}
+                  style={{ border: "none" }}
                   class="pt-3 pb-3 overview-tablehead"
                   scope="col"
                 >
                   <span>Address</span> <img class="pl-1" src={Images.nameup} />
                 </th>
                 <th
-                  style={{ borderTop: "none" }}
+                  style={{ border: "none" }}
                   class="pt-3 pb-3 overview-tablehead"
                   scope="col"
                 >
@@ -836,7 +836,7 @@ const Activity = () => {
                   style={{
                     textAlign: "right",
                     paddingRight: "15px",
-                    borderTop: "none",
+                    border: "none",
                   }}
                   class="pt-3 pb-3 overview-tablehead"
                   scope="col"
@@ -858,7 +858,7 @@ const Activity = () => {
                         {d.Transactions.txs.map((t, key2) => {
                           return (
                             <tr className="maintdclasshover">
-                              <td style={{ marginBottom: "5px" }}>
+                              <td style={{ marginBottom: "5px", border: "none" }}>
                                 <div className="d-flex flex-column">
                                   <div>
                                     <span
@@ -874,7 +874,7 @@ const Activity = () => {
                                   </div>
                                 </div>
                               </td>
-                              <td>
+                              <td style={{border: "none"}}>
                                 <div className="d-flex ">
                                   <img
                                     style={{ width: "25px" }}
@@ -894,11 +894,11 @@ const Activity = () => {
                                   <div className="d-flex align-items-center"></div>
                                 </div>
                               </td>
-                              <td style={{ fontFamily: "Poppins" }}>
+                              <td style={{ fontFamily: "Poppins", border: "none" }}>
                                 <span>{t.transferAmount}</span>
                                 {/* {t.to[0].amount.amount().c[0]} */}
                               </td>
-                              <td>
+                              <td style={{border: "none"}}>
                                 <div className="d-flex flex-column">
                                   <div>
                                     <b style={{ fontFamily: "Poppins",fontSize:"14px" }}>
@@ -907,10 +907,10 @@ const Activity = () => {
                                   </div>
                                 </div>
                               </td>
-                              <td style={{ fontFamily: "Poppins",fontSize:"14px",color:"#777e90" }}>
+                              <td style={{ fontFamily: "Poppins",fontSize:"14px",color:"#777e90", border: "none" }}>
                                 <span>{t?.hash}</span>
                               </td>
-                              <td style={{ fontFamily: "Poppins",fontSize:"14px",color:"#777e90",textAlign:"left" }}>
+                              <td style={{ fontFamily: "Poppins",fontSize:"14px",color:"#777e90",textAlign:"left", border: "none" }}>
                                 <span>
                                   {new Date(t?.date)
                                     ?.toString()

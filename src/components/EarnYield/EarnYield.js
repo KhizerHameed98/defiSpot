@@ -5,6 +5,7 @@ import { AddLiquidity } from "../PopModals/AddLiquidity_Modal";
 import YieldData from "../Helper/Data/EarnYield";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../Loader/Loader";
+import loadimg from "../../assets/images/Shape.svg";
 
 const EarnYield = () => {
   const dispatch = useDispatch();
@@ -81,9 +82,9 @@ const EarnYield = () => {
     } else {
       let result2 = tempPool.filter(
         (value) =>
-          value.assetFullName
-            .toLowerCase()
-            .includes(e.target.value.toLowerCase()) && value
+          value?.assetFullName
+            ?.toLowerCase()
+            ?.includes(e.target.value.toLowerCase()) && value
       );
       setPoolData(result2);
     }
@@ -92,17 +93,17 @@ const EarnYield = () => {
   const handleAscendingName = () => {
     let check = [...mainState];
     let res = check.sort((a, b) =>
-      a.assetFullName.toLowerCase() > b.assetFullName.toLowerCase() ? 1 : -1
+      a?.assetFullName?.toLowerCase() > b?.assetFullName?.toLowerCase() ? 1 : -1
     );
     setMainState(res);
     let check2 = [...poolData];
     let res2 = check2.sort((a, b) =>
-      a.assetFullName.toLowerCase() > b.assetFullName.toLowerCase() ? 1 : -1
+      a?.assetFullName?.toLowerCase() > b?.assetFullName?.toLowerCase() ? 1 : -1
     );
     setPoolData(res2);
     let check3 = [...tempPool];
     let res3 = check3.sort((a, b) =>
-      a.assetFullName.toLowerCase() > b.assetFullName.toLowerCase() ? 1 : -1
+      a?.assetFullName?.toLowerCase() > b?.assetFullName?.toLowerCase() ? 1 : -1
     );
     setTempPool(res3);
   };
@@ -111,17 +112,17 @@ const EarnYield = () => {
   const handleDescendingName = () => {
     let check = [...mainState];
     let res = check.sort((a, b) =>
-      a.assetFullName.toLowerCase() < b.assetFullName.toLowerCase() ? 1 : -1
+      a?.assetFullName?.toLowerCase() < b?.assetFullName?.toLowerCase() ? 1 : -1
     );
     setMainState(res);
     let check2 = [...poolData];
     let res2 = check2.sort((a, b) =>
-      a.assetFullName.toLowerCase() < b.assetFullName.toLowerCase() ? 1 : -1
+      a?.assetFullName?.toLowerCase() < b?.assetFullName?.toLowerCase() ? 1 : -1
     );
     setPoolData(res2);
     let check3 = [...tempPool];
     let res3 = check3.sort((a, b) =>
-      a.assetFullName.toLowerCase() < b.assetFullName.toLowerCase() ? 1 : -1
+      a?.assetFullName?.toLowerCase() < b?.assetFullName?.toLowerCase() ? 1 : -1
     );
     setTempPool(res3);
   };
@@ -291,7 +292,7 @@ const EarnYield = () => {
               <div class="table-responsive">
                 <table class="table">
                   <thead>
-                    <tr>
+                    <tr style={{borderBottom: "1.5px solid #E6E8EC"}}>
                       <th
                         className="pt-5 pb-5"
                         style={{
@@ -301,6 +302,7 @@ const EarnYield = () => {
                           fontSize: "12px ",
                           fontWeight: "600",
                           paddingLeft: "70px",
+                          position: "relative",
                         }}
                         scope="col"
                       >
@@ -310,6 +312,8 @@ const EarnYield = () => {
                             display: "inline-grid",
                             paddingBottom: "4px",
                             marginLeft: "3px",
+                            position: "absolute",
+                            bottom: "47px"
                           }}
                         >
                           <img
@@ -338,14 +342,18 @@ const EarnYield = () => {
                           fontSize: "12px ",
                           fontWeight: "600",
                           textAlign: "right",
+                          position: "relative",
                         }}
                         scope="col"
                       >
-                        APY <div
+                        APY{" "}
+                        <div
                           style={{
                             display: "inline-grid",
                             paddingBottom: "4px",
                             marginLeft: "3px",
+                            position: "absolute",
+                            top: "52px"
                           }}
                         >
                           <img
@@ -374,14 +382,18 @@ const EarnYield = () => {
                           fontSize: "12px ",
                           fontWeight: "600",
                           textAlign: "right",
+                          position: "relative",
                         }}
                         scope="col"
                       >
-                        Liquidity <div
+                        Liquidity{" "}
+                        <div
                           style={{
                             display: "inline-grid",
                             paddingBottom: "4px",
                             marginLeft: "3px",
+                            position: "absolute",
+                            top: "52px"
                           }}
                         >
                           <img
@@ -423,9 +435,9 @@ const EarnYield = () => {
                       <>
                         {poolData.map((d, key) => {
                           return (
-                            <tr className="maintdclasshover">
-                              <td>
-                                <div class="d-flex ">
+                            <tr className="maintdclasshover" style={{borderBottom: "1.5px solid #E6E8EC"}}>
+                              <td style={{border: "none"}}>
+                                <div class="d-flex">
                                   <img
                                     class="mt-1"
                                     style={{ width: "35px", height: "35px" }}
@@ -453,29 +465,39 @@ const EarnYield = () => {
                               </td>
                               <td
                                 className="pt-4"
-                                style={{ textAlign: "right" }}
+                                style={{ textAlign: "right", border: "none" }}
                               >
                                 <div>
-                                  <span class="depositclasss">
+                                  <span
+                                    style={{
+                                      backgroundColor:
+                                        "rgba(88, 189, 125, 0.5)",
+                                      color: "#23262F",
+                                      fontSize: "14px",
+                                      fontWeight: "400",
+                                      borderRadius: "4px",
+                                    }}
+                                    class="depositclasss"
+                                  >
                                     {financial(d.poolAPY)}% APR{" "}
                                   </span>
                                 </div>
                               </td>
                               <td
-                                style={{ textAlign: "right" }}
+                                style={{ textAlign: "right", border: "none" }}
                                 className="earnyield-value pt-4"
                               >
                                 ${d.liquidityUnits}
                               </td>
                               <td
-                                style={{ textAlign: "right" }}
+                                style={{ textAlign: "right", border: "none" }}
                                 className="earnyield-value pt-4"
                               >
                                 ${d.volume24h}
                               </td>
                               <td
                                 className="pt-4"
-                                style={{ textAlign: "right" }}
+                                style={{ textAlign: "right", border: "none" }}
                               >
                                 {" "}
                                 <AddLiquidity data={d} />
@@ -491,8 +513,8 @@ const EarnYield = () => {
             </div>
           </section>
           <section style={{ backgroundColor: "#FCFCFD" }}>
-            <div class="container pt-5 mb-5">
-              <div>
+            <div class="container">
+              <div style={{ marginTop: "136px", marginBottom: "64px" }}>
                 <h2 class="d-flex justify-content-center marketmainheade">
                   Learn about DeFi
                 </h2>
@@ -561,9 +583,12 @@ const EarnYield = () => {
               </div>
             </div>
           </section>
-          <div class="d-flex justify-content-center" style={{marginBottom: "136px", marginTop: "16px"}}>
+          <div
+            class="d-flex justify-content-center"
+            style={{ marginBottom: "136px", marginTop: "64px" }}
+          >
             <button type="button" class="btn loaderbutton">
-              <img className="pr-3 mb-1" src={Images.loadicon} />
+              <img className="pr-2" src={loadimg} />
               Load more
             </button>
           </div>

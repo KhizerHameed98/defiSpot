@@ -49,8 +49,7 @@ export const HeroHome = () => {
         </div>
       ) : (
         <>
-        <hr className="solid solidclasssheader" />
-          <section style={{ backgroundColor: "#FCFCFD" }}>
+          <section>
             <div class="container">
               <div class="row">
                 <div class="col-lg-6">
@@ -59,13 +58,7 @@ export const HeroHome = () => {
                       Buy & sell <br />
                       crypto in minutes
                     </h2>
-                    <p
-                      style={{
-                        color: "#777E90",
-                        fontSize: "16px",
-                        fontFamily: "Poppins",
-                        fontWeight: "400",
-                      }}
+                    <p className="uhometext879"
                     >
                       Trade Bitcoin, Ethereum, USDT, and the top altcoins on the
                       <br />
@@ -98,7 +91,7 @@ export const HeroHome = () => {
                     {mainState.slice(0, 4).map((d, key) => {
                       return (
                         <Fragment key={d.address}>
-                          <div class="col-lg-3 pt-4 pb-4 pl-4 pr-4">
+                          <div class="col-lg-3">
                             <div
                               class=" mainhover"
                               // style={{
@@ -108,15 +101,16 @@ export const HeroHome = () => {
                             >
                               <img
                                 style={{
-                                  paddingLeft: "15px",
-                                 
                                   marginBottom: "16px",
-                                  width: "60px",
+                                  marginLeft:"15px",
+                                  width: "40px",
+                                  height:"40px",
+                                  
                                 }}
                                 src={d.logo}
                               />
                               <div style={{ paddingLeft: "12px" }}>
-                                <p class="marketparagraph pt-1">
+                                <p class="marketparagraph">
                                   {d.asset}/USDT
                                   {d.change_24h >= 0 ? (
                                     <span className="spanclassmarket">
@@ -179,81 +173,40 @@ export const HeroHome = () => {
                 <div class="table-responsive border-0">
                   <table class="table border-0">
                     <thead>
-                      <tr style={{ borderBottom: "1px solid #E6E8EC" }}>
+                      <tr style={{ borderBottom: "1px solid #E6E8EC",borderTop:"none" }}>
                         <th
-                          className="pb-5"
-                          style={{
-                            border: "none",
-                            color: "#777E90",
-                            fontFamily: "Poppins",
-                            fontSize: "12px ",
-                            fontWeight: "600",
-                          }}
+                          className=" utableheading56000"
                           scope="col"
                         >
                           #
                         </th>
                         <th
-                          className="pb-5"
-                          style={{
-                            border: "none",
-                            color: "#777E90",
-                            fontFamily: "Poppins",
-                            fontSize: "12px ",
-                            fontWeight: "600",
-                          }}
+                          className=" utableheading56000"
                           scope="col"
                         >
                           Name
                         </th>
                         <th
-                          className="pb-5"
-                          style={{
-                            border: "none",
-                            color: "#777E90",
-                            fontFamily: "Poppins",
-                            fontSize: "12px ",
-                            fontWeight: "600",
-                          }}
+                          className=" utableheading56000"
                           scope="col"
                         >
                           Price
                         </th>
                         <th
-                          className="pb-5"
-                          style={{
-                            border: "none",
-                            color: "#777E90",
-                            fontFamily: "Poppins",
-                            fontSize: "12px ",
-                            fontWeight: "600",
-                          }}
+                          className=" utableheading56000"
                           scope="col"
                         >
                           24h change
                         </th>
                         <th
-                          className="pb-5"
-                          style={{
-                            border: "none",
-                            color: "#777E90",
-                            fontFamily: "Poppins",
-                            fontSize: "12px ",
-                            fontWeight: "600",
-                          }}
+                          className=" utableheading56000"
+                         
                           scope="col"
                         >
                           Chart
                         </th>
                         <th
-                          className="pb-5"
-                          style={{
-                            border: "none",
-                            color: "#777E90",
-                            fontFamily: "Poppins",
-                            fontSize: "12px ",
-                            fontWeight: "600",
-                          }}
+                          className=" utableheading56000"
                           scope="col"
                         >
                           Trade
@@ -271,7 +224,7 @@ export const HeroHome = () => {
                                     className=""
                                     style={{
                                       border: "none",
-                                      paddingTop: "66px",
+                                      paddingTop: "26px",
                                     }}
                                   >
                                     <div class="d-flex flex-column">
@@ -290,13 +243,13 @@ export const HeroHome = () => {
                                     className=""
                                     style={{
                                       border: "none",
-                                      paddingTop: "56px",
+                                      paddingTop: "16px",
                                     }}
                                   >
                                     <div class="d-flex ">
                                       <img
                                         src={d.logo}
-                                        style={{ width: "40px" }}
+                                        style={{ width: "40px",height:"40px" }}
                                       />
                                       <div
                                         class="pt-2 pl-3"
@@ -310,12 +263,8 @@ export const HeroHome = () => {
                                       </div>
 
                                       <div
-                                        class="pt-2 pl-3"
-                                        style={{
-                                          fontWeight: "bold",
-                                          fontSize: "17px",
-                                          fontFamily: "Poppins",
-                                        }}
+                                        class="pt-2 pl-3 utableheading6575"
+                                        
                                       >
                                         {d.assetFullName}
                                       </div>
@@ -330,12 +279,12 @@ export const HeroHome = () => {
                                     className=""
                                     style={{
                                       border: "none",
-                                      paddingTop: "56px",
+                                      paddingTop: "26px",
                                     }}
                                   >
                                     <div class="d-flex flex-column">
                                       <div>
-                                        <b style={{ fontFamily: "Poppins" }}>
+                                        <b className="uadreetext899">
                                           $
                                           {numberWithCommas(
                                             financial(d.assetPriceUSD)
@@ -348,7 +297,7 @@ export const HeroHome = () => {
                                     className=""
                                     style={{
                                       border: "none",
-                                      paddingTop: "56px",
+                                      paddingTop: "26px",
                                     }}
                                   >
                                     <div class="d-flex flex-column">
@@ -369,7 +318,7 @@ export const HeroHome = () => {
                                     className=""
                                     style={{
                                       border: "none",
-                                      paddingTop: "40px",
+                                      paddingTop: "20px",
                                     }}
                                   >
                                     <div class="graph">
@@ -391,7 +340,7 @@ export const HeroHome = () => {
                                     className=""
                                     style={{
                                       border: "none",
-                                      paddingTop: "45px",
+                                      paddingTop: "15px",
                                     }}
                                   >
                                     <Link
@@ -421,14 +370,7 @@ export const HeroHome = () => {
                   trader in seconds
                 </h2>
                 <p
-                  class="d-flex justify-content-center"
-                  style={{
-                    color: "#777E90",
-                    fontWeight: "400",
-                    fontFamily: "Poppins",
-                    fontSize: "16px",
-                    marginBottom: "60px",
-                  }}
+                  class="d-flex justify-content-center umianparagra01234"
                 >
                   We've got everything you need to start trading.
                 </p>
@@ -453,26 +395,13 @@ export const HeroHome = () => {
                     </div>
                     <div class="card-body">
                       <h5
-                        class="card-title d-flex justify-content-center"
-                        style={{
-                          color: "#23262F",
-                          fontFamily: "Poppins",
-                          fontSize: "16px",
-                          fontWeight: "600",
-                        }}
+                        class="card-title d-flex justify-content-center usection0000"
                       >
                         Buy & Sell Crypto
                       </h5>
                       <p
-                        class="card-text"
-                        style={{
-                          color: "#777E90",
-                          textAlign: "center",
-                          fontSize: "14px",
-                          fontWeight: "400",
-                          lineHeight: "24px",
-                          fontFamily: "Poppins",
-                        }}
+                        class="card-text usection0000text"
+                        
                       >
                         We realize ideas from simple to complex, everything
                         becomes easy to use and reach the most potential
@@ -508,26 +437,14 @@ export const HeroHome = () => {
                     </div>
                     <div class="card-body">
                       <h5
-                        class="card-title d-flex justify-content-center"
-                        style={{
-                          color: "#23262F",
-                          fontFamily: "Poppins",
-                          fontSize: "16px",
-                          fontWeight: "600",
-                        }}
+                        class="card-title d-flex justify-content-center usection0000"
+                       
                       >
                         Trade Assets
                       </h5>
                       <p
-                        class="card-text"
-                        style={{
-                          color: "#777E90",
-                          textAlign: "center",
-                          fontSize: "14px",
-                          fontWeight: "400",
-                          lineHeight: "24px",
-                          fontFamily: "Poppins",
-                        }}
+                        class="card-text usection0000text"
+                        
                       >
                         We realize ideas from simple to complex, everything
                         becomes easy to use and reach the most potential
@@ -563,26 +480,14 @@ export const HeroHome = () => {
                     </div>
                     <div class="card-body">
                       <h5
-                        class="card-title d-flex justify-content-center"
-                        style={{
-                          color: "#23262F",
-                          fontFamily: "Poppins",
-                          fontSize: "16px",
-                          fontWeight: "600",
-                        }}
+                        class="card-title d-flex justify-content-center usection0000"
+                        
                       >
                         Earn yield
                       </h5>
                       <p
-                        class="card-text"
-                        style={{
-                          color: "#777E90",
-                          textAlign: "center",
-                          fontSize: "14px",
-                          fontWeight: "400",
-                          lineHeight: "24px",
-                          fontFamily: "Poppins",
-                        }}
+                        class="card-text usection0000text"
+                        
                       >
                         We realize ideas from simple to complex, everything
                         becomes easy to use and reach the most potential
@@ -648,7 +553,8 @@ export const HeroHome = () => {
                     class="d-flex justify-content-center mintparagraph"
                   >
                     Trade assets cross-chain fully
-                    <br /> decentralized without warpped<br/> tokens
+                    <br /> decentralized without warpped
+                    <br /> tokens
                   </p>
                 </div>
                 <div class="col-lg-4">
@@ -758,11 +664,23 @@ export const HeroHome = () => {
                                   Good things come in 3s. Get 3x Leveraged
                                   tokens now.
                                 </p>
-                                <p className="date-classhome " style={{paddingTop:"70px",marginBottom:"0px"}}>
+                                <p
+                                  className="date-classhome "
+                                  style={{
+                                    paddingTop: "70px",
+                                    marginBottom: "0px",
+                                  }}
+                                >
                                   Jun 1, 2021
                                 </p>
                               </div>
-                              <div class="pt-" style={{ paddingLeft: "50px",paddingTop:"15px" }}>
+                              <div
+                                class="pt-"
+                                style={{
+                                  paddingLeft: "50px",
+                                  paddingTop: "15px",
+                                }}
+                              >
                                 <h2
                                   style={{
                                     fontSize: "16px",
@@ -779,12 +697,21 @@ export const HeroHome = () => {
                                 </p>
                                 <p
                                   className="date-classhome"
-                                  style={{ paddingTop: "70px",marginBottom:"0px" }}
+                                  style={{
+                                    paddingTop: "70px",
+                                    marginBottom: "0px",
+                                  }}
                                 >
                                   Jun 1, 2021
                                 </p>
                               </div>
-                              <div class="" style={{ paddingLeft: "50px",paddingTop:"5px" }}>
+                              <div
+                                class=""
+                                style={{
+                                  paddingLeft: "50px",
+                                  paddingTop: "5px",
+                                }}
+                              >
                                 <h2
                                   style={{
                                     fontSize: "16px",
@@ -800,7 +727,10 @@ export const HeroHome = () => {
                                   Good things come in 3s. Get 3x Leveraged
                                   tokens now.
                                 </p>
-                                <p className=" date-classhome" style={{paddingTop:"80px"}}>
+                                <p
+                                  className=" date-classhome"
+                                  style={{ paddingTop: "80px" }}
+                                >
                                   Jun 1, 2021
                                 </p>
                               </div>

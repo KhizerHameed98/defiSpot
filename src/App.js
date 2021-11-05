@@ -1,4 +1,6 @@
 import "./assets/css/style.css";
+import "./assets/css/style2.css";
+import "./assets/css/style3.css";
 import "./index.css";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -34,11 +36,7 @@ function App() {
             path={browserRoute.EARNYIELD}
             component={EarnYield}
           />
-             <PrivateRoute
-            exact
-            path={browserRoute.LEARN}
-            component={Learn}
-          />
+          <PrivateRoute exact path={browserRoute.LEARN} component={Learn} />
 
           <PrivatePortfolioRoute
             exact

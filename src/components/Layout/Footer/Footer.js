@@ -14,14 +14,14 @@ export const Footer = () => {
             <div class="row">
               <div class="col-md-3 col-sm-6">
                 {/* <!--Column1--> */}
-                <div class="footer-pad pt-5">
+                <div class="footer-pad footerlogo345">
                   <Link to="/">
                     <img src={Images.defilogo} style={{ width: "112px" }} />
                   </Link>
                 </div>
               </div>
               <div
-                class="col-md-3 col-sm-6 pt-5"
+                class="col-md-3 col-sm-6 footerlogo345"
                 style={{ borderRight: "1px solid lightgrey" }}
               >
                 {/* <!--Column1--> */}
@@ -56,24 +56,17 @@ export const Footer = () => {
                 </div>
               </div>
               <div
-                class="col-md-3 col-sm-6 pt-5"
+                class="col-md-3 col-sm-6 footerlogo345"
                 style={{ borderRight: "1px solid lightgrey" }}
               >
                 {/* <!--Column1--> */}
                 <div class="footer-pad pl-5">
-                  <h4
-                    style={{
-                      fontSize: "12px",
-                      // fontFamily: "Poppins",
-                      color: "#23262f",
-                      // fontWeight: "100",
-                      textTransform: "uppercase",
-                    }}
+                  <h4 className="u-column333 pb-4"
                   >
                     Contact
                   </h4>
                   <ul class="list-unstyled">
-                    <li class="pt-4  pb-2">
+                    <li class="  pb-2">
                       <a class="footerlinks" href="#">
                         About us
                       </a>
@@ -91,24 +84,12 @@ export const Footer = () => {
                   </ul>
                 </div>
               </div>
-              <div class="col-md-3 pl-5 pt-5 pb-4">
-                <h6
-                  style={{
-                    // fontFamily: "Poppins",
-                    fontSize: "12px",
-                    // fontWeight: "400",
-                  }}
+              <div class="col-md-3 pl-5 pb-4 footerlogo345">
+                <h6 className="u-column333 pb-4"
                 >
                   DEFISPOT LEARNING ACADEMY
                 </h6>
-                <p
-                  class="pt-2 pb-2"
-                  style={{
-                    color: "#23262F",
-                    fontFamily: "Poppins",
-                    fontSize: "14px",
-                    fontWeight: "400",
-                  }}
+                <p className="ufottertext-34"
                 >
                   Subscribe our newsletter to get more free articles and
                   resources about defi.
@@ -152,12 +133,7 @@ export const Footer = () => {
             <div class="container mt-3">
               <div class="d-flex justify-content-between">
                 <h6
-                  style={{
-                    fontFamily: "Poppins",
-                    color: "#777E90",
-                    fontSize: "12px",
-                    fontWeight: "400",
-                  }}
+                 className="ufoteertext34555"
                 >
                   Copyright © 2021 Suipe. All rights reserved
                 </h6>

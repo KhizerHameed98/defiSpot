@@ -383,72 +383,78 @@ export const connectKeyStore =
         // console.log("Check6====>>>", JSON.parse(clientsDescryption));
 
         let concatAssetName = "";
-    let totalAmountInBTC = 0;
-    let totalAmountInUSD=0;
-    mainClients.map((d, mainKey) => {
-      d.Balance.map((t, key) => {
-        let asset = t?.asset?.ticker?.split("/");
-        if (asset[1]) {
-          asset = asset[1];
-        } else {
-          asset = asset[0];
-        }
-        concatAssetName = concatAssetName + asset + ",";
+        let totalAmountInBTC = 0;
+        let totalAmountInUSD = 0;
+        mainClients.map((d, mainKey) => {
+          d.Balance.map((t, key) => {
+            let asset = t?.asset?.ticker?.split("/");
+            if (asset[1]) {
+              asset = asset[1];
+            } else {
+              asset = asset[0];
+            }
+            concatAssetName = concatAssetName + asset + ",";
 
-        // console.log("TICKER", asset, t.amount.amount());
-      });
-      d.Transactions.txs.map((t, key) => {
-        let res =
-          Number(t?.to[0]?.amount?.amount()?.c[0]) /
-          Math.pow(10, Number(t?.to[0]?.amount?.decimal));
-        t.transferAmount = res;
-      });
-    });
-    let apiDataBTC = await axios.get(
-      `https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=${concatAssetName}`
-    );
-    let apiDataUSD= await axios.get( `https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=${concatAssetName}`);
-    
-    let dataBTC = apiDataBTC.data;
-    let dataUSD = apiDataUSD.data;
-    console.log("DATA IN USD==========>>", dataUSD);
-    mainClients.map((d, mainKey) => {
-      d.Balance.map((t, key) => {
-        let asset = t?.asset?.ticker?.split("/");
-        if (asset[1]) {
-          asset = asset[1];
-        } else {
-          asset = asset[0];
-        }
-        // console.log("heyData=====>>",asset, data[asset]);
-        let value =
-          Number(t.amount.amount().c[0]) /
-          Math.pow(10, Number(t.amount.decimal));
-        // totalAmountInBTC = totalAmountInBTC + value;
-        // console.log("Value Before", asset, value);
-        let valueBTC = value / dataBTC[asset];
-        let valueUSD= value/dataUSD[asset];
-        totalAmountInUSD = totalAmountInUSD + valueUSD;
-        totalAmountInBTC = totalAmountInBTC + valueBTC;
-      });
-    });
-    // .then((res) => {
+            // console.log("TICKER", asset, t.amount.amount());
+          });
+          d.Transactions.txs.map((t, key) => {
+            let res =
+              Number(t?.to[0]?.amount?.amount()?.c[0]) /
+              Math.pow(10, Number(t?.to[0]?.amount?.decimal));
+            t.transferAmount = res;
+          });
+        });
+        let apiDataBTC = await axios.get(
+          `https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=${concatAssetName}`
+        );
+        let apiDataUSD = await axios.get(
+          `https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=${concatAssetName}`
+        );
 
-    // })
-    // .catch((err) => {
-    //   alertToast(true, "CryptoCompare: Failed");
-    // });
-    console.log("TOTAL AMOUNTBTC======>>>", totalAmountInBTC);
-    console.log("TOTAL AMOUNTUSD======>>>", totalAmountInUSD);
+        let dataBTC = apiDataBTC.data;
+        let dataUSD = apiDataUSD.data;
+        console.log("DATA IN USD==========>>", dataUSD);
+        mainClients.map((d, mainKey) => {
+          d.Balance.map((t, key) => {
+            let asset = t?.asset?.ticker?.split("/");
+            if (asset[1]) {
+              asset = asset[1];
+            } else {
+              asset = asset[0];
+            }
+            // console.log("heyData=====>>",asset, data[asset]);
+            let value =
+              Number(t.amount.amount().c[0]) /
+              Math.pow(10, Number(t.amount.decimal));
+            // totalAmountInBTC = totalAmountInBTC + value;
+            // console.log("Value Before", asset, value);
+            let valueBTC = value / dataBTC[asset];
+            let valueUSD = value / dataUSD[asset];
+            totalAmountInUSD = totalAmountInUSD + valueUSD;
+            totalAmountInBTC = totalAmountInBTC + valueBTC;
+          });
+        });
+        // .then((res) => {
 
-    console.log("mainClients======>>>", mainClients);
-    
-    setConnectKeyStoreModal(false);
-    alertToast(false, "KeyStore Connected Successfully!");
-    dispatch({
-      type: KEYSTORECONNECTION_SUCCESS,
-      payload: { KeyStoreClient: mainClients, overallBalance_USD:totalAmountInUSD, overallBalance_BTC:totalAmountInBTC },
-    });
+        // })
+        // .catch((err) => {
+        //   alertToast(true, "CryptoCompare: Failed");
+        // });
+        console.log("TOTAL AMOUNTBTC======>>>", totalAmountInBTC);
+        console.log("TOTAL AMOUNTUSD======>>>", totalAmountInUSD);
+
+        console.log("mainClients======>>>", mainClients);
+
+        setConnectKeyStoreModal(false);
+        alertToast(false, "KeyStore Connected Successfully!");
+        dispatch({
+          type: KEYSTORECONNECTION_SUCCESS,
+          payload: {
+            KeyStoreClient: mainClients,
+            overallBalance_USD: totalAmountInUSD,
+            overallBalance_BTC: totalAmountInBTC,
+          },
+        });
         setLoading(false);
 
         //PolkaDot Client is setup here
@@ -663,7 +669,7 @@ export const GetKeyStore_TransactionHistory = () => async (dispatch) => {
     mainClients.push({ ...clients });
     let concatAssetName = "";
     let totalAmountInBTC = 0;
-    let totalAmountInUSD=0;
+    let totalAmountInUSD = 0;
     mainClients.map((d, mainKey) => {
       d.Balance.map((t, key) => {
         let asset = t?.asset?.ticker?.split("/");
@@ -683,11 +689,14 @@ export const GetKeyStore_TransactionHistory = () => async (dispatch) => {
         t.transferAmount = res;
       });
     });
+
     let apiDataBTC = await axios.get(
       `https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=${concatAssetName}`
     );
-    let apiDataUSD= await axios.get( `https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=${concatAssetName}`);
-    
+    let apiDataUSD = await axios.get(
+      `https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=${concatAssetName}`
+    );
+
     let dataBTC = apiDataBTC.data;
     let dataUSD = apiDataUSD.data;
     console.log("DATA IN USD==========>>", dataUSD);
@@ -706,7 +715,7 @@ export const GetKeyStore_TransactionHistory = () => async (dispatch) => {
         // totalAmountInBTC = totalAmountInBTC + value;
         // console.log("Value Before", asset, value);
         let valueBTC = value / dataBTC[asset];
-        let valueUSD= value/dataUSD[asset];
+        let valueUSD = value / dataUSD[asset];
         totalAmountInUSD = totalAmountInUSD + valueUSD;
         totalAmountInBTC = totalAmountInBTC + valueBTC;
       });
@@ -724,7 +733,11 @@ export const GetKeyStore_TransactionHistory = () => async (dispatch) => {
     alertToast(false, "KeyStore Connected Successfully!");
     dispatch({
       type: KEYSTORECONNECTION_SUCCESS,
-      payload: { KeyStoreClient: mainClients, overallBalance_USD:totalAmountInUSD, overallBalance_BTC:totalAmountInBTC },
+      payload: {
+        KeyStoreClient: mainClients,
+        overallBalance_USD: totalAmountInUSD,
+        overallBalance_BTC: totalAmountInBTC,
+      },
     });
   } catch (error) {
     alertToast(true, error?.message || "Something Went Wrong");

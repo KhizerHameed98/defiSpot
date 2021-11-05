@@ -1,0 +1,16 @@
+.w-overview_portfoliobg {
+  background-color: #fcfcfd;
+  padding: 15px;
+  border-radius: 5px;
+}
+.w-sidebarcoleight {
+  background-color: #fcfcfd;
+  border-radius: 5px;
+  padding: 15px;
+}
+.w-marketsidetitle {
+  color: #353945;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: "Poppins";
+}

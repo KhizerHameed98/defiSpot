@@ -72,15 +72,31 @@ body {
   background-color: #fff !important;
 }
 .nav-link {
-  color: #777e90;
-  padding-left: 30px;
-  font-size: 14px;
-  font-weight: 700;
-  border-right: 1px;
-  line-height: 16px;
-  font-weight: bold;
   font-family: DM Sans;
-  cursor: pointer;
+font-style: normal;
+font-weight: bold;
+font-size: 14px;
+line-height: 16px;
+/* identical to box height, or 114% */
+
+text-align: center;
+
+/* Neutrals/4 */
+
+color: #777E91;
+}
+.utableheading6575{
+  font-family: Poppins;
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 24px;
+/* identical to box height, or 150% */
+
+
+/* Neutrals/2 */
+
+color: #23262F;
 }
 .mainimage {
   /* Center and scale the image nicely */
@@ -179,7 +195,7 @@ button:focus {
 .navbar-expand-lg .navbar-nav .nav-link {
   padding-right: 0.5rem;
   padding-left: 3.5rem;
-  padding-top: 20px;
+  padding-top: 10px;
 }
 .walletbutton {
   padding-left: 18px;
@@ -192,18 +208,83 @@ button:focus {
   color: #23262f;
 }
 .footerlink {
-  color: #777e90;
-  line-height: 16px;
-  font-weight: bold;
-  font-size: 14px;
-  font-family: "DM Sans";
+  font-family: DM Sans;
+font-style: normal;
+font-weight: bold;
+font-size: 14px;
+line-height: 16px;
+/* identical to box height, or 114% */
+
+
+/* Neutrals/4 */
+
+color: #777E91;
 }
 .footerlinks {
-  color: #23262f;
-  font-size: 14px;
-  font-family: "Poppins";
-  font-weight: 400;
-  line-height: 24px;
+  font-family: Poppins;
+font-style: normal;
+font-weight: normal;
+font-size: 14px;
+line-height: 24px;
+/* identical to box height, or 171% */
+
+
+/* Neutrals/2 */
+
+color: #23262F;
+}
+.u-column333{
+  font-family: Poppins;
+font-style: normal;
+font-weight: bold;
+font-size: 12px;
+line-height: 12px;
+/* identical to box height, or 100% */
+
+text-transform: uppercase;
+
+/* Neutrals/2 */
+
+color: #23262F;
+}
+.ufottertext-34{
+  font-family: Poppins;
+font-style: normal;
+font-weight: normal;
+font-size: 14px;
+line-height: 24px;
+/* or 171% */
+
+
+/* Neutrals/2 */
+
+color: #23262F;
+}
+.ufoteertext34555{
+  font-family: Poppins;
+font-style: normal;
+font-weight: normal;
+font-size: 12px;
+line-height: 20px;
+/* identical to box height, or 167% */
+
+
+/* Neutrals/4 */
+
+color: #777E91;
+}
+.uhometext879{
+  font-family: Poppins;
+font-style: normal;
+font-weight: normal;
+font-size: 16px;
+line-height: 24px;
+/* or 150% */
+
+
+/* Neutrals/4 */
+
+color: #777E91;
 }
 .modalparagraph {
   background-color: #f4f5f6;
@@ -228,11 +309,17 @@ button:focus {
   width: 100%;
 }
 .marketparagraph {
-  color: #777e90;
-  font-size: 12px;
-  margin-bottom: 4px;
-  font-weight: 600;
   font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 20px;
+  /* identical to box height, or 167% */
+  
+  
+  /* Neutrals/4 */
+  
+  color: #777E91;
 }
 
 .spanclassmarket {
@@ -273,6 +360,7 @@ button:focus {
   background-color: #f4f5f6;
   border-radius: 20px;
   margin-left: 10px;
+  padding: 24px 24px 24px 24px;
   margin-right: 10px;
   height: 256px;
 }
@@ -309,7 +397,7 @@ button:focus {
 }
 .marketbannerhed {
   font-weight: bold;
-  font-size: 64px;
+  font-size: 3.8rem;
   line-height: 64px;
   padding-bottom: 10px;
   font-family: "DM Sans";
@@ -337,13 +425,12 @@ button:focus {
   padding-left: 10px;
 }
 .btn-primary {
-  padding-left: 24px;
-  padding-right: 24px;
-  padding-top: 16px;
-  padding-bottom: 16px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 12px;
+  padding-bottom: 12px;
   font-size: 16px;
-  background-color: "#3772FF" !important;
-  color: "#fcfcfd";
+  background-color: #3772ff !important;
   color: #fcfcfd;
   font-family: DM Sans;
   font-weight: 700;
@@ -416,8 +503,8 @@ button:focus {
   font-size: 14px;
   font-family: DM Sans;
   padding-right: 16px;
-  padding-top: 12px;
-  padding-bottom: 12px;
+  padding-top: 6px;
+  padding-bottom: 6px;
   padding-left: 16px;
   border: 2px solid #e6e8ec;
   border-radius: 28px;
@@ -592,13 +679,14 @@ button:focus {
   background-color: #fcfcfd;
   padding-left: 13px;
   padding-right: 14px;
-  padding-top: 12px;
-  padding-bottom: 12px;
+  padding-top: 9px;
+  padding-bottom: 9px;
   font-size: 12px;
   font-family: DM Sans;
   font-weight: 700;
   border-radius: 25px;
   border: 2px solid #e6e8ec;
+  color: #23262f;
 }
 .popupaddliquidty {
   font-weight: bold;
@@ -744,11 +832,12 @@ button:focus {
   margin-top: 6px;
 }
 .solidclasssheader {
-  width: 1320;
-  margin-left: 100px;
-  margin-bottom: 0px;
+  margin: 0;
+  margin-left: auto;
+  margin-right: auto;
   width: 100%;
-  max-width: 1300px;
+  height: 1px;
+  background-color: #e6e8ec;
 }
 .overview-tablehead {
   color: #777e90;
@@ -826,16 +915,90 @@ input::-webkit-input-placeholder {
   color: #fcfcfd;
 }
 .text-muted {
-  color: #6c757d !important;
-  font-size: 14px;
-  font-weight: 700;
-  font-family: "Poppins";
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  /* identical to box height, or 150% */
+  
+  
+  /* Neutrals/5 */
+  
+  color: #B1B5C4;
+}
+.uadreetext899{
+  font-family: Poppins;
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 24px;
+/* identical to box height, or 150% */
+
+
+/* Neutrals/2 */
+
+color: #23262F;
+}
+.utableheading56000{
+  font-family: Poppins;
+font-style: normal;
+font-weight: normal;
+font-size: 14px;
+line-height: 24px;
+border-bottom: 1px solid #777e90;
+border-top: none !important;
+padding-bottom: 16px;
+color: #777E91;
 }
 .activaty-headingss {
   font-family: DM Sans;
   font-size: 32px;
   font-weight: bold;
   color: #23262f;
+}
+.umianparagra01234{
+  font-family: Poppins;
+font-style: normal;
+font-weight: normal;
+font-size: 16px;
+line-height: 24px;
+/* identical to box height, or 150% */
+
+text-align: center;
+
+/* Neutrals/4 */
+
+color: #777E91;
+padding-bottom: 64px;
+}
+.usection0000{
+  font-family: Poppins;
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 24px;
+/* identical to box height, or 150% */
+
+text-align: center;
+
+/* Neutrals/2 */
+
+color: #23262F;
+}
+.usection0000text{
+  font-family: Poppins;
+font-style: normal;
+font-weight: normal;
+font-size: 14px;
+line-height: 24px;
+/* or 171% */
+
+text-align: center;
+
+/* Neutrals/4 */
+
+color: #777E91;
 }
 .darkmode--activated .navbar {
   background-color: #000 !important;
@@ -949,7 +1112,7 @@ input::-webkit-inner-spin-button {
   padding-top: 14px;
   padding-bottom: 14px;
   border: none;
-  border-radius: 25px;
+  border-radius: 35px;
 }
 .learnpage-234 {
   font-size: 24px;
@@ -1057,11 +1220,20 @@ input::-webkit-inner-spin-button {
   border: 2px solid #e6e8ec;
   color: rgb(35, 38, 47);
   padding: 5px 15px;
-  font-size: 14px;
-  font-weight: bold;
   border-radius: 20px;
-  text-decoration: none;
-  font-family: "DM Sans";
+  font-family: DM Sans;
+font-style: normal;
+font-weight: bold;
+font-size: 14px;
+line-height: 16px;
+/* identical to box height, or 114% */
+
+text-align: center;
+
+/* Neutrals/2 */
+
+color: #23262F;
+ 
 }
 .exportbuttonactivity {
   padding-top: 12px;
@@ -1145,6 +1317,27 @@ input::-webkit-inner-spin-button {
 
   text-align: center;
   
+  }
+  .footerlogo345{
+    padding-top: 80px;
+  }
+  .umarketp3456{
+    font-family: Poppins;
+font-style: normal;
+font-weight: normal;
+font-size: 24px;
+line-height: 32px;
+/* identical to box height, or 133% */
+
+letter-spacing: -0.01em;
+
+/* Neutrals/3 */
+
+color: #353945;
+  }
+  .umarketsect22222
+  {
+    padding: 24px 24px 24px 24px;
   }
 /* media quiryyy start   here for mobile responsivnesss      sssssssssssssssssssssssssssssssssssssssssssssssssssssssssss */
 @media screen and (max-width: 480px) {

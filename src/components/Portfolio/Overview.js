@@ -7,6 +7,7 @@ const Overview = () => {
   const keyStoreInstance = useSelector((state) => state.main);
   const [searchInput, setSearchInput] = useState("");
   const [tableData, setTableData] = useState([]);
+  const [mainState, setMainState] = useState([]);
   const [tempData, setTempData] = useState([]);
   const [reduxState, setReduxData] = useState("");
   const [overallBalance_BTC, setOverallBalance_BTC] = useState(0);
@@ -27,6 +28,11 @@ const Overview = () => {
   useEffect(() => {
     console.log("my keyStore Instance===>>", keyStoreInstance);
     setKeyStoreClients(keyStoreInstance.KeyStoreClient);
+    const newArr = [];
+    keyStoreInstance.KeyStoreClient?.map((val) =>
+      val.Transactions.txs.map((val2) => newArr.push(val2))
+    );
+    console.log("txs at one place", newArr);
     setOverallBalance_BTC(keyStoreInstance.overallBalance_BTC);
     setOverallBalance_USD(keyStoreInstance.overallBalance_USD);
     const data = JSON.stringify(keyStoreInstance.KeyStoreClient);
@@ -36,13 +42,14 @@ const Overview = () => {
   useEffect(() => {
     setTempData(reduxState && JSON.parse(reduxState));
   }, [reduxState]);
+
   function SearchFilter(e) {
     setSearchInput(e.target.value);
-    setFilterType("");
     if (!e.target.value) {
       setFilterType(Enum.allType);
       setKeyStoreClients(keyStoreInstance?.KeyStoreClient);
-      setTempData(reduxState && JSON.parse(reduxState));
+      const data = JSON.stringify(keyStoreInstance.KeyStoreClient);
+      setReduxData(data);
     } else {
       let res =
         tempData?.length &&
@@ -67,15 +74,29 @@ const Overview = () => {
       setKeyStoreClients(res);
     }
   }
+
   useEffect(() => {
     setTempData(reduxState && JSON.parse(reduxState));
   }, [searchInput]);
+
+  //Descending Order Filter Name
+  const handleDescendingName = () => {
+    let check = [...keyStoreInstance.KeyStoreClient];
+    let res = check.sort((a, b) => {
+      // a.assetFullName.toLowerCase() < b.assetFullName.toLowerCase() ? 1 : -1
+      console.log("a====>", a);
+      console.log("b=========>>", b);
+    });
+  };
 
   function filterAllType() {
     setSearchInput("");
     setFilterType(Enum.allType);
     setKeyStoreClients(keyStoreInstance.KeyStoreClient);
+    const data = JSON.stringify(keyStoreInstance.KeyStoreClient);
+    setReduxData(data);
   }
+
   function filterWithdrawType() {
     setSearchInput("");
     setFilterType(Enum.withdraw);
@@ -86,7 +107,10 @@ const Overview = () => {
       return res2.length && res2;
     });
     setKeyStoreClients(res);
+    const data = JSON.stringify(res);
+    setReduxData(data);
   }
+
   function filterDepositType() {
     setSearchInput("");
     setFilterType(Enum.deposit);
@@ -97,7 +121,10 @@ const Overview = () => {
       return res2.length && res2;
     });
     setKeyStoreClients(res);
+    const data = JSON.stringify(res);
+    setReduxData(data);
   }
+
   function filterPendingType() {
     setSearchInput("");
     setFilterType(Enum.pending);
@@ -108,17 +135,21 @@ const Overview = () => {
       return res2.length && res2;
     });
     setKeyStoreClients(res);
+    const data = JSON.stringify(res);
+    setReduxData(data);
   }
 
   function financial(x) {
     return Number.parseFloat(x).toFixed(4);
   }
+
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
+
   return (
     <div className="col-lg-7 marginleftcol mt-2">
-      <div className="sidebarcoleight pt-3">
+      <div className="w-sidebarcoleight pt-3">
         <div className="d-flex justify-content-between">
           <h2
             style={{
@@ -187,27 +218,29 @@ const Overview = () => {
                 style={{
                   backgroundColor: "#58BD7D",
                   fontSize: "12px",
-                  paddingTop: "8px",
-                  paddingBottom: "8px",
-                  paddingLeft: "8px",
-                  paddingRight: "8px",
-                  color: "#fff",
+                  padding: "5px",
                   fontFamily: "Poppins",
+                  color: "#fff",
+                  position: "relative",
+                  top: "3px",
+                  paddingLeft: "10px",
+                  fontWeight: "700",
                   marginLeft: "8px",
-                  borderRadius: "4px",
+                  paddingRight: "10px",
+                  borderRadius: "5px",
                 }}
               >
                 BTC
               </p>
             </div>
             <p
-              style={{  
+              style={{
                 fontFamily: "Poppins",
                 fontSize: "16px",
                 fontWeight: "400",
                 lineHeight: "24px",
-                position:"relative",
-                top:"-10px",
+                position: "relative",
+                top: "-10px",
                 color: "#777E90",
               }}
             >
@@ -242,7 +275,7 @@ const Overview = () => {
             >
               <div className="row">
                 <div style={{ paddingRight: "0px" }} className="col-lg-6">
-                  <div className="overview_portfoliobg">
+                  <div className="w-overview_portfoliobg">
                     <div className="d-flex justify-content-between">
                       <div className="d-flex">
                         <img
@@ -253,15 +286,16 @@ const Overview = () => {
                           }}
                           src={Images.frame2}
                         />
-                        <p className="marketsidetitle pl-2">Assets</p>
+                        <p className="w-marketsidetitle pl-2">Assets</p>
                       </div>
                       <div>
                         <p
                           style={{
-                            fontWeight: "400",
+                            fontWeight: "500",
                             fontSize: "16px",
                             margin: "0px",
                             fontFamily: "Poppins",
+                            color: "23262F",
                           }}
                         >
                           3.12194287 BTC
@@ -271,9 +305,10 @@ const Overview = () => {
                           style={{
                             magin: "0px",
                             fontFamily: "Poppins",
-                            color: "#777390",
+                            color: "#777E90",
                             fontSize: "14px",
                             fontWeight: "400",
+                            margin: "0px",
                           }}
                         >
                           $10,095.35
@@ -283,7 +318,7 @@ const Overview = () => {
                   </div>
                 </div>
                 <div style={{ paddingLeft: "5px" }} className="col-lg-6">
-                  <div className="overview_portfoliobg">
+                  <div className="w-overview_portfoliobg">
                     <div className="d-flex justify-content-between ">
                       <div className="d-flex">
                         <img
@@ -294,17 +329,18 @@ const Overview = () => {
                           }}
                           src={Images.frame3}
                         />
-                        <p className="marketsidetitle pl-2">
+                        <p className="w-marketsidetitle pl-2">
                           Liquidity providing
                         </p>
                       </div>
                       <div>
                         <p
                           style={{
-                            fontWeight: "400",
+                            fontWeight: "500",
                             fontSize: "16px",
                             margin: "0px",
                             fontFamily: "Poppins",
+                            color: "23262F",
                           }}
                         >
                           3.1219 BTC
@@ -317,6 +353,7 @@ const Overview = () => {
                             color: "#777390",
                             fontSize: "14px",
                             fontWeight: "400",
+                            margin: "0px",
                           }}
                         >
                           $10,095.35
@@ -330,7 +367,7 @@ const Overview = () => {
                 style={{ paddingLeft: "0px", paddingRight: "0px" }}
                 className="col-lg-12"
               >
-                <div className="overview_portfoliobg mt-1">
+                <div className="w-overview_portfoliobg mt-1">
                   <div className="d-flex justify-content-between">
                     <div className="d-flex">
                       <img
@@ -341,16 +378,17 @@ const Overview = () => {
                         }}
                         src={Images.purple}
                       />
-                      <p className="marketsidetitle pl-2">Total</p>
+                      <p className="w-marketsidetitle pl-2">Total</p>
                     </div>
                     <div>
                       <p
                         className="my-sm-0"
                         style={{
-                          fontWeight: "400",
+                          fontWeight: "500",
                           fontSize: "16px",
                           margin: "0px",
                           fontFamily: "Poppins",
+                          color: "23262F",
                         }}
                       >
                         10.376987555 BTC
@@ -361,6 +399,7 @@ const Overview = () => {
                           color: "#777390",
                           fontSize: "14px",
                           fontWeight: "400",
+                          margin: "0px",
                         }}
                         className="d-flex justify-content-end"
                       >
@@ -372,14 +411,14 @@ const Overview = () => {
               </div>
             </div>
             <div style={{ paddingLeft: "0px" }} className="col-lg-4">
-              <div className="sidebarcoleight">
-                <div style={{ paddingLeft: "20px" }}>
+              <div className="w-sidebarcoleight">
+                <div>
                   <p
                     style={{
                       fontSize: "12px",
-                      paddingTop: "20px",
-                      fontFamily: "DM Sans",
-                      fontWeight: "bold",
+                      marginBottom: "5px",
+                      fontFamily: "Poppins",
+                      fontWeight: "500",
                       color: "#777E90",
                     }}
                   >
@@ -397,10 +436,11 @@ const Overview = () => {
                   </p>
                   <h3
                     style={{
-                      fontWeight: "bold",
-                      fontSize: "20px",
-                      paddingBottom: "5px",
+                      fontWeight: "600",
+                      fontSize: "24px",
+                      paddingBottom: "12px",
                       fontFamily: "Poppins",
+                      color: "23262F",
                     }}
                   >
                     $398.5K
@@ -428,7 +468,7 @@ const Overview = () => {
             >
               <div className="row">
                 <div style={{ paddingRight: "0px" }} className="col-lg-6">
-                  <div className="overview_portfoliobg">
+                  <div className="w-overview_portfoliobg">
                     <div className="d-flex justify-content-between">
                       <div className="d-flex">
                         <img
@@ -439,14 +479,16 @@ const Overview = () => {
                           }}
                           src={Images.frame2}
                         />
-                        <p className="marketsidetitle pl-2">Assets</p>
+                        <p className="w-marketsidetitle pl-2">Assets</p>
                       </div>
                       <div>
                         <p
                           style={{
-                            fontWeight: "bold",
+                            fontWeight: "500",
+                            fontSize: "16px",
                             margin: "0px",
-                            fontFamily: "DM Sans",
+                            fontFamily: "Poppins",
+                            color: "23262F",
                           }}
                         >
                           **** BTC
@@ -456,9 +498,10 @@ const Overview = () => {
                           style={{
                             magin: "0px",
                             fontFamily: "Poppins",
-                            color: "777390",
+                            color: "#777E90",
                             fontSize: "14px",
                             fontWeight: "400",
+                            margin: "0px",
                           }}
                         >
                           $****
@@ -468,7 +511,7 @@ const Overview = () => {
                   </div>
                 </div>
                 <div style={{ paddingLeft: "5px" }} className="col-lg-6">
-                  <div className="overview_portfoliobg">
+                  <div className="w-overview_portfoliobg">
                     <div className="d-flex justify-content-between ">
                       <div className="d-flex">
                         <img
@@ -479,16 +522,18 @@ const Overview = () => {
                           }}
                           src={Images.frame3}
                         />
-                        <p className="marketsidetitle pl-2">
+                        <p className="w-marketsidetitle pl-2">
                           Liquidity providing
                         </p>
                       </div>
                       <div>
                         <p
                           style={{
-                            fontWeight: "bold",
+                            fontWeight: "500",
+                            fontSize: "16px",
                             margin: "0px",
-                            fontFamily: "DM Sans",
+                            fontFamily: "Poppins",
+                            color: "23262F",
                           }}
                         >
                           **** BTC
@@ -498,9 +543,10 @@ const Overview = () => {
                           style={{
                             magin: "0px",
                             fontFamily: "Poppins",
-                            color: "777390",
+                            color: "#777390",
                             fontSize: "14px",
                             fontWeight: "400",
+                            margin: "0px",
                           }}
                         >
                           $****
@@ -514,7 +560,7 @@ const Overview = () => {
                 style={{ paddingLeft: "0px", paddingRight: "0px" }}
                 className="col-lg-12"
               >
-                <div className="overview_portfoliobg mt-1">
+                <div className="w-overview_portfoliobg mt-1">
                   <div className="d-flex justify-content-between">
                     <div className="d-flex">
                       <img
@@ -525,21 +571,28 @@ const Overview = () => {
                         }}
                         src={Images.purple}
                       />
-                      <p className="marketsidetitle pl-2">Total</p>
+                      <p className="w-marketsidetitle pl-2">Total</p>
                     </div>
                     <div>
                       <p
                         className="my-sm-0"
-                        style={{ fontWeight: "bold", fontFamily: "DM Sans" }}
+                        style={{
+                          fontWeight: "500",
+                          fontSize: "16px",
+                          margin: "0px",
+                          fontFamily: "Poppins",
+                          color: "23262F",
+                        }}
                       >
                         **** BTC
                       </p>
                       <p
                         style={{
                           fontFamily: "Poppins",
-                          color: "777390",
+                          color: "#777390",
                           fontSize: "14px",
                           fontWeight: "400",
+                          margin: "0px",
                         }}
                         className="d-flex justify-content-end"
                       >
@@ -551,14 +604,14 @@ const Overview = () => {
               </div>
             </div>
             <div style={{ paddingLeft: "0px" }} className="col-lg-4">
-              <div className="sidebarcoleight">
-                <div style={{ paddingLeft: "20px" }}>
+              <div className="w-sidebarcoleight">
+                <div>
                   <p
                     style={{
                       fontSize: "12px",
-                      paddingTop: "20px",
-                      fontFamily: "DM Sans",
-                      fontWeight: "bold",
+                      marginBottom: "5px",
+                      fontFamily: "Poppins",
+                      fontWeight: "500",
                       color: "#777E90",
                     }}
                   >
@@ -576,13 +629,14 @@ const Overview = () => {
                   </p>
                   <h3
                     style={{
-                      fontWeight: "bold",
-                      fontSize: "20px",
-                      paddingBottom: "5px",
+                      fontWeight: "600",
+                      fontSize: "24px",
+                      paddingBottom: "12px",
                       fontFamily: "Poppins",
+                      color: "23262F",
                     }}
                   >
-                    $****K
+                    $****
                   </h3>
                   <img
                     style={{
@@ -596,6 +650,7 @@ const Overview = () => {
               </div>
             </div>
           </div>
+
           {/*check end*/}
         </>
       )}
@@ -605,7 +660,7 @@ const Overview = () => {
       >
         Transaction History
       </p>
-      <div className="sidebarcoleight pt-3">
+      <div className="w-sidebarcoleight pt-3">
         <div className="d-flex justify-content-between">
           <ul className="list-unstyled d-flex">
             <li>
@@ -695,7 +750,29 @@ const Overview = () => {
             <thead>
               <tr>
                 <th class="pt-3 pb-3 overview-tablehead" scope="col">
-                  Type <img class="pl-1" src={Images.nameup} />
+                  Type{" "}
+                  <div
+                    style={{
+                      display: "inline-grid",
+                      paddingBottom: "4px",
+                      marginLeft: "3px",
+                    }}
+                  >
+                    <img
+                      class="pl-1"
+                      src={Images.FilterUp}
+                      onClick={handleDescendingName}
+                      style={{
+                        marginBottom: "3px",
+                        cursor: "pointer",
+                      }}
+                    />
+                    <img
+                      class="pl-1"
+                      src={Images.FilterDown}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </div>
                 </th>
                 <th class="pt-3 pb-3 overview-tablehead" scope="col">
                   Coin <img class="pl-1" src={Images.nameup} />
@@ -804,7 +881,7 @@ const Overview = () => {
                                 style={{
                                   fontFamily: "Poppins",
                                   color: "#777e90",
-                                  whiteSpace:"nowrap",
+                                  whiteSpace: "nowrap",
                                 }}
                               >
                                 {t.date.toString().substring(0, 24)}
@@ -826,4 +903,3 @@ const Overview = () => {
 };
 
 export default Overview;
-

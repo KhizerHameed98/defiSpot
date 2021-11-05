@@ -734,7 +734,7 @@ export const Header = () => {
                   <img
                     style={{
                       height: "15px",
-                      marginTop: "22px",
+                      marginTop: "12px",
                       marginLeft: "5px",
                     }}
                     src={headerdown}
@@ -743,7 +743,7 @@ export const Header = () => {
               </li>
             </ul>
             <select
-              class="mt-3  select"
+              class="select"
               style={{
                 width: "70px",
                 listStyle: "none",
@@ -759,7 +759,7 @@ export const Header = () => {
               <option style={{ color: "#23262F" }}>ESP</option>
             </select>
             <img
-              style={{ marginRight: "40px", marginTop: "15px" }}
+              style={{ marginRight: "40px", marginTop: "2px" }}
               src={Images.iconarowdown}
             />
             <Link className="navbar-brand pr-3" to="/">
@@ -786,6 +786,7 @@ export const Header = () => {
           </div>
         </nav>
       </div>
+      <div className="solid solidclasssheader"></div>
     </div>
   );
 };

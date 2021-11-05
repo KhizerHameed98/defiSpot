@@ -153,195 +153,208 @@ const Market = () => {
 
   return (
     <div>
-    {loading ? (
-      <>
-        <div style={{ justifyContent: "center", marginLeft: "40%" }}>
-          <Loader />
-        </div>
-      </>
-    ) : (
-      <>
-        <section style={{ backgroundColor: "#C0E1FF" }}>
-          <div class="container">
-            <div class="row">
-              <div class="col-lg-6">
-                <div class="marketbanner">
-                  <h2 class="marketbannerhed">
-                    Today's <br />
-                    Cryptocurrency
-                    <br /> Prices
-                  </h2>
-                  <p
-                    style={{
-                      fontFamily: "Poppins",
-                      fontSize: "24px",
-                      fontWeight: "400",
-                    }}
-                  >
-                    The global crypto market cap is{" "}
-                    <span
-                      style={{
-                        fontWeight: "bold",
-                        fontFamily: "Poppins",
-                        fontSize: "24px",
-                      }}
+      {loading ? (
+        <>
+          <div style={{ justifyContent: "center", marginLeft: "40%" }}>
+            <Loader />
+          </div>
+        </>
+      ) : (
+        <>
+          <section style={{ backgroundColor: "#C0E1FF" }}>
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="marketbanner">
+                    <h2 class="marketbannerhed">
+                      Today's <br />
+                      Cryptocurrency
+                      <br /> Prices
+                    </h2>
+                    <p className="umarketp3456"
                     >
-                      $1.86T
-                    </span>
-                  </p>
+                      The global crypto market cap is{" "}
+                      <span
+                        style={{
+                          fontWeight: "bold",
+                          fontFamily: "Poppins",
+                          fontSize: "24px",
+                        }}
+                      >
+                        $1.86T
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <img className="marketmainimage" src={Images.market} />
                 </div>
               </div>
-              <div class="col-lg-6">
-                <img className="marketmainimage" src={Images.market} />
-              </div>
-            </div>
-            <div class="row bitcoinclasss">
-              {mainState ? (
-                <>
-                  {mainState.slice(0, 3).map((d, key) => {
-                    return (
-                      <>
-                        <div class="col-lg-4 pt-3 pb-3">
-                          <div class="d-flex markethover">
-                            <img
-                              style={{ width: "32px", height: "32px" }}
-                              src={d?.logo}
-                            />
-                            <div
-                              style={{
-                                paddingLeft: "15px",
-                              }}
-                            >
-                              <p class="marketparagraph">
-                                {d?.asset}/USDT{" "}
-                                {d?.change_24h >= 0 ? (
-                                  <span className="spanclassmarket">
-                                    +{financial(d?.change_24h)}%
-                                  </span>
+              <div class="row bitcoinclasss">
+                {mainStateRedux ? (
+                  <>
+                    {mainStateRedux.slice(0, 3).map((d, key) => {
+                      return (
+                        <>
+                          <div class="col-lg-4 umarketsect22222">
+                            <div class="d-flex markethover">
+                              <img
+                                style={{ width: "32px", height: "32px" }}
+                                src={d?.logo}
+                              />
+                              <div
+                                style={{
+                                  paddingLeft: "15px",
+                                }}
+                              >
+                                <p class="marketparagraph">
+                                  {d?.asset}/USDT{" "}
+                                  {d?.change_24h >= 0 ? (
+                                    <span className="spanclassmarket">
+                                      +{financial(d?.change_24h)}%
+                                    </span>
+                                  ) : (
+                                    <span className="spanclassmarkets">
+                                      {financial(d?.change_24h)}%
+                                    </span>
+                                  )}{" "}
+                                </p>
+                                <p
+                                  style={{
+                                    marginBottom: "0",
+                                    fontSize: "24px",
+                                    fontWeight: "600",
+                                    fontFamily: "Poppins",
+                                  }}
+                                >
+                                  {" "}
+                                  {numberWithCommas(
+                                    financial(d?.assetPriceUSD)
+                                  )}{" "}
+                                </p>
+                                <p
+                                  style={{
+                                    fontFamily: "Poppins",
+                                    color: "#23262F",
+                                    fontSize: "12px",
+                                  }}
+                                >
+                                  {numberWithCommas(
+                                    financial(d?.assetPriceUSD)
+                                  )}
+                                </p>
+                              </div>
+                              <div style={{ paddingLeft: "7px" }}>
+                                {d.change_24h > 0 ? (
+                                  <>
+                                    <img src={Images.crt1} />
+                                  </>
                                 ) : (
-                                  <span className="spanclassmarkets">
-                                    {financial(d?.change_24h)}%
-                                  </span>
-                                )}{" "}
-                              </p>
-                              <p
-                                style={{
-                                  marginBottom: "0",
-                                  fontSize: "24px",
-                                  fontWeight: "600",
-                                  fontFamily: "Poppins",
-                                }}
-                              >
-                                {" "}
-                                {numberWithCommas(
-                                  financial(d?.assetPriceUSD)
-                                )}{" "}
-                              </p>
-                              <p
-                                style={{
-                                  fontFamily: "Poppins",
-                                  color: "#23262F",
-                                  fontSize: "12px",
-                                }}
-                              >
-                                {numberWithCommas(financial(d?.assetPriceUSD))}
-                              </p>
-                            </div>
-                            <div style={{ paddingLeft: "7px" }}>
-                              <img src={Images.crt1} />
+                                  <>
+                                    <img
+                                      style={{
+                                        width: "138px",
+                                        height: "42px",
+                                      }}
+                                      src={Images.chartmarket}
+                                    />
+                                  </>
+                                )}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </>
-                    );
-                  })}
-                </>
-              ) : null}
+                        </>
+                      );
+                    })}
+                  </>
+                ) : null}
+              </div>
             </div>
-          </div>
-        </section>
-        <section style={{ backgroundColor: "#FCFCFD" }}>
-          <div class="container pt-5">
-            <div class="d-flex justify-content-between">
-              <ul class="list-unstyled d-flex">
-                <li>
-                  <button
-                    className={
-                      filterType === Enum.allType
-                        ? "alltype"
-                        : "alltype-nonActive"
-                    }
-                    onClick={filterAllType}
-                  >
-                    All type
-                  </button>
-                </li>
+          </section>
+          <section style={{ backgroundColor: "#FCFCFD" }}>
+            <div class="container pt-5">
+              <div class="d-flex justify-content-between">
+                <ul class="list-unstyled d-flex">
+                  <li>
+                    <button
+                      className={
+                        filterType === Enum.allType
+                          ? "alltype"
+                          : "alltype-nonActive"
+                      }
+                      onClick={filterAllType}
+                    >
+                      All type
+                    </button>
+                  </li>
 
-                <li>
-                  <button
-                    className={
-                      filterType === Enum.native
-                        ? "alltype"
-                        : "alltype-nonActive"
-                    }
-                    style={{ color: "#fff", fontFamily: "DM Sans" }}
-                    onClick={filterNative}
-                  >
-                    Native
-                  </button>
-                </li>
+                  <li>
+                    <button
+                      className={
+                        filterType === Enum.native
+                          ? "alltype"
+                          : "alltype-nonActive"
+                      }
+                      style={{ color: "#fff", fontFamily: "DM Sans" }}
+                      onClick={filterNative}
+                    >
+                      Native
+                    </button>
+                  </li>
 
-                <li>
-                  <button
-                    className={
-                      filterType === Enum.erc20
-                        ? "alltype"
-                        : "alltype-nonActive"
-                    }
-                    style={{ color: "#fff", fontFamily: "DM Sans" }}
-                    onClick={filterERC20}
-                  >
-                    ERC-20
-                  </button>
-                </li>
+                  <li>
+                    <button
+                      className={
+                        filterType === Enum.erc20
+                          ? "alltype"
+                          : "alltype-nonActive"
+                      }
+                      style={{ color: "#fff", fontFamily: "DM Sans" }}
+                      onClick={filterERC20}
+                    >
+                      ERC-20
+                    </button>
+                  </li>
 
-                <li>
-                  <button
-                    className={
-                      filterType === Enum.bep2 ? "alltype" : "alltype-nonActive"
-                    }
-                    style={{ color: "#fff", fontFamily: "DM Sans" }}
-                    onClick={filterBEP2}
-                  >
-                    BEP2
-                  </button>
-                </li>
-              </ul>
-              <div class=" d-flex form-group has-search">
-                <input
-                  style={{
-                    borderRadius: "8px",
-                    width: "280px",
-                    height: "35px",
-                    fontFamily: "DM Sans",
-                    backgroundColor: "#FCFCFD",
-                  }}
-                  type="text"
-                  class="form-control"
-                  placeholder="Search after coin..."
-                  value={searchInput}
-                  onChange={InputSearch}
-                />
-                <img
-                  style={{
-                    width: "17px",
-                    height: "17px",
-                    marginLeft: "-25px",
-                    marginTop: "10px",
-                  }}
-                  src={Images.searchicon}
-                />
-                {/* <span
+                  <li>
+                    <button
+                      className={
+                        filterType === Enum.bep2
+                          ? "alltype"
+                          : "alltype-nonActive"
+                      }
+                      style={{ color: "#fff", fontFamily: "DM Sans" }}
+                      onClick={filterBEP2}
+                    >
+                      BEP2
+                    </button>
+                  </li>
+                </ul>
+                <div class=" d-flex form-group has-search">
+                  <input
+                    style={{
+                      borderRadius: "8px",
+                      width: "280px",
+                      height: "35px",
+                      fontFamily: "DM Sans",
+                      backgroundColor: "#FCFCFD",
+                    }}
+                    type="text"
+                    class="form-control"
+                    placeholder="Search after coin..."
+                    value={searchInput}
+                    onChange={InputSearch}
+                  />
+                  <img
+                    style={{
+                      width: "17px",
+                      height: "17px",
+                      marginLeft: "-25px",
+                      marginTop: "10px",
+                    }}
+                    src={Images.searchicon}
+                  />
+                  {/* <span
                     style={{
                       paddingTop: "10px",
                       marginLeft: "-20px",
@@ -350,29 +363,29 @@ const Market = () => {
                     }}
                     <img src={Images.searchicon}/>
                   </span> */}
+                </div>
               </div>
-            </div>
-            {poolData ? (
-              <div class="table-responsive">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th
-                        className="pt-4 pb-5"
-                        style={{
-                          border: "none",
-                          color: "#777E90",
-                          fontFamily: "Poppins",
-                          fontSize: "14px ",
-                          fontWeight: "600",
-                        }}
-                        scope="col"
-                      >
-                        #
-                        <div
+              {poolData ? (
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th
+                          className="pt-4 pb-5"
+                          style={{
+                            border: "none",
+                            color: "#777E90",
+                            fontFamily: "Poppins",
+                            fontSize: "14px ",
+                            fontWeight: "600",
+                          }}
+                          scope="col"
+                        >
+                          #
+                          <div
                             style={{
                               display: "inline-grid",
-                              paddingBottom: "4px",
+                              // paddingBottom: "4px",
                               marginLeft: "3px",
                             }}
                           >
@@ -385,6 +398,8 @@ const Market = () => {
                               style={{
                                 marginBottom: "3px",
                                 cursor: "pointer",
+                                position:"relative",
+                                top:"-5px",
                               }}
                             />
                             <img
@@ -393,25 +408,27 @@ const Market = () => {
                               onClick={() => {
                                 setArrSortSrNo(false);
                               }}
-                              style={{ cursor: "pointer" }}
+                              style={{ cursor: "pointer",position:"relative",
+                              top:"-5px", }}
                             />
                           </div>
-                      </th>
-                      <th
-                        className="pt-5 pb-5"
-                        style={{
-                          border: "none",
-                          color: "#777E90",
-                          fontFamily: "Poppins",
-                          fontSize: "14px ",
-                          fontWeight: "600",
-                        }}
-                        scope="col"
-                      >
-                        Name  <div
+                        </th>
+                        <th
+                          className="pt-5 pb-5"
+                          style={{
+                            border: "none",
+                            color: "#777E90",
+                            fontFamily: "Poppins",
+                            fontSize: "14px ",
+                            fontWeight: "600",
+                          }}
+                          scope="col"
+                        >
+                          Name{" "}
+                          <div
                             style={{
                               display: "inline-grid",
-                              paddingBottom: "4px",
+                              // paddingBottom: "4px",
                               marginLeft: "3px",
                             }}
                           >
@@ -422,31 +439,35 @@ const Market = () => {
                               style={{
                                 marginBottom: "3px",
                                 cursor: "pointer",
+                                position:"relative",
+                                top:"-5px",
                               }}
                             />
                             <img
                               class="pl-1"
                               src={Images.FilterDown}
                               onClick={handleAscendingName}
-                              style={{ cursor: "pointer" }}
+                              style={{ cursor: "pointer",position:"relative",
+                              top:"-5px", }}
                             />
                           </div>
-                      </th>
-                      <th
-                        className="pt-5 pb-5"
-                        style={{
-                          border: "none",
-                          color: "#777E90",
-                          fontFamily: "Poppins",
-                          fontSize: "14px ",
-                          fontWeight: "600",
-                        }}
-                        scope="col"
-                      >
-                        Price   <div
+                        </th>
+                        <th
+                          className="pt-5 pb-5"
+                          style={{
+                            border: "none",
+                            color: "#777E90",
+                            fontFamily: "Poppins",
+                            fontSize: "14px ",
+                            fontWeight: "600",
+                          }}
+                          scope="col"
+                        >
+                          Price{" "}
+                          <div
                             style={{
                               display: "inline-grid",
-                              paddingBottom: "4px",
+                              // paddingBottom: "4px",
                               marginLeft: "3px",
                             }}
                           >
@@ -456,6 +477,8 @@ const Market = () => {
                               onClick={handleDescendingPrice}
                               style={{
                                 marginBottom: "3px",
+                                position:"relative",
+                                top:"-5px",
                                 cursor: "pointer",
                               }}
                             />
@@ -463,377 +486,410 @@ const Market = () => {
                               class="pl-1"
                               src={Images.FilterDown}
                               onClick={handleAscendingPrice}
-                              style={{ cursor: "pointer" }}
+                              style={{ cursor: "pointer",position:"relative",
+                              top:"-5px", }}
                             />
                           </div>
-                      </th>
-                      <th
-                        className="pt-5 pb-5"
-                        style={{
-                          border: "none",
-                          color: "#777E90",
-                          fontFamily: "Poppins",
-                          fontSize: "14px ",
-                          fontWeight: "600",
-                        }}
-                        scope="col"
-                      >
-                        24h %
-                      </th>
-                      <th
-                        className="pt-5 pb-5"
-                        style={{
-                          border: "none",
-                          color: "#777E90",
-                          fontFamily: "Poppins",
-                          fontSize: "14px ",
-                          fontWeight: "600",
-                        }}
-                        scope="col"
-                      >
-                        7d %
-                      </th>
-                      <th
-                        className="pt-5 pb-5"
-                        style={{
-                          border: "none",
-                          color: "#777E90",
-                          fontFamily: "Poppins",
-                          fontSize: "14px ",
-                          fontWeight: "600",
-                        }}
-                        scope="col"
-                      >
-                        Marketcap <img src={Images.dolaar} />
-                      </th>
-                      <th
-                        className="pt-5 pb-5"
-                        style={{
-                          border: "none",
-                          color: "#777E90",
-                          fontFamily: "Poppins",
-                          fontSize: "14px ",
-                          fontWeight: "600",
-                        }}
-                        scope="col"
-                      >
-                        Volume(24h)
-                        <img class="pl-2" src={Images.hourr} />
-                      </th>
-                      <th
-                        className="pt-5 pb-5"
-                        style={{
-                          border: "none",
-                          color: "#777E90",
-                          fontFamily: "Poppins",
-                          fontSize: "14px ",
-                          fontWeight: "600",
-                          textAlign: "right",
-                          paddingRight: "30px",
-                        }}
-                        scope="col"
-                      >
-                        Chart
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {   arrSortSrNo &&
+                        </th>
+                        <th
+                          className="pt-5 pb-5"
+                          style={{
+                            border: "none",
+                            color: "#777E90",
+                            fontFamily: "Poppins",
+                            fontSize: "14px ",
+                            fontWeight: "600",
+                          }}
+                          scope="col"
+                        >
+                          24h %
+                        </th>
+                        <th
+                          className="pt-5 pb-5"
+                          style={{
+                            border: "none",
+                            color: "#777E90",
+                            fontFamily: "Poppins",
+                            fontSize: "14px ",
+                            fontWeight: "600",
+                          }}
+                          scope="col"
+                        >
+                          7d %
+                        </th>
+                        <th
+                          className="pt-5 pb-5"
+                          style={{
+                            border: "none",
+                            color: "#777E90",
+                            fontFamily: "Poppins",
+                            fontSize: "14px ",
+                            fontWeight: "600",
+                          }}
+                          scope="col"
+                        >
+                          Marketcap <img src={Images.dolaar} />
+                        </th>
+                        <th
+                          className="pt-5 pb-5"
+                          style={{
+                            border: "none",
+                            color: "#777E90",
+                            fontFamily: "Poppins",
+                            fontSize: "14px ",
+                            fontWeight: "600",
+                          }}
+                          scope="col"
+                        >
+                          Volume(24h)
+                          <img class="pl-2" src={Images.hourr} />
+                        </th>
+                        <th
+                          className="pt-5 pb-5"
+                          style={{
+                            border: "none",
+                            color: "#777E90",
+                            fontFamily: "Poppins",
+                            fontSize: "14px ",
+                            fontWeight: "600",
+                            textAlign: "right",
+                            paddingRight: "30px",
+                          }}
+                          scope="col"
+                        >
+                          Chart
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {arrSortSrNo &&
                         poolData
                           .slice(0, 10)
                           .reverse()
                           .map((d, key) => {
-                      return (
-                        <tr className="maintdclasshover">
-                          <th
-                            className="pt-4"
-                            style={{
-                              color: "#777E90",
-                              fontFamily: "Poppins",
-                              fontSize: "12px",
-                              paddingTop: "17px",
-                            }}
-                            scope="row"
-                          >
-                            {poolData.slice(0, 10).length - key}
-                          </th>
-                          <td className="pt-3">
-                            <div class="d-flex flex-row align-items-center">
-                              <img style={{ width: "32px" }} src={d?.logo} />
-                              <div
-                                style={{
-                                  fontWeight: "bold",
-                                  fontFamily: "Poppins",
-                                  paddingLeft: "5px",
-                                  fontSize: "14px",
-                                  paddingLeft: "12px",
-                                  paddingTop: "3px",
-                                }}
-                              >
-                                {d?.assetFullName}
-                              </div>
-                              <div class="d-flex align-items-center">
-                                <div
-                                  style={{ fontFamily: "DM Sans", paddingTop: "3px" }}
-                                  class="pl-2 text-muted"
+                            return (
+                              <tr className="maintdclasshover">
+                                <th
+                                  className="pt-4"
+                                  style={{
+                                    color: "#777E90",
+                                    fontFamily: "Poppins",
+                                    fontSize: "12px",
+                                    paddingTop: "17px",
+                                  }}
+                                  scope="row"
                                 >
-                                  {d?.asset}
-                                </div>
-                              </div>
-                            </div>
-                          </td>
+                                  {poolData.slice(0, 10).length - key}
+                                </th>
+                                <td className="pt-3">
+                                  <div class="d-flex flex-row align-items-center">
+                                    <img
+                                      style={{ width: "32px" }}
+                                      src={d?.logo}
+                                    />
+                                    <div
+                                      style={{
+                                        fontWeight: "bold",
+                                        fontFamily: "Poppins",
+                                        paddingLeft: "5px",
+                                        fontSize: "14px",
+                                        paddingLeft: "12px",
+                                        paddingTop: "3px",
+                                      }}
+                                    >
+                                      {d?.assetFullName}
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                      <div
+                                        style={{
+                                          fontFamily: "DM Sans",
+                                          paddingTop: "3px",
+                                        }}
+                                        class="pl-2 text-muted"
+                                      >
+                                        {d?.asset}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
 
-                          <td
-                            className="pt-4"
-                            style={{
-                              fontWeight: "bold",
-                              fontFamily: "Poppins",
-                              fontSize: "14px",
-                              paddingTop: "17px",
-                            }}
-                          >
-                            ${numberWithCommas(financial(d?.assetPriceUSD))}
-                          </td>
-                          <td className="pt-4">
-                            <div class="d-flex flex-column">
-                              <div>
-                                {d?.change_24h >= 0 ? (
-                                  <b className="percentage">
-                                    +{financial(d?.change_24h)}%
-                                  </b>
-                                ) : (
-                                  <b className="percentagetwo">
-                                    {financial(d?.change_24h)}%
-                                  </b>
-                                )}
-                              </div>
-                            </div>
-                          </td>
-                          <td className="pt-4">
-                            <div class="d-flex flex-column">
-                              <div>
-                                {d?.change_7d >= 0 ? (
-                                  <b className="percentage">
-                                    +{financial(d?.change_7d)}%
-                                  </b>
-                                ) : (
-                                  <b className="percentagetwo">
-                                    {financial(d?.change_7d)}%
-                                  </b>
-                                )}{" "}
-                              </div>
-                            </div>
-                          </td>
-                          <td
-                            className="pt-4"
-                            style={{
-                              fontWeight: "bold",
-                              fontFamily: "Poppins",
-                              fontSize: "14px",
-                              paddingTop: "17px",
-                            }}
-                          >
-                            ${numberWithCommas(financial(d?.marketCap))}
-                          </td>
-                          <td
-                            className="pt-4"
-                            style={{
-                              fontWeight: "bold",
-                              fontFamily: "Poppins",
-                              fontSize: "14px",
-                              paddingTop: "17px",
-                            }}
-                          >
-                            ${d?.volume24h}
-                          </td>
-                          <td style={{ Height: "42px" }}>
-                            <div className="buytoken-buttonvalue">
-                              <span className="buyTokenGraph">
-                                {d.change_24h > 0 ? (
-                                  <>
-                                    <img src={Images.crt1} />
-                                  </>
-                                ) : (
-                                  <>
-                                    <img style={{width:"138px",height:"42px"}} src={Images.chartmarket} />
-                                  </>
-                                )}
-                              </span>
-                              <span className="buyTokenbtn">
-                                <Link
-                                  to={`${browserRoute.BUYMARKET}/${d?.asset}`}
+                                <td
+                                  className="pt-4"
+                                  style={{
+                                    fontWeight: "bold",
+                                    fontFamily: "Poppins",
+                                    fontSize: "14px",
+                                    paddingTop: "17px",
+                                  }}
                                 >
-                                  <button
-                                    style={{ fontFamily: "DM Sans" }}
-                                    className=" btn btn-primary buybutttonmarket"
-                                  >
-                                    Buy
-                                  </button>
-                                </Link>
-                              </span>
-                            </div>
-                          </td>
-                        </tr>
-                      );
+                                  $
+                                  {numberWithCommas(
+                                    financial(d?.assetPriceUSD)
+                                  )}
+                                </td>
+                                <td className="pt-4">
+                                  <div class="d-flex flex-column">
+                                    <div>
+                                      {d?.change_24h >= 0 ? (
+                                        <b className="percentage">
+                                          +{financial(d?.change_24h)}%
+                                        </b>
+                                      ) : (
+                                        <b className="percentagetwo">
+                                          {financial(d?.change_24h)}%
+                                        </b>
+                                      )}
+                                    </div>
+                                  </div>
+                                </td>
+                                <td className="pt-4">
+                                  <div class="d-flex flex-column">
+                                    <div>
+                                      {d?.change_7d >= 0 ? (
+                                        <b className="percentage">
+                                          +{financial(d?.change_7d)}%
+                                        </b>
+                                      ) : (
+                                        <b className="percentagetwo">
+                                          {financial(d?.change_7d)}%
+                                        </b>
+                                      )}{" "}
+                                    </div>
+                                  </div>
+                                </td>
+                                <td
+                                  className="pt-4"
+                                  style={{
+                                    fontWeight: "bold",
+                                    fontFamily: "Poppins",
+                                    fontSize: "14px",
+                                    paddingTop: "17px",
+                                  }}
+                                >
+                                  ${numberWithCommas(financial(d?.marketCap))}
+                                </td>
+                                <td
+                                  className="pt-4"
+                                  style={{
+                                    fontWeight: "bold",
+                                    fontFamily: "Poppins",
+                                    fontSize: "14px",
+                                    paddingTop: "17px",
+                                  }}
+                                >
+                                  ${d?.volume24h}
+                                </td>
+                                <td style={{ Height: "42px" }}>
+                                  <div className="buytoken-buttonvalue">
+                                    <span className="buyTokenGraph">
+                                      {d.change_24h > 0 ? (
+                                        <>
+                                          <img src={Images.crt1} />
+                                        </>
+                                      ) : (
+                                        <>
+                                          <img
+                                            style={{
+                                              width: "138px",
+                                              height: "42px",
+                                            }}
+                                            src={Images.chartmarket}
+                                          />
+                                        </>
+                                      )}
+                                    </span>
+                                    <span className="buyTokenbtn">
+                                      <Link
+                                        to={`${browserRoute.BUYMARKET}/${d?.asset}`}
+                                      >
+                                        <button
+                                          style={{ fontFamily: "DM Sans" }}
+                                          className=" btn btn-primary buybutttonmarket"
+                                        >
+                                          Buy
+                                        </button>
+                                      </Link>
+                                    </span>
+                                  </div>
+                                </td>
+                              </tr>
+                            );
                           })}
-                         {   !arrSortSrNo &&
+                      {!arrSortSrNo &&
                         poolData
                           .slice(0, 10)
-                          
-                          .map((d, key) => {
-                      return (
-                        <tr className="maintdclasshover">
-                          <th
-                            className="pt-4"
-                            style={{
-                              color: "#777E90",
-                              fontFamily: "Poppins",
-                              fontSize: "12px",
-                              paddingTop: "17px",
-                            }}
-                            scope="row"
-                          >
-                            {key + 1}
-                          </th>
-                          <td className="pt-3">
-                            <div class="d-flex flex-row align-items-center">
-                              <img style={{ width: "32px" }} src={d?.logo} />
-                              <div
-                                style={{
-                                  fontWeight: "bold",
-                                  fontFamily: "Poppins",
-                                  paddingLeft: "5px",
-                                  fontSize: "14px",
-                                  paddingLeft: "12px",
-                                  paddingTop: "3px",
-                                }}
-                              >
-                                {d?.assetFullName}
-                              </div>
-                              <div class="d-flex align-items-center">
-                                <div
-                                  style={{ fontFamily: "DM Sans", paddingTop: "3px" }}
-                                  class="pl-2 text-muted"
-                                >
-                                  {d?.asset}
-                                </div>
-                              </div>
-                            </div>
-                          </td>
 
-                          <td
-                            className="pt-4"
-                            style={{
-                              fontWeight: "bold",
-                              fontFamily: "Poppins",
-                              fontSize: "14px",
-                              paddingTop: "17px",
-                            }}
-                          >
-                            ${numberWithCommas(financial(d?.assetPriceUSD))}
-                          </td>
-                          <td className="pt-4">
-                            <div class="d-flex flex-column">
-                              <div>
-                                {d?.change_24h >= 0 ? (
-                                  <b className="percentage">
-                                    +{financial(d?.change_24h)}%
-                                  </b>
-                                ) : (
-                                  <b className="percentagetwo">
-                                    {financial(d?.change_24h)}%
-                                  </b>
-                                )}
-                              </div>
-                            </div>
-                          </td>
-                          <td className="pt-4">
-                            <div class="d-flex flex-column">
-                              <div>
-                                {d?.change_7d >= 0 ? (
-                                  <b className="percentage">
-                                    +{financial(d?.change_7d)}%
-                                  </b>
-                                ) : (
-                                  <b className="percentagetwo">
-                                    {financial(d?.change_7d)}%
-                                  </b>
-                                )}{" "}
-                              </div>
-                            </div>
-                          </td>
-                          <td
-                            className="pt-4"
-                            style={{
-                              fontWeight: "bold",
-                              fontFamily: "Poppins",
-                              fontSize: "14px",
-                              paddingTop: "17px",
-                            }}
-                          >
-                            ${numberWithCommas(financial(d?.marketCap))}
-                          </td>
-                          <td
-                            className="pt-4"
-                            style={{
-                              fontWeight: "bold",
-                              fontFamily: "Poppins",
-                              fontSize: "14px",
-                              paddingTop: "17px",
-                            }}
-                          >
-                            ${d?.volume24h}
-                          </td>
-                          <td style={{ Height: "42px" }}>
-                            <div className="buytoken-buttonvalue">
-                              <span className="buyTokenGraph">
-                                {d.change_24h > 0 ? (
-                                  <>
-                                    <img src={Images.crt1} />
-                                  </>
-                                ) : (
-                                  <>
-                                    <img style={{width:"138px",height:"42px"}} src={Images.chartmarket} />
-                                  </>
-                                )}
-                              </span>
-                              <span className="buyTokenbtn">
-                                <Link
-                                  to={`${browserRoute.BUYMARKET}/${d?.asset}`}
+                          .map((d, key) => {
+                            return (
+                              <tr className="maintdclasshover">
+                                <th
+                                  className="pt-4"
+                                  style={{
+                                    color: "#777E90",
+                                    fontFamily: "Poppins",
+                                    fontSize: "12px",
+                                    paddingTop: "17px",
+                                  }}
+                                  scope="row"
                                 >
-                                  <button
-                                    style={{ fontFamily: "DM Sans" }}
-                                    className=" btn btn-primary buybutttonmarket"
-                                  >
-                                    Buy
-                                  </button>
-                                </Link>
-                              </span>
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            ) : null}
-          </div>
-        </section>
-        <section style={{ backgroundColor: "#FCFCFD" }}>
+                                  {key + 1}
+                                </th>
+                                <td className="pt-3">
+                                  <div class="d-flex flex-row align-items-center">
+                                    <img
+                                      style={{ width: "32px" }}
+                                      src={d?.logo}
+                                    />
+                                    <div
+                                      style={{
+                                        fontWeight: "bold",
+                                        fontFamily: "Poppins",
+                                        paddingLeft: "5px",
+                                        fontSize: "14px",
+                                        paddingLeft: "12px",
+                                        paddingTop: "3px",
+                                      }}
+                                    >
+                                      {d?.assetFullName}
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                      <div
+                                        style={{
+                                          fontFamily: "DM Sans",
+                                          paddingTop: "3px",
+                                        }}
+                                        class="pl-2 text-muted"
+                                      >
+                                        {d?.asset}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
+
+                                <td
+                                  className="pt-4"
+                                  style={{
+                                    fontWeight: "bold",
+                                    fontFamily: "Poppins",
+                                    fontSize: "14px",
+                                    paddingTop: "17px",
+                                  }}
+                                >
+                                  $
+                                  {numberWithCommas(
+                                    financial(d?.assetPriceUSD)
+                                  )}
+                                </td>
+                                <td className="pt-4">
+                                  <div class="d-flex flex-column">
+                                    <div>
+                                      {d?.change_24h >= 0 ? (
+                                        <b className="percentage">
+                                          +{financial(d?.change_24h)}%
+                                        </b>
+                                      ) : (
+                                        <b className="percentagetwo">
+                                          {financial(d?.change_24h)}%
+                                        </b>
+                                      )}
+                                    </div>
+                                  </div>
+                                </td>
+                                <td className="pt-4">
+                                  <div class="d-flex flex-column">
+                                    <div>
+                                      {d?.change_7d >= 0 ? (
+                                        <b className="percentage">
+                                          +{financial(d?.change_7d)}%
+                                        </b>
+                                      ) : (
+                                        <b className="percentagetwo">
+                                          {financial(d?.change_7d)}%
+                                        </b>
+                                      )}{" "}
+                                    </div>
+                                  </div>
+                                </td>
+                                <td
+                                  className="pt-4"
+                                  style={{
+                                    fontWeight: "bold",
+                                    fontFamily: "Poppins",
+                                    fontSize: "14px",
+                                    paddingTop: "17px",
+                                  }}
+                                >
+                                  ${numberWithCommas(financial(d?.marketCap))}
+                                </td>
+                                <td
+                                  className="pt-4"
+                                  style={{
+                                    fontWeight: "bold",
+                                    fontFamily: "Poppins",
+                                    fontSize: "14px",
+                                    paddingTop: "17px",
+                                  }}
+                                >
+                                  ${d?.volume24h}
+                                </td>
+                                <td style={{ Height: "42px" }}>
+                                  <div className="buytoken-buttonvalue">
+                                    <span className="buyTokenGraph">
+                                      {d.change_24h > 0 ? (
+                                        <>
+                                          <img src={Images.crt1} />
+                                        </>
+                                      ) : (
+                                        <>
+                                          <img
+                                            style={{
+                                              width: "138px",
+                                              height: "42px",
+                                            }}
+                                            src={Images.chartmarket}
+                                          />
+                                        </>
+                                      )}
+                                    </span>
+                                    <span className="buyTokenbtn">
+                                      <Link
+                                        to={`${browserRoute.BUYMARKET}/${d?.asset}`}
+                                      >
+                                        <button
+                                          style={{ fontFamily: "DM Sans" }}
+                                          className=" btn btn-primary buybutttonmarket"
+                                        >
+                                          Buy
+                                        </button>
+                                      </Link>
+                                    </span>
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                    </tbody>
+                  </table>
+                </div>
+              ) : null}
+            </div>
+          </section>
+          <section style={{ backgroundColor: "#FCFCFD" }}>
             <div class="container pt-5 mb-5">
               <div>
                 <h2 class="d-flex justify-content-center marketmainheade">
                   Learn about DeFi
                 </h2>
                 <p
-                  class="d-flex justify-content-center"
+                  class="d-flex justify-content-center mb-5"
                   style={{
                     textAlign: "center",
                     fontFamily: "Poppins",
                     fontSize: "16px",
                     fontWeight: "400",
                     color: "#353945",
+                    marginBottom: "64px"
+
                   }}
                 >
                   Browse our library of resources to learn more about DeFi and
@@ -891,16 +947,16 @@ const Market = () => {
               </div>
             </div>
           </section>
-        <div class="d-flex justify-content-center mb-5">
-          <button type="button" class="btn loaderbutton">
-            {/* <i class="mr-2 fa fa-spinner"></i> */}
-            <img className="pr-2 mb-1" src={Images.loadicon} />
-            Load more
-          </button>
-        </div>
-      </>
-    )}
-  </div>
+          <div class="d-flex justify-content-center mb-5">
+            <button type="button" class="btn loaderbutton">
+              {/* <i class="mr-2 fa fa-spinner"></i> */}
+              <img className="pr-2 mb-1" src={Images.loadicon} />
+              Load more
+            </button>
+          </div>
+        </>
+      )}
+    </div>
   );
 };
 

@@ -63,9 +63,9 @@ const LiquidityProvider = () => {
                   position:"relative",
                   top:"-4px",
                   paddingLeft: "10px",
-                  fontWeight: "100",
-                  marginLeft: "10px",
-                  paddingRight: "10px",
+                  fontWeight: "700",
+                  marginLeft: "8px",
+                  paddingRight: "8px",
                   borderRadius: "5px",
                 }}
               >
@@ -115,12 +115,12 @@ const LiquidityProvider = () => {
                     padding: "5px",
                     fontFamily: "Poppins",
                     color: "#fff",
-                    fontWeight: "100",
+                    position:"relative",
+                    top:"-4px",
                     paddingLeft: "10px",
-                    letterSpacing: "0.5px",
-                    fontWeight: "100",
-                    paddingRight: "10px",
-                    marginLeft: "10px",
+                    fontWeight: "700",
+                    marginLeft: "8px",
+                    paddingRight: "8px",
                     borderRadius: "5px",
                   }}
                 >
@@ -152,17 +152,17 @@ const LiquidityProvider = () => {
               0.82047819{" "}
               <span
                 style={{
-                  backgroundColor: "#B1B5C3",
+                  backgroundColor: "#58BD7D",
                   fontSize: "12px",
                   padding: "5px",
-                  color: "#fff",
                   fontFamily: "Poppins",
-                  paddingLeft: "10px",
-                  marginLeft: "10px",
-                  fontWeight: "100",
+                  color: "#fff",
                   position:"relative",
                   top:"-4px",
-                  paddingRight: "10px",
+                  paddingLeft: "10px",
+                  fontWeight: "700",
+                  marginLeft: "8px",
+                  paddingRight: "8px",
                   borderRadius: "5px",
                 }}
               >

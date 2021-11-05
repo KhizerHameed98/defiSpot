@@ -9,15 +9,15 @@ const Learn = () => {
         <div>
           <section>
               <div class="container">
-                  <h2 className="d-flex justify-content-center marketbannerhed pt-5">Learn DeFi trading</h2>
+                  <h2 className="d-flex justify-content-center marketbannerhed" style={{marginTop: "80px"}}>Learn DeFi trading</h2>
                   <p className="learnp111">A Beginner’s Guide to decentralized trading</p>
                   <div className="d-flex justify-content-center mb-5 mt-2">
                     <button className="buttonlearnmore1234">Learn now</button>
-                    <button className="buttonlearnmore1234 ml-4 ">Video tutorial</button>
+                    <button className="buttonlearnmorebordered ml-4" style={{fontWeight: "normal"}}>Video tutorial</button>
                   </div>
                   <div className="d-flex justify-content-between mb-3">
                    <p className="learnpage-234">Search anything about crypto</p>
-                    <img style={{width:"48px"}} src={Images.learnsearch}/>
+                    <img style={{width:"48px", height:"48px"}} src={Images.learnsearch}/>
                   </div>
                   <hr class="solid"/>
                   <div className="d-flex justify-content-between mb-3">
@@ -74,7 +74,7 @@ const Learn = () => {
                             <div className="col-lg-4" style={{paddingLeft:"0px"}}>
                             <div class="card" style={{border:"none"}}>
   <img src={Images.learnvideo}/>
-  <span className="spanclass-343">video tutorial</span>
+  <span className="spanclass-343" style={{fontWeight: "normal", paddingRight: "11px"}}>video tutorial</span>
   <div class="card-body" style={{paddingLeft:"0px",paddingRight:"0px"}}>
       <div>
       <div className="d-flex">
@@ -86,7 +86,7 @@ const Learn = () => {
     </div>
     </div>
     <div>
-    <p class="card-text pname456667">POPULAR</p>
+    <p class="card-text pname456667" style={{fontWeight: "normal"}}>POPULAR</p>
     </div>
 
   </div>
@@ -95,8 +95,8 @@ const Learn = () => {
 {/* card 2 */}
 <div className="col-lg-4">
                             <div class="card" style={{border:"none"}}>
-  <img src={Images.learnvideo}/>
-  <span className="spanclass-343900">POPULAR</span>
+  <img src={Images.learnvideo} height="300px"/>
+  <span className="spanclass-343900" style={{fontWeight: "normal", paddingRight: "11px"}}>POPULAR</span>
   <div class="card-body" style={{paddingLeft:"0px",paddingRight:"0px"}}>
       <div>
       <div className="d-flex">
@@ -108,7 +108,7 @@ const Learn = () => {
     </div>
     </div>
     <div>
-    <p class="card-text pname456667">POPULAR</p>
+    <p class="card-text pname456667" style={{fontWeight: "normal"}}>POPULAR</p>
     </div>
 
   </div>
@@ -118,7 +118,7 @@ const Learn = () => {
 <div className="col-lg-4" style={{paddingRight:"0px"}}>
                             <div class="card" style={{border:"none"}}>
   <img src={Images.learnvideo}/>
-  <span className="spanclass-343339">NEW</span>
+  <span className="spanclass-343339" style={{fontWeight: "normal", paddingRight: "11px"}}>NEW</span>
   <div class="card-body" style={{paddingLeft:"0px",paddingRight:"0px"}}>
       <div>
       <div className="d-flex">
@@ -130,7 +130,7 @@ const Learn = () => {
     </div>
     </div>
     <div>
-    <p class="card-text pname456667">POPULAR</p>
+    <p class="card-text pname456667" style={{fontWeight: "normal"}}>POPULAR</p>
     </div>
 
   </div>
@@ -142,7 +142,7 @@ const Learn = () => {
                             <div className="col-lg-4" style={{paddingLeft:"0px"}}>
                             <div class="card" style={{border:"none"}}>
   <img src={Images.learnvideo}/>
-  <span className="spanclass-343">video tutorial</span>
+  <span className="spanclass-343" style={{fontWeight: "normal", paddingRight: "11px"}}>video tutorial</span>
   <div class="card-body" style={{paddingLeft:"0px",paddingRight:"0px"}}>
       <div>
       <div className="d-flex">
@@ -154,7 +154,7 @@ const Learn = () => {
     </div>
     </div>
     <div>
-    <p class="card-text pname456667">POPULAR</p>
+    <p class="card-text pname456667" style={{fontWeight: "normal"}}>POPULAR</p>
     </div>
 
   </div>
@@ -162,8 +162,8 @@ const Learn = () => {
 </div>
 <div className="col-lg-4">
                             <div class="card" style={{border:"none"}}>
-  <img src={Images.learnvideo}/>
-  <span className="spanclass-343">video tutorial</span>
+  <img src={Images.learnvideo} height="300px"/>
+  <span className="spanclass-343" style={{fontWeight: "normal", paddingRight: "11px"}}>video tutorial</span>
   <div class="card-body" style={{paddingLeft:"0px",paddingRight:"0px"}}>
       <div>
       <div className="d-flex">
@@ -175,7 +175,7 @@ const Learn = () => {
     </div>
     </div>
     <div>
-    <p class="card-text pname456667">POPULAR</p>
+    <p class="card-text pname456667" style={{fontWeight: "normal"}}>POPULAR</p>
     </div>
 
   </div>
@@ -184,7 +184,7 @@ const Learn = () => {
 <div className="col-lg-4" style={{paddingRight:"0px"}}>
                             <div class="card" style={{border:"none"}}>
   <img src={Images.learnvideo}/>
-  <span className="spanclass-343">video tutorial</span>
+  <span className="spanclass-343" style={{fontWeight: "normal", paddingRight: "11px"}}>video tutorial</span>
   <div class="card-body" style={{paddingLeft:"0px",paddingRight:"0px"}}>
       <div>
       <div className="d-flex">
@@ -196,7 +196,7 @@ const Learn = () => {
     </div>
     </div>
     <div>
-    <p class="card-text pname456667">POPULAR</p>
+    <p class="card-text pname456667" style={{fontWeight: "normal"}}>POPULAR</p>
     </div>
 
   </div>
