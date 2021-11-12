@@ -9,39 +9,27 @@ const PrivatePortfolioRoute = ({ component: Component, path, ...rest }) => {
   return (
     <div>
       <section style={{ backgroundColor: "#F4F5F6" }}>
-        <div class="container-fluid pb-3">
-          <div class="row">
-            <div class="col-lg-2">
-              <div
-                class="pt-2 mt-2"
-                style={{ backgroundColor: "#fff", height: "920px" }}
-              >
-                <div class="d-flex pl-3 pt-3">
-                  <img
-                    style={{ width: "15px", height: "15px" }}
-                    src={Images.frame1}
-                  />
-                  <p class="marketsidetitle pl-2">
+        <div class="container-fluid p-0">
+          <div class="row m-0">
+            <div class="col-lg-2 w-pd-over-left">
+              <div class="w-portfolio-left-bar-main">
+                <ul className="w-portfolio-left-bar">
+                  <li className="marketsidetitle">
                     <Link
                       to={browserRoute.PORTFOLIO_OVERVIEW}
                       style={{ textDecoration: "none", color: "#777E90" }}
                       className={
-                        window.location.href.indexOf(browserRoute.PORTFOLIO_OVERVIEW) !==
-                        -1
-                          ? "sideBarActive"
-                          : null
+                        window.location.href.indexOf(
+                          browserRoute.PORTFOLIO_OVERVIEW
+                        ) !== -1
+                          ? "sideBarActive w-box-black"
+                          : "w-box-black"
                       }
                     >
                       Overview
                     </Link>
-                  </p>
-                </div>
-                <div class="d-flex pl-3 ">
-                  <img
-                    style={{ width: "15px", height: "15px" }}
-                    src={Images.frame2}
-                  />
-                  <p class="marketsidetitle pl-2">
+                  </li>
+                  <li className="marketsidetitle">
                     <Link
                       to={browserRoute.PORTFOLIO_ASSETS}
                       style={{ textDecoration: "none", color: "#777E90" }}
@@ -49,20 +37,14 @@ const PrivatePortfolioRoute = ({ component: Component, path, ...rest }) => {
                         window.location.href.indexOf(
                           browserRoute.PORTFOLIO_ASSETS
                         ) !== -1
-                          ? "sideBarActive"
-                          : null
+                          ? "sideBarActive w-box-purple"
+                          : "w-box-purple"
                       }
                     >
                       Assets
                     </Link>
-                  </p>
-                </div>
-                <div class="d-flex pl-3 ">
-                  <img
-                    style={{ width: "15px", height: "15px" }}
-                    src={Images.frame3}
-                  />
-                  <p class="marketsidetitle pl-2 ">
+                  </li>
+                  <li className="marketsidetitle">
                     <Link
                       to={browserRoute.PORTFOLIO_LIQUIDITY}
                       style={{ textDecoration: "none", color: "#777E90" }}
@@ -70,43 +52,51 @@ const PrivatePortfolioRoute = ({ component: Component, path, ...rest }) => {
                         window.location.href.indexOf(
                           browserRoute.PORTFOLIO_LIQUIDITY
                         ) !== -1
-                          ? "sideBarActive"
-                          : null
+                          ? "sideBarActive w-box-yellow"
+                          : "w-box-yellow"
                       }
                     >
                       Liquidity providing
                     </Link>
-                  </p>
-                </div>
-                <hr class="solid mt-4" />
-                <div class="d-flex pl-3 pt-4 ">
-                  <img
-                    style={{ width: "15px", height: "15px" }}
-                    src={Images.gotomarket}
-                  />
-                  <p class="marketsidetitle pl-2">
+                  </li>
+                  <hr style={{ margin: "20px 0" }}></hr>
+                  <li className="marketsidetitle">
                     <Link
                       to={browserRoute.MARKET}
                       style={{ textDecoration: "none", color: "#777E90" }}
                     >
+                      <img
+                        style={{
+                          width: "15px",
+                          height: "15px",
+                          position: "absolute",
+                          left: "20px",
+                          top: "18px",
+                        }}
+                        src={Images.gotomarket}
+                      />
                       Go to market
                     </Link>
-                  </p>
-                </div>
-                <div class="d-flex pl-3">
-                  <img
-                    style={{ width: "15px", height: "15px" }}
-                    src={Images.yielldmarket}
-                  />
-                  <p class="marketsidetitle pl-2">
+                  </li>
+                  <li className="marketsidetitle">
                     <Link
                       to={browserRoute.EARNYIELD}
                       style={{ textDecoration: "none", color: "#777E90" }}
                     >
+                      <img
+                        style={{
+                          width: "15px",
+                          height: "15px",
+                          position: "absolute",
+                          left: "20px",
+                          top: "18px",
+                        }}
+                        src={Images.yielldmarket}
+                      />
                       Earn Yield
                     </Link>
-                  </p>
-                </div>
+                  </li>
+                </ul>
               </div>
             </div>
 

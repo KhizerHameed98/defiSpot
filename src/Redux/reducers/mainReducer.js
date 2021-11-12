@@ -11,6 +11,8 @@ import {
   KEYSTORE_TRANSACTIONHISTORY_REQUESTING,
   KEYSTORE_TRANSACTIONHISTORY_SUCCESS,
   LOGOUT,
+  LOGIN,
+  MAINMODAL,
 } from "../actions/types";
 
 const initialState = {
@@ -31,9 +33,12 @@ const initialState = {
   // errors: [],
   midgardPool: null,
   KeyStoreClient: [],
+  isLoggedin: false,
   loading: false,
-  overallBalance_USD:0,
-  overallBalance_BTC:0
+  overallBalance_USD: 0,
+  overallBalance_BTC: 0,
+  transactionHistory: [],
+  mainModal: false,
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -107,6 +112,19 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         KeyStoreClient: null,
+        transactionHistory: null,
+        isLoggedin: false,
+      };
+
+    case LOGIN:
+      return {
+        ...state,
+        isLoggedin: true,
+      };
+    case MAINMODAL:
+      return {
+        ...state,
+        ...payload,
       };
 
     case MIDGARDPOOL_FAIL:
@@ -124,6 +142,8 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         ...payload,
         loading: false,
+        isLoggedin: false,
+        mainModal: false,
       };
     case KEYSTORECONNECTION_REQUESTING:
       return {

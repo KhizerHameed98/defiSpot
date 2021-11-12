@@ -35,36 +35,17 @@ const Assets = () => {
   }, [mainInstance.KeyStoreClient, mainInstance]);
 
   return (
-    <div className="col-lg-7 marginleftcol mt-2">
-      <div className="sidebarcoleight pt-2">
-        <h2 style={{ fontFamily: "DM Sans", fontWeight: "bold",fontSize:"32px",lineHeight:"48px" }}>Assets</h2>
-        <div style={{paddingTop:"12px"}} className="d-flex justify-content-between">
+    <div className="col-lg-10 pl-0" style={{ paddingRight: "8px" }}>
+      <div className="w-sidebarcoleight">
+        <h2 className="u-overview09888">Assets</h2>
+        <div
+          style={{ paddingTop: "12px" }}
+          className="d-flex justify-content-between"
+        >
           <div>
-            <p
-               style={{
-                margin: "0px",
-                fontFamily: "Poppins",
-                fontSize: "14px",
-                fontWeight: "600",
-                lineHeight: "24px",
-                color: "#353945",
-                paddingBottom: "3px",
-              }}
-            
-            >
-              Total balance
-            </p>
+            <p className="w-over-text">Total balance</p>
             <div class="d-flex">
-              <p
-                style={{
-                  fontWeight: "bold",
-                  marginBottom: "0px",
-                  fontSize: "24px",
-                  lineHeight: "36px",
-                  fontFamily: "Poppins",
-                  color: "#23262F",
-                }}
-              >
+              <p className="u-mainclassliquidity6788">
                 {overallBalance_USD ? <>{financial(overallBalance_BTC)}</> : 0}
               </p>
               <p
@@ -74,8 +55,8 @@ const Assets = () => {
                   padding: "5px",
                   fontFamily: "Poppins",
                   color: "#fff",
-                  position:"relative",
-                  top:"2px",
+                  position: "relative",
+                  top: "2px",
                   paddingLeft: "10px",
                   fontWeight: "700",
                   marginLeft: "8px",
@@ -87,17 +68,16 @@ const Assets = () => {
               </p>
             </div>
             <p
-              style={{  
+              style={{
                 fontFamily: "Poppins",
                 fontSize: "16px",
                 fontWeight: "400",
                 lineHeight: "24px",
-                position:"relative",
-                top:"-10px",
+                position: "relative",
+                top: "-10px",
                 color: "#777E90",
                 marginBottom: "0px",
                 marginTop: "0px",
-              
               }}
             >
               {" "}
@@ -109,31 +89,19 @@ const Assets = () => {
               )}
             </p>
           </div>
-          
         </div>
       </div>
-      <p
-        className="pt-3"
-        style={{
-          color: "#777E90",
-          fontWeight: "500",
-          paddingLeft: "22px",
-          fontSize: "12px",
-          fontFamily: "Poppins",
-        }}
-      >
-        Funds
-      </p>
-      <div className="sidebarcoleight pl-0 pt-3">
+      <p className="w-over-center-heading">Funds</p>
+      <div className="w-sidebarcoleight">
         <div className="d-flex justify-content-between">
-          <div className="ml-3 pr-5">
+          <div>
             <div class=" d-flex form-group has-search">
               <input
                 style={{
-                  borderRadius: "25px",
+                  borderRadius: "30px",
                   width: "250px",
-                  paddingTop: "20px",
-                  paddingBottom: "20px",
+                  paddingTop: "15px",
+                  paddingBottom: "15px",
                   fontFamily: "DM Sans",
                 }}
                 type="text"
@@ -147,7 +115,7 @@ const Assets = () => {
                   width: "17px",
                   height: "17px",
                   marginLeft: "-30px",
-                  marginTop: "15px",
+                  marginTop: "12px",
                 }}
                 src={Images.searchicon}
               />
@@ -165,7 +133,7 @@ const Assets = () => {
             aria-label="Search"
             onChange={searchFilter}
           /> */}
-          <p className="pr-5" style={{ color: "#777E90" }}>
+          <p className="" style={{ color: "#777E90" }}>
             <Link
               to={browserRoute.PORTFOLIO_ACTIVITY}
               style={{
@@ -184,49 +152,26 @@ const Assets = () => {
             </Link>
           </p>
         </div>
-        <div id="starred" className="bg-white  mt-3 pb-5">
-          <div className="table-responsive">
+        <div
+          id="starred"
+          className="mt-3 pb-5"
+          style={{ position: "relative" }}
+        >
+          <div className="table-responsive w-comon-table-style">
             <table className="table">
               <thead>
                 <tr>
-                  <th
-                    style={{ borderTop: "none" }}
-                    class="pt-3 pb-3 overview-tableheadss"
-                    scope="col"
-                  >
-                    Asset{" "}
-                  </th>
-                  <th
-                    style={{ borderTop: "none" }}
-                    class="pt-3 pb-3 overview-tableheadss"
-                    scope="col"
-                  >
+                  <th scope="col">Asset </th>
+                  <th className="text-right" scope="col">
                     Price
                   </th>
-                  <th
-                    style={{ borderTop: "none" }}
-                    class="pt-3 pb-3 overview-tableheadss"
-                    scope="col"
-                  >
+                  <th className="text-right" scope="col">
                     Total quantity
                   </th>
-                  <th
-                    style={{ borderTop: "none" }}
-                    class="pt-3 pb-3 overview-tableheadss"
-                    scope="col"
-                  >
+                  <th className="text-right" scope="col">
                     Holding in $
                   </th>
-                  <th
-                    style={{
-                      borderTop: "none",
-                      textAlign: "right",
-                      borderBottom: "none",
-                    }}
-                    class="pt-3 pb-3 overview-tableheadss"
-                    scope="col"
-                    className="d-flex justify-content-end pt-3 pb-3 overview-tableheadss"
-                  >
+                  <th className="text-right" scope="col">
                     Interest
                   </th>
                 </tr>
@@ -234,79 +179,37 @@ const Assets = () => {
               <tbody>
                 {tableData.map((d, key) => {
                   return (
-                    <tr commponent="div">
-                      <td
-                        class="pt-3"
-                        style={{
-                          paddingLeft: "20px",
-                          borderBottom: "1px solid #dee2e6",
-                        }}
-                      >
+                    <tr>
+                      <td>
                         <div className="d-flex">
                           <img
-                            style={{ width: "32px", height: "35px" }}
+                            style={{ width: "32px", height: "32px" }}
                             src={Images.btc4}
                           />
                           <div className="pl-3">
-                            <div
-                              style={{
-                                fontWeight: "bold",
-                                fontFamily: "Poppins",
-                              }}
-                            >
-                              {d.Asset}
-                            </div>
+                            <div style={{}}>{d.Asset}</div>
                             <div className="d-flex align-items-center">
-                              <div
-                                className=" text-muted"
-                                style={{
-                                  fontSize: "12px",
-                                  fontWeight: "bold",
-                                  fontFamily: "Poppins",
-                                }}
-                              >
-                                {d.FullName}
-                              </div>
+                              <div className=" text-muted">{d.FullName}</div>
                             </div>
                           </div>
                         </div>
                       </td>
-                      <td
-                        class="pt-4 pl-2"
-                        style={{ borderBottom: "1px solid #dee2e6" }}
-                      >
+                      <td className="text-right">
                         <div className="d-flex flex-column">
-                          <div>
-                            <b className="assetsprice-b">${d.Price}</b>
-                          </div>
+                          <div>${d.Price}</div>
                         </div>
                       </td>
-                      <td
-                        class="pt-4"
-                        style={{ borderBottom: "1px solid #dee2e6" }}
-                      >
+                      <td className="text-right">
                         <div className="d-flex flex-column">
-                          <div>
-                            <b className="asset-totalquantity">
-                              {d.Quantity} USDT
-                            </b>
-                          </div>
+                          <div>{d.Quantity} USDT</div>
                         </div>
                       </td>
-                      <td
-                        class="pt-4"
-                        style={{ borderBottom: "1px solid #dee2e6" }}
-                      >
+                      <td className="text-right">
                         <div className="d-flex flex-column">
-                          <div>
-                            <b className="assetsprice-b">${d.Holding}</b>
-                          </div>
+                          <div>${d.Holding}</div>
                         </div>
                       </td>
-                      <td
-                        class="pt-4"
-                        style={{ borderBottom: "1px solid #dee2e6" }}
-                      >
+                      <td className="text-right">
                         <div
                           className="d-flex justify-content-end"
                           className="asset-totalquantity"

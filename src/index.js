@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
 import { ToastContainer } from "react-toastify";
 
 import { Provider } from "react-redux";
@@ -8,7 +7,7 @@ import store from "./Redux/store/store";
 import { MidgardPool_Action } from "./Services/mainServices";
 import { TYPE, METAMASK, KEYSTORE } from "./Redux/actions/types";
 import { GetKeyStore_TransactionHistory } from "./Services/mainServices";
-import axios from "axios";
+import App from "./App";
 const AppIndex = () => {
   const [poolData, setPoolData] = useState([]);
   const [loading, setLoading] = useState(true);

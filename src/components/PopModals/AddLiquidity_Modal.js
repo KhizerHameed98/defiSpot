@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import Images from "../Helper/AllImages";
+import Setting_Modal from "./Setting_Modal";
 export const AddLiquidity = () => {
   const [addLiquidity_Modal, setAddLiquidity_Modal] = useState(false);
   const [Enum, setEnum] = useState({
@@ -9,8 +10,121 @@ export const AddLiquidity = () => {
     RUNE: "RUNE",
   });
   const [liquidityType, setLiquidityType] = useState(Enum.BTC);
+  const [settingModal, setSettingModal] = useState(false);
   return (
     <div>
+      <Modal
+        show={settingModal}
+        onHide={() => {
+          setSettingModal(false);
+          setAddLiquidity_Modal(true);
+        }}
+        keyboard={false}
+        size="md"
+      >
+        {/* <Modal.Header
+          closeButton
+          style={{ borderBottom: "none" }}
+        ></Modal.Header> */}
+        <Modal.Body>
+          {/* <!-- Modal --> */}
+          <div
+            id="exampleModal"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div role="document">
+              <div>
+                <div class="modal-body">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex">
+                      <img
+                        class=""
+                        style={{
+                          height: "10px",
+                          marginTop: "15px",
+                          paddingRight: "12px",
+                        }}
+                        onClick={() => {
+                          setSettingModal(false);
+                          setAddLiquidity_Modal(true);
+                        }}
+                        src={Images.lefttwoline}
+                      />
+                      <p class="yahparagraph">Setting</p>
+                    </div>
+                    <div>
+                      <img
+                        className="popupcrosss"
+                        onClick={() => {
+                          setSettingModal(false);
+                          setAddLiquidity_Modal(true);
+                        }}
+                        src={Images.crossicon}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <p style={{ fontFamily: "Poppins", marginTop: "32px" }}>
+                      Slipperage tollerance
+                    </p>
+                  </div>
+                  <div className="d-flex justify-content-between">
+                    <button type="button" class="btn n-secondaryButton">
+                      1%
+                      {/* <img className="mb-1" src={Images.morearticle}/> */}
+                    </button>
+                    <button type="button" class="btn n-secondaryButton">
+                      0.5%
+                      {/* <img className="mb-1" src={Images.morearticle}/> */}
+                    </button>
+                    <button type="button" class="btn n-secondaryButton">
+                      1%
+                      {/* <img className="mb-1" src={Images.morearticle}/> */}
+                    </button>
+                    <button type="button" class="btn n-secondaryButton">
+                      3%
+                      {/* <img className="mb-1" src={Images.morearticle}/> */}
+                    </button>
+                  </div>
+                  <p style={{ fontFamily: "Poppins", marginTop: "32px" }}>
+                    Slipperage tollerance
+                  </p>
+                  <div className="d-flex justify-content-between">
+                    <button type="button" class="btn n-secondaryButton">
+                      1%
+                      {/* <img className="mb-1" src={Images.morearticle}/> */}
+                    </button>
+                    <button type="button" class="btn n-secondaryButton">
+                      0.5%
+                      {/* <img className="mb-1" src={Images.morearticle}/> */}
+                    </button>
+                    <button type="button" class="btn n-secondaryButton">
+                      1%
+                      {/* <img className="mb-1" src={Images.morearticle}/> */}
+                    </button>
+                  </div>
+                  <div
+                    style={{ marginTop: "32px" }}
+                    class="d-flex justify-content"
+                  >
+                    <button
+                      style={{ width: "100%" }}
+                      className="btn btn n-primaryButton"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* <!-- modal end --> */}
+        </Modal.Body>
+      </Modal>
+
       {/*AddLiquidity PopUp Modal BTC */}
 
       <Modal
@@ -49,8 +163,14 @@ export const AddLiquidity = () => {
                       />
                       <p class="yahparagraph pl-2 pt-3">Add Liquidity</p>
                     </div>
+                    {/* <Setting_Modal setModal={setAddLiquidity_Modal} /> */}
                     <div>
                       <img
+                        onClick={() => {
+                          // setModal(false);
+                          setSettingModal(true);
+                          setAddLiquidity_Modal(false);
+                        }}
                         style={{ height: "25px", marginTop: "15px" }}
                         src={Images.setting}
                       />
@@ -114,7 +234,7 @@ export const AddLiquidity = () => {
                   </div>
                   {/*BTC*/}
                   {liquidityType === Enum.BTC ? (
-                    <div class="pt-4 pl-3">
+                    <div class="pt-4">
                       <p style={{ fontWeight: "bold", fontFamily: "DM Sans" }}>
                         Select BTC amount
                       </p>
@@ -126,12 +246,12 @@ export const AddLiquidity = () => {
                             style={{
                               color: "#23262f",
                               fontSize: "14px",
-                              fontFamily: "Poppins",
+                              // fontFamily: "Poppins",
                               paddingBottom: "25px",
                               borderRadius: "10px",
                               border: "2px solid #E6E8EC",
                               paddingTop: "25px",
-                              fontWeight: "400",
+                              fontWeight: "bold",
                             }}
                             aria-label="Text input with segmented dropdown button"
                           />
@@ -183,17 +303,17 @@ export const AddLiquidity = () => {
                   ) : null}
                   {/*BTC_RUNE*/}
                   {liquidityType === Enum.BTC_RUNE ? (
-                    <div class="pt-4 pl-3">
+                    <div class="pt-4">
                       <div class="d-flex justify-content-between">
                         <p
-                          style={{ fontWeight: "bold", fontFamily: "Poppins" }}
+                          style={{ fontWeight: "bold", fontFamily: "DM Sans" }}
                         >
                           Select BTC amount
                         </p>
                         <p
                           style={{
                             fontWeight: "bold",
-                            fontFamily: "Poppins",
+                            fontFamily: "DM Sans",
                             paddingRight: "240px",
                           }}
                         >
@@ -213,7 +333,7 @@ export const AddLiquidity = () => {
                               borderRadius: "10px",
                               border: "2px solid #E6E8EC",
                               paddingTop: "25px",
-                              fontWeight: "400",
+                              fontWeight: "bold",
                             }}
                             aria-label="Text input with segmented dropdown button"
                           />
@@ -273,7 +393,7 @@ export const AddLiquidity = () => {
                               borderRadius: "10px",
                               border: "2px solid #E6E8EC",
                               paddingTop: "25px",
-                              fontWeight: "400",
+                              fontWeight: "bold",
                             }}
                             aria-label="Text input with segmented dropdown button"
                           />
@@ -299,7 +419,7 @@ export const AddLiquidity = () => {
                   ) : null}
                   {/*RUNE*/}
                   {liquidityType === Enum.RUNE ? (
-                    <div class="pt-4 pl-3">
+                    <div class="pt-4">
                       <p style={{ fontWeight: "bold", fontFamily: "DM Sans" }}>
                         Select RUNE amount
                       </p>
@@ -311,12 +431,12 @@ export const AddLiquidity = () => {
                             style={{
                               color: "#23262f",
                               fontSize: "14px",
-                              fontFamily: "Poppins",
+                              // fontFamily: "Poppins",
                               paddingBottom: "25px",
                               borderRadius: "10px",
                               border: "2px solid #E6E8EC",
                               paddingTop: "25px",
-                              fontWeight: "400",
+                              fontWeight: "bold",
                             }}
                             aria-label="Text input with segmented dropdown button"
                           />
@@ -399,6 +519,9 @@ export const AddLiquidity = () => {
                     }}
                     type="button"
                     class="btn btn-outline-secondary"
+                    onClick={() => {
+                      setAddLiquidity_Modal(false);
+                    }}
                   >
                     Cancel
                   </button>

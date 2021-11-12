@@ -9,11 +9,12 @@ import { addDays } from "date-fns";
 
 import { useSelector, useDispatch } from "react-redux";
 
-
 const Activity = () => {
   const keyStoreInstance = useSelector((state) => state.main);
-  const [KeyStoreClients, setKeyStoreClients] = useState(null);
+
   const [exportModal, setExportModal] = useState(false);
+  const [transactionHistory, setTransactionHistory] = useState([]);
+  const [mainState, setMainState] = useState([]);
   const [tempData, setTempData] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [toggle, setToggle] = useState(false);
@@ -35,7 +36,6 @@ const Activity = () => {
       key: "selection",
     },
   ]);
-  const [reduxState, setReduxData] = useState("");
   const [Enum, set_Enum] = useState({
     allType: "allType",
     withdraw: "withdraw",
@@ -82,140 +82,112 @@ const Activity = () => {
   }, [toggle]);
 
   useEffect(() => {
-    console.log("my keyStore Instance===>>", keyStoreInstance);
-    setKeyStoreClients(keyStoreInstance?.KeyStoreClient);
-    const data = JSON.stringify(keyStoreInstance?.KeyStoreClient);
-    setReduxData(data);
-    setTempData(keyStoreInstance?.KeyStoreClient);
-  }, [keyStoreInstance?.KeyStoreClient, keyStoreInstance]);
+    setMainState(keyStoreInstance.transactionHistory);
+  }, [
+    keyStoreInstance.KeyStoreClient,
+    keyStoreInstance.transactionHistory,
+    keyStoreInstance,
+  ]);
 
   useEffect(() => {
-    console.log(
-      "print inside useeffect============",
-      reduxState && JSON.parse(reduxState)
-    );
+    setTransactionHistory(keyStoreInstance.transactionHistory);
+    setTempData(keyStoreInstance.transactionHistory);
+  }, mainState);
 
-    setTempData(reduxState && JSON.parse(reduxState));
-  }, [searchInput, state]);
   function SearchFilter(e) {
     setSearchInput(e.target.value);
-    setFilterType("");
+
     if (!e.target.value) {
-      setFilterType(Enum.allType);
-      setKeyStoreClients(keyStoreInstance.KeyStoreClient);
-      setTempData(reduxState && JSON.parse(reduxState));
+      setTransactionHistory(tempData);
     } else {
-      let res =
-        tempData?.length &&
-        tempData?.filter((d, key) => {
-          let res2 = d?.Transactions?.txs?.filter((value) => {
-            return (
-              value?.hash
-                ?.toLowerCase()
-                ?.includes(e.target.value.toLowerCase()) && value
-            );
-          });
-          console.log("res2=====>>>", res2?.length && res2);
-          d.Transactions.txs = res2;
-          return d.Transactions.txs.length && d;
-        });
-      console.log("res====>>>", res);
-      setKeyStoreClients(res);
+      let temp = tempData;
+      console.log("hey Temp=====>>", temp);
+
+      let res = temp?.filter(
+        (value) =>
+          value?.hash?.toLowerCase().includes(e.target.value.toLowerCase()) &&
+          value
+      );
+      setTransactionHistory(res);
     }
   }
-
   function filterAllType() {
     setSearchInput("");
     setFilterType(Enum.allType);
-    setKeyStoreClients(keyStoreInstance.KeyStoreClient);
+    setTransactionHistory(mainState);
+    setTempData(mainState);
   }
   function filterWithdrawType() {
     setSearchInput("");
     setFilterType(Enum.withdraw);
-    let res = keyStoreInstance.KeyStoreClient.filter((d, key) => {
-      let res2 = d.Transactions.txs.filter(
-        (value) => value.type.toLowerCase() === "withdraw"
-      );
-      return res2.length && res2;
-    });
-    setKeyStoreClients(res);
+
+    let res = mainState?.filter(
+      (value) => value.type.toLowerCase() === Enum.withdraw
+    );
+
+    setTransactionHistory(res);
+    setTempData(res);
   }
   function filterDepositType() {
     setSearchInput("");
     setFilterType(Enum.deposit);
-    let res = keyStoreInstance.KeyStoreClient.filter((d, key) => {
-      let res2 = d.Transactions.txs.filter(
-        (value) => value.type.toLowerCase() === "deposit"
-      );
-      return res2.length && res2;
-    });
-    setKeyStoreClients(res);
+    let res = mainState.filter(
+      (value) => value.type.toLowerCase() === Enum.deposit
+    );
+
+    setTransactionHistory(res);
+    setTempData(res);
   }
   function filterPendingType() {
     setSearchInput("");
     setFilterType(Enum.pending);
-    let res = keyStoreInstance.KeyStoreClient.filter((d, key) => {
-      let res2 = d.Transactions.txs.filter(
-        (value) => value.type.toLowerCase() === "pending"
-      );
-      return res2.length && res2;
-    });
+    let res = mainState.filter(
+      (value) => value.type.toLowerCase() === Enum.pending
+    );
 
-    setKeyStoreClients(res);
+    setTransactionHistory(res);
+    setTempData(res);
   }
   //CUSTOM HANDLER
   const handleCustom = (item) => {
-    const newState = [item.selection];
-    setState([item.selection]);
+    const newState = [...state];
 
     //for filteration
-    let dateFilter =
-      tempData?.length &&
-      tempData?.filter((d, key) => {
-        // console.log("record", d);
-        let res2 = d?.Transactions?.txs?.filter((value) => {
-          // console.log("value========", value);
-          let tempDate = new Date(value.date);
-          tempDate.setHours(0);
-          tempDate.setMinutes(0);
-          tempDate.setSeconds(0);
-          tempDate.setMilliseconds(0);
-          newState[0].startDate.setHours(0);
-          newState[0].startDate.setMinutes(0);
-          newState[0].startDate.setSeconds(0);
-          newState[0].startDate.setMilliseconds(0);
+    let dateFilter = tempData?.filter((value) => {
+      console.log("value========", value.date);
+      let tempDate = new Date(value.date);
+      tempDate.setHours(0);
+      tempDate.setMinutes(0);
+      tempDate.setSeconds(0);
+      tempDate.setMilliseconds(0);
+      newState[0].startDate.setHours(0);
+      newState[0].startDate.setMinutes(0);
+      newState[0].startDate.setSeconds(0);
+      newState[0].startDate.setMilliseconds(0);
 
-          newState[0].endDate.setHours(0);
-          newState[0].endDate.setMinutes(0);
-          newState[0].endDate.setSeconds(0);
-          newState[0].endDate.setMilliseconds(0);
+      newState[0].endDate.setHours(0);
+      newState[0].endDate.setMinutes(0);
+      newState[0].endDate.setSeconds(0);
+      newState[0].endDate.setMilliseconds(0);
 
-          console.log("time1===>>>", tempDate);
-          console.log("time2===>>>", newState);
+      console.log("time1===>>>", tempDate);
+      console.log("time2===>>>", newState);
 
-          return (
-            tempDate >= newState[0].startDate &&
-            tempDate <= newState[0].endDate &&
-            value
-          );
-        });
-        // d.Transactions.txs = res2;
-        // console.log("res2====>>>", d);
-        console.log("res2=====>>>", res2);
-        d.Transactions.txs = res2;
-        return d.Transactions.txs.length && d;
+      return (
+        tempDate >= newState[0].startDate &&
+        tempDate <= newState[0].endDate &&
+        value
+      );
+    });
 
-        // return d.Transactions.txs.length && d;
-      });
-    console.log("res====>>>", dateFilter);
-    setKeyStoreClients(dateFilter);
+    setTransactionHistory(dateFilter);
   };
   //ALL TIME HANDLER
   const handleAllTime = () => {
     setRangeType(EnumRanges.ALL_TIME);
     setCustomToggle(false);
     setToggle(false);
-    setKeyStoreClients(keyStoreInstance.KeyStoreClient);
+    setTransactionHistory(mainState);
   };
 
   //ONE DAY HANDLER
@@ -229,31 +201,20 @@ const Activity = () => {
     setState(newState);
     //for filteration
     let dateFilter =
-      tempData?.length &&
-      tempData?.filter((d, key) => {
-        // console.log("record", d);
-        let res2 = d?.Transactions?.txs?.filter((value) => {
-          // console.log("value========", value);
-          let tempDate = new Date(value.date);
-          let actualDate = new Date();
-          console.log("Date====>>", tempDate.getFullYear());
-          return (
-            tempDate.getMonth() == actualDate.getMonth() &&
-            tempDate.getFullYear() == actualDate.getFullYear() &&
-            tempDate.getDate() == actualDate.getDate() &&
-            value
-          );
-        });
-        // d.Transactions.txs = res2;
-        // console.log("res2====>>>", d);
-        console.log("res2=====>>>", res2);
-        d.Transactions.txs = res2;
-        return d.Transactions.txs.length && d;
-
-        // return d.Transactions.txs.length && d;
+      // console.log("record", d);
+      tempData?.filter((value) => {
+        let tempDate = new Date(value.date);
+        let actualDate = new Date();
+        console.log("Date====>>", tempDate.getFullYear());
+        return (
+          tempDate.getMonth() == actualDate.getMonth() &&
+          tempDate.getFullYear() == actualDate.getFullYear() &&
+          tempDate.getDate() == actualDate.getDate() &&
+          value
+        );
       });
-    console.log("res====>>>", dateFilter);
-    setKeyStoreClients(dateFilter);
+
+    setTransactionHistory(dateFilter);
   };
 
   //One Week Handler
@@ -292,30 +253,17 @@ const Activity = () => {
     end.setSeconds(0);
     end.setMilliseconds(0);
     //for filteration
-    let dateFilter =
-      tempData?.length &&
-      tempData?.filter((d, key) => {
-        // console.log("record", d);
-        let res2 = d?.Transactions?.txs?.filter((value) => {
-          // console.log("value========", value);
-          let tempDate = new Date(value.date);
-          tempDate.setHours(0);
-          tempDate.setMinutes(0);
-          tempDate.setSeconds(0);
-          tempDate.setMilliseconds(0);
-          console.log("Date====>>", tempDate.getFullYear());
-          return tempDate >= start && tempDate <= end && value;
-        });
-        // d.Transactions.txs = res2;
-        // console.log("res2====>>>", d);
-        console.log("res2=====>>>", res2);
-        d.Transactions.txs = res2;
-        return d.Transactions.txs.length && d;
+    let dateFilter = tempData?.filter((value) => {
+      let tempDate = new Date(value.date);
+      tempDate.setHours(0);
+      tempDate.setMinutes(0);
+      tempDate.setSeconds(0);
+      tempDate.setMilliseconds(0);
+      console.log("Date====>>", tempDate.getFullYear());
+      return tempDate >= start && tempDate <= end && value;
+    });
 
-        // return d.Transactions.txs.length && d;
-      });
-    console.log("res====>>>", dateFilter);
-    setKeyStoreClients(dateFilter);
+    setTransactionHistory(dateFilter);
   };
   //ONE MONTH HANDLER
   function daysInMonth(month, year) {
@@ -325,7 +273,10 @@ const Activity = () => {
     setRangeType(EnumRanges.ONE_MONTH);
     setCustomToggle(false);
     // for date Component
-    const date = new Date();
+    const newStateMain = [...state];
+    console.log("====>>>", newStateMain);
+
+    const date = new Date(newStateMain[0].endDate);
     var month = date.getMonth() + 1;
     var year = date.getFullYear();
     let res = daysInMonth(month, year);
@@ -345,31 +296,19 @@ const Activity = () => {
     newState[0].endDate = new Date(endDate);
     setState(newState);
     //for filteration
-    let dateFilter =
-      tempData?.length &&
-      tempData?.filter((d, key) => {
-        // console.log("record", d);
-        let res2 = d?.Transactions?.txs?.filter((value) => {
-          // console.log("value========", value);
-          let tempDate = new Date(value.date);
-          let actualDate = new Date();
-          console.log("Date====>>", tempDate.getFullYear());
-          return (
-            tempDate.getMonth() == actualDate.getMonth() &&
-            tempDate.getFullYear() == actualDate.getFullYear() &&
-            value
-          );
-        });
-        // d.Transactions.txs = res2;
-        // console.log("res2====>>>", d);
-        console.log("res2=====>>>", res2);
-        d.Transactions.txs = res2;
-        return d.Transactions.txs.length && d;
+    let dateFilter = tempData?.filter((value) => {
+      // console.log("value========", value);
+      let tempDate = new Date(value.date);
+      let actualDate = new Date(newStateMain[0].endDate);
 
-        // return d.Transactions.txs.length && d;
-      });
-    console.log("res====>>>", dateFilter);
-    setKeyStoreClients(dateFilter);
+      return (
+        tempDate.getMonth() == actualDate.getMonth() &&
+        tempDate.getFullYear() == actualDate.getFullYear() &&
+        value
+      );
+    });
+
+    setTransactionHistory(dateFilter);
   };
   //ONE YEAR HANDLER
   const handleOneYear = () => {
@@ -391,24 +330,15 @@ const Activity = () => {
     newState[0].endDate = new Date(endDate);
     setState(newState);
     //for filteration
-    let dateFilter =
-      tempData?.length &&
-      tempData?.filter((d, key) => {
-        // console.log("record", d);
-        let res2 = d?.Transactions?.txs?.filter((value) => {
-          // console.log("value========", value);
-          let tempDate = new Date(value.date);
-          let actualDate = new Date();
-          console.log("Date====>>", tempDate.getFullYear());
-          return tempDate.getFullYear() == actualDate.getFullYear() && value;
-        });
+    let dateFilter = tempData?.filter((value) => {
+      // console.log("value========", value);
+      let tempDate = new Date(value.date);
+      let actualDate = new Date();
+      console.log("Date====>>", tempDate.getFullYear());
+      return tempDate.getFullYear() == actualDate.getFullYear() && value;
+    });
 
-        d.Transactions.txs = res2;
-        return d.Transactions.txs.length && d;
-
-        // return d.Transactions.txs.length && d;
-      });
-    setKeyStoreClients(dateFilter);
+    setTransactionHistory(dateFilter);
   };
   const handleCustomRange = () => {
     setRangeType(EnumRanges.CUSTOM_RANGE);
@@ -480,9 +410,219 @@ const Activity = () => {
     // console.log(csv_data);
     downloadCSVFile(csv_data);
   }
+
+  //Descending Order Filter Type
+  const handleDescendingType = () => {
+    let check = [...mainState];
+    let res = check.sort((a, b) =>
+      a.type.toLowerCase() < b.type.toLowerCase() ? 1 : -1
+    );
+
+    setMainState(res);
+    let check2 = [...transactionHistory];
+    let res2 = check2.sort((a, b) =>
+      a.type.toLowerCase() < b.type.toLowerCase() ? 1 : -1
+    );
+    setTransactionHistory(res2);
+    let check3 = [...tempData];
+    let res3 = check3.sort((a, b) =>
+      a.type.toLowerCase() < b.type.toLowerCase() ? 1 : -1
+    );
+    setTempData(res3);
+  };
+
+  //Ascending Order Filter Type
+  const handleAscendingType = () => {
+    let check = [...mainState];
+    let res = check.sort((a, b) =>
+      a.type.toLowerCase() > b.type.toLowerCase() ? 1 : -1
+    );
+
+    setMainState(res);
+    let check2 = [...transactionHistory];
+    let res2 = check2.sort((a, b) =>
+      a.type.toLowerCase() > b.type.toLowerCase() ? 1 : -1
+    );
+    setTransactionHistory(res2);
+    let check3 = [...tempData];
+    let res3 = check3.sort((a, b) =>
+      a.type.toLowerCase() > b.type.toLowerCase() ? 1 : -1
+    );
+    setTempData(res3);
+  };
+
+  //Descending Order Filter Coin
+  const handleDescendingCoin = () => {
+    let check = [...mainState];
+    let res = check.sort((a, b) =>
+      a.asset.ticker.toLowerCase() < b.asset.ticker.toLowerCase() ? 1 : -1
+    );
+
+    setMainState(res);
+    let check2 = [...transactionHistory];
+    let res2 = check2.sort((a, b) =>
+      a.asset.ticker.toLowerCase() < b.asset.ticker.toLowerCase() ? 1 : -1
+    );
+    setTransactionHistory(res2);
+    let check3 = [...tempData];
+    let res3 = check3.sort((a, b) =>
+      a.asset.ticker.toLowerCase() < b.asset.ticker.toLowerCase() ? 1 : -1
+    );
+    setTempData(res3);
+  };
+
+  //Ascending Order Filter Coin
+  const handleAscendingCoin = () => {
+    let check = [...mainState];
+    let res = check.sort((a, b) =>
+      a.asset.ticker.toLowerCase() > b.asset.ticker.toLowerCase() ? 1 : -1
+    );
+
+    setMainState(res);
+    let check2 = [...transactionHistory];
+    let res2 = check2.sort((a, b) =>
+      a.asset.ticker.toLowerCase() > b.asset.ticker.toLowerCase() ? 1 : -1
+    );
+    setTransactionHistory(res2);
+    let check3 = [...tempData];
+    let res3 = check3.sort((a, b) =>
+      a.asset.ticker.toLowerCase() > b.asset.ticker.toLowerCase() ? 1 : -1
+    );
+    setTempData(res3);
+  };
+
+  //Descending Order Filter Amount
+  const handleDescendingAmount = () => {
+    let check = [...mainState];
+    let res = check.sort((a, b) => b.transferAmount - a.transferAmount);
+
+    setMainState(res);
+    let check2 = [...transactionHistory];
+    let res2 = check2.sort((a, b) => b.transferAmount - a.transferAmount);
+    setTransactionHistory(res2);
+    let check3 = [...tempData];
+    let res3 = check3.sort((a, b) => b.transferAmount - a.transferAmount);
+    setTempData(res3);
+  };
+
+  //Ascending Order Filter Amount
+  const handleAscendingAmount = () => {
+    let check = [...mainState];
+    let res = check.sort((a, b) => a.transferAmount - b.transferAmount);
+
+    setMainState(res);
+    let check2 = [...transactionHistory];
+    let res2 = check2.sort((a, b) => a.transferAmount - b.transferAmount);
+    setTransactionHistory(res2);
+    let check3 = [...tempData];
+    let res3 = check3.sort((a, b) => a.transferAmount - b.transferAmount);
+    setTempData(res3);
+  };
+
+  //Descending Order Filter Address
+  const handleDescendingAddress = () => {
+    let check = [...mainState];
+    let res = check?.sort((a, b) =>
+      a.to[0].to.toLowerCase() < b.to[0].to.toLowerCase() ? 1 : -1
+    );
+
+    setMainState(res);
+    let check2 = [...transactionHistory];
+    let res2 = check2?.sort((a, b) =>
+      a.to[0].to.toLowerCase() < b.to[0].to.toLowerCase() ? 1 : -1
+    );
+    setTransactionHistory(res2);
+    let check3 = [...tempData];
+    let res3 = check3?.sort((a, b) =>
+      a.to[0].to.toLowerCase() < b.to[0].to.toLowerCase() ? 1 : -1
+    );
+    setTempData(res3);
+  };
+
+  //Ascending Order Filter Type
+  const handleAscendingAddress = () => {
+    let check = [...mainState];
+    let res = check?.sort((a, b) =>
+      a.to[0].to.toLowerCase() > b.to[0].to.toLowerCase() ? 1 : -1
+    );
+
+    setMainState(res);
+    let check2 = [...transactionHistory];
+    let res2 = check2?.sort((a, b) =>
+      a.to[0].to.toLowerCase() > b.to[0].to.toLowerCase() ? 1 : -1
+    );
+    setTransactionHistory(res2);
+    let check3 = [...tempData];
+    let res3 = check3?.sort((a, b) =>
+      a.to[0].to.toLowerCase() > b.to[0].to.toLowerCase() ? 1 : -1
+    );
+    setTempData(res3);
+  };
+
+  //Descending Order Filter TransactionID
+  const handleDescendingTransactionID = () => {
+    let check = [...mainState];
+    let res = check.sort((a, b) =>
+      a.hash.toLowerCase() < b.hash.toLowerCase() ? 1 : -1
+    );
+
+    setMainState(res);
+    let check2 = [...transactionHistory];
+    let res2 = check2.sort((a, b) =>
+      a.hash.toLowerCase() < b.hash.toLowerCase() ? 1 : -1
+    );
+    setTransactionHistory(res2);
+    let check3 = [...tempData];
+    let res3 = check3.sort((a, b) =>
+      a.hash.toLowerCase() < b.hash.toLowerCase() ? 1 : -1
+    );
+    setTempData(res3);
+  };
+
+  //Ascending Order Filter TransactionID
+  const handleAscendingTransactionID = () => {
+    let check = [...mainState];
+    let res = check.sort((a, b) =>
+      a.hash.toLowerCase() > b.hash.toLowerCase() ? 1 : -1
+    );
+
+    setMainState(res);
+    let check2 = [...transactionHistory];
+    let res2 = check2.sort((a, b) =>
+      a.hash.toLowerCase() > b.hash.toLowerCase() ? 1 : -1
+    );
+    setTransactionHistory(res2);
+    let check3 = [...tempData];
+    let res3 = check3.sort((a, b) =>
+      a.hash.toLowerCase() > b.hash.toLowerCase() ? 1 : -1
+    );
+    setTempData(res3);
+  };
+
+  const gettingLogos = (t) => {
+    let midgardPool = keyStoreInstance?.midgardPool;
+    let ticker = t?.asset?.ticker;
+    if (t.asset.ticker.toLowerCase() === "rune") {
+      ticker = "XRUNE";
+    }
+
+    let res = midgardPool?.find(
+      (d) => d?.asset.toLowerCase() === ticker.toLowerCase()
+    );
+    return (
+      <>
+        <img
+          style={{ width: "25px" }}
+          style={{ width: "25px" }}
+          src={res.logo}
+        />
+      </>
+    );
+  };
+
   //CUSTOM RANGE HANDLER
   return (
-    <div className="col-lg-7 marginleftcol mt-2">
+    <div className="col-lg-10 pl-0" style={{ paddingRight: "8px" }}>
       {/*Date Modal*/}
       <Modal
         show={toggle}
@@ -503,14 +643,19 @@ const Activity = () => {
           >
             <div role="document">
               <div>
-                <div class="modal-body" style={{display:"flex",justifyContent:"center"}}>
+                <div
+                  class="modal-body"
+                  style={{ display: "flex", justifyContent: "center" }}
+                >
                   <DateRangePicker
-                    onChange={
-                      customToggle
-                        ? handleCustom
-                        : (item) => setState([...state])
-                    }
-                    
+                    onChange={(item) => {
+                      if (
+                        item.selection.startDate <= new Date() &&
+                        item.selection.endDate <= new Date()
+                      ) {
+                        setState([item.selection]);
+                      }
+                    }}
                     showSelectionPreview={false}
                     moveRangeOnFirstSelection={false}
                     months={2}
@@ -519,113 +664,79 @@ const Activity = () => {
                     preventSnapRefocus={true}
                     calendarFocus="backwards"
                   />
-                  
                 </div>
-                <div className="d-flex justify-content-center">
-                <button
-                  className={
-                    "btn btn-outline-secondary ml-3 pl-3 " +
-                    (rangeType === EnumRanges.CUSTOM_RANGE
-                      ? "rangeActive"
-                      : null)
-                  }
-                  onClick={handleCustomRange}
-                  style={{
-                    border: "1px solid",
+                <div className="d-flex flex-row justify-content-center align-items-center">
+                  <button
+                    className={
+                      "btn btn-outline-secondary ml-3 pl-3 " +
+                      (rangeType === EnumRanges.CUSTOM_RANGE
+                        ? "rangeActive"
+                        : null)
+                    }
+                    onClick={handleCustom}
+                    style={{
+                      border: "1px solid",
 
-                    fontSize: "14px",
-                    fontFamily: "DM Sans",
-                    fontWeight: "bold",
-                    borderRadius: "20px",
-                  }}
-                >
-                  Custom range{" "}
-                </button>
-                <button
-                  className={
-                    "btn btn-outline-secondary ml-3 pl-3 " +
-                    (rangeType === EnumRanges.ONE_DAY ? "rangeActive" : null)
-                  }
-                  onClick={handleOneDay}
-                  style={{
-                    border: "1px solid",
-
-                    fontSize: "14px",
-                    fontFamily: "DM Sans",
-                    fontWeight: "bold",
-                    borderRadius: "20px",
-                  }}
-                >
-                  One day{" "}
-                </button>{" "}
-                <button
-                  className={
-                    "btn btn-outline-secondary ml-3 pl-3 " +
-                    (rangeType === EnumRanges.ONE_WEEK ? "rangeActive" : null)
-                  }
-                  onClick={handleOneWeek}
-                  style={{
-                    border: "1px solid",
-
-                    fontSize: "14px",
-                    fontFamily: "DM Sans",
-                    fontWeight: "bold",
-                    borderRadius: "20px",
-                  }}
-                >
-                  One week
-                </button>
-                <button
-                  className={
-                    "btn btn-outline-secondary ml-3 pl-3 " +
-                    (rangeType === EnumRanges.ONE_MONTH ? "rangeActive" : null)
-                  }
-                  style={{
-                    border: "1px solid",
-
-                    fontSize: "14px",
-                    fontFamily: "DM Sans",
-                    fontWeight: "bold",
-                    borderRadius: "20px",
-                  }}
-                  onClick={handleOneMonth}
-                >
-                  One month
-                </button>{" "}
-                <button
-                  className={
-                    "btn btn-outline-secondary ml-3 pl-3 " +
-                    (rangeType === EnumRanges.ONE_YEAR ? "rangeActive" : null)
-                  }
-                  onClick={handleOneYear}
-                  style={{
-                    border: "1px solid",
-
-                    fontSize: "14px",
-                    fontFamily: "DM Sans",
-                    fontWeight: "bold",
-                    borderRadius: "20px",
-                  }}
-                >
-                  One year
-                </button>
-                <button
-                  className={
-                    "btn btn-outline-secondary ml-3 pl-3 " +
-                    (rangeType === EnumRanges.ALL_TIME ? "rangeActive" : null)
-                  }
-                  onClick={handleAllTime}
-                  style={{
-                    border: "1px solid",
-
-                    fontSize: "14px",
-                    fontFamily: "DM Sans",
-                    fontWeight: "bold",
-                    borderRadius: "20px",
-                  }}
-                >
-                  All time
-                </button>  
+                      fontSize: "14px",
+                      fontFamily: "DM Sans",
+                      fontWeight: "bold",
+                      borderRadius: "20px",
+                    }}
+                  >
+                    Custom range{" "}
+                  </button>
+                  <button
+                    className={
+                      "btn btn-outline-secondary ml-3 pl-3 " +
+                      (rangeType === EnumRanges.ONE_DAY ? "rangeActive" : null)
+                    }
+                    onClick={handleOneDay}
+                    className="u-datepickerbuttom56 ml-2"
+                  >
+                    One day{" "}
+                  </button>{" "}
+                  <button
+                    className={
+                      "btn btn-outline-secondary ml-3 pl-3 " +
+                      (rangeType === EnumRanges.ONE_WEEK ? "rangeActive" : null)
+                    }
+                    onClick={handleOneWeek}
+                    className="u-datepickerbuttom56 ml-2"
+                  >
+                    One week
+                  </button>
+                  <button
+                    className={
+                      "btn btn-outline-secondary ml-3 pl-3 " +
+                      (rangeType === EnumRanges.ONE_MONTH
+                        ? "rangeActive"
+                        : null)
+                    }
+                    className="u-datepickerbuttom56 ml-2"
+                    onClick={handleOneMonth}
+                  >
+                    One month
+                  </button>
+                  <button
+                    className={
+                      "btn btn-outline-secondary ml-3 pl-3 " +
+                      (rangeType === EnumRanges.ONE_YEAR ? "rangeActive" : null)
+                    }
+                    onClick={handleOneYear}
+                    className="u-datepickerbuttom56 ml-2"
+                  >
+                    One year
+                  </button>
+                  <button
+                    className={
+                      "btn btn-outline-secondary ml-3 pl-3 " +
+                      (rangeType === EnumRanges.ALL_TIME ? "rangeActive" : null)
+                    }
+                    onClick={handleAllTime}
+                    className="u-datepickerbuttom56 ml-2"
+                  >
+                    All time
+                  </button>
                 </div>
               </div>
             </div>
@@ -679,10 +790,13 @@ const Activity = () => {
         </Modal.Body>
       </Modal>
 
-      <div className="sidebarcoleight pt-3">
+      <div className="w-sidebarcoleight">
         <div className="d-flex justify-content-between">
-          <ul className="list-unstyled d-flex">
-            <li>
+          <ul className="list-unstyled d-flex flex-row align-items-center mb-0">
+            <li
+              className="d-flex flex-row justify-content-center align-items-center"
+              style={{ marginRight: "10px" }}
+            >
               <button
                 className={
                   filterType === Enum.allType ? "alltype" : "alltype-nonActive"
@@ -693,7 +807,10 @@ const Activity = () => {
                 All type
               </button>
             </li>
-            <li>
+            <li
+              className="d-flex flex-row justify-content-center align-items-center"
+              style={{ marginRight: "10px" }}
+            >
               <button
                 className={
                   filterType === Enum.withdraw ? "alltype" : "alltype-nonActive"
@@ -704,7 +821,10 @@ const Activity = () => {
                 Withdrawals
               </button>
             </li>
-            <li>
+            <li
+              className="d-flex flex-row justify-content-center align-items-center"
+              style={{ marginRight: "10px" }}
+            >
               <button
                 className={
                   filterType === Enum.deposit ? "alltype" : "alltype-nonActive"
@@ -715,7 +835,10 @@ const Activity = () => {
                 Deposit
               </button>
             </li>
-            <li>
+            <li
+              className="d-flex flex-row justify-content-center align-items-center"
+              style={{ marginRight: "10px" }}
+            >
               <button
                 className={
                   filterType === Enum.pending ? "alltype" : "alltype-nonActive"
@@ -723,16 +846,18 @@ const Activity = () => {
                 style={{ color: "#fff", fontFamily: "DM Sans" }}
                 onClick={filterPendingType}
               >
-                Pending
+                Converting
               </button>
             </li>
           </ul>
-          <form className="pr-5">
-            <div class=" d-flex form-group has-search">
+          <form className="">
+            <div class=" d-flex flex-row align-items-center form-group has-search mb-0">
               <input
                 style={{
-                  borderRadius: "10px",
+                  borderRadius: "30px",
+                  fontSize: "12px",
                   width: "250px",
+                  height: "36px",
                   fontFamily: "DM Sans",
                   backgroundColor: "#fcfcfd",
                 }}
@@ -747,14 +872,13 @@ const Activity = () => {
                   width: "17px",
                   height: "17px",
                   marginLeft: "-25px",
-                  marginTop: "10px",
                 }}
                 src={Images.searchicon}
               />
 
               <div style={{ float: "right" }}>
                 <button
-                  class="mb-4   ml-4 seeallbutton"
+                  class="ml-4 seeallbutton"
                   onClick={(e) => {
                     e.preventDefault();
 
@@ -770,157 +894,232 @@ const Activity = () => {
         </div>
         <hr class="solid" />
         <div className="d-flex justify-content-between">
-          <div className="pt-4 pb-3">
-            <h3 className="activaty-headingss">Activity</h3>
+          <div className="">
+            <h3 className="u-overview09888 mb-0">Activity</h3>
           </div>
-          <div style={{ float: "right", marginTop: "25px" }}>
+          <div style={{ float: "right" }}>
             <button
               type="button"
-              className="btn btn-primary exportbuttonactivity mr-5"
+              className="btn btn-primary exportbuttonactivity "
+              style={{ paddingRight: "16px" }}
               onClick={() => {
                 setExportModal(true);
               }}
             >
               {" "}
-              <img src={Images.exportIcon} className="mr-2 mb-1" />
+              <img src={Images.exportIcon} style={{ marginRight: "11px" }} />
               Export
             </button>
           </div>
         </div>
         <div
-          className="table-responsive"
+          className="table-responsive w-comon-table-style"
           // style={{ height: "500px", overflowY: "auto" }}
         >
           <table className="table">
             <thead>
               <tr>
-                <th
-                  style={{ border: "none" }}
-                  class="pt-3 pb-3 overview-tablehead"
-                  scope="col"
-                >
+                <th scope="col">
                   <span>Type</span>
-                  <img class="pl-1" src={Images.nameup} />
+                  <div
+                    style={{
+                      display: "inline-grid",
+                      paddingBottom: "4px",
+                      marginLeft: "3px",
+                    }}
+                  >
+                    <img
+                      class="pl-1"
+                      src={Images.FilterUp}
+                      onClick={handleDescendingType}
+                      style={{
+                        marginBottom: "3px",
+                        cursor: "pointer",
+                      }}
+                    />
+                    <img
+                      class="pl-1"
+                      onClick={handleAscendingType}
+                      src={Images.FilterDown}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </div>
                 </th>
-                <th
-                  style={{ border: "none" }}
-                  class="pt-3 pb-3 overview-tablehead"
-                  scope="col"
-                >
+                <th scope="col">
                   <span>Coin</span>
-                  <img class="pl-1" src={Images.nameup} />
+                  <div
+                    style={{
+                      display: "inline-grid",
+                      paddingBottom: "4px",
+                      marginLeft: "3px",
+                    }}
+                  >
+                    <img
+                      class="pl-1"
+                      src={Images.FilterUp}
+                      onClick={handleDescendingCoin}
+                      style={{
+                        marginBottom: "3px",
+                        cursor: "pointer",
+                      }}
+                    />
+                    <img
+                      class="pl-1"
+                      onClick={handleAscendingCoin}
+                      src={Images.FilterDown}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </div>
                 </th>
-                <th
-                  style={{ border: "none" }}
-                  class="pt-3 pb-3 overview-tablehead"
-                  scope="col"
-                >
-                  <span>Amount</span> <img class="pl-1" src={Images.nameup} />
+                <th scope="col">
+                  <span>Amount</span>{" "}
+                  <div
+                    style={{
+                      display: "inline-grid",
+                      paddingBottom: "4px",
+                      marginLeft: "3px",
+                    }}
+                  >
+                    <img
+                      class="pl-1"
+                      src={Images.FilterUp}
+                      onClick={handleDescendingAmount}
+                      style={{
+                        marginBottom: "3px",
+                        cursor: "pointer",
+                      }}
+                    />
+                    <img
+                      class="pl-1"
+                      onClick={handleAscendingAmount}
+                      src={Images.FilterDown}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </div>
                 </th>
-                <th
-                  style={{ border: "none" }}
-                  class="pt-3 pb-3 overview-tablehead"
-                  scope="col"
-                >
-                  <span>Address</span> <img class="pl-1" src={Images.nameup} />
+                <th scope="col">
+                  <span>Address</span>{" "}
+                  <div
+                    style={{
+                      display: "inline-grid",
+                      paddingBottom: "4px",
+                      marginLeft: "3px",
+                    }}
+                  >
+                    <img
+                      class="pl-1"
+                      src={Images.FilterUp}
+                      onClick={handleDescendingAddress}
+                      style={{
+                        marginBottom: "3px",
+                        cursor: "pointer",
+                      }}
+                    />
+                    <img
+                      class="pl-1"
+                      onClick={handleAscendingAddress}
+                      src={Images.FilterDown}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </div>
                 </th>
-                <th
-                  style={{ border: "none" }}
-                  class="pt-3 pb-3 overview-tablehead"
-                  scope="col"
-                >
+                <th scope="col">
                   <span>Transaction ID</span>
-                  <img class="pl-1" src={Images.nameup} />
+                  <div
+                    style={{
+                      display: "inline-grid",
+                      paddingBottom: "4px",
+                      marginLeft: "3px",
+                    }}
+                  >
+                    <img
+                      class="pl-1"
+                      src={Images.FilterUp}
+                      onClick={handleDescendingTransactionID}
+                      style={{
+                        marginBottom: "3px",
+                        cursor: "pointer",
+                      }}
+                    />
+                    <img
+                      class="pl-1"
+                      onClick={handleAscendingTransactionID}
+                      src={Images.FilterDown}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </div>
                 </th>
-                <th
-                  style={{
-                    textAlign: "right",
-                    paddingRight: "15px",
-                    border: "none",
-                  }}
-                  class="pt-3 pb-3 overview-tablehead"
-                  scope="col"
-                >
+                <th scope="col">
                   <span>Date</span>
                 </th>
               </tr>
             </thead>
-            {console.log(
-              "KeyStoreClientsKeyStoreClientsKeyStoreClients",
-              KeyStoreClients
-            )}
-            <tbody style={{ padding: "5px" }}>
-              {KeyStoreClients?.length ? (
+
+            <tbody>
+              {transactionHistory?.length ? (
                 <>
-                  {KeyStoreClients.map((d, key) => {
+                  {transactionHistory.map((t, key) => {
                     return (
-                      <>
-                        {d.Transactions.txs.map((t, key2) => {
-                          return (
-                            <tr className="maintdclasshover">
-                              <td style={{ marginBottom: "5px", border: "none" }}>
-                                <div className="d-flex flex-column">
-                                  <div>
-                                    <span
-                                      style={{ fontFamily: "Poppins"}}
-                                      className={
-                                        d.Type === "Withdraw"
-                                          ? ""
-                                          :"depositclasssliquid"
-                                      }
-                                    >
-                                      {t.type.toUpperCase()}
-                                    </span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td style={{border: "none"}}>
-                                <div className="d-flex ">
-                                  <img
-                                    style={{ width: "25px" }}
-                                    style={{ width: "25px" }}
-                                    src={Images.bitcoinnn}
-                                  />
-                                  <div
-                                    style={{
-                                      paddingLeft: "5px",
-                                      fontFamily: "Poppins",
-                                      fontSize:"14px",
-                                      marginTop:"3px"
-                                    }}
-                                  >
-                                    <span>{t.asset.ticker}</span>
-                                  </div>
-                                  <div className="d-flex align-items-center"></div>
-                                </div>
-                              </td>
-                              <td style={{ fontFamily: "Poppins", border: "none" }}>
-                                <span>{t.transferAmount}</span>
-                                {/* {t.to[0].amount.amount().c[0]} */}
-                              </td>
-                              <td style={{border: "none"}}>
-                                <div className="d-flex flex-column">
-                                  <div>
-                                    <b style={{ fontFamily: "Poppins",fontSize:"14px" }}>
-                                      <span>{t?.to[0]?.to}</span>
-                                    </b>
-                                  </div>
-                                </div>
-                              </td>
-                              <td style={{ fontFamily: "Poppins",fontSize:"14px",color:"#777e90", border: "none" }}>
-                                <span>{t?.hash}</span>
-                              </td>
-                              <td style={{ fontFamily: "Poppins",fontSize:"14px",color:"#777e90",textAlign:"left", border: "none" }}>
-                                <span>
-                                  {new Date(t?.date)
-                                    ?.toString()
-                                    .substring(0, 24)}
-                                </span>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </>
+                      <tr>
+                        <td>
+                          <div className="d-flex flex-column">
+                            <div>
+                              <span
+                                style={{ fontFamily: "Poppins" }}
+                                className={
+                                  t.Type === "Withdraw"
+                                    ? ""
+                                    : "depositclasssliquid"
+                                }
+                              >
+                                {t.type.toUpperCase()}
+                              </span>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div className="d-flex ">
+                            {gettingLogos(t)}
+                            <div
+                              style={{
+                                paddingLeft: "5px",
+                                fontFamily: "Poppins",
+                                fontSize: "14px",
+                                marginTop: "3px",
+                              }}
+                            >
+                              <span>{t.asset.ticker}</span>
+                            </div>
+                            <div className="d-flex align-items-center"></div>
+                          </div>
+                        </td>
+                        <td>
+                          <span>{t.transferAmount}</span>
+                          {/* {t.to[0].amount.amount().c[0]} */}
+                        </td>
+                        <td>
+                          <div className="d-flex flex-column">
+                            <div>
+                              <b
+                                style={{
+                                  fontFamily: "Poppins",
+                                  fontSize: "14px",
+                                }}
+                              >
+                                <span>{t?.to[0]?.to}</span>
+                              </b>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <span>{t?.hash}</span>
+                        </td>
+                        <td>
+                          <span>
+                            {new Date(t?.date)?.toString().substring(0, 24)}
+                          </span>
+                        </td>
+                      </tr>
                     );
                   })}
                 </>
@@ -929,14 +1128,11 @@ const Activity = () => {
           </table>
         </div>
       </div>
-      <div class="row mt-5 mb-3 pt-4 pb-4">
+      <div class="row mt-5 mb-3 pt-4 pb-4 mx-0">
         <div
           style={{
             backgroundColor: "#fcfcfd",
-            width: "1085px",
-            marginLeft: "15px",
             borderRadius: "5px",
-            maxWidth: "1300px",
           }}
           className="d-flex pt-3 pb-3"
         >
@@ -950,7 +1146,8 @@ const Activity = () => {
                   style={{
                     fontSize: "24px",
                     fontFamily: "Poppins",
-                    color: "#2326F",
+                    color: "#23262F",
+                    fontWeight: "600",
                   }}
                 >
                   Trade assets
@@ -963,10 +1160,10 @@ const Activity = () => {
                     fontWeight: "400",
                   }}
                 >
-                  Start trading decentralized without pegged warpped tokens
+                  Start trading decentralized without pegged wrapped tokens
                   right now!
                 </p>
-                <button className="earn-yieldbuttonactivityss">
+                <button className="w-earn-yieldbuttonactivityss">
                   Trade assets <img class="pl-2" src={Images.iconsrightline} />
                 </button>
               </div>
@@ -1005,6 +1202,7 @@ const Activity = () => {
                     fontSize: "24px",
                     fontFamily: "Poppins",
                     color: "#2326F",
+                    fontWeight: "600",
                   }}
                 >
                   Earn yield
@@ -1017,10 +1215,10 @@ const Activity = () => {
                     fontWeight: "400",
                   }}
                 >
-                  Start trading decentralized without pegged warpped tokens
+                  Start trading decentralized without pegged wrapped tokens
                   right now!
                 </p>
-                <button className="earn-yieldbuttonactivityss">
+                <button className="w-earn-yieldbuttonactivityss">
                   Earn yield <img class="pl-2" src={Images.iconsrightline} />
                 </button>
               </div>

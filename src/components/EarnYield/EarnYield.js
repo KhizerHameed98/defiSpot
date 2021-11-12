@@ -6,6 +6,8 @@ import YieldData from "../Helper/Data/EarnYield";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../Loader/Loader";
 import loadimg from "../../assets/images/Shape.svg";
+import browserRoute from "../../Routes/browserRoutes";
+import { Link } from "react-router-dom";
 
 const EarnYield = () => {
   const dispatch = useDispatch();
@@ -82,9 +84,13 @@ const EarnYield = () => {
     } else {
       let result2 = tempPool.filter(
         (value) =>
-          value?.assetFullName
+          value?.blockchain
             ?.toLowerCase()
-            ?.includes(e.target.value.toLowerCase()) && value
+            ?.includes(e.target.value.toLowerCase()) ||
+          (value?.assetFullName
+            ?.toLowerCase()
+            ?.includes(e.target.value.toLowerCase()) &&
+            value)
       );
       setPoolData(result2);
     }
@@ -180,7 +186,7 @@ const EarnYield = () => {
     <>
       {loading ? (
         <div style={{ justifyContent: "center", marginLeft: "40%" }}>
-          <Loader />
+          <Loader height="40%" width="40%" />
         </div>
       ) : (
         <>
@@ -208,11 +214,17 @@ const EarnYield = () => {
             </div>
           </section>
 
-          <section style={{ backgroundColor: "#FCFCFD" }}>
+          <section
+            style={{ backgroundColor: "#FCFCFD" }}
+            class="n-earnYeildTable"
+          >
             <div class="container pt-5">
-              <div class="d-flex justify-content-between">
-                <ul class="list-unstyled d-flex">
-                  <li>
+              <div class="d-flex flex-row justify-content-between align-items-center flex-wrap mb-5">
+                <ul class="list-unstyled d-flex flex-row align-items-center mb-0">
+                  <li
+                    className="d-flex flex-row justify-content-center align-items-center"
+                    style={{ marginRight: "16px" }}
+                  >
                     <button
                       className={
                         filterType === Enum.allType
@@ -220,12 +232,16 @@ const EarnYield = () => {
                           : "alltype-nonActive"
                       }
                       onClick={filterAllType}
+                      style={{ whiteSpace: "nowrap" }}
                     >
                       All type
                     </button>
                   </li>
 
-                  <li>
+                  <li
+                    className="d-flex flex-row justify-content-center align-items-center"
+                    style={{ marginRight: "16px" }}
+                  >
                     <button
                       className={
                         filterType === Enum.native
@@ -239,7 +255,10 @@ const EarnYield = () => {
                     </button>
                   </li>
 
-                  <li>
+                  <li
+                    className="d-flex flex-row justify-content-center align-items-center"
+                    style={{ marginRight: "16px" }}
+                  >
                     <button
                       className={
                         filterType === Enum.erc20
@@ -248,12 +267,16 @@ const EarnYield = () => {
                       }
                       style={{ color: "#fff", fontFamily: "DM Sans" }}
                       onClick={filterERC20}
+                      style={{ whiteSpace: "nowrap" }}
                     >
                       ERC-20
                     </button>
                   </li>
 
-                  <li>
+                  <li
+                    className="d-flex flex-row justify-content-center align-items-center"
+                    style={{ marginRight: "16px" }}
+                  >
                     <button
                       className={
                         filterType === Enum.bep2
@@ -267,45 +290,42 @@ const EarnYield = () => {
                     </button>
                   </li>
                 </ul>
-                <div className="pr-5">
-                  <div class=" d-flex form-group has-search">
-                    <input
-                      style={{
-                        borderRadius: "10px",
-                        width: "300px",
-                        fontFamily: "DM Sans",
-                        backgroundColor: "#fcfcfd",
-                      }}
-                      type="text"
-                      class="form-control"
-                      placeholder="Search after pool..."
-                      onChange={inputSearch}
-                      value={searchInput}
-                    />
-                    <span
-                      style={{ paddingTop: "10px", marginLeft: "-22px" }}
+                {/* <div className="pr-5"> */}
+                <div class=" d-flex form-group has-search mb-0 n-inputSearch">
+                  <input
+                    style={{
+                      borderRadius: "100px",
+                      // width: "300px",
+                      fontFamily: "DM Sans",
+                      backgroundColor: "#fcfcfd",
+                    }}
+                    type="text"
+                    class="form-control n-tableSearch"
+                    placeholder="Search after pool..."
+                    onChange={inputSearch}
+                    value={searchInput}
+                  />
+                  <img
+                    style={{
+                      width: "17px",
+                      height: "17px",
+                      marginLeft: "-25px",
+                      marginTop: "10px",
+                    }}
+                    src={Images.searchicon}
+                  />
+                  {/* <span
+                      style={{ paddingTop: "10px", marginLeft: "-27px" }}
                       class=" fa fa-search form-control-feedback"
-                    ></span>
-                  </div>
+                    ></span> */}
                 </div>
+                {/* </div> */}
               </div>
-              <div class="table-responsive">
+              <div class="table-responsive w-comon-table-style n-earnYeildSection">
                 <table class="table">
                   <thead>
-                    <tr style={{borderBottom: "1.5px solid #E6E8EC"}}>
-                      <th
-                        className="pt-5 pb-5"
-                        style={{
-                          border: "none",
-                          color: "#777E90",
-                          fontFamily: "Poppins",
-                          fontSize: "12px ",
-                          fontWeight: "600",
-                          paddingLeft: "70px",
-                          position: "relative",
-                        }}
-                        scope="col"
-                      >
+                    <tr style={{ borderBottom: "1.5px solid #E6E8EC" }}>
+                      <th scope="col">
                         Name{" "}
                         <div
                           style={{
@@ -313,7 +333,7 @@ const EarnYield = () => {
                             paddingBottom: "4px",
                             marginLeft: "3px",
                             position: "absolute",
-                            bottom: "47px"
+                            bottom: "31px",
                           }}
                         >
                           <img
@@ -333,19 +353,7 @@ const EarnYield = () => {
                           />
                         </div>
                       </th>
-                      <th
-                        className="pt-5 pb-5"
-                        style={{
-                          border: "none",
-                          color: "#777E90",
-                          fontFamily: "Poppins",
-                          fontSize: "12px ",
-                          fontWeight: "600",
-                          textAlign: "right",
-                          position: "relative",
-                        }}
-                        scope="col"
-                      >
+                      <th className="text-right" scope="col">
                         APY{" "}
                         <div
                           style={{
@@ -353,7 +361,7 @@ const EarnYield = () => {
                             paddingBottom: "4px",
                             marginLeft: "3px",
                             position: "absolute",
-                            top: "52px"
+                            bottom: "31px",
                           }}
                         >
                           <img
@@ -373,19 +381,7 @@ const EarnYield = () => {
                           />
                         </div>
                       </th>
-                      <th
-                        className="pt-5 pb-5"
-                        style={{
-                          border: "none",
-                          color: "#777E90",
-                          fontFamily: "Poppins",
-                          fontSize: "12px ",
-                          fontWeight: "600",
-                          textAlign: "right",
-                          position: "relative",
-                        }}
-                        scope="col"
-                      >
+                      <th className="text-right" scope="col">
                         Liquidity{" "}
                         <div
                           style={{
@@ -393,7 +389,7 @@ const EarnYield = () => {
                             paddingBottom: "4px",
                             marginLeft: "3px",
                             position: "absolute",
-                            top: "52px"
+                            bottom: "31px",
                           }}
                         >
                           <img
@@ -413,18 +409,7 @@ const EarnYield = () => {
                           />
                         </div>
                       </th>
-                      <th
-                        className="pt-5 pb-5"
-                        style={{
-                          border: "none",
-                          color: "#777E90",
-                          fontFamily: "Poppins",
-                          fontSize: "12px ",
-                          fontWeight: "600",
-                          textAlign: "right",
-                        }}
-                        scope="col"
-                      >
+                      <th className="text-right" scope="col">
                         Volume(24h)
                         <img class="pl-2" src={Images.hourr} />
                       </th>
@@ -435,38 +420,42 @@ const EarnYield = () => {
                       <>
                         {poolData.map((d, key) => {
                           return (
-                            <tr className="maintdclasshover" style={{borderBottom: "1.5px solid #E6E8EC"}}>
-                              <td style={{border: "none"}}>
-                                <div class="d-flex">
+                            <tr
+                              className="maintdclasshover"
+                              style={{ borderBottom: "1.5px solid #E6E8EC" }}
+                            >
+                              <td>
+                                <div class="d-flex align-items-center">
                                   <img
-                                    class="mt-1"
                                     style={{ width: "35px", height: "35px" }}
                                     src={d.logo}
                                   />
-                                  <div class="d-block pl-3">
+                                  <div class="d-flex">
                                     <div
                                       style={{
-                                        paddingLeft: "5px",
-                                        fontWeight: "bold",
+                                        paddingLeft: "10px",
+                                        fontWeight: "500",
                                         fontFamily: "Poppins",
                                         fontSize: "14px",
-                                        fontWeight: "400",
                                       }}
                                     >
                                       {d.assetFullName}
                                     </div>
                                     <div class="d-flex align-items-center">
-                                      <div class="pl-1 text-muted">
+                                      <div
+                                        class="pl-2 text-muted"
+                                        style={{
+                                          fontSize: "14px",
+                                          fontWeight: "500",
+                                        }}
+                                      >
                                         {d.blockchain}
                                       </div>
                                     </div>
                                   </div>
                                 </div>
                               </td>
-                              <td
-                                className="pt-4"
-                                style={{ textAlign: "right", border: "none" }}
-                              >
+                              <td className="text-right">
                                 <div>
                                   <span
                                     style={{
@@ -476,28 +465,24 @@ const EarnYield = () => {
                                       fontSize: "14px",
                                       fontWeight: "400",
                                       borderRadius: "4px",
+                                      whiteSpace: "nowrap",
                                     }}
                                     class="depositclasss"
                                   >
-                                    {financial(d.poolAPY)}% APR{" "}
+                                    {financial(d.poolAPY)}% APY{" "}
                                   </span>
                                 </div>
                               </td>
-                              <td
-                                style={{ textAlign: "right", border: "none" }}
-                                className="earnyield-value pt-4"
-                              >
+                              <td className="text-right">
                                 ${d.liquidityUnits}
                               </td>
+                              <td className="text-right">${d.volume24h}</td>
                               <td
-                                style={{ textAlign: "right", border: "none" }}
-                                className="earnyield-value pt-4"
-                              >
-                                ${d.volume24h}
-                              </td>
-                              <td
-                                className="pt-4"
-                                style={{ textAlign: "right", border: "none" }}
+                                className="text-right"
+                                style={{
+                                  textAlign: "right",
+                                  whiteSpace: "nowrap",
+                                }}
                               >
                                 {" "}
                                 <AddLiquidity data={d} />
@@ -512,9 +497,9 @@ const EarnYield = () => {
               </div>
             </div>
           </section>
-          <section style={{ backgroundColor: "#FCFCFD" }}>
+          <section class="n-marketSection">
             <div class="container">
-              <div style={{ marginTop: "136px", marginBottom: "64px" }}>
+              <div style={{ marginBottom: "64px" }}>
                 <h2 class="d-flex justify-content-center marketmainheade">
                   Learn about DeFi
                 </h2>
@@ -526,6 +511,7 @@ const EarnYield = () => {
                     fontSize: "16px",
                     fontWeight: "400",
                     color: "#353945",
+                    margin: "0",
                   }}
                 >
                   Browse our library of resources to learn more about DeFi and
@@ -533,65 +519,69 @@ const EarnYield = () => {
                   <br /> to use it to yield or trade
                 </p>
               </div>
-              <div class="row mt-3">
-                <div class="col-lg-4">
+              <div class="mt-3 n-marketLearnCard">
+                <div class="n-marketCardInv">
                   <div class="card cardborder">
                     <img
                       class="card-img-top"
+                      style={{ borderRadius: "12px" }}
                       src={Images.mediacontainer}
                       alt="Card image cap"
                     />
-                    <div class="card-body">
+                    <div class="card-body n-learnCard">
                       <h6 class="marketcardone">Learn & Earn</h6>
-                      <p class="cardtext pt-4">
+                      <p class="cardtext">
                         Earn yield by providing liquidity to pools
                       </p>
                     </div>
                   </div>
                   {/* <hr class="solid earnyieldclasssolid" /> */}
                 </div>
-                <div class="col-lg-4">
+                <div class="n-marketCardInv">
                   <div class="card cardborder">
                     <img
                       class="card-img-top"
+                      style={{ borderRadius: "12px" }}
                       src={Images.mediacontainer}
                       alt="Card image cap"
                     />
-                    <div class="card-body">
+                    <div class="card-body n-learnCard">
                       <h6 class="marketcardtwo">WEEKLY WATCHLIST AIRDROP</h6>
-                      <p class="cardtext pt-4">
+                      <p class="cardtext">
                         The biggest advantages of decentralized exchange
                       </p>
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="n-marketCardInv">
                   <div class="card cardborder">
                     <img
                       class="card-img-top"
                       src={Images.mediacontainer}
+                      style={{ borderRadius: "12px" }}
                       alt="Card image cap"
                     />
-                    <div class="card-body">
+                    <div class="card-body n-learnCard">
                       <h6 class="marketcardthree">FEATURED</h6>
-                      <p class="cardtext pt-4">
-                        Submit your watchlist and win USDT
-                      </p>
+                      <p class="cardtext">Submit your watchlist and win USDT</p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </section>
-          <div
-            class="d-flex justify-content-center"
-            style={{ marginBottom: "136px", marginTop: "64px" }}
-          >
-            <button type="button" class="btn loaderbutton">
-              <img className="pr-2" src={loadimg} />
+              <div class="d-flex justify-content-center n-marketLoadMore">
+                <Link to ={browserRoute.LEARN}>
+              <button type="button" class="btn n-secondaryButton">
+                Load more
+              </button>
+              </Link>
+              {/* On loading Add button with loaing img */}
+              {/* <button type="button" class="btn loaderbutton">
+              <img className="pr-2" src={Images.loadicon} />
               Load more
-            </button>
-          </div>
+            </button> */}
+            </div>
+          </section>
         </>
       )}
     </>

@@ -8,8 +8,12 @@ import { useHistory, useParams, withRouter } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 // import Images from "../../Helper/AllImages";
+
+import { handleMainModal } from "../../Services/mainServices";
+
 const BuyPlatform = () => {
   let history = useHistory();
+  const disptach = useDispatch();
 
   const { id } = useParams();
   const [YayModal, setYayModal] = useState(false);
@@ -18,7 +22,9 @@ const BuyPlatform = () => {
   const [toAmount, setToAmount] = useState("");
   const [TokenPriceUSD, setTokenPriceUSD] = useState("");
   const [tokenData, setTokenData] = useState([]);
+  const [selectedCurr, setSelectedCurr] = useState("BTC");
   const mainState = useSelector((state) => state.main.midgardPool);
+  const loggedin = useSelector((state) => state.main.isLoggedin);
 
   const handleCloseYay = () => setYayModal(false);
   const handleShowYay = () => {
@@ -29,7 +35,13 @@ const BuyPlatform = () => {
     setConfirmModal(false);
   };
   const handleShowConfirm = () => {
-    setConfirmModal(true);
+    //check loggedin state
+    if (loggedin) {
+      setConfirmModal(true);
+    } else {
+      // console.log("loggedOUT");
+      disptach(handleMainModal(true));
+    }
   };
   function financial(x) {
     return Number.parseFloat(x).toFixed(2);
@@ -38,12 +50,16 @@ const BuyPlatform = () => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
   const fromAmountHandler = (e) => {
-    setFromAmount(e.target.value);
-    setToAmount(financial(Number(e.target.value) / Number(TokenPriceUSD)));
+    if (e.target.value >= 0) {
+      setFromAmount(e.target.value);
+      setToAmount(financial(Number(e.target.value) / Number(TokenPriceUSD)));
+    }
   };
   const toAmountHandler = (e) => {
-    setToAmount(e.target.value);
-    setFromAmount(financial(Number(e.target.value) * Number(TokenPriceUSD)));
+    if (e.target.value >= 0) {
+      setToAmount(e.target.value);
+      setFromAmount(financial(Number(e.target.value) * Number(TokenPriceUSD)));
+    }
   };
 
   useEffect(async () => {
@@ -409,171 +425,154 @@ const BuyPlatform = () => {
       {/* Div Started */}
       <section style={{ backgroundColor: "#F1F2F4", paddingTop: "3px" }}>
         <div
-          class="container-fluid mt-1 pt-4 pb-3"
+          class="container mt-1 pt-2 pb-2"
           style={{
-            paddingLeft: "150px",
-            paddingRight: "150px",
             backgroundColor: "#FCFCFD",
+            borderRadius: "15px",
           }}
         >
-          <div class="row">
-            <div class="col-lg-2">
-              <h4
-                style={{
-                  color: "#141416",
-                  fontWeight: "600",
-                  fontFamily: "DM Sans",
-                }}
-              >
-                {tokenData?.asset}/USDT
-              </h4>
-              <p class="marketparatwow">Bitcoin</p>
+          <div className="row">
+            <div className="col-lg-4">
+              <h4 className="u-headinfswaming09888">{tokenData?.asset}/USDT</h4>
             </div>
-            <div class="col-lg-2">
-              <div class="d-flex">
-                <h4 class="numberheading">
-                  {numberWithCommas(financial(tokenData?.assetPriceUSD))}
-                </h4>
-                <img class="pl-3" src={Images.goup3} />
-              </div>
-              <p class="marketparatwow">
-                {" "}
-                <img src={Images.sss} />{" "}
-                {numberWithCommas(financial(tokenData?.assetPriceUSD))}
-              </p>
-            </div>
-            <div class="col-lg-2" style={{ borderRight: "1px solid #E6E8EC" }}>
-              <p class="marketparatwow">
-                {" "}
-                <img src={Images.clock} /> 24h change
-              </p>
+            <div className="col-lg-8">
+              <div className="d-flex justify-content-between u-swappingdonemain3455">
+                <div>
+                  <p class="marketparatwow">
+                    {" "}
+                    <img src={Images.clock} /> Change
+                  </p>
 
-              {tokenData.change_24h >= 0 ? (
-                <>
+                  {tokenData.change_24h >= 0 ? (
+                    <>
+                      <h5
+                        style={{
+                          color: "#00C076",
+                          fontFamily: "Poppins",
+                          fontWeight: "400",
+                          fontSize: "16px",
+                        }}
+                      >
+                        {numberWithCommas(financial(tokenData?.assetPriceUSD))}{" "}
+                        +{financial(tokenData?.change_24h)}%
+                      </h5>
+                    </>
+                  ) : (
+                    <>
+                      <>
+                        <h5
+                          style={{
+                            color: "#f04e4e",
+                            fontFamily: "Poppins",
+                            fontWeight: "400",
+                            fontSize: "16px",
+                          }}
+                        >
+                          {numberWithCommas(
+                            financial(tokenData?.assetPriceUSD)
+                          )}{" "}
+                          {financial(tokenData?.change_24h)}%
+                        </h5>
+                      </>
+                    </>
+                  )}
+                </div>
+                <div>
+                  <p class="marketparatwow">
+                    {" "}
+                    <img src={Images.up} /> High
+                  </p>
                   <h5
                     style={{
-                      color: "#00C076",
+                      fontFamily: "DM Sans",
                       fontFamily: "Poppins",
                       fontWeight: "400",
                       fontSize: "16px",
                     }}
                   >
-                    {numberWithCommas(financial(tokenData?.assetPriceUSD))} +
-                    {financial(tokenData?.change_24h)}%
+                    {tokenData.change_24h_Highest >= 0 ? (
+                      <>
+                        {numberWithCommas(financial(tokenData?.biggestVal))} +
+                        {financial(tokenData?.change_24h_Highest)}%
+                      </>
+                    ) : (
+                      <>
+                        {numberWithCommas(financial(tokenData?.biggestVal))}{" "}
+                        {financial(tokenData?.change_24h_Highest)}%
+                      </>
+                    )}
                   </h5>
-                </>
-              ) : (
-                <>
-                  <>
-                    <h5
-                      style={{
-                        color: "#f04e4e",
-                        fontFamily: "Poppins",
-                        fontWeight: "400",
-                        fontSize: "16px",
-                      }}
-                    >
-                      {numberWithCommas(financial(tokenData?.assetPriceUSD))}{" "}
-                      {financial(tokenData?.change_24h)}%
-                    </h5>
-                  </>
-                </>
-              )}
-            </div>
-            <div class="col-lg-2" style={{ borderRight: "1px solid #E6E8EC" }}>
-              <p class="marketparatwow">
-                {" "}
-                <img src={Images.up} /> 24h high
-              </p>
-              <h5
-                style={{
-                  fontFamily: "DM Sans",
-                  fontFamily: "Poppins",
-                  fontWeight: "400",
-                  fontSize: "16px",
-                }}
-              >
-                {tokenData.change_24h_Highest >= 0 ? (
-                  <>
-                    {numberWithCommas(financial(tokenData?.biggestVal))} +
-                    {financial(tokenData?.change_24h_Highest)}%
-                  </>
-                ) : (
-                  <>
-                    {numberWithCommas(financial(tokenData?.biggestVal))}{" "}
-                    {financial(tokenData?.change_24h_Highest)}%
-                  </>
-                )}
-              </h5>
-            </div>
-            <div class="col-lg-2" style={{ borderRight: "1px solid #E6E8EC" }}>
-              <p class="marketparatwow">
-                {" "}
-                <img src={Images.down} /> 24h low
-              </p>
-              <h5
-                style={{
-                  fontFamily: "DM Sans",
-                  fontFamily: "Poppins",
-                  fontWeight: "400",
-                  fontSize: "16px",
-                }}
-              >
-                {tokenData.change_24h_Lowest >= 0 ? (
-                  <>
-                    {numberWithCommas(financial(tokenData?.smallestVal))} +
-                    {financial(tokenData?.change_24h_Lowest)}%
-                  </>
-                ) : (
-                  <>
-                    {numberWithCommas(financial(tokenData?.smallestVal))}{" "}
-                    {financial(tokenData?.change_24h_Lowest)}%
-                  </>
-                )}{" "}
-              </h5>
-            </div>
-            <div class="col-lg-2">
-              <p class="marketparatwow">
-                {" "}
-                <img src={Images.hourr} /> 24h volume
-              </p>
-              <h5
-                style={{
-                  fontFamily: "DM Sans",
-                  fontFamily: "Poppins",
-                  fontWeight: "400",
-                  fontSize: "16px",
-                }}
-              >
-                {tokenData.change_24h >= 0 ? (
-                  <>
-                    {numberWithCommas(financial(tokenData?.volume24h))} +
-                    {financial(tokenData?.change_24h)}%
-                  </>
-                ) : (
-                  <>
-                    {numberWithCommas(financial(tokenData?.volume24h))}{" "}
-                    {financial(tokenData?.change_24h)}%
-                  </>
-                )}{" "}
-              </h5>
+                </div>
+                <div>
+                  <p class="marketparatwow">
+                    {" "}
+                    <img src={Images.down} /> Low
+                  </p>
+                  <h5
+                    style={{
+                      fontFamily: "DM Sans",
+                      fontFamily: "Poppins",
+                      fontWeight: "400",
+                      fontSize: "16px",
+                    }}
+                  >
+                    {tokenData.change_24h_Lowest >= 0 ? (
+                      <>
+                        {numberWithCommas(financial(tokenData?.smallestVal))} +
+                        {financial(tokenData?.change_24h_Lowest)}%
+                      </>
+                    ) : (
+                      <>
+                        {numberWithCommas(financial(tokenData?.smallestVal))}{" "}
+                        {financial(tokenData?.change_24h_Lowest)}%
+                      </>
+                    )}{" "}
+                  </h5>
+                </div>
+                <div>
+                  <p class="marketparatwow">
+                    {" "}
+                    <img src={Images.hourr} /> Volume
+                  </p>
+                  <h5
+                    style={{
+                      fontFamily: "DM Sans",
+                      fontFamily: "Poppins",
+                      fontWeight: "400",
+                      fontSize: "16px",
+                    }}
+                  >
+                    {tokenData.change_24h >= 0 ? (
+                      <>
+                        {numberWithCommas(financial(tokenData?.volume24h))} +
+                        {financial(tokenData?.change_24h)}%
+                      </>
+                    ) : (
+                      <>
+                        {numberWithCommas(financial(tokenData?.volume24h))}{" "}
+                        {financial(tokenData?.change_24h)}%
+                      </>
+                    )}{" "}
+                  </h5>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
       <section style={{ backgroundColor: "#F1F2F4" }}>
-        <div class="container mt-3">
+        <div style={{ paddingLeft: "0px" }} class="container">
           <div class="row">
-           <div style={{ paddingLeft: "5px" }} class="col-lg-8  mt-1 mb-3">
-              <div class="pl-3 pt-5" style={{ backgroundColor: "#FCFCFD" }}>
-                <div class="d-flex justify-content-between">
-                  <p
-                    style={{
-                      fontSize: "30px",
-                      fontWeight: "bold",
-                      fontFamily: "Poppins",
-                    }}
-                  >
+            <div class="col-lg-8  mt-1 mb-3">
+              <div
+                class="pt-3  pb-4"
+                style={{ backgroundColor: "#FCFCFD", borderRadius: "15px" }}
+              >
+                <div
+                  style={{ borderBottom: "2px solid #e6e8ec" }}
+                  class="d-flex justify-content-between"
+                >
+                  <p className="u-burmarketmainpparagrpahj00">
                     {numberWithCommas(financial(tokenData?.assetPriceUSD))} USD{" "}
                     <span
                       style={{
@@ -586,45 +585,44 @@ const BuyPlatform = () => {
                       +0.92%
                     </span>
                   </p>
-                  <div class="d-flex" style={{ paddingRight: "40px" }}>
-                    <img
-                      style={{ width: "15px", height: "15px" }}
-                      src={Images.clock}
-                    />
-                    <button class="graphbutton">1D</button>
-                    <button class="graphbutton">1W</button>
-                    <button class="graphbutton">1M</button>
-                    <button class="graphbutton">3M</button>
-                    <button class="graphbutton">1Y</button>
-                    <button class="graphbutton">ALL TIME</button>
+                  <div style={{ marginTop: "-10px" }} className="mb-2">
+                    <button className="btn n-secondaryButton ">Graph</button>
+                    <button className=" ml-2 btn n-secondaryButton">
+                      Candles
+                    </button>
+                  </div>
+                  <div
+                    class="d-flex"
+                    style={{ marginTop: "40px", paddingRight: "30px" }}
+                  >
+                    <button class="graphbutton">1h</button>
+                    <button class="graphbutton pl-2">24h</button>
+                    <button class="graphbutton pl-2">1D</button>
+                    <button class="graphbutton pl-2">1M</button>
+                    <button class="graphbutton pl-2">1Y</button>
+                    <button class="graphbutton pl-2">ALL</button>
                   </div>
                 </div>
                 <img
                   class="pt-5 pb-4"
-                  style={{ width: "670px" }}
+                  style={{ width: "700px", paddingLeft: "30px" }}
                   src={Images.linechart}
                 />
-                <div class="d-flex justify-content-between pr-3">
+                <div
+                  style={{ paddingLeft: "90px", paddingRight: "90px" }}
+                  class="d-flex justify-content-between"
+                >
                   <p style={{ fontFamily: "DM Sans", fontWeight: "bold" }}>
-                    09:00
+                    Sept15
                   </p>
                   <p style={{ fontFamily: "DM Sans", fontWeight: "bold" }}>
-                    09:00
+                    Sept15
                   </p>
                   <p style={{ fontFamily: "DM Sans", fontWeight: "bold" }}>
-                    09:00
+                    Sept15
                   </p>
                   <p style={{ fontFamily: "DM Sans", fontWeight: "bold" }}>
-                    09:00
-                  </p>
-                  <p style={{ fontFamily: "DM Sans", fontWeight: "bold" }}>
-                    09:00
-                  </p>
-                  <p style={{ fontFamily: "DM Sans", fontWeight: "bold" }}>
-                    09:00
-                  </p>
-                  <p style={{ fontFamily: "DM Sans", fontWeight: "bold" }}>
-                    09:00
+                    Sept15
                   </p>
                 </div>
                 <hr class="solid" style={{ margin: "0px" }} />
@@ -813,9 +811,13 @@ const BuyPlatform = () => {
             </div>
             <div
               class="col-lg-4 mt-1 mb-3 pt-4 pb-4"
-              style={{ backgroundColor: "#FCFCFD", height: "350px" }}
+              style={{
+                backgroundColor: "#FCFCFD",
+                height: "350px",
+                borderRadius: "15px",
+              }}
             >
-              <button
+              {/* <button
                 class="mt-2"
                 style={{
                   padding: "5px 15px 5px 15px",
@@ -834,8 +836,11 @@ const BuyPlatform = () => {
                 >
                   Market
                 </Link>
-              </button>
-              <div class="d-flex justify-content-between pt-4">
+              </button> */}
+              <div
+                style={{ borderBottom: "2px solid #e6e8ec" }}
+                class="d-flex justify-content-between"
+              >
                 <h2
                   style={{
                     color: "#23262F",
@@ -869,6 +874,25 @@ const BuyPlatform = () => {
               </div>
               <form>
                 <div class="input-group mb-3 mt-3">
+                  <select
+                    style={{
+                      position: "absolute",
+                      zIndex: "999",
+
+                      backgroundColor: "lightgray",
+                      border: "none",
+                      padding: "8px",
+
+                      borderRadius: "10px",
+                      height: "100%",
+                    }}
+                    value={selectedCurr}
+                    onChange={(e) => setSelectedCurr(e.target.value)}
+                  >
+                    <option>BCH</option>
+                    <option>LTC</option>
+                    <option>BTC</option>
+                  </select>
                   <input
                     style={{
                       borderRadius: "10px",
@@ -878,8 +902,10 @@ const BuyPlatform = () => {
                       backgroundColor: "#fcfcfd",
                       fontWeight: "bold",
                       fontFamily: "Poppins",
+                      paddingLeft: "20%",
                     }}
                     type="text"
+                    min={0}
                     value={fromAmount}
                     onChange={fromAmountHandler}
                     class="form-control pt-4 pb-4"
@@ -903,7 +929,8 @@ const BuyPlatform = () => {
                     class="btn"
                     type="button"
                   >
-                    USDT
+                    {selectedCurr}
+                    {/* USDT */}
                   </button>
                   {/* </div> */}
                 </div>

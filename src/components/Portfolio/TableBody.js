@@ -26,7 +26,10 @@ const TableBody = ({
 
   return (
     <>
-      <tr>
+      <tr
+
+      // style={{ borderBottom: "1px solid #E6E8EC" }}
+      >
         <td>
           <div
             class="d-flex"
@@ -35,27 +38,9 @@ const TableBody = ({
           >
             <img src={d.image} style={{ width: "32px", height: "32px" }} />
             <div class="pl-3">
-              <div
-                style={{
-                  fontWeight: "600",
-                  fontSize: "14px",
-                  fontFamily: "Poppins",
-                  color: "#23262f",
-                }}
-              >
-                {d.Pool}
-              </div>
+              <div>{d.Pool}</div>
               <div class="d-flex align-items-center">
-                <div
-                  class=" text-muted"
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: "600",
-                    fontFamily: "Poppins",
-                  }}
-                >
-                  {d.FullName}
-                </div>
+                <div class=" text-muted">{d.FullName}</div>
               </div>
             </div>
           </div>
@@ -67,20 +52,20 @@ const TableBody = ({
           ) : null}
         </td>
 
-        <td style={{ cursor: "pointer" }} onClick={handlePopUpModal}>
-          <div class="d-flex flex-column">
-            <div>
-              <span className="depositclasss">{d.Yield_Rate}% APR</span>
-            </div>
-          </div>
+        <td
+          className="text-right"
+          style={{ cursor: "pointer" }}
+          onClick={handlePopUpModal}
+        >
+          <span className="depositclasss">{d.Yield_Rate}% APR</span>
         </td>
-        <td style={{ cursor: "pointer" }} onClick={handlePopUpModal}>
+        <td
+          className="text-right"
+          style={{ cursor: "pointer" }}
+          onClick={handlePopUpModal}
+        >
           <div
             style={{
-              fontWeight: "600",
-              fontSize: "14px",
-              fontFamily: "Poppins",
-              color: "#23262f",
               textAlign: "end",
             }}
           >
@@ -90,9 +75,6 @@ const TableBody = ({
             <div
               class=" text-muted "
               style={{
-                color: "#777E90",
-                fontFamily: "Poppins",
-                fontSize: "14px",
                 textAlign: "end",
               }}
             >
@@ -100,13 +82,13 @@ const TableBody = ({
             </div>
           </div>
         </td>
-        <td style={{ cursor: "pointer" }} onClick={handlePopUpModal}>
+        <td
+          className="text-right"
+          style={{ cursor: "pointer" }}
+          onClick={handlePopUpModal}
+        >
           <div
             style={{
-              fontWeight: "600",
-              fontSize: "14px",
-              fontFamily: "Poppins",
-              color: "#23262f",
               textAlign: "end",
             }}
           >
@@ -116,9 +98,6 @@ const TableBody = ({
             <div
               class=" text-muted "
               style={{
-                color: "#777E90",
-                fontFamily: "Poppins",
-                fontSize: "14px",
                 textAlign: "end",
               }}
             >
@@ -126,14 +105,14 @@ const TableBody = ({
             </div>
           </div>
         </td>
-        <td style={{ cursor: "pointer" }} onClick={handlePopUpModal}>
+        <td
+          className="text-right"
+          style={{ cursor: "pointer" }}
+          onClick={handlePopUpModal}
+        >
           <div
             class="d-flex justify-content-end"
             style={{
-              fontWeight: "600",
-              fontSize: "14px",
-              fontFamily: "Poppins",
-              color: "#23262f",
               textAlign: "end",
             }}
           >
@@ -143,9 +122,6 @@ const TableBody = ({
             <div
               class=" text-muted"
               style={{
-                color: "#777E90",
-                fontFamily: "Poppins",
-                fontSize: "14px",
                 textAlign: "end",
               }}
             >

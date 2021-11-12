@@ -1,7 +1,7 @@
 import React from "react";
 import ReactLoading from "react-loading";
 
-const Loader = () => {
+const Loader = ({ height, width }) => {
   return (
     <div>
       <div className="max-w-xs mx-auto ">
@@ -10,8 +10,8 @@ const Loader = () => {
             className="text-center"
             type={"bubbles"}
             color={"grey"}
-            height={"30%"}
-            width={"30%"}
+            height={height}
+            width={width}
           />
         </div>
       </div>

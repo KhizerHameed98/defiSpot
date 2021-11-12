@@ -1,6 +1,7 @@
 import "./assets/css/style.css";
 import "./assets/css/style2.css";
 import "./assets/css/style3.css";
+import "./assets/css/responsive.css";
 import "./index.css";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -18,7 +19,7 @@ import LiquidityProvider from "./components/Portfolio/LiquidityProvider";
 import EarnYield from "./components/EarnYield/EarnYield";
 import Main from "./components/Portfolio/Main";
 import Learn from "./components/Learn/Learn";
-
+import IntroToLp from "./components/Learn/IntroToLp";
 function App() {
   return (
     <div>
@@ -37,7 +38,11 @@ function App() {
             component={EarnYield}
           />
           <PrivateRoute exact path={browserRoute.LEARN} component={Learn} />
-
+          <PrivateRoute
+            exact
+            path={browserRoute.INTRO_TO_LP}
+            component={IntroToLp}
+          />
           <PrivatePortfolioRoute
             exact
             path={browserRoute.PORTFOLIO_ASSETS}

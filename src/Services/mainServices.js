@@ -15,6 +15,8 @@ import {
   METAMASK,
   KEYSTORE,
   LOGOUT,
+  LOGIN,
+  MAINMODAL,
 } from "../Redux/actions/types";
 import { mainRoute } from "../Routes/serverRoutes";
 import { toast } from "react-toastify";
@@ -88,6 +90,25 @@ const downloadTextFile = (key) => {
   document.body.appendChild(element);
   element.click();
 };
+
+//For mainModal
+export const handleMainModal = (val) => async (dispatch) => {
+  dispatch({
+    type: MAINMODAL,
+    payload: {
+      mainModal: val,
+    },
+  });
+};
+
+//logout
+export const handleLogout = () => async (dispatch) => {
+  dispatch({
+    type: LOGOUT,
+  });
+  alertToast(true, "Wallet Disconnected");
+};
+
 //Create KeyStore
 export const createKeyStore =
   (password, setCreateKeyStoreModal) => async (dispatch) => {
@@ -159,8 +180,11 @@ export const MetaMaskConnection = (setMainModel) => async (dispatch) => {
       localStorage.clear();
       dispatch({ type: LOGOUT });
       localStorage.setItem("walletAccount", account);
-      localStorage.setItem("isLoggedin", true);
-      localStorage.setItem(TYPE, METAMASK);
+      // localStorage.setItem("isLoggedin", true);
+
+      dispatch({ type: LOGIN });
+
+      // localStorage.setItem(TYPE, METAMASK);
       setMainModel(false);
       alertToast(false, "MetaMask Connected Successfully!");
     } catch (error) {
@@ -173,7 +197,7 @@ export const connectKeyStore =
   (password, fileKeyStore, setConnectKeyStoreModal, setLoading) =>
   async (dispatch) => {
     try {
-      localStorage.clear();
+      // localStorage.clear();
       dispatch({ type: LOGOUT });
       setLoading(true);
       const handleFileRead = async () => {
@@ -342,26 +366,26 @@ export const connectKeyStore =
         clients.Transactions = transationResultOfLTC;
         mainClients.push({ ...clients });
 
-        //BCH Client is setup here
-        const userbchClient = new bitcoinCashClient({ network, phrase: res });
+        // //BCH Client is setup here
+        // const userbchClient = new bitcoinCashClient({ network, phrase: res });
 
-        //BCH Client Address generation is done here
-        let addressBCH = userbchClient.getAddress();
+        // //BCH Client Address generation is done here
+        // let addressBCH = userbchClient.getAddress();
 
-        console.log("User BCH Client: ---------------> ", addressBCH);
-        //BCH Client Balance getting is done here
-        const balanceBCH = await userbchClient.getBalance(addressBCH);
-        console.log("LTC Client Balance: ---------------> ", balanceBCH);
+        // console.log("User BCH Client: ---------------> ", addressBCH);
+        // //BCH Client Balance getting is done here
+        // const balanceBCH = await userbchClient.getBalance(addressBCH);
+        // console.log("LTC Client Balance: ---------------> ", balanceBCH);
 
-        //Transaction History of BCH Client getting here
-        const transationResultOfBCH = await userbchClient.getTransactions({
-          address: addressBCH,
-        });
-        console.log("Transaction Data of LTC CLient", transationResultOfBCH);
-        clients.Address = addressBCH;
-        clients.Balance = balanceBCH;
-        clients.Transactions = transationResultOfBCH;
-        mainClients.push({ ...clients });
+        // //Transaction History of BCH Client getting here
+        // const transationResultOfBCH = await userbchClient.getTransactions({
+        //   address: addressBCH,
+        // });
+        // console.log("Transaction Data of LTC CLient", transationResultOfBCH);
+        // clients.Address = addressBCH;
+        // clients.Balance = balanceBCH;
+        // clients.Transactions = transationResultOfBCH;
+        // mainClients.push({ ...clients });
         mainClients.map((d, key) => {
           d.Transactions.txs.map((t, key) => {
             let res =
@@ -371,20 +395,21 @@ export const connectKeyStore =
           });
         });
         console.log("Clients===>>>", clients);
-        localStorage.setItem("isLoggedin", true);
-        localStorage.setItem(TYPE, KEYSTORE);
+        // localStorage.setItem("isLoggedin", true);
+        // localStorage.setItem(TYPE, KEYSTORE);
         const EncryptedClients = await serverEncryption(
           // JSON.stringify(clients, getCircularReplacer())
           JSON.stringify(res)
         );
         console.log("Check====>>>", EncryptedClients);
-        localStorage.setItem("phrase", EncryptedClients);
+        // localStorage.setItem("phrase", EncryptedClients);
         // let clientsDescryption = await serverDecryption(clientsEncryption);
         // console.log("Check6====>>>", JSON.parse(clientsDescryption));
 
         let concatAssetName = "";
         let totalAmountInBTC = 0;
         let totalAmountInUSD = 0;
+        let transactionHistory = [];
         mainClients.map((d, mainKey) => {
           d.Balance.map((t, key) => {
             let asset = t?.asset?.ticker?.split("/");
@@ -398,6 +423,7 @@ export const connectKeyStore =
             // console.log("TICKER", asset, t.amount.amount());
           });
           d.Transactions.txs.map((t, key) => {
+            transactionHistory.push(t);
             let res =
               Number(t?.to[0]?.amount?.amount()?.c[0]) /
               Math.pow(10, Number(t?.to[0]?.amount?.decimal));
@@ -453,6 +479,8 @@ export const connectKeyStore =
             KeyStoreClient: mainClients,
             overallBalance_USD: totalAmountInUSD,
             overallBalance_BTC: totalAmountInBTC,
+            transactionHistory: transactionHistory,
+            isLoggedin: true,
           },
         });
         setLoading(false);
@@ -670,6 +698,8 @@ export const GetKeyStore_TransactionHistory = () => async (dispatch) => {
     let concatAssetName = "";
     let totalAmountInBTC = 0;
     let totalAmountInUSD = 0;
+    let transactionHistory = [];
+
     mainClients.map((d, mainKey) => {
       d.Balance.map((t, key) => {
         let asset = t?.asset?.ticker?.split("/");
@@ -683,6 +713,8 @@ export const GetKeyStore_TransactionHistory = () => async (dispatch) => {
         // console.log("TICKER", asset, t.amount.amount());
       });
       d.Transactions.txs.map((t, key) => {
+        transactionHistory.push(t);
+
         let res =
           Number(t?.to[0]?.amount?.amount()?.c[0]) /
           Math.pow(10, Number(t?.to[0]?.amount?.decimal));
@@ -690,16 +722,23 @@ export const GetKeyStore_TransactionHistory = () => async (dispatch) => {
       });
     });
 
-    let apiDataBTC = await axios.get(
-      `https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=${concatAssetName}`
-    );
-    let apiDataUSD = await axios.get(
-      `https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=${concatAssetName}`
-    );
+    let apiDataBTC = await axios
+      .get(
+        `https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=${concatAssetName}`
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+    let apiDataUSD = await axios
+      .get(
+        `https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=${concatAssetName}`
+      )
+      .catch((err) => {
+        console.log(err);
+      });
 
     let dataBTC = apiDataBTC.data;
     let dataUSD = apiDataUSD.data;
-    console.log("DATA IN USD==========>>", dataUSD);
     mainClients.map((d, mainKey) => {
       d.Balance.map((t, key) => {
         let asset = t?.asset?.ticker?.split("/");
@@ -730,13 +769,14 @@ export const GetKeyStore_TransactionHistory = () => async (dispatch) => {
     console.log("TOTAL AMOUNTUSD======>>>", totalAmountInUSD);
 
     console.log("mainClients======>>>", mainClients);
-    alertToast(false, "KeyStore Connected Successfully!");
     dispatch({
       type: KEYSTORECONNECTION_SUCCESS,
       payload: {
         KeyStoreClient: mainClients,
         overallBalance_USD: totalAmountInUSD,
         overallBalance_BTC: totalAmountInBTC,
+        transactionHistory: transactionHistory,
+        isLoggedin: true,
       },
     });
   } catch (error) {
@@ -745,56 +785,6 @@ export const GetKeyStore_TransactionHistory = () => async (dispatch) => {
 };
 //BNB-BUSD
 
-// export const MidgardPool_Action = () => async (dispatch) => {
-//   try {
-//     dispatch({
-//       type: MIDGARDPOOL_REQUESTING,
-//     });
-
-//     let res = await axios.get(mainRoute.MIDGARD_POOL);
-//     let marketCap = await axios.get(mainRoute.MarketCap);
-//     marketCap = marketCap.data;
-//     console.log("data=============", res.data);
-//     let data = res.data;
-
-//     for (let i = 0; i < data.length; i++) {
-//       let v = data[i].asset.split("-");
-//       data[i].asset = v[0];
-
-//       let s = data[i].asset.split(".");
-//       data[i].blockchain = s[0];
-//       data[i].asset = s[1];
-//       data[i].address = v[1];
-//       data[i].assetFullName = TokenName[data[i].asset].name;
-//       let marketData = marketCap.find((d) => d.symbol === data[i].asset);
-//       data[i].coinMarketCap = marketData;
-//       // data[i].change_24h = marketData.quote.USD.percent_change_24h;
-//       // data[i].change_7d = marketData.quote.USD.percent_change_7d;
-//       data[i].marketCap = marketData.quote.USD.market_cap;
-//       data[i].circulating_supply = marketData.circulating_supply;
-//       data[i].total_supply = marketData.total_supply;
-//     }
-
-//     data = data.sort((a, b) => b.assetPrice - a.assetPrice);
-
-//     dispatch({
-//       type: MIDGARDPOOL_SUCCESS,
-//       payload: { midgardPool: data },
-//     });
-
-//     alertToast(false, "Successfull");
-//     // setLoading(false);
-//   } catch (err) {
-//     // setLoading(false);
-//     console.log(err);
-//     dispatch({
-//       type: MIDGARDPOOL_FAIL,
-//     });
-//     const errorMsg = err?.response?.data?.msg || err.message;
-
-//     alertToast(true, errorMsg);
-//   }
-// };
 export const MidgardPool_Action = () => async (dispatch) => {
   dispatch({
     type: MIDGARDPOOL_REQUESTING,
@@ -862,7 +852,7 @@ export const MidgardPool_Action = () => async (dispatch) => {
       payload: { midgardPool: data },
     });
 
-    alertToast(false, "Successfull");
+    // alertToast(false, "Successfull");
   });
 
   // setLoading(false);

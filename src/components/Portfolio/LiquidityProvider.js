@@ -15,9 +15,9 @@ const LiquidityProvider = () => {
   const [closeAll, setCloseAll] = useState(false);
   const [overallBalance_BTC, setOverallBalance_BTC] = useState(0);
   const [overallBalance_USD, setOverallBalance_USD] = useState(0);
-
+  const [searchInput, setSearchInput] = useState("");
   function financial(x) {
-    return Number.parseFloat(x).toFixed(4);
+    return Number.parseFloat(x).toFixed(2);
   }
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -26,32 +26,30 @@ const LiquidityProvider = () => {
     setOverallBalance_BTC(mainInstance.overallBalance_BTC);
     setOverallBalance_USD(mainInstance.overallBalance_USD);
   }, [mainInstance.KeyStoreClient, mainInstance]);
+
+  const searchInputHandler = (e) => {
+    setSearchInput(e.target.value);
+    if (!e.target.value) {
+      setTableData(data);
+    } else {
+      let res = data?.filter(
+        (value) =>
+          value.Pool.toLocaleLowerCase().includes(
+            e.target.value.toLocaleLowerCase()
+          ) && value
+      );
+      setTableData(res);
+    }
+  };
+
   return (
-    <div class="col-lg-7 marginleftcol mt-2">
-      <div class="sidebarcoleight pt-3">
-        <h4 style={{ fontFamily: "DM Sans", fontWeight: "bold" }}>
-          Liquidity providing{" "}
-        </h4>
-        <div class="d-flex justify-content-between pt-3">
+    <div class="col-lg-10 pl-0" style={{ paddingRight: "8px" }}>
+      <div class="w-sidebarcoleight">
+        <h4 className="u-overview09888">Liquidity providing </h4>
+        <div class="d-flex justify-content-between flex-column flex-sm-row">
           <div>
-            <p
-              style={{
-                margin: "0px",
-                fontFamily: "Poppins",
-                paddingBottom: "4px",
-                color: "#353945",
-              }}
-            >
-              Total balance in pools
-            </p>
-            <p
-              style={{
-                fontWeight: "bold",
-                margin: "0px",
-                fontFamily: "Poppins",
-                fontSize: "24px",
-              }}
-            >
+            <p className="w-over-text">Total balance in pools</p>
+            <p className="u-mainclassliquidity6788">
               {overallBalance_USD ? <>{financial(overallBalance_BTC)}</> : 0}
               <span
                 style={{
@@ -60,8 +58,8 @@ const LiquidityProvider = () => {
                   padding: "5px",
                   fontFamily: "Poppins",
                   color: "#fff",
-                  position:"relative",
-                  top:"-4px",
+                  position: "relative",
+                  top: "-4px",
                   paddingLeft: "10px",
                   fontWeight: "700",
                   marginLeft: "8px",
@@ -72,7 +70,14 @@ const LiquidityProvider = () => {
                 BTC
               </span>
             </p>
-            <p style={{ fontFamily: "Poppins", color: "#777e90" }}>
+            <p
+              style={{
+                fontFamily: "Poppins",
+                color: "#777e90",
+                lineHeight: "32px",
+                marginBottom: "0px",
+              }}
+            >
               $
               {overallBalance_USD ? (
                 <>{numberWithCommas(financial(overallBalance_USD))}</>
@@ -89,24 +94,17 @@ const LiquidityProvider = () => {
               <p
                 style={{
                   margin: "0px",
-                  fontFamily: "Poppins",
                   fontSize: "14px",
+                  fontFamily: "Poppins",
+                  fontWeight: "500",
                   color: "#353945",
-                  fontWeight: "400",
+                  lineHeight: "24px",
                   paddingBottom: "4px",
                 }}
               >
                 APY percentage
               </p>
-              <p
-                style={{
-                  fontWeight: "bold",
-                  margin: "0px",
-                  color: "#545454",
-                  fontFamily: "Poppins",
-                  fontSize: "24px",
-                }}
-              >
+              <p className="u-mainclassliquidity6788">
                 11%{" "}
                 <span
                   style={{
@@ -115,8 +113,8 @@ const LiquidityProvider = () => {
                     padding: "5px",
                     fontFamily: "Poppins",
                     color: "#fff",
-                    position:"relative",
-                    top:"-4px",
+                    position: "relative",
+                    top: "-4px",
                     paddingLeft: "10px",
                     fontWeight: "700",
                     marginLeft: "8px",
@@ -129,26 +127,21 @@ const LiquidityProvider = () => {
               </p>
             </div>
           </div>
-          <div class="pr-5">
+          <div class="">
             <p
               style={{
                 margin: "0px",
+                fontSize: "16px",
                 fontFamily: "Poppins",
+                fontWeight: "400",
+                color: "#777E90",
+                lineHeight: "24px",
                 paddingBottom: "4px",
-                fontSize: "14px",
-                color: "#777e90",
               }}
             >
               Current estimated APY
             </p>
-            <p
-              style={{
-                fontWeight: "bold",
-                margin: "0px",
-                fontFamily: "Poppins",
-                fontSize: "24px",
-              }}
-            >
+            <p className="u-mainclassliquidity6788">
               0.82047819{" "}
               <span
                 style={{
@@ -157,8 +150,8 @@ const LiquidityProvider = () => {
                   padding: "5px",
                   fontFamily: "Poppins",
                   color: "#fff",
-                  position:"relative",
-                  top:"-4px",
+                  position: "relative",
+                  top: "-4px",
                   paddingLeft: "10px",
                   fontWeight: "700",
                   marginLeft: "8px",
@@ -172,18 +165,8 @@ const LiquidityProvider = () => {
           </div>
         </div>
       </div>
-      <p
-        class="pt-3 pl-3"
-        style={{
-          color: "#777E90",
-          fontWeight: "400",
-          fontFamily: "Poppins",
-          fontSize: "12px",
-        }}
-      >
-        Funds
-      </p>
-      <div class="sidebarcoleight pt-3">
+      <p className="w-over-center-heading">Funds</p>
+      <div class="w-sidebarcoleight">
         <div class="d-flex justify-content-between">
           <div className="pr-5">
             <div class=" d-flex form-group has-search">
@@ -191,10 +174,12 @@ const LiquidityProvider = () => {
                 style={{
                   borderRadius: "25px",
                   width: "250px",
-                  paddingTop: "20px",
-                  paddingBottom: "20px",
+                  paddingTop: "15px",
+                  paddingBottom: "15px",
                   fontFamily: "DM Sans",
                 }}
+                value={searchInput}
+                onChange={searchInputHandler}
                 type="text"
                 class="form-control"
                 placeholder="Search pool"
@@ -204,8 +189,8 @@ const LiquidityProvider = () => {
                 style={{
                   width: "20px",
                   height: "20px",
-                  marginLeft: "-35px",
-                  marginTop: "12px",
+                  marginLeft: "-32px",
+                  marginTop: "10px",
                 }}
                 src={Images.searchicon}
               />
@@ -218,7 +203,7 @@ const LiquidityProvider = () => {
             placeholder="Search"
             aria-label="Search"
           /> */}
-          <p class="pr-5" style={{ color: "#777E90" }}>
+          <p class="" style={{ color: "#777E90" }}>
             <Link
               to={browserRoute.PORTFOLIO_ACTIVITY}
               style={{
@@ -237,70 +222,23 @@ const LiquidityProvider = () => {
             </Link>
           </p>
         </div>
-        <div id="starred" class="bg-white px-2  mt-3 pb-5">
-          <div class="table-responsive">
+        <div id="starred" class="mr-3 mt-3 pb-5">
+          <div class="table-responsive w-comon-table-style">
             <table class="table">
               <thead>
-                <tr>
-                  <th
-                    style={{
-                      color: "#353945",
-                      fontSize: "14px",
-                      fontFamily: "Poppins",
-                      borderTop: "none",
-                      borderBottom: "none",
-                    }}
-                    scope="col"
-                  >
-                    Pools
-                  </th>
-                  <th
-                    style={{
-                      color: "#353945",
-                      fontSize: "14px",
-                      fontFamily: "Poppins",
-                      borderTop: "none",
-                      borderBottom: "none",
-                    }}
-                    scope="col"
-                  >
+                <tr style={{ borderBottom: "1.5px solid #E6E8EC" }}>
+                  <th scope="col">Pools</th>
+                  <th className="text-right" scope="col">
                     Yield rate
                   </th>
-                  <th
-                    style={{
-                      color: "#353945",
-                      fontSize: "14px",
-                      fontFamily: "Poppins",
-                      borderTop: "none",
-                      borderBottom: "none",
-                      textAlign: "end",
-                    }}
-                    scope="col"
-                  >
+                  <th className="text-right" scope="col">
                     Total balance
                   </th>
-                  <th
-                    style={{
-                      color: "#353945",
-                      fontSize: "14px",
-                      fontFamily: "Poppins",
-                      borderTop: "none",
-                      borderBottom: "none",
-                      textAlign: "end",
-                    }}
-                    scope="col"
-                  >
+                  <th className="text-right" scope="col">
                     Available balance
                   </th>
                   <th
-                    style={{
-                      color: "#353945",
-                      fontSize: "14px",
-                      fontFamily: "Poppins",
-                      borderTop: "none",
-                      borderBottom: "none",
-                      textAlign: "end",
-                    }}
+                    className="text-right"
                     scope="col"
                     class="d-flex justify-content-end"
                   >

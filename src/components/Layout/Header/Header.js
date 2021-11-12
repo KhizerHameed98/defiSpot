@@ -10,14 +10,18 @@ import ledger from "../../../assets/images/ledger.png";
 import browserRoute from "../../../Routes/browserRoutes";
 import { Link } from "react-router-dom";
 import { Modal } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Images from "./../../Helper/AllImages";
 import Darkmode from "darkmode-js";
+
+import { LOGOUT } from "../../../Redux/actions/types";
 
 import {
   createKeyStore,
   connectKeyStore,
   MetaMaskConnection,
+  handleMainModal,
+  handleLogout,
 } from "../../../Services/mainServices";
 export const Header = () => {
   const options = {
@@ -36,14 +40,16 @@ export const Header = () => {
   const [loading, setLoading] = useState(false);
   const [createKeyStoreModal, setCreateKeyStoreModal] = useState(false);
   const [connectKeyStoreModal, setConnectKeyStoreModal] = useState(false);
-  const [mainModal, setMainModel] = useState(false);
+  // const [mainModal, setMainModel] = useState(false);
   const [selectionModal, setSelectionModal] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [response, setResponse] = React.useState("");
   const [fileKeyStore, setFileKeyStore] = useState("");
   const [keyStoreObject, setKeyStoreObject] = useState({});
+  const [selectedLang, setSelectedLang] = useState("ENG");
   const [connectKeyStore_password, setConnectKeyStore_password] = useState("");
+  const [title, setTitle] = useState("");
   // Crypto Constants for xchain
   const cipher = "aes-128-ctr";
   const kdf = "pbkdf2";
@@ -56,6 +62,21 @@ export const Header = () => {
   let fileReader;
   const disptach = useDispatch();
 
+  const mainModal = useSelector((state) => state.main.mainModal);
+  const loggedIn = useSelector((state) => state.main.isLoggedin);
+
+  // console.log(loggedIn);
+  useEffect(() => {
+    if (loggedIn) {
+      setTitle("Disconnect");
+    } else {
+      setTitle("Connect");
+    }
+  }, [loggedIn]);
+
+  const setMainModel = async (val) => {
+    disptach(handleMainModal(val));
+  };
   const submitKeyStore = async () => {
     disptach(createKeyStore(password, setCreateKeyStoreModal));
   };
@@ -72,6 +93,52 @@ export const Header = () => {
   };
   const connectMetaMask = async () => {
     disptach(MetaMaskConnection(setMainModel));
+  };
+
+  const handleLanguageChange = (event) => {
+    console.log(event.target.value);
+    // const option = document.getElementsByClassName("option");
+    // console.log("options=======", option);
+    setSelectedLang(event.target.value);
+  };
+  const handleOnClick = (event) => {
+    console.log(event.target.value);
+    const option = document.getElementsByClassName("option");
+    for (let i = 0; i < option.length; i++) {
+      console.log("options=======", option[i].innerHTML);
+      // if(option[i])
+      if (option[i].innerHTML === "ENG") {
+        option[i].innerHTML = "English";
+      }
+      if (option[i].innerHTML === "RU") {
+        option[i].innerHTML = "Russian";
+      }
+      if (option[i].innerHTML === "VIE") {
+        option[i].innerHTML = "Vietnamese";
+      }
+    }
+    // setSelectedLang(event.target.value);
+  };
+
+  const handleAbort = () => {
+    const option = document.getElementsByClassName("option");
+    for (let i = 0; i < option.length; i++) {
+      console.log("options=======", option[i].innerHTML);
+      // if(option[i])
+      if (option[i].innerHTML === "English") {
+        option[i].innerHTML = "ENG";
+      }
+      if (option[i].innerHTML === "Russian") {
+        option[i].innerHTML = "RU";
+      }
+      if (option[i].innerHTML === "Vietnamese") {
+        option[i].innerHTML = "VIE";
+      }
+    }
+  };
+
+  const handleDisconnect = () => {
+    disptach(handleLogout());
   };
 
   return (
@@ -93,80 +160,82 @@ export const Header = () => {
             role="dialog"
             aria-labelledby="exampleModalLabel"
           >
-            <div class="">
-              <div>
-                <div class="modal-header">
-                  <button
-                    type="button"
-                    class="close"
-                    aria-label="Close"
-                    onClick={() => {
-                      setCreateKeyStoreModal(false);
-                    }}
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <div class="d-flex justify-content-center  mb-3">
-                    <h3 style={{ fontFamily: "sans-serif" }}>
-                      CREATE KEYSTORE
-                    </h3>
+            <div>
+              <div class="modal-body u-modalkeystore0999990">
+                <div class="d-flex justify-content-between">
+                  <div class="d-flex">
+                    <img
+                      class=""
+                      style={{
+                        height: "10px",
+                        marginTop: "15px",
+                        paddingRight: "12px",
+                      }}
+                      src={Images.lefttwoline}
+                    />
+                    <p class="yahparagraph">Create Keystore</p>
                   </div>
-                  <div>
-                    <div class="form-group">
-                      <label for="pwd">Input Password:</label>
-                      <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => {
-                          setPassword(e.target.value);
-                        }}
-                        placeholder="Password"
-                        class="form-control"
-                      />
-                    </div>
-                    <div class="form-group">
-                      {/* <label for="pwd">Confirm Password:</label>
-                      <input
-                        type="password"
-                        value={confirmPassword}
-                        onChange={(e) => {
-                          setConfirmPassword(e.target.value);
-                        }}
-                        placeholder="Confirm Password"
-                        class="form-control"
-                        id="pwd"
-                        name="password"
-                      /> */}
-                      {/*file Input*/}
-                      {/* <input
-                        type="file"
-                        className="mt-3"
-                        onChange={(e) => {
-                          setFileKeyStore(e.target.files[0]);
-                        }}
-                      /> */}
-                    </div>
-                    <div class="d-flex justify-content-center">
-                      <button
-                        className="btn btn-primary"
-                        onClick={submitKeyStore}
-                      >
-                        Create
-                      </button>
-                      {/* <button
-                        className="btn btn-primary ml-3"
-                        onClick={decryptKeyStore}
-                      >
-                        Connect
-                      </button> */}
 
-                      {/* <button type="submit" class="btn btn-primary ml-2">
+                  <div>
+                    <img
+                      className="popupcrosss"
+                      onClick={() => {
+                        setConnectKeyStoreModal(false);
+                      }}
+                      src={Images.crossicon}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <div
+                    style={{ marginTop: "32px", fontFamily: "Poppins" }}
+                    class="form-group"
+                  >
+                    <label for="pwd">Input Password</label>
+                    <input
+                      style={{ borderRadius: "20px" }}
+                      type="password"
+                      value={password}
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                      }}
+                      placeholder="Enter Password"
+                      class="form-control"
+                    />
+                  </div>
+                  <div
+                    style={{ marginTop: "32px", fontFamily: "Poppins" }}
+                    class="form-group"
+                  >
+                    <label for="pwd">Confirm Password</label>
+                    <input
+                      style={{ borderRadius: "20px" }}
+                      type="password"
+                      value={password}
+                      placeholder="Confirm Password"
+                      class="form-control"
+                    />
+                  </div>
+                  <div
+                    style={{ marginTop: "32px", display: "grid" }}
+                    className="display-grid justify-content"
+                  >
+                    <button
+                      className="btn btn n-primaryButton"
+                      onClick={submitKeyStore}
+                    >
+                      Create
+                    </button>
+                    <button
+                      className="btn btn n-secondaryButton mt-3"
+                      onClick={connectKeyStore}
+                    >
+                      Connect Wallet
+                    </button>
+                  </div>
+                  {/* <button type="submit" class="btn btn-primary ml-2">
                         Connect Wallet
                       </button> */}
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -185,7 +254,7 @@ export const Header = () => {
         // backdrop="static"
         keyboard={false}
       >
-        <Modal.Body>
+        <>
           {/* <!-- Modal --> */}
           <div
             id="exampleModal"
@@ -195,28 +264,52 @@ export const Header = () => {
           >
             <div class="">
               <div>
-                <div class="modal-header">
-                  <button
-                    type="button"
-                    class="close"
-                    aria-label="Close"
-                    onClick={() => {
-                      setConnectKeyStoreModal(false);
-                    }}
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <div class="d-flex justify-content-center  mb-3">
-                    <h3 style={{ fontFamily: "sans-serif" }}>
-                      CONNECT KEYSTORE
-                    </h3>
+                <div class="modal-body u-modalkeystore0999990">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex">
+                      <img
+                        class=""
+                        style={{
+                          height: "10px",
+                          marginTop: "15px",
+                          paddingRight: "12px",
+                        }}
+                        src={Images.lefttwoline}
+                      />
+                      <p class="yahparagraph">Connect Keystore</p>
+                    </div>
+                    <div>
+                      <img
+                        className="popupcrosss"
+                        onClick={() => {
+                          setConnectKeyStoreModal(false);
+                        }}
+                        src={Images.crossicon}
+                      />
+                    </div>
                   </div>
                   <div>
-                    <div class="form-group">
-                      <label for="pwd">Input Password:</label>
+                    <div
+                      style={{ marginTop: "32px", fontFamily: "Poppins" }}
+                      class="form-group"
+                    >
+                      {/*file Input*/}
+                      <label for="file">Please Select Keystore File</label>
                       <input
+                        type="file"
+                        placeholder="choose filesss"
+                        onChange={(e) => {
+                          setFileKeyStore(e.target.files[0]);
+                        }}
+                      />
+                    </div>
+                    <div
+                      style={{ marginTop: "32px", fontFamily: "Poppins" }}
+                      class="form-group"
+                    >
+                      <label for="pwd">Decryption password</label>
+                      <input
+                        style={{ borderRadius: "20px" }}
                         type="password"
                         value={connectKeyStore_password}
                         onChange={(e) => {
@@ -226,19 +319,13 @@ export const Header = () => {
                         class="form-control"
                       />
                     </div>
-                    <div class="form-group">
-                      {/*file Input*/}
-                      <input
-                        type="file"
-                        className="mt-3"
-                        onChange={(e) => {
-                          setFileKeyStore(e.target.files[0]);
-                        }}
-                      />
-                    </div>
-                    <div class="d-flex justify-content-center">
+                    <div
+                      style={{ marginTop: "32px" }}
+                      class="d-flex justify-content"
+                    >
                       <button
-                        className="btn btn-primary ml-3"
+                        style={{ width: "100%" }}
+                        className="btn btn n-primaryButton"
                         onClick={connectKeyStoreFunction}
                       >
                         Connect
@@ -261,7 +348,7 @@ export const Header = () => {
             </div>
           </div>
           {/* <!-- modal end --> */}
-        </Modal.Body>
+        </>
       </Modal>
       {/* <!-- Connect KeyStore Modal END  --> */}
 
@@ -533,40 +620,37 @@ export const Header = () => {
             role="dialog"
             aria-labelledby="exampleModalLabel"
             aria-hidden="true"
-            style={{
-              paddingLeft: "20px",
-              paddingRight: "20px",
-              paddingBottom: "20px",
-            }}
           >
             <div role="document">
               <div class="">
-                <div class="modal-header" style={{ border: "none" }}>
-                  <h5
-                    class="modal-title"
-                    id="exampleModalLabel"
-                    style={{
-                      color: "#23262F",
-                      fontFamily: "sans-serif",
-                      fontWeight: "bold",
-                      fontSize: "30px",
-                    }}
-                  >
-                    Select
-                  </h5>
-                  <button
-                    type="button"
-                    class="close"
-                    aria-label="Close"
-                    onClick={() => {
-                      setSelectionModal(false);
-                    }}
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
                 <div class="modal-body">
-                  <div class="d-flex justify-content-center modalparagraph mb-3">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex">
+                      <img
+                        class=""
+                        style={{
+                          height: "10px",
+                          marginTop: "15px",
+                          paddingRight: "12px",
+                        }}
+                        src={Images.lefttwoline}
+                      />
+                      <p class="yahparagraph">Select</p>
+                    </div>
+                    <div>
+                      <img
+                        className="popupcrosss"
+                        onClick={() => {
+                          setConnectKeyStoreModal(false);
+                        }}
+                        src={Images.crossicon}
+                      />
+                    </div>
+                  </div>
+                  <div
+                    style={{ marginTop: "32px" }}
+                    class="d-flex justify-content"
+                  >
                     <p style={{ color: "#777E90", fontWeight: "600" }}>
                       Please choose one of the listed.
                     </p>
@@ -575,7 +659,9 @@ export const Header = () => {
                     style={{
                       fontSize: "16px",
                       color: "#B1B5C3",
-                      fontFamily: "Sans-sarif",
+                      marginTop: "32px",
+                      marginBottom: "32px",
+                      fontFamily: "Poppins",
                     }}
                   >
                     CHOOSE WALLET
@@ -592,8 +678,9 @@ export const Header = () => {
                       <a
                         style={{
                           color: "#23262F",
-                          fontSize: "16px",
+                          fontSize: "14px",
                           paddingLeft: "5px",
+                          fontFamily: "Poppins",
                           fontWeight: "600",
                         }}
                       >
@@ -622,7 +709,8 @@ export const Header = () => {
                       <a
                         style={{
                           color: "#23262F",
-                          fontSize: "16px",
+                          fontSize: "14px",
+                          fontFamily: "Poppins",
                           paddingLeft: "10px",
                           fontWeight: "600",
                         }}
@@ -654,14 +742,20 @@ export const Header = () => {
         style={{ padding: "0px", backgroundColor: "#FCFCFD" }}
       >
         <nav class="navbar navbar-expand-lg navbar-light bg-light pb-2">
-          <Link className="navbar-brand" to={browserRoute.HOME}>
+          <Link
+            className="navbar-brand"
+            to={browserRoute.HOME}
+            style={{ marginRight: "0px" }}
+          >
             <img
               style={{
                 borderRight: "1px solid #E6E8EC",
-                paddingRight: "15px",
-                width: "112px",
+                paddingRight: "20px",
+                marginRight: "12px",
+                width: "120px",
               }}
-              src={Images.defilogo}
+              // src={Images.defilogo}
+              src="https://i.ibb.co/kgDCN45/Logo.png"
             />
           </Link>
           <button
@@ -719,7 +813,7 @@ export const Header = () => {
                 </Link>
               </li>
               <li class="nav-item">
-                <div class="d-flex">
+                <div class="d-flex flex-row justify-content-center">
                   <Link
                     to={browserRoute.LEARN}
                     className={
@@ -730,38 +824,101 @@ export const Header = () => {
                     }
                   >
                     Learn
+                    <img
+                      className="w-header-learn-arrow"
+                      // src={headerdown}
+                      src={Images.iconarowdown}
+                    />
+                    <ul class="n-learnDropDown" role="menu">
+                      <li>
+                        <a href="">Algo</a>
+                      </li>
+                      <li>
+                        <a href="">Gate</a>
+                      </li>
+                      <li>
+                        <a href="">Subject</a>
+                      </li>
+                      <li>
+                        <a href="">Practise</a>
+                      </li>
+                    </ul>
                   </Link>
-                  <img
-                    style={{
-                      height: "15px",
-                      marginTop: "12px",
-                      marginLeft: "5px",
-                    }}
-                    src={headerdown}
-                  />
                 </div>
               </li>
             </ul>
-            <select
-              class="select"
-              style={{
-                width: "70px",
-                listStyle: "none",
-                border: "none",
-                fontWeight: "bold",
-                background: "none",
-                color: "#23262F",
-                marginRight: "-25px",
-                fontFamily: "DM Sans",
-              }}
-            >
-              <option style={{ color: "#23262F" }}>ENG</option>
-              <option style={{ color: "#23262F" }}>ESP</option>
-            </select>
-            <img
-              style={{ marginRight: "40px", marginTop: "2px" }}
-              src={Images.iconarowdown}
-            />
+            <div class="nav-link">
+              <select
+                class="select"
+                style={{
+                  width: "70px",
+                  listStyle: "none",
+                  border: "none",
+                  fontWeight: "bold",
+                  background: "none",
+                  color: "#23262F",
+                  marginRight: "-32px",
+                  fontFamily: "DM Sans",
+                  cursor: "pointer",
+                }}
+                // value={selectedLang}
+                onChange={handleLanguageChange}
+                onClick={handleOnClick}
+                onAbort={handleAbort}
+              >
+                {/* <option
+                  className="option"
+                  style={{ color: "#23262F" }}
+                  selected
+                  hidden
+                >
+                  {selectedLang}
+                </option> */}
+                <option
+                  className="option"
+                  style={{ color: "#23262F" }}
+                  value="ENG"
+                >
+                  {selectedLang === "ENG" ? "ENG" : "English"}
+                  {/* English */}
+                </option>
+                <option
+                  className="option"
+                  style={{ color: "#23262F" }}
+                  value="VIE"
+                >
+                  {/* Vietnamese
+                   */}
+                  {selectedLang === "VIE" ? "VIE" : "Vietnamese"}
+                </option>
+                <option
+                  className="option"
+                  style={{ color: "#23262F" }}
+                  value="RU"
+                >
+                  {/* Russian */}
+                  {selectedLang === "RU" ? "RU" : "Russian"}
+                </option>
+              </select>
+              {/* <img
+                style={{
+                  marginRight: "40px",
+                  marginTop: "2px",
+                  cursor: "pointer",
+                }}
+                src={Images.iconarowdown}
+              /> */}
+              <img
+                className="w-header-learn-arrow"
+                style={{
+                  marginRight: "4px",
+                  marginTop: "-1px",
+                  cursor: "pointer",
+                }}
+                // src={headerdown}
+                src={Images.iconarowdown}
+              />
+            </div>
             <Link className="navbar-brand pr-3" to="/">
               <img src={bell} />
             </Link>
@@ -775,13 +932,14 @@ export const Header = () => {
             </span>
 
             <button
-              class="btn walletbutton my-2 my-sm-0"
+              class="btn n-secondaryButton my-2 my-sm-0"
               type="submit"
               onClick={() => {
-                setMainModel(true);
+                loggedIn ? handleDisconnect() : setMainModel(true);
               }}
             >
-              Wallet
+              {title}
+              {/* Wallet */}
             </button>
           </div>
         </nav>

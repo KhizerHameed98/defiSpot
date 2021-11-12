@@ -8,7 +8,7 @@ const browserRoute = {
   PORTFOLIO_ASSETS: "/portfolio/assets",
   PORTFOLIO_ACTIVITY: "/portfolio/assets/activity",
   PORTFOLIO_LIQUIDITY: "/portfolio/liquidity",
-
+  INTRO_TO_LP: "/introtolp",
   EARNYIELD: "/earnyield",
 };
   export default browserRoute;

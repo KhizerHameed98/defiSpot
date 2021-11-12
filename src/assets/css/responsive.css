@@ -1,0 +1,550 @@
+@media screen and (max-width: 480px) {
+  .mainimaggehomepage {
+    width: 330px;
+  }
+  .depositclasss {
+    font-size: 15px;
+  }
+  .cryptotrader-home {
+    display: flex;
+    justify-content: start;
+    font-family: DM Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 40px;
+    line-height: 48px;
+    letter-spacing: -0.01em;
+    color: #23262f;
+  }
+  .cryptoTraderDescription {
+    display: flex;
+    justify-content: start;
+    color: #777e91;
+    font-weight: 400;
+    font-family: Poppins;
+    font-size: 16px;
+    margin-bottom: 35px;
+  }
+  .marketmainimage {
+    width: 100%;
+  }
+  .imagewidth {
+    width: 330px;
+  }
+  .minutstart {
+    padding-top: 20px;
+  }
+  .n-desktopFullImage {
+    display: none !important;
+  }
+  .n-tradingSteps {
+    display: flex !important;
+  }
+  .imagebannnerssss {
+    width: 100%;
+  }
+  .marketbannerhed {
+    font-family: DM Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 48px;
+    line-height: 56px;
+    letter-spacing: -0.02em;
+    color: #23262f;
+  }
+  .n-heroDescription {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+    color: #777e91;
+  }
+  .mainimaggehomepage {
+    position: relative;
+    right: 115px;
+    width: 600px;
+  }
+  .marketmainheade {
+    font-size: 35px;
+  }
+  .marketbanner {
+    margin-top: 32px;
+    margin-bottom: 48px;
+  }
+  .n-responsiveHeroImage {
+    margin-bottom: 32px;
+  }
+
+  .n-articleDetails {
+    display: flex;
+    flex-direction: column;
+    margin-left: 0px !important;
+  }
+  .n-articleDetails h2 {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #23262f;
+    margin-bottom: 8px;
+  }
+  .n-articleDetails .n-articleDesc {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 24px;
+    color: #777e91;
+    margin-bottom: 0;
+  }
+  .date-classhome {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 24px;
+    color: #777e91;
+    margin-top: 22px;
+    margin-bottom: 0;
+  }
+  .n-articleCardList {
+    margin-top: 32px;
+  }
+  .n-learnHeading {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: flex-start;
+    margin-bottom: 35px;
+  }
+  .n-cryptoReadMore {
+    margin-top: 35px;
+  }
+  .markettrend {
+    font-family: DM Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 40px;
+    line-height: 48px;
+    letter-spacing: -0.01em;
+    color: #23262f;
+  }
+  .n-marketTrendHeading {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: flex-start;
+  }
+  .n-ButtonResponsive {
+    margin-top: 20px;
+  }
+  .n-learnSection {
+    margin-bottom: 50px;
+  }
+  .n-articleButton {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .n-marketTable {
+    margin-top: 24px;
+  }
+  .w-section-space-top-btm {
+    padding-bottom: 35px;
+    padding-top: 35px;
+  }
+  .cryptotraders {
+    padding-bottom: 35px;
+    padding-top: 35px;
+  }
+  .marketbutton {
+    background-color: #fcfcfd;
+    padding: 16px 24px;
+    font-size: 12px;
+  }
+
+  .marginleftcol {
+    margin-left: 0px;
+  }
+  .navbar-expand-lg .navbar-nav .nav-link {
+    padding-right: 0.5rem;
+    padding-left: 0px;
+    padding-top: 20px;
+  }
+  .bitcoinclasssmian {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    align-items: center;
+  }
+  .n-downArrow {
+    display: none;
+  }
+  .mainhover {
+    height: 204px !important;
+    width: 100% !important;
+    padding: 32px 0px 32px 32px;
+    margin: 4.5% 0%;
+  }
+
+  .n-tradeCard {
+    margin: 15px 0px;
+  }
+  .n-getStartedSection {
+    padding: 35px 15px 35px;
+  }
+  .footerlogo345 {
+    padding-top: 20px;
+    border-right: 0px;
+  }
+  .footerLinkList {
+    padding-left: 0px;
+  }
+  .emailInputArrow {
+    background-color: #3772ff;
+    color: #fff;
+    padding: 8px 7px 0px 9px;
+    margin: 7px 0px 6px -38px;
+    font-size: 14px;
+    border-radius: 20px;
+  }
+  .ufoteertext34555 {
+    line-height: 26px;
+  }
+  .n-footerLinks {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+  }
+  .footerLinkList {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+  }
+  .footerlogo3455 {
+    padding-top: 20px;
+  }
+  .n-tableSearch {
+    margin-top: 20px;
+  }
+  .n-inputSearch {
+    width: 100%;
+  }
+  .n-inputSearch img {
+    margin-top: 28px !important;
+  }
+  .n-marketSection {
+    padding-top: 48px;
+  }
+  .n-marketSectionTable {
+    padding-top: 0;
+  }
+  .n-marketLearnCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .n-marketLoadMore {
+    margin-left: 15px;
+    margin-bottom: 45px;
+  }
+  .n-marketCardInv {
+    margin: 0px 0px 20px;
+  }
+  .earnyield-pagepic {
+    width: 100%;
+  }
+  .n-earnYeildTable {
+    padding-bottom: 40px;
+  }
+  .n-earnYeildSection {
+    padding-top: 0px;
+  }
+  .n-learnSearch {
+    width: 100%;
+  }
+  .n-learnSectionSearch {
+    width: 100%;
+  }
+  .learnpage-234 {
+    font-size: 23px;
+  }
+  .n-learnSectionDropDown {
+    width: 100%;
+  }
+  .btn-secondary234 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .n-learnSectionDropDown button {
+    width: 100%;
+  }
+  .n-dropdownMenuShow {
+    width: 100%;
+  }
+  .n-learnFilterLabels {
+    margin-top: 20px;
+  }
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px) {
+  .bitcoinclasssmian {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    align-items: center;
+  }
+  .n-downArrow {
+    display: none;
+  }
+  .mainhover {
+    height: 100% !important;
+    width: 100% !important;
+    padding: 32px 0px 32px 32px;
+    margin: 4.5% 0%;
+  }
+  .n-desktopFullImage {
+    display: none !important;
+  }
+  .n-tradingSteps {
+    display: flex !important;
+  }
+  .n-tradeCard {
+    margin: 20px 0px;
+  }
+  .n-articleDetails {
+    display: flex;
+    flex-direction: column;
+    margin-left: 0px !important;
+  }
+  .n-articleCardList {
+    margin-top: 48px;
+  }
+  .footerLinkList {
+    padding-left: 0px;
+  }
+  .footerlogo345 {
+    padding-top: 20px;
+    border-right: 0px;
+  }
+  .n-footerLinks {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+  }
+  .footerLinkList {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+  }
+  .footerlogo3455 {
+    padding-top: 30px;
+  }
+  .n-tableSearch {
+    margin-top: 20px;
+  }
+  .n-inputSearch {
+    width: 100%;
+  }
+  .n-inputSearch img {
+    margin-top: 28px !important;
+  }
+  .marketmainimage {
+    width: 100%;
+  }
+  .marketmainimage {
+    width: 100%;
+  }
+  .umarketsect22222 {
+    padding: 20px 20px 20px 20px;
+  }
+  .n-marketSection {
+    padding-top: 40px;
+  }
+  .n-marketLearnCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .n-marketLoadMore {
+    margin-left: 20px;
+    margin-bottom: 60px;
+  }
+  .n-marketCardInv {
+    margin: 0px 0px 20px;
+  }
+  .earnyield-pagepic {
+    width: 100%;
+  }
+  .n-earnYeildTable {
+    padding-bottom: 40px;
+  }
+  .n-earnYeildSection {
+    padding-top: 8px;
+  }
+  .n-learnSectionDropDown {
+    width: 100%;
+  }
+  .btn-secondary234 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .n-learnSectionDropDown button {
+    width: 100%;
+  }
+  .n-dropdownMenuShow {
+    width: 100%;
+  }
+  .n-learnFilterLabels {
+    margin-top: 20px;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .bitcoinclasssmian {
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .mainhover {
+    height: 50% !important;
+    width: 50% !important;
+    padding: 32px 0px 32px 32px;
+    margin: 4.5% 0%;
+  }
+  .n-tradeCard {
+    margin: 20px 0px;
+  }
+  .n-articleCardList {
+    margin-top: 64px;
+  }
+  .n-articleDetails {
+    display: flex;
+    flex-direction: column;
+    margin-left: 0px !important;
+    max-width: 446px;
+  }
+  .date-classhome {
+    margin-top: 132px;
+  }
+  .footerlogo345 {
+    padding-top: 20px;
+    border-right: 0px;
+  }
+  .n-footerLinks {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .marketmainimage {
+    width: 100%;
+  }
+  .n-marketLearnCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .n-marketLoadMore {
+    margin-left: 25px;
+    margin-bottom: 75px;
+  }
+  .n-earnYeildTable {
+    padding-bottom: 20px;
+  }
+  .n-earnYeildSection {
+    padding-top: 18px;
+  }
+  .n-marketSection {
+    padding-top: 60px;
+  }
+  .n-marketCardInv {
+    margin: 0px 0px 20px;
+  }
+  .earnyield-pagepic {
+    width: 100%;
+  }
+  .n-learnDropLabels {
+    flex-wrap: nowrap;
+  }
+  .n-learnFilterLabels {
+    flex-wrap: nowrap;
+  }
+  .btn-secondary234 {
+    flex-wrap: nowrap;
+    white-space: nowrap;
+  }
+  .n-learnSearch {
+    width: 100%;
+  }
+  .n-learnSectionSearch {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1200px) {
+  .n-articleDetails {
+    display: flex;
+    flex-direction: column;
+    margin-left: 0px !important;
+    max-width: 446px;
+  }
+  .date-classhome {
+    margin-top: 52px;
+  }
+  .footerlogo345 {
+    padding-top: 20px;
+    border-right: 0px;
+  }
+  .marketmainimage {
+    width: 100%;
+    top: 20%;
+    position: relative;
+  }
+  .umarketsect22222 {
+    padding: 16px 16px 16px 16px;
+  }
+  .n-marketGraphImage {
+    width: auto;
+    height: auto;
+  }
+  .n-marketLearnCard {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .n-marketLoadMore {
+    margin-left: 30px;
+    margin-bottom: 90px;
+  }
+  .n-marketCardInv {
+    margin: 0px 0px 20px;
+  }
+  .navbar-expand-lg .navbar-nav .nav-link {
+    margin-right: 2.5rem;
+    padding-left: 0.5rem;
+    padding-top: 10px;
+  }
+  .card-body {
+    padding: 1.25rem 0px !important;
+  }
+}
+
+@media screen and (min-width: 1200px) and (max-width: 2000px) {
+  .footerlogo345 {
+    padding-top: 20px;
+    border-right: 0px;
+  }
+}

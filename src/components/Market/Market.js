@@ -80,9 +80,11 @@ const Market = () => {
     } else {
       let result2 = tempPool.filter(
         (value) =>
-          value?.assetFullName
+          value?.asset?.toLowerCase()?.includes(e.target.value.toLowerCase()) ||
+          (value?.assetFullName
             ?.toLowerCase()
-            ?.includes(e.target.value.toLowerCase()) && value
+            ?.includes(e.target.value.toLowerCase()) &&
+            value)
       );
       setPoolData(result2);
     }
@@ -91,18 +93,18 @@ const Market = () => {
   //Ascending Order Filter Name
   const handleAscendingName = () => {
     let check = [...mainState];
-    let res = check.sort((a, b) =>
-      a.assetFullName.toLowerCase() > b.assetFullName.toLowerCase() ? 1 : -1
+    let res = check?.sort((a, b) =>
+      a.assetFullName?.toLowerCase() > b.assetFullName?.toLowerCase() ? 1 : -1
     );
     setMainState(res);
     let check2 = [...poolData];
-    let res2 = check2.sort((a, b) =>
-      a.assetFullName.toLowerCase() > b.assetFullName.toLowerCase() ? 1 : -1
+    let res2 = check2?.sort((a, b) =>
+      a.assetFullName?.toLowerCase() > b.assetFullName?.toLowerCase() ? 1 : -1
     );
     setPoolData(res2);
     let check3 = [...tempPool];
-    let res3 = check3.sort((a, b) =>
-      a.assetFullName.toLowerCase() > b.assetFullName.toLowerCase() ? 1 : -1
+    let res3 = check3?.sort((a, b) =>
+      a.assetFullName?.toLowerCase() > b.assetFullName?.toLowerCase() ? 1 : -1
     );
     setTempPool(res3);
   };
@@ -110,87 +112,122 @@ const Market = () => {
   //Descending Order Filter Name
   const handleDescendingName = () => {
     let check = [...mainState];
-    let res = check.sort((a, b) =>
-      a.assetFullName.toLowerCase() < b.assetFullName.toLowerCase() ? 1 : -1
+    let res = check?.sort((a, b) =>
+      a.assetFullName?.toLowerCase() < b.assetFullName?.toLowerCase() ? 1 : -1
     );
     setMainState(res);
     let check2 = [...poolData];
-    let res2 = check2.sort((a, b) =>
-      a.assetFullName.toLowerCase() < b.assetFullName.toLowerCase() ? 1 : -1
+    let res2 = check2?.sort((a, b) =>
+      a.assetFullName?.toLowerCase() < b.assetFullName?.toLowerCase() ? 1 : -1
     );
     setPoolData(res2);
     let check3 = [...tempPool];
-    let res3 = check3.sort((a, b) =>
-      a.assetFullName.toLowerCase() < b.assetFullName.toLowerCase() ? 1 : -1
+    let res3 = check3?.sort((a, b) =>
+      a.assetFullName?.toLowerCase() < b.assetFullName?.toLowerCase() ? 1 : -1
     );
     setTempPool(res3);
   };
   //Ascending Order Filter Price
   const handleAscendingPrice = () => {
     let check = [...mainState];
-    let res = check.sort((a, b) => a.assetPriceUSD - b.assetPriceUSD);
+    let res = check?.sort((a, b) => a.assetPriceUSD - b.assetPriceUSD);
     setMainState(res);
     let check2 = [...poolData];
-    let res2 = check2.sort((a, b) => a.assetPriceUSD - b.assetPriceUSD);
+    let res2 = check2?.sort((a, b) => a.assetPriceUSD - b.assetPriceUSD);
     setPoolData(res2);
     let check3 = [...tempPool];
-    let res3 = check3.sort((a, b) => a.assetPriceUSD - b.assetPriceUSD);
+    let res3 = check3?.sort((a, b) => a.assetPriceUSD - b.assetPriceUSD);
     setTempPool(res3);
   };
 
   //Descending Order Filter Price
   const handleDescendingPrice = () => {
     let check = [...mainState];
-    let res = check.sort((a, b) => b.assetPriceUSD - a.assetPriceUSD);
+    let res = check?.sort((a, b) => b.assetPriceUSD - a.assetPriceUSD);
     setMainState(res);
     let check2 = [...poolData];
-    let res2 = check2.sort((a, b) => b.assetPriceUSD - a.assetPriceUSD);
+    let res2 = check2?.sort((a, b) => b.assetPriceUSD - a.assetPriceUSD);
     setPoolData(res2);
     let check3 = [...tempPool];
-    let res3 = check3.sort((a, b) => b.assetPriceUSD - a.assetPriceUSD);
+    let res3 = check3?.sort((a, b) => b.assetPriceUSD - a.assetPriceUSD);
     setTempPool(res3);
+  };
+
+  const toMil = (v) => {
+    // console.log(v.length);
+    return Math.abs(Number(v)) >= 1.0e9
+      ? (Math.abs(Number(v)) / 1.0e9).toFixed(2) + "B"
+      : // Six Zeroes for Millions
+      Math.abs(Number(v)) >= 1.0e6
+      ? (Math.abs(Number(v)) / 1.0e6).toFixed(2) + "M"
+      : // Three Zeroes for Thousands
+      Math.abs(Number(v)) >= 1.0e3
+      ? (Math.abs(Number(v)) / 1.0e3).toFixed(2) + "K"
+      : Math.abs(Number(v));
   };
 
   return (
     <div>
-      {loading ? (
-        <>
-          <div style={{ justifyContent: "center", marginLeft: "40%" }}>
-            <Loader />
+      <section style={{ backgroundColor: "#C0E1FF", overflow: "hidden" }}>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="marketbanner">
+                <h2 class="marketbannerhed">
+                  Today's <br />
+                  Cryptocurrency
+                  <br /> Prices
+                </h2>
+                <p className="umarketp3456">
+                  The global crypto market cap is{" "}
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                      fontFamily: "Poppins",
+                      fontSize: "24px",
+                    }}
+                  >
+                    $1.86T
+                  </span>
+                </p>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <img className="marketmainimage" src={Images.market} />
+            </div>
           </div>
-        </>
-      ) : (
-        <>
-          <section style={{ backgroundColor: "#C0E1FF" }}>
-            <div class="container">
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="marketbanner">
-                    <h2 class="marketbannerhed">
-                      Today's <br />
-                      Cryptocurrency
-                      <br /> Prices
-                    </h2>
-                    <p className="umarketp3456"
+          <div class="row bitcoinclasss">
+            {loading ? (
+              <>
+                <div class="mainhover">
+                  <div class="">
+                    <div
+                      style={{ justifyContent: "center", marginLeft: "40%" }}
                     >
-                      The global crypto market cap is{" "}
-                      <span
-                        style={{
-                          fontWeight: "bold",
-                          fontFamily: "Poppins",
-                          fontSize: "24px",
-                        }}
-                      >
-                        $1.86T
-                      </span>
-                    </p>
+                      <Loader height="70%" width="70%" />
+                    </div>
+                  </div>
+                </div>{" "}
+                <div class="mainhover">
+                  <div class="">
+                    <div style={{ marginLeft: "40%" }}>
+                      <Loader height="70%" width="70%" />
+                    </div>
+                  </div>
+                </div>{" "}
+                <div class="mainhover">
+                  <div class="">
+                    <div
+                      style={{ justifyContent: "center", marginLeft: "40%" }}
+                    >
+                      <Loader height="70%" width="70%" />
+                    </div>
                   </div>
                 </div>
-                <div class="col-lg-6">
-                  <img className="marketmainimage" src={Images.market} />
-                </div>
-              </div>
-              <div class="row bitcoinclasss">
+              </>
+            ) : (
+              <>
+                {" "}
                 {mainStateRedux ? (
                   <>
                     {mainStateRedux.slice(0, 3).map((d, key) => {
@@ -207,19 +244,23 @@ const Market = () => {
                                   paddingLeft: "15px",
                                 }}
                               >
-                                <p class="marketparagraph">
+                                <p
+                                  class="marketparagraph d-flex"
+                                  style={{ width: "122px" }}
+                                >
                                   {d?.asset}/USDT{" "}
                                   {d?.change_24h >= 0 ? (
-                                    <span className="spanclassmarket">
+                                    <span className="spanclassmarkets">
                                       +{financial(d?.change_24h)}%
                                     </span>
                                   ) : (
-                                    <span className="spanclassmarkets">
+                                    <span className="spanclassmarket">
                                       {financial(d?.change_24h)}%
                                     </span>
                                   )}{" "}
                                 </p>
                                 <p
+                                  className="w-text-23262f"
                                   style={{
                                     marginBottom: "0",
                                     fontSize: "24px",
@@ -252,10 +293,7 @@ const Market = () => {
                                 ) : (
                                   <>
                                     <img
-                                      style={{
-                                        width: "138px",
-                                        height: "42px",
-                                      }}
+                                      class="n-marketGraphImage"
                                       src={Images.chartmarket}
                                     />
                                   </>
@@ -268,93 +306,125 @@ const Market = () => {
                     })}
                   </>
                 ) : null}
-              </div>
-            </div>
-          </section>
-          <section style={{ backgroundColor: "#FCFCFD" }}>
-            <div class="container pt-5">
-              <div class="d-flex justify-content-between">
-                <ul class="list-unstyled d-flex">
-                  <li>
-                    <button
-                      className={
-                        filterType === Enum.allType
-                          ? "alltype"
-                          : "alltype-nonActive"
-                      }
-                      onClick={filterAllType}
+              </>
+            )}
+          </div>
+        </div>
+      </section>
+      <section style={{ backgroundColor: "#FCFCFD" }}>
+        <div class="container pb-5 px-0">
+          <div>
+            <div
+              // className="row"
+              style={{
+                backgroundColor: "#FCFCFD",
+                boxShadow: "0px 30px 25px rgba(15,15,15,0.1)",
+                borderBottomLeftRadius: "10px",
+                borderBottomRightRadius: "10px",
+                paddingTop: "32px",
+                paddingBottom: "32px",
+              }}
+            >
+              <div className="" style={{ padding: "0 32px" }}>
+                <div class="d-flex flex-row justify-content-between align-items-center flex-wrap">
+                  <ul class="list-unstyled d-flex flex-row align-items-center mb-0">
+                    <li
+                      className="d-flex flex-row justify-content-center align-items-center"
+                      style={{ marginRight: "16px" }}
                     >
-                      All type
-                    </button>
-                  </li>
+                      <button
+                        className={
+                          filterType === Enum.allType
+                            ? "alltype"
+                            : "alltype-nonActive"
+                        }
+                        onClick={filterAllType}
+                        style={{ whiteSpace: "nowrap" }}
+                      >
+                        All type
+                      </button>
+                    </li>
 
-                  <li>
-                    <button
-                      className={
-                        filterType === Enum.native
-                          ? "alltype"
-                          : "alltype-nonActive"
-                      }
-                      style={{ color: "#fff", fontFamily: "DM Sans" }}
-                      onClick={filterNative}
+                    <li
+                      className="d-flex flex-row justify-content-center align-items-center"
+                      style={{ marginRight: "16px" }}
                     >
-                      Native
-                    </button>
-                  </li>
+                      <button
+                        className={
+                          filterType === Enum.native
+                            ? "alltype"
+                            : "alltype-nonActive"
+                        }
+                        style={{ color: "#fff", fontFamily: "DM Sans" }}
+                        onClick={filterNative}
+                      >
+                        Native
+                      </button>
+                    </li>
 
-                  <li>
-                    <button
-                      className={
-                        filterType === Enum.erc20
-                          ? "alltype"
-                          : "alltype-nonActive"
-                      }
-                      style={{ color: "#fff", fontFamily: "DM Sans" }}
-                      onClick={filterERC20}
+                    <li
+                      className="d-flex flex-row justify-content-center align-items-center"
+                      style={{ marginRight: "16px" }}
                     >
-                      ERC-20
-                    </button>
-                  </li>
+                      <button
+                        className={
+                          filterType === Enum.erc20
+                            ? "alltype"
+                            : "alltype-nonActive"
+                        }
+                        style={{
+                          color: "#fff",
+                          fontFamily: "DM Sans",
+                          whiteSpace: "nowrap",
+                        }}
+                        onClick={filterERC20}
+                      >
+                        ERC-20
+                      </button>
+                    </li>
 
-                  <li>
-                    <button
-                      className={
-                        filterType === Enum.bep2
-                          ? "alltype"
-                          : "alltype-nonActive"
-                      }
-                      style={{ color: "#fff", fontFamily: "DM Sans" }}
-                      onClick={filterBEP2}
+                    <li
+                      className="d-flex flex-row justify-content-center align-items-center"
+                      style={{ marginRight: "16px" }}
                     >
-                      BEP2
-                    </button>
-                  </li>
-                </ul>
-                <div class=" d-flex form-group has-search">
-                  <input
-                    style={{
-                      borderRadius: "8px",
-                      width: "280px",
-                      height: "35px",
-                      fontFamily: "DM Sans",
-                      backgroundColor: "#FCFCFD",
-                    }}
-                    type="text"
-                    class="form-control"
-                    placeholder="Search after coin..."
-                    value={searchInput}
-                    onChange={InputSearch}
-                  />
-                  <img
-                    style={{
-                      width: "17px",
-                      height: "17px",
-                      marginLeft: "-25px",
-                      marginTop: "10px",
-                    }}
-                    src={Images.searchicon}
-                  />
-                  {/* <span
+                      <button
+                        className={
+                          filterType === Enum.bep2
+                            ? "alltype"
+                            : "alltype-nonActive"
+                        }
+                        style={{ color: "#fff", fontFamily: "DM Sans" }}
+                        onClick={filterBEP2}
+                      >
+                        BEP2
+                      </button>
+                    </li>
+                  </ul>
+                  <div class=" d-flex form-group has-search mb-0 n-inputSearch">
+                    <input
+                      // style={{
+                      //   borderRadius: "30px",
+                      //   width: "280px",
+                      //   height: "35px",
+                      //   fontFamily: "DM Sans",
+                      //   backgroundColor: "#FCFCFD",
+                      // }}
+                      type="text"
+                      class="form-control n-tableSearch"
+                      placeholder="Search after coin..."
+                      value={searchInput}
+                      onChange={InputSearch}
+                    />
+                    <img
+                      style={{
+                        width: "17px",
+                        height: "17px",
+                        marginLeft: "-25px",
+                        marginTop: "10px",
+                      }}
+                      src={Images.searchicon}
+                    />
+                    {/* <span
                     style={{
                       paddingTop: "10px",
                       marginLeft: "-20px",
@@ -363,30 +433,41 @@ const Market = () => {
                     }}
                     <img src={Images.searchicon}/>
                   </span> */}
+                  </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section style={{ backgroundColor: "#FCFCFD" }}>
+        <div class="container n-marketSectionTable">
+          {loading ? (
+            <div
+              style={{
+                justifyContent: "center",
+                marginLeft: "30%",
+              }}
+            >
+              <Loader height="40%" width="40%" />
+            </div>
+          ) : (
+            <>
+              {" "}
               {poolData ? (
-                <div class="table-responsive">
+                <div class="table-responsive w-comon-table-style">
                   <table class="table">
                     <thead>
-                      <tr>
-                        <th
-                          className="pt-4 pb-5"
-                          style={{
-                            border: "none",
-                            color: "#777E90",
-                            fontFamily: "Poppins",
-                            fontSize: "14px ",
-                            fontWeight: "600",
-                          }}
-                          scope="col"
-                        >
+                      <tr style={{ borderBottom: "1.5px solid #E6E8EC" }}>
+                        <th scope="col">
                           #
                           <div
                             style={{
                               display: "inline-grid",
-                              // paddingBottom: "4px",
+
                               marginLeft: "3px",
+                              position: "absolute",
+                              bottom: "31px",
                             }}
                           >
                             <img
@@ -398,8 +479,8 @@ const Market = () => {
                               style={{
                                 marginBottom: "3px",
                                 cursor: "pointer",
-                                position:"relative",
-                                top:"-5px",
+                                position: "relative",
+                                top: "-5px",
                               }}
                             />
                             <img
@@ -408,28 +489,23 @@ const Market = () => {
                               onClick={() => {
                                 setArrSortSrNo(false);
                               }}
-                              style={{ cursor: "pointer",position:"relative",
-                              top:"-5px", }}
+                              style={{
+                                cursor: "pointer",
+                                position: "relative",
+                                top: "-5px",
+                              }}
                             />
                           </div>
                         </th>
-                        <th
-                          className="pt-5 pb-5"
-                          style={{
-                            border: "none",
-                            color: "#777E90",
-                            fontFamily: "Poppins",
-                            fontSize: "14px ",
-                            fontWeight: "600",
-                          }}
-                          scope="col"
-                        >
+                        <th scope="col">
                           Name{" "}
                           <div
                             style={{
                               display: "inline-grid",
                               // paddingBottom: "4px",
                               marginLeft: "3px",
+                              position: "absolute",
+                              bottom: "31px",
                             }}
                           >
                             <img
@@ -439,36 +515,31 @@ const Market = () => {
                               style={{
                                 marginBottom: "3px",
                                 cursor: "pointer",
-                                position:"relative",
-                                top:"-5px",
+                                position: "relative",
+                                top: "-5px",
                               }}
                             />
                             <img
                               class="pl-1"
                               src={Images.FilterDown}
                               onClick={handleAscendingName}
-                              style={{ cursor: "pointer",position:"relative",
-                              top:"-5px", }}
+                              style={{
+                                cursor: "pointer",
+                                position: "relative",
+                                top: "-5px",
+                              }}
                             />
                           </div>
                         </th>
-                        <th
-                          className="pt-5 pb-5"
-                          style={{
-                            border: "none",
-                            color: "#777E90",
-                            fontFamily: "Poppins",
-                            fontSize: "14px ",
-                            fontWeight: "600",
-                          }}
-                          scope="col"
-                        >
+                        <th className="text-right" scope="col">
                           Price{" "}
                           <div
                             style={{
                               display: "inline-grid",
                               // paddingBottom: "4px",
                               marginLeft: "3px",
+                              position: "absolute",
+                              bottom: "31px",
                             }}
                           >
                             <img
@@ -477,8 +548,8 @@ const Market = () => {
                               onClick={handleDescendingPrice}
                               style={{
                                 marginBottom: "3px",
-                                position:"relative",
-                                top:"-5px",
+                                position: "relative",
+                                top: "-5px",
                                 cursor: "pointer",
                               }}
                             />
@@ -486,78 +557,41 @@ const Market = () => {
                               class="pl-1"
                               src={Images.FilterDown}
                               onClick={handleAscendingPrice}
-                              style={{ cursor: "pointer",position:"relative",
-                              top:"-5px", }}
+                              style={{
+                                cursor: "pointer",
+                                position: "relative",
+                                top: "-5px",
+                              }}
                             />
                           </div>
                         </th>
-                        <th
-                          className="pt-5 pb-5"
-                          style={{
-                            border: "none",
-                            color: "#777E90",
-                            fontFamily: "Poppins",
-                            fontSize: "14px ",
-                            fontWeight: "600",
-                          }}
-                          scope="col"
-                        >
+                        <th className="text-right" scope="col">
                           24h %
                         </th>
-                        <th
-                          className="pt-5 pb-5"
-                          style={{
-                            border: "none",
-                            color: "#777E90",
-                            fontFamily: "Poppins",
-                            fontSize: "14px ",
-                            fontWeight: "600",
-                          }}
-                          scope="col"
-                        >
+                        <th className="text-right" scope="col">
                           7d %
                         </th>
                         <th
-                          className="pt-5 pb-5"
-                          style={{
-                            border: "none",
-                            color: "#777E90",
-                            fontFamily: "Poppins",
-                            fontSize: "14px ",
-                            fontWeight: "600",
-                          }}
+                          className="text-right"
                           scope="col"
+                          style={{ whiteSpace: "nowrap" }}
                         >
-                          Marketcap <img src={Images.dolaar} />
+                          Marketcap
+                          <img class="pl-1" src={Images.dolaar} />
                         </th>
                         <th
-                          className="pt-5 pb-5"
-                          style={{
-                            border: "none",
-                            color: "#777E90",
-                            fontFamily: "Poppins",
-                            fontSize: "14px ",
-                            fontWeight: "600",
-                          }}
+                          className="text-right"
                           scope="col"
+                          style={{ whiteSpace: "nowrap" }}
                         >
                           Volume(24h)
-                          <img class="pl-2" src={Images.hourr} />
+                          <img class="pl-1" src={Images.hourr} />
                         </th>
-                        <th
-                          className="pt-5 pb-5"
-                          style={{
-                            border: "none",
-                            color: "#777E90",
-                            fontFamily: "Poppins",
-                            fontSize: "14px ",
-                            fontWeight: "600",
-                            textAlign: "right",
-                            paddingRight: "30px",
-                          }}
-                          scope="col"
-                        >
+                        <th className="text-right" scope="col">
                           Chart
+                        </th>
+                        <th className="text-right" scope="col">
+                          Buy
                         </th>
                       </tr>
                     </thead>
@@ -568,20 +602,19 @@ const Market = () => {
                           .reverse()
                           .map((d, key) => {
                             return (
-                              <tr className="maintdclasshover">
-                                <th
-                                  className="pt-4"
+                              <tr style={{ borderBottom: "1px solid #E6E8EC" }}>
+                                <td
                                   style={{
                                     color: "#777E90",
-                                    fontFamily: "Poppins",
+                                    border: "none",
                                     fontSize: "12px",
-                                    paddingTop: "17px",
+                                    fontWeight: "600",
                                   }}
                                   scope="row"
                                 >
                                   {poolData.slice(0, 10).length - key}
-                                </th>
-                                <td className="pt-3">
+                                </td>
+                                <td>
                                   <div class="d-flex flex-row align-items-center">
                                     <img
                                       style={{ width: "32px" }}
@@ -589,23 +622,18 @@ const Market = () => {
                                     />
                                     <div
                                       style={{
-                                        fontWeight: "bold",
+                                        fontWeight: "500",
                                         fontFamily: "Poppins",
-                                        paddingLeft: "5px",
-                                        fontSize: "14px",
-                                        paddingLeft: "12px",
-                                        paddingTop: "3px",
+                                        marginLeft: "10px",
+                                        whiteSpace: "nowrap",
                                       }}
                                     >
                                       {d?.assetFullName}
                                     </div>
                                     <div class="d-flex align-items-center">
                                       <div
-                                        style={{
-                                          fontFamily: "DM Sans",
-                                          paddingTop: "3px",
-                                        }}
                                         class="pl-2 text-muted"
+                                        style={{ fontSize: "14px" }}
                                       >
                                         {d?.asset}
                                       </div>
@@ -613,92 +641,75 @@ const Market = () => {
                                   </div>
                                 </td>
 
-                                <td
-                                  className="pt-4"
-                                  style={{
-                                    fontWeight: "bold",
-                                    fontFamily: "Poppins",
-                                    fontSize: "14px",
-                                    paddingTop: "17px",
-                                  }}
-                                >
+                                <td className="text-right">
                                   $
                                   {numberWithCommas(
                                     financial(d?.assetPriceUSD)
                                   )}
                                 </td>
-                                <td className="pt-4">
+                                <td className="text-right">
                                   <div class="d-flex flex-column">
                                     <div>
                                       {d?.change_24h >= 0 ? (
-                                        <b className="percentage">
+                                        <span className="percentage">
                                           +{financial(d?.change_24h)}%
-                                        </b>
+                                        </span>
                                       ) : (
-                                        <b className="percentagetwo">
+                                        <span className="percentagetwo">
                                           {financial(d?.change_24h)}%
-                                        </b>
+                                        </span>
                                       )}
                                     </div>
                                   </div>
                                 </td>
-                                <td className="pt-4">
+                                <td className="text-right">
                                   <div class="d-flex flex-column">
                                     <div>
                                       {d?.change_7d >= 0 ? (
-                                        <b className="percentage">
+                                        <span className="percentage">
                                           +{financial(d?.change_7d)}%
-                                        </b>
+                                        </span>
                                       ) : (
-                                        <b className="percentagetwo">
+                                        <span className="percentagetwo">
                                           {financial(d?.change_7d)}%
-                                        </b>
+                                        </span>
                                       )}{" "}
                                     </div>
                                   </div>
                                 </td>
-                                <td
-                                  className="pt-4"
-                                  style={{
-                                    fontWeight: "bold",
-                                    fontFamily: "Poppins",
-                                    fontSize: "14px",
-                                    paddingTop: "17px",
-                                  }}
-                                >
+                                <td className="text-right">
                                   ${numberWithCommas(financial(d?.marketCap))}
                                 </td>
+                                <td className="text-right">${d?.volume24h}</td>
                                 <td
-                                  className="pt-4"
-                                  style={{
-                                    fontWeight: "bold",
-                                    fontFamily: "Poppins",
-                                    fontSize: "14px",
-                                    paddingTop: "17px",
-                                  }}
+                                  className="text-right"
+                                  style={{ Height: "42px" }}
                                 >
-                                  ${d?.volume24h}
-                                </td>
-                                <td style={{ Height: "42px" }}>
-                                  <div className="buytoken-buttonvalue">
+                                  <div>
                                     <span className="buyTokenGraph">
                                       {d.change_24h > 0 ? (
                                         <>
-                                          <img src={Images.crt1} />
+                                          <img
+                                            style={{
+                                              width: "96px",
+                                              height: "33px",
+                                            }}
+                                            src={Images.crt1}
+                                          />
                                         </>
                                       ) : (
                                         <>
                                           <img
                                             style={{
-                                              width: "138px",
-                                              height: "42px",
+                                              width: "96px",
+                                              height: "33px",
                                             }}
                                             src={Images.chartmarket}
                                           />
                                         </>
                                       )}
                                     </span>
-                                    <span className="buyTokenbtn">
+                                    {/* <span className="buyTokenbtn">
                                       <Link
                                         to={`${browserRoute.BUYMARKET}/${d?.asset}`}
                                       >
@@ -709,8 +720,23 @@ const Market = () => {
                                           Buy
                                         </button>
                                       </Link>
-                                    </span>
+                                    </span> */}
                                   </div>
+                                </td>
+                                <td
+                                  className="text-right"
+                                  style={{ Height: "42px" }}
+                                >
+                                  <Link
+                                    to={`${browserRoute.BUYMARKET}/${d?.asset}`}
+                                  >
+                                    <button
+                                      style={{ fontFamily: "DM Sans" }}
+                                      className=" btn btn-primary buybutttonmarket"
+                                    >
+                                      Buy
+                                    </button>
+                                  </Link>
                                 </td>
                               </tr>
                             );
@@ -721,20 +747,19 @@ const Market = () => {
 
                           .map((d, key) => {
                             return (
-                              <tr className="maintdclasshover">
-                                <th
-                                  className="pt-4"
+                              <tr style={{ borderBottom: "1px solid #E6E8EC" }}>
+                                <td
                                   style={{
                                     color: "#777E90",
-                                    fontFamily: "Poppins",
+                                    border: "none",
                                     fontSize: "12px",
-                                    paddingTop: "17px",
+                                    fontWeight: "600",
                                   }}
                                   scope="row"
                                 >
                                   {key + 1}
-                                </th>
-                                <td className="pt-3">
+                                </td>
+                                <td style={{ border: "none" }}>
                                   <div class="d-flex flex-row align-items-center">
                                     <img
                                       style={{ width: "32px" }}
@@ -742,22 +767,17 @@ const Market = () => {
                                     />
                                     <div
                                       style={{
-                                        fontWeight: "bold",
+                                        fontWeight: "500",
                                         fontFamily: "Poppins",
-                                        paddingLeft: "5px",
-                                        fontSize: "14px",
-                                        paddingLeft: "12px",
-                                        paddingTop: "3px",
+                                        marginLeft: "10px",
+                                        whiteSpace: "nowrap",
                                       }}
                                     >
                                       {d?.assetFullName}
                                     </div>
                                     <div class="d-flex align-items-center">
                                       <div
-                                        style={{
-                                          fontFamily: "DM Sans",
-                                          paddingTop: "3px",
-                                        }}
+                                        style={{ fontSize: "14px" }}
                                         class="pl-2 text-muted"
                                       >
                                         {d?.asset}
@@ -767,12 +787,9 @@ const Market = () => {
                                 </td>
 
                                 <td
-                                  className="pt-4"
+                                  className="text-right"
                                   style={{
-                                    fontWeight: "bold",
-                                    fontFamily: "Poppins",
-                                    fontSize: "14px",
-                                    paddingTop: "17px",
+                                    border: "none",
                                   }}
                                 >
                                   $
@@ -780,78 +797,105 @@ const Market = () => {
                                     financial(d?.assetPriceUSD)
                                   )}
                                 </td>
-                                <td className="pt-4">
+                                <td
+                                  className="text-right"
+                                  style={{ border: "none" }}
+                                >
                                   <div class="d-flex flex-column">
                                     <div>
                                       {d?.change_24h >= 0 ? (
-                                        <b className="percentage">
+                                        <span className="percentage">
                                           +{financial(d?.change_24h)}%
-                                        </b>
+                                        </span>
                                       ) : (
-                                        <b className="percentagetwo">
+                                        <span className="percentagetwo">
                                           {financial(d?.change_24h)}%
-                                        </b>
+                                        </span>
                                       )}
                                     </div>
                                   </div>
                                 </td>
-                                <td className="pt-4">
+                                <td
+                                  className="text-right"
+                                  style={{ border: "none" }}
+                                >
                                   <div class="d-flex flex-column">
                                     <div>
                                       {d?.change_7d >= 0 ? (
-                                        <b className="percentage">
+                                        <span className="percentage">
                                           +{financial(d?.change_7d)}%
-                                        </b>
+                                        </span>
                                       ) : (
-                                        <b className="percentagetwo">
+                                        <span className="percentagetwo">
                                           {financial(d?.change_7d)}%
-                                        </b>
+                                        </span>
                                       )}{" "}
                                     </div>
                                   </div>
                                 </td>
                                 <td
-                                  className="pt-4"
+                                  className="text-right"
                                   style={{
-                                    fontWeight: "bold",
-                                    fontFamily: "Poppins",
-                                    fontSize: "14px",
-                                    paddingTop: "17px",
+                                    border: "none",
                                   }}
                                 >
-                                  ${numberWithCommas(financial(d?.marketCap))}
+                                  <div
+                                    style={{
+                                      textAlign: "right",
+                                      width: "80px",
+                                      overflow: "hidden",
+                                    }}
+                                  >
+                                    {toMil(financial(d?.marketCap))}
+                                    {/* ${numberWithCommas(financial(d?.marketCap))} */}
+                                  </div>
                                 </td>
                                 <td
-                                  className="pt-4"
+                                  className="text-right"
                                   style={{
-                                    fontWeight: "bold",
-                                    fontFamily: "Poppins",
-                                    fontSize: "14px",
-                                    paddingTop: "17px",
+                                    border: "none",
                                   }}
                                 >
-                                  ${d?.volume24h}
+                                  <div
+                                    style={{
+                                      textAlign: "right",
+                                      width: "80px",
+                                      overflow: "hidden",
+                                    }}
+                                  >
+                                    {toMil(d?.volume24h)}
+                                    {/* ${d?.volume24h} */}
+                                  </div>
                                 </td>
-                                <td style={{ Height: "42px" }}>
-                                  <div className="buytoken-buttonvalue">
+                                <td
+                                  className="text-right"
+                                  style={{ Height: "42px", border: "none" }}
+                                >
+                                  <div>
                                     <span className="buyTokenGraph">
                                       {d.change_24h > 0 ? (
                                         <>
-                                          <img src={Images.crt1} />
+                                          <img
+                                            style={{
+                                              width: "96px",
+                                              height: "33px",
+                                            }}
+                                            src={Images.crt1}
+                                          />
                                         </>
                                       ) : (
                                         <>
                                           <img
                                             style={{
-                                              width: "138px",
-                                              height: "42px",
+                                              width: "96px",
+                                              height: "33px",
                                             }}
                                             src={Images.chartmarket}
                                           />
                                         </>
                                       )}
                                     </span>
-                                    <span className="buyTokenbtn">
+                                    {/* <span className="buyTokenbtn text-right">
                                       <Link
                                         to={`${browserRoute.BUYMARKET}/${d?.asset}`}
                                       >
@@ -862,8 +906,23 @@ const Market = () => {
                                           Buy
                                         </button>
                                       </Link>
-                                    </span>
+                                    </span> */}
                                   </div>
+                                </td>
+                                <td
+                                  className="text-right"
+                                  style={{ Height: "42px" }}
+                                >
+                                  <Link
+                                    to={`${browserRoute.BUYMARKET}/${d?.asset}`}
+                                  >
+                                    <button
+                                      style={{ fontFamily: "DM Sans" }}
+                                      className=" btn btn-primary buybutttonmarket"
+                                    >
+                                      Buy
+                                    </button>
+                                  </Link>
                                 </td>
                               </tr>
                             );
@@ -872,90 +931,107 @@ const Market = () => {
                   </table>
                 </div>
               ) : null}
-            </div>
-          </section>
-          <section style={{ backgroundColor: "#FCFCFD" }}>
-            <div class="container pt-5 mb-5">
-              <div>
-                <h2 class="d-flex justify-content-center marketmainheade">
-                  Learn about DeFi
-                </h2>
-                <p
-                  class="d-flex justify-content-center mb-5"
-                  style={{
-                    textAlign: "center",
-                    fontFamily: "Poppins",
-                    fontSize: "16px",
-                    fontWeight: "400",
-                    color: "#353945",
-                    marginBottom: "64px"
-
-                  }}
-                >
-                  Browse our library of resources to learn more about DeFi and
-                  how
-                  <br /> to use it to yield or trade
-                </p>
+            </>
+          )}
+        </div>
+      </section>
+      <section class="n-marketSection">
+        <div class="container">
+          <div style={{ marginBottom: "64px" }}>
+            <h2 class="d-flex justify-content-center marketmainheade">
+              Learn about DeFi
+            </h2>
+            <p
+              class="d-flex justify-content-center"
+              style={{
+                textAlign: "center",
+                fontFamily: "Poppins",
+                fontSize: "16px",
+                fontWeight: "400",
+                color: "#353945",
+                margin: "0",
+              }}
+            >
+              Browse our library of resources to learn more about DeFi and how
+              <br /> to use it to yield or trade
+            </p>
+          </div>
+          <div class="mt-3 n-marketLearnCard">
+            <div class="n-marketCardInv">
+              <div class="card cardborder">
+                <img
+                  class="card-img-top"
+                  style={{ borderRadius: "12px" }}
+                  src={Images.mediacontainer}
+                  alt="Card image cap"
+                />
+                <div class="card-body n-learnCard">
+                  <h6 class="marketcardone">Learn & Earn</h6>
+                  <p class="cardtext">
+                    Earn yield by providing liquidity to pools
+                  </p>
+                </div>
               </div>
-              <div class="row mt-3">
-                <div class="col-lg-4">
-                  <div class="card cardborder">
-                    <img
-                      class="card-img-top"
-                      src={Images.mediacontainer}
-                      alt="Card image cap"
-                    />
-                    <div class="card-body">
-                      <h6 class="marketcardone">Learn & Earn</h6>
-                      <p class="cardtext pt-4">
-                        Earn yield by providing liquidity to pools
-                      </p>
-                    </div>
-                  </div>
-                  {/* <hr class="solid earnyieldclasssolid" /> */}
-                </div>
-                <div class="col-lg-4">
-                  <div class="card cardborder">
-                    <img
-                      class="card-img-top"
-                      src={Images.mediacontainer}
-                      alt="Card image cap"
-                    />
-                    <div class="card-body">
-                      <h6 class="marketcardtwo">WEEKLY WATCHLIST AIRDROP</h6>
-                      <p class="cardtext pt-4">
-                        The biggest advantages of decentralized exchange
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4">
-                  <div class="card cardborder">
-                    <img
-                      class="card-img-top"
-                      src={Images.mediacontainer}
-                      alt="Card image cap"
-                    />
-                    <div class="card-body">
-                      <h6 class="marketcardthree">FEATURED</h6>
-                      <p class="cardtext pt-4">
-                        Submit your watchlist and win USDT
-                      </p>
-                    </div>
-                  </div>
+              {/* <hr class="solid earnyieldclasssolid" /> */}
+            </div>
+            <div class="n-marketCardInv">
+              <div class="card cardborder">
+                <img
+                  class="card-img-top"
+                  style={{ borderRadius: "12px" }}
+                  src={Images.mediacontainer}
+                  alt="Card image cap"
+                />
+                <div class="card-body n-learnCard">
+                  <h6 class="marketcardtwo">WEEKLY WATCHLIST AIRDROP</h6>
+                  <p class="cardtext">
+                    The biggest advantages of decentralized exchange
+                  </p>
                 </div>
               </div>
             </div>
-          </section>
-          <div class="d-flex justify-content-center mb-5">
-            <button type="button" class="btn loaderbutton">
-              {/* <i class="mr-2 fa fa-spinner"></i> */}
-              <img className="pr-2 mb-1" src={Images.loadicon} />
+            <div class="n-marketCardInv">
+              <div class="card cardborder">
+                <img
+                  class="card-img-top"
+                  src={Images.mediacontainer}
+                  style={{ borderRadius: "12px" }}
+                  alt="Card image cap"
+                />
+                <div class="card-body n-learnCard">
+                  <h6 class="marketcardthree">FEATURED</h6>
+                  <p class="cardtext">Submit your watchlist and win USDT</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="d-flex justify-content-center"
+          style={{ marginTop: "64px", marginBottom: "130px" }}
+        >
+          <Link to={browserRoute.LEARN}>
+            <button type="button" class="btn n-secondaryButton">
               Load more
             </button>
-          </div>
-        </>
-      )}
+          </Link>
+          {/* On loading Add button with loaing img */}
+          {/* <button type="button" class="btn loaderbutton">
+            <div
+              class="d-flex justify-content-center n-marketLoadMore"
+            >
+              <Link to={browserRoute.LEARN}>
+                <button type="button" class="btn n-secondaryButton">
+                  Load more
+                </button>
+              </Link>
+              {/* On loading Add button with loaing img */}
+          {/* <button type="button" class="btn loaderbutton">
+              <img className="pr-2" src={Images.loadicon} />
+              Load more
+            </button> */}
+        </div>
+      </section>
     </div>
   );
 };

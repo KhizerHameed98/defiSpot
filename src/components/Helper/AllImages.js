@@ -8,7 +8,7 @@ import btc6 from "../../assets/images/btc6.png";
 import btc7 from "../../assets/images/btc7.png";
 import btc8 from "../../assets/images/btc8.png";
 import exclamation from "../../assets/images/exclamation.png";
-import defilogo from "../../assets/images/defilogo.png";
+import defilogo from "../../assets/images/Logo.svg";
 import btc9 from "../../assets/images/btc9.png";
 import btc10 from "../../assets/images/btc10.png";
 import market from "../../assets/images/market.png";
@@ -76,20 +76,26 @@ import crossicon from "../../assets/images/crossicon.png";
 import searchicon from "../../assets/images/searchicon.png";
 import iconarowdown from "../../assets/images/iconarowdown.png";
 import iconsrightline from "../../assets/images/iconsrightline.png";
-import loadicon from "../../assets/images/loadicon.png"
-import learnsearch from "../../assets/images/learnsearch.png"
-import ButtonSecondarySmall from "../../assets/images/ButtonSecondarySmall.png"
-import learnvideo from "../../assets/images/learnvideo.png"
-import trainer from "../../assets/images/trainer.png"
+import loadicon from "../../assets/images/loadicon.png";
+import learnsearch from "../../assets/images/learnsearch.png";
+import ButtonSecondarySmall from "../../assets/images/ButtonSecondarySmall.png";
+import learnvideo from "../../assets/images/learnvideo.png";
+import trainer from "../../assets/images/trainer.png";
 import exportIcon from "../../assets/images/exportIcon.png";
-import traineravatar from "../../assets/images/traineravatar.png"
-import morearticle from "../../assets/images/morearticle.png"
+import traineravatar from "../../assets/images/traineravatar.png";
+import morearticle from "../../assets/images/morearticle.png";
 import FilterUp from "../../assets/images/FilterUp.png";
 import FilterDown from "../../assets/images/FilterDown.png";
-import mediacontainer from "../../assets/images/mediacontainer.png"
-import homevideo from "../../assets/images/homevideo.png"
-import homeimg from "../../assets/images/homeimg.png"
+import mediacontainer from "../../assets/images/mediacontainer.png";
+import homevideo from "../../assets/images/homevideo.png";
+import homeimg from "../../assets/images/homeimg.png";
 import chartmarket from "../../assets/images/chartmarket.png";
+import articlevideo from "../../assets/images/articlevideo.png";
+import articleimage from "../../assets/images/articleimage.png";
+import stepOne from "../../assets/images/step-one.png";
+import stepTwo from "../../assets/images/step-two.png";
+import stepThree from "../../assets/images/step-three.png";
+
 const Images = {
   FilterDown,
   FilterUp,
@@ -182,6 +188,11 @@ const Images = {
   yielldmarket,
   qwq,
   defilogo,
+  articlevideo,
+  articleimage,
+  stepOne,
+  stepTwo,
+  stepThree,
 };
 
 export default Images;

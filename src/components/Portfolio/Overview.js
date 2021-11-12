@@ -6,14 +6,13 @@ import { useSelector, useDispatch } from "react-redux";
 const Overview = () => {
   const keyStoreInstance = useSelector((state) => state.main);
   const [searchInput, setSearchInput] = useState("");
-  const [tableData, setTableData] = useState([]);
-  const [mainState, setMainState] = useState([]);
+
+  const [transactionHistory, setTransactionHistory] = useState([]);
   const [tempData, setTempData] = useState([]);
-  const [reduxState, setReduxData] = useState("");
   const [overallBalance_BTC, setOverallBalance_BTC] = useState(0);
   const [overallBalance_USD, setOverallBalance_USD] = useState(0);
   const [showBalance, setShowBalance] = useState(true);
-  const [KeyStoreClients, setKeyStoreClients] = useState([]);
+  const [mainState, setMainState] = useState([]);
   const [Enum, set_Enum] = useState({
     allType: "allType",
     withdraw: "withdraw",
@@ -21,126 +20,289 @@ const Overview = () => {
     pending: "pending",
   });
   const [filterType, setFilterType] = useState(Enum.allType);
-  useEffect(() => {
-    setTableData(data);
-  }, []);
 
   useEffect(() => {
-    console.log("my keyStore Instance===>>", keyStoreInstance);
-    setKeyStoreClients(keyStoreInstance.KeyStoreClient);
-    const newArr = [];
-    keyStoreInstance.KeyStoreClient?.map((val) =>
-      val.Transactions.txs.map((val2) => newArr.push(val2))
-    );
-    console.log("txs at one place", newArr);
+    setMainState(keyStoreInstance.transactionHistory);
     setOverallBalance_BTC(keyStoreInstance.overallBalance_BTC);
     setOverallBalance_USD(keyStoreInstance.overallBalance_USD);
-    const data = JSON.stringify(keyStoreInstance.KeyStoreClient);
-    setReduxData(data);
-  }, [keyStoreInstance.KeyStoreClient, keyStoreInstance]);
+  }, [
+    keyStoreInstance.KeyStoreClient,
+    keyStoreInstance.transactionHistory,
+    keyStoreInstance,
+  ]);
 
   useEffect(() => {
-    setTempData(reduxState && JSON.parse(reduxState));
-  }, [reduxState]);
+    setTransactionHistory(mainState);
+    setTempData(mainState);
+  }, [mainState]);
 
   function SearchFilter(e) {
     setSearchInput(e.target.value);
+
     if (!e.target.value) {
-      setFilterType(Enum.allType);
-      setKeyStoreClients(keyStoreInstance?.KeyStoreClient);
-      const data = JSON.stringify(keyStoreInstance.KeyStoreClient);
-      setReduxData(data);
+      setTransactionHistory(tempData);
     } else {
-      let res =
-        tempData?.length &&
-        tempData?.filter((d, key) => {
-          // console.log("record", d);
-          let res2 = d?.Transactions?.txs?.filter((value) => {
-            // console.log("value========", value);
-            return (
-              value?.hash
-                ?.toLowerCase()
-                .includes(e.target.value.toLowerCase()) && value
-            );
-          });
+      let temp = tempData;
+      console.log("hey Temp=====>>", temp);
 
-          console.log("res2=====>>>", res2?.length && res2);
-          d.Transactions.txs = res2;
-          return d.Transactions.txs.length && d;
-
-          // return d.Transactions.txs.length && d;
-        });
-      console.log("res====>>>", res);
-      setKeyStoreClients(res);
+      let res = temp?.filter(
+        (value) =>
+          value?.hash?.toLowerCase().includes(e.target.value.toLowerCase()) &&
+          value
+      );
+      setTransactionHistory(res);
     }
   }
-
-  useEffect(() => {
-    setTempData(reduxState && JSON.parse(reduxState));
-  }, [searchInput]);
-
-  //Descending Order Filter Name
-  const handleDescendingName = () => {
-    let check = [...keyStoreInstance.KeyStoreClient];
-    let res = check.sort((a, b) => {
-      // a.assetFullName.toLowerCase() < b.assetFullName.toLowerCase() ? 1 : -1
-      console.log("a====>", a);
-      console.log("b=========>>", b);
-    });
-  };
 
   function filterAllType() {
     setSearchInput("");
     setFilterType(Enum.allType);
-    setKeyStoreClients(keyStoreInstance.KeyStoreClient);
-    const data = JSON.stringify(keyStoreInstance.KeyStoreClient);
-    setReduxData(data);
+    setTransactionHistory(mainState);
+    setTempData(mainState);
   }
-
   function filterWithdrawType() {
     setSearchInput("");
     setFilterType(Enum.withdraw);
-    let res = keyStoreInstance.KeyStoreClient.filter((d, key) => {
-      let res2 = d.Transactions.txs.filter(
-        (value) => value.type.toLowerCase() === "withdraw"
-      );
-      return res2.length && res2;
-    });
-    setKeyStoreClients(res);
-    const data = JSON.stringify(res);
-    setReduxData(data);
-  }
 
+    let res = mainState.filter(
+      (value) => value.type.toLowerCase() === Enum.withdraw
+    );
+
+    setTransactionHistory(res);
+    setTempData(res);
+  }
   function filterDepositType() {
     setSearchInput("");
     setFilterType(Enum.deposit);
-    let res = keyStoreInstance.KeyStoreClient.filter((d, key) => {
-      let res2 = d.Transactions.txs.filter(
-        (value) => value.type.toLowerCase() === "deposit"
-      );
-      return res2.length && res2;
-    });
-    setKeyStoreClients(res);
-    const data = JSON.stringify(res);
-    setReduxData(data);
-  }
+    let res = mainState.filter(
+      (value) => value.type.toLowerCase() === Enum.deposit
+    );
 
+    setTransactionHistory(res);
+    setTempData(res);
+  }
   function filterPendingType() {
     setSearchInput("");
     setFilterType(Enum.pending);
-    let res = keyStoreInstance.KeyStoreClient.filter((d, key) => {
-      let res2 = d.Transactions.txs.filter(
-        (value) => value.type.toLowerCase() === "pending"
-      );
-      return res2.length && res2;
-    });
-    setKeyStoreClients(res);
-    const data = JSON.stringify(res);
-    setReduxData(data);
+    let res = mainState.filter(
+      (value) => value.type.toLowerCase() === Enum.pending
+    );
+
+    setTransactionHistory(res);
+    setTempData(res);
   }
 
+  //Descending Order Filter Type
+  const handleDescendingType = () => {
+    let check = [...mainState];
+    let res = check.sort((a, b) =>
+      a.type.toLowerCase() < b.type.toLowerCase() ? 1 : -1
+    );
+
+    setMainState(res);
+    let check2 = [...transactionHistory];
+    let res2 = check2.sort((a, b) =>
+      a.type.toLowerCase() < b.type.toLowerCase() ? 1 : -1
+    );
+    setTransactionHistory(res2);
+    let check3 = [...tempData];
+    let res3 = check3.sort((a, b) =>
+      a.type.toLowerCase() < b.type.toLowerCase() ? 1 : -1
+    );
+    setTempData(res3);
+  };
+
+  //Ascending Order Filter Type
+  const handleAscendingType = () => {
+    let check = [...mainState];
+    let res = check.sort((a, b) =>
+      a.type.toLowerCase() > b.type.toLowerCase() ? 1 : -1
+    );
+
+    setMainState(res);
+    let check2 = [...transactionHistory];
+    let res2 = check2.sort((a, b) =>
+      a.type.toLowerCase() > b.type.toLowerCase() ? 1 : -1
+    );
+    setTransactionHistory(res2);
+    let check3 = [...tempData];
+    let res3 = check3.sort((a, b) =>
+      a.type.toLowerCase() > b.type.toLowerCase() ? 1 : -1
+    );
+    setTempData(res3);
+  };
+
+  //Descending Order Filter Coin
+  const handleDescendingCoin = () => {
+    let check = [...mainState];
+    let res = check.sort((a, b) =>
+      a.asset.ticker.toLowerCase() < b.asset.ticker.toLowerCase() ? 1 : -1
+    );
+
+    setMainState(res);
+    let check2 = [...transactionHistory];
+    let res2 = check2.sort((a, b) =>
+      a.asset.ticker.toLowerCase() < b.asset.ticker.toLowerCase() ? 1 : -1
+    );
+    setTransactionHistory(res2);
+    let check3 = [...tempData];
+    let res3 = check3.sort((a, b) =>
+      a.asset.ticker.toLowerCase() < b.asset.ticker.toLowerCase() ? 1 : -1
+    );
+    setTempData(res3);
+  };
+
+  //Ascending Order Filter Coin
+  const handleAscendingCoin = () => {
+    let check = [...mainState];
+    let res = check.sort((a, b) =>
+      a.asset.ticker.toLowerCase() > b.asset.ticker.toLowerCase() ? 1 : -1
+    );
+
+    setMainState(res);
+    let check2 = [...transactionHistory];
+    let res2 = check2.sort((a, b) =>
+      a.asset.ticker.toLowerCase() > b.asset.ticker.toLowerCase() ? 1 : -1
+    );
+    setTransactionHistory(res2);
+    let check3 = [...tempData];
+    let res3 = check3.sort((a, b) =>
+      a.asset.ticker.toLowerCase() > b.asset.ticker.toLowerCase() ? 1 : -1
+    );
+    setTempData(res3);
+  };
+
+  //Descending Order Filter Amount
+  const handleDescendingAmount = () => {
+    let check = [...mainState];
+    let res = check.sort((a, b) => b.transferAmount - a.transferAmount);
+
+    setMainState(res);
+    let check2 = [...transactionHistory];
+    let res2 = check2.sort((a, b) => b.transferAmount - a.transferAmount);
+    setTransactionHistory(res2);
+    let check3 = [...tempData];
+    let res3 = check3.sort((a, b) => b.transferAmount - a.transferAmount);
+    setTempData(res3);
+  };
+
+  //Ascending Order Filter Amount
+  const handleAscendingAmount = () => {
+    let check = [...mainState];
+    let res = check.sort((a, b) => a.transferAmount - b.transferAmount);
+
+    setMainState(res);
+    let check2 = [...transactionHistory];
+    let res2 = check2.sort((a, b) => a.transferAmount - b.transferAmount);
+    setTransactionHistory(res2);
+    let check3 = [...tempData];
+    let res3 = check3.sort((a, b) => a.transferAmount - b.transferAmount);
+    setTempData(res3);
+  };
+
+  //Descending Order Filter Address
+  const handleDescendingAddress = () => {
+    let check = [...mainState];
+    let res = check?.sort((a, b) =>
+      a.to[0].to.toLowerCase() < b.to[0].to.toLowerCase() ? 1 : -1
+    );
+
+    setMainState(res);
+    let check2 = [...transactionHistory];
+    let res2 = check2?.sort((a, b) =>
+      a.to[0].to.toLowerCase() < b.to[0].to.toLowerCase() ? 1 : -1
+    );
+    setTransactionHistory(res2);
+    let check3 = [...tempData];
+    let res3 = check3?.sort((a, b) =>
+      a.to[0].to.toLowerCase() < b.to[0].to.toLowerCase() ? 1 : -1
+    );
+    setTempData(res3);
+  };
+
+  //Ascending Order Filter Type
+  const handleAscendingAddress = () => {
+    let check = [...mainState];
+    let res = check?.sort((a, b) =>
+      a.to[0].to.toLowerCase() > b.to[0].to.toLowerCase() ? 1 : -1
+    );
+
+    setMainState(res);
+    let check2 = [...transactionHistory];
+    let res2 = check2?.sort((a, b) =>
+      a.to[0].to.toLowerCase() > b.to[0].to.toLowerCase() ? 1 : -1
+    );
+    setTransactionHistory(res2);
+    let check3 = [...tempData];
+    let res3 = check3?.sort((a, b) =>
+      a.to[0].to.toLowerCase() > b.to[0].to.toLowerCase() ? 1 : -1
+    );
+    setTempData(res3);
+  };
+
+  //Descending Order Filter TransactionID
+  const handleDescendingTransactionID = () => {
+    let check = [...mainState];
+    let res = check.sort((a, b) =>
+      a.hash.toLowerCase() < b.hash.toLowerCase() ? 1 : -1
+    );
+
+    setMainState(res);
+    let check2 = [...transactionHistory];
+    let res2 = check2.sort((a, b) =>
+      a.hash.toLowerCase() < b.hash.toLowerCase() ? 1 : -1
+    );
+    setTransactionHistory(res2);
+    let check3 = [...tempData];
+    let res3 = check3.sort((a, b) =>
+      a.hash.toLowerCase() < b.hash.toLowerCase() ? 1 : -1
+    );
+    setTempData(res3);
+  };
+
+  //Ascending Order Filter TransactionID
+  const handleAscendingTransactionID = () => {
+    let check = [...mainState];
+    let res = check.sort((a, b) =>
+      a.hash.toLowerCase() > b.hash.toLowerCase() ? 1 : -1
+    );
+
+    setMainState(res);
+    let check2 = [...transactionHistory];
+    let res2 = check2.sort((a, b) =>
+      a.hash.toLowerCase() > b.hash.toLowerCase() ? 1 : -1
+    );
+    setTransactionHistory(res2);
+    let check3 = [...tempData];
+    let res3 = check3.sort((a, b) =>
+      a.hash.toLowerCase() > b.hash.toLowerCase() ? 1 : -1
+    );
+    setTempData(res3);
+  };
+
+  const gettingLogos = (t) => {
+    let midgardPool = keyStoreInstance?.midgardPool;
+    let ticker = t?.asset?.ticker;
+    if (t.asset.ticker.toLowerCase() === "rune") {
+      ticker = "XRUNE";
+    }
+
+    let res = midgardPool?.find(
+      (d) => d?.asset.toLowerCase() === ticker.toLowerCase()
+    );
+    return (
+      <>
+        <img
+          style={{ width: "25px" }}
+          style={{ width: "25px" }}
+          src={res?.logo}
+        />
+      </>
+    );
+  };
+
   function financial(x) {
-    return Number.parseFloat(x).toFixed(4);
+    return Number.parseFloat(x).toFixed(2);
   }
 
   function numberWithCommas(x) {
@@ -148,26 +310,18 @@ const Overview = () => {
   }
 
   return (
-    <div className="col-lg-7 marginleftcol mt-2">
-      <div className="w-sidebarcoleight pt-3">
+    <div className="col-lg-10 w-pd-port-body">
+      <div className="w-sidebarcoleight">
         <div className="d-flex justify-content-between">
-          <h2
-            style={{
-              fontFamily: "DM Sans",
-              fontWeight: "bold",
-              fontSize: "32px",
-              lineHeight: "48px",
-            }}
-          >
-            Overview
-          </h2>
+          <h2 className="u-overview09888">Overview</h2>
           <button
             type="button"
-            className="btn btn-dark mr-5 pl-4 pr-4"
+            // className="btn btn-dark mr-2 pl-4 pr-4"
+            className={
+              showBalance ? "btn n-secondaryButton" : "btn n-primaryButton"
+            }
             style={{
-              borderRadius: "30px",
-              fontFamily: "DM Sans",
-              backgroundColor: "#23262F",
+              minWidth: "130px",
             }}
             onClick={() => {
               setShowBalance(!showBalance);
@@ -176,32 +330,11 @@ const Overview = () => {
             {showBalance ? <>Hide balance</> : <>Show balance</>}
           </button>
         </div>
-        <div className="d-flex justify-content-between pt-3">
+        <div className="d-flex justify-content-between align-items-center">
           <div>
-            <p
-              style={{
-                margin: "0px",
-                fontFamily: "Poppins",
-                fontSize: "14px",
-                fontWeight: "600",
-                lineHeight: "24px",
-                color: "#353945",
-                paddingBottom: "3px",
-              }}
-            >
-              Your Net Worth
-            </p>
+            <p className="w-over-text">Your Net Worth</p>
             <div class="d-flex">
-              <p
-                style={{
-                  fontWeight: "bold",
-                  marginBottom: "0px",
-                  fontSize: "24px",
-                  lineHeight: "36px",
-                  fontFamily: "Poppins",
-                  color: "#23262F",
-                }}
-              >
+              <p className="u-mainclassliquidity6788">
                 {showBalance ? (
                   <>
                     {overallBalance_BTC ? (
@@ -234,6 +367,7 @@ const Overview = () => {
               </p>
             </div>
             <p
+              className="mb-0"
               style={{
                 fontFamily: "Poppins",
                 fontSize: "16px",
@@ -260,21 +394,13 @@ const Overview = () => {
           </div>
         </div>
       </div>
-      <p
-        className="pt-3 pl-5"
-        style={{ color: "#777E90", fontWeight: "bold", fontFamily: "DM Sans" }}
-      >
-        Account Balances
-      </p>
+      <p className="w-over-center-heading">Account Balances</p>
       {showBalance ? (
         <>
-          <div className="row">
-            <div
-              style={{ paddingLeft: "15px", paddingRight: "5px" }}
-              className="col-lg-8"
-            >
+          <div className="row m-0">
+            <div className="col-lg-8 w-ast-pd">
               <div className="row">
-                <div style={{ paddingRight: "0px" }} className="col-lg-6">
+                <div className="col-lg-6 w-ast-pd-1">
                   <div className="w-overview_portfoliobg">
                     <div className="d-flex justify-content-between">
                       <div className="d-flex">
@@ -317,7 +443,7 @@ const Overview = () => {
                     </div>
                   </div>
                 </div>
-                <div style={{ paddingLeft: "5px" }} className="col-lg-6">
+                <div className="col-lg-6 w-ast-pd-2">
                   <div className="w-overview_portfoliobg">
                     <div className="d-flex justify-content-between ">
                       <div className="d-flex">
@@ -410,8 +536,11 @@ const Overview = () => {
                 </div>
               </div>
             </div>
-            <div style={{ paddingLeft: "0px" }} className="col-lg-4">
-              <div className="w-sidebarcoleight">
+            <div
+              style={{ paddingLeft: "0px", paddingRight: "0px" }}
+              className="col-lg-4"
+            >
+              <div className="w-overview_portfoliobg">
                 <div>
                   <p
                     style={{
@@ -438,12 +567,13 @@ const Overview = () => {
                     style={{
                       fontWeight: "600",
                       fontSize: "24px",
-                      paddingBottom: "12px",
+                      lineHeight: "32px",
+                      paddingBottom: "19px",
                       fontFamily: "Poppins",
-                      color: "23262F",
+                      color: "#23262F",
                     }}
                   >
-                    $398.5K
+                    $398.5k
                   </h3>
                   <img
                     style={{
@@ -461,9 +591,9 @@ const Overview = () => {
         </>
       ) : (
         <>
-          <div className="row">
+          <div className="row m-0">
             <div
-              style={{ paddingLeft: "15px", paddingRight: "5px" }}
+              style={{ paddingLeft: "0px", paddingRight: "4px" }}
               className="col-lg-8"
             >
               <div className="row">
@@ -510,7 +640,7 @@ const Overview = () => {
                     </div>
                   </div>
                 </div>
-                <div style={{ paddingLeft: "5px" }} className="col-lg-6">
+                <div style={{ paddingLeft: "4px" }} className="col-lg-6">
                   <div className="w-overview_portfoliobg">
                     <div className="d-flex justify-content-between ">
                       <div className="d-flex">
@@ -603,8 +733,11 @@ const Overview = () => {
                 </div>
               </div>
             </div>
-            <div style={{ paddingLeft: "0px" }} className="col-lg-4">
-              <div className="w-sidebarcoleight">
+            <div
+              style={{ paddingLeft: "0px", paddingRight: "0px" }}
+              className="col-lg-4"
+            >
+              <div className="w-overview_portfoliobg">
                 <div>
                   <p
                     style={{
@@ -631,7 +764,7 @@ const Overview = () => {
                     style={{
                       fontWeight: "600",
                       fontSize: "24px",
-                      paddingBottom: "12px",
+                      paddingBottom: "19px",
                       fontFamily: "Poppins",
                       color: "23262F",
                     }}
@@ -654,16 +787,14 @@ const Overview = () => {
           {/*check end*/}
         </>
       )}
-      <p
-        className="pt-3 pl-5"
-        style={{ color: "#777E90", fontWeight: "bold", fontFamily: "DM Sans" }}
-      >
-        Transaction History
-      </p>
-      <div className="w-sidebarcoleight pt-3">
-        <div className="d-flex justify-content-between">
-          <ul className="list-unstyled d-flex">
-            <li>
+      <p className="w-over-center-heading">Transaction History</p>
+      <div className="w-sidebarcoleight">
+        <div className="d-flex justify-content-between flex-sm-row flex-column">
+          <ul className="list-unstyled d-block d-sm-flex flex-row align-items-center mb-0">
+            <li
+              className="d-inline-block d-sm-flex flex-row justify-content-center align-items-center"
+              style={{ marginRight: "16px" }}
+            >
               <button
                 className={
                   filterType === Enum.allType ? "alltype" : "alltype-nonActive"
@@ -674,7 +805,10 @@ const Overview = () => {
                 All type
               </button>
             </li>
-            <li>
+            <li
+              className="d-inline-block d-sm-flex flex-row justify-content-center align-items-center"
+              style={{ marginRight: "16px" }}
+            >
               <button
                 className={
                   filterType === Enum.withdraw ? "alltype" : "alltype-nonActive"
@@ -685,7 +819,10 @@ const Overview = () => {
                 Withdrawals
               </button>
             </li>
-            <li>
+            <li
+              className="d-inline-block d-sm-flex flex-row justify-content-center align-items-center"
+              style={{ marginRight: "16px" }}
+            >
               <button
                 className={
                   filterType === Enum.deposit ? "alltype" : "alltype-nonActive"
@@ -696,7 +833,10 @@ const Overview = () => {
                 Deposit
               </button>
             </li>
-            <li>
+            <li
+              className="d-inline-block d-sm-flex flex-row justify-content-center align-items-center"
+              style={{ marginRight: "16px" }}
+            >
               <button
                 className={
                   filterType === Enum.pending ? "alltype" : "alltype-nonActive"
@@ -708,14 +848,20 @@ const Overview = () => {
               </button>
             </li>
           </ul>
-          <div class="d-flex">
-            <div className="pr-3">
-              <div class=" d-flex form-group has-search">
+          <div class="d-flex flex-column flex-sm-row align-content-start align-items-sm-center ">
+            <div className="pr-3 my-2 my-sm-0">
+              <div class=" d-flex form-group has-search mb-0">
                 <input
                   style={{
-                    borderRadius: "10px",
+                    borderRadius: "30px",
+                    fontFamily: "Poppins",
+                    fontSize: "12px",
+                    fontWeight: "400",
                     width: "250px",
-                    fontFamily: "DM Sans",
+                    height: "36px",
+                    lineHeight: "20px",
+                    padding: "10px 16px",
+                    color: "#777E90",
                   }}
                   type="text"
                   class="form-control"
@@ -727,7 +873,7 @@ const Overview = () => {
                   style={{
                     width: "17px",
                     height: "17px",
-                    marginLeft: "-25px",
+                    marginLeft: "-27px",
                     marginTop: "10px",
                   }}
                   src={Images.searchicon}
@@ -738,30 +884,31 @@ const Overview = () => {
           ></span> */}
               </div>
             </div>
-            <button class="mb-4  mr-4 seeallbutton">
+            <button class="mr-2 seeallbutton" style={{ maxWidth: "130px" }}>
               See all{" "}
               <img src={Images.seeall} style={{ paddingLeft: "10px" }} />
             </button>
           </div>
         </div>
         <div className="d-flex justify-content-between"></div>
-        <div className="table-responsive">
+        <div className="table-responsive w-comon-table-style">
           <table className="table">
             <thead>
               <tr>
-                <th class="pt-3 pb-3 overview-tablehead" scope="col">
+                <th class="text-right" scope="col">
                   Type{" "}
                   <div
                     style={{
                       display: "inline-grid",
-                      paddingBottom: "4px",
                       marginLeft: "3px",
+                      position: "absolute",
+                      bottom: "34px",
                     }}
                   >
                     <img
                       class="pl-1"
                       src={Images.FilterUp}
-                      onClick={handleDescendingName}
+                      onClick={handleDescendingType}
                       style={{
                         marginBottom: "3px",
                         cursor: "pointer",
@@ -769,127 +916,208 @@ const Overview = () => {
                     />
                     <img
                       class="pl-1"
+                      onClick={handleAscendingType}
                       src={Images.FilterDown}
                       style={{ cursor: "pointer" }}
                     />
                   </div>
                 </th>
-                <th class="pt-3 pb-3 overview-tablehead" scope="col">
-                  Coin <img class="pl-1" src={Images.nameup} />
+                <th class="text-right" scope="col">
+                  Coin{" "}
+                  <div
+                    style={{
+                      display: "inline-grid",
+                      marginLeft: "3px",
+                      position: "absolute",
+                      bottom: "34px",
+                    }}
+                  >
+                    <img
+                      class="pl-1"
+                      src={Images.FilterUp}
+                      onClick={handleDescendingCoin}
+                      style={{
+                        marginBottom: "3px",
+                        cursor: "pointer",
+                      }}
+                    />
+                    <img
+                      class="pl-1"
+                      onClick={handleAscendingCoin}
+                      src={Images.FilterDown}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </div>
                 </th>
-                <th class="pt-3 pb-3 overview-tablehead" scope="col">
-                  Amount <img class="pl-1" src={Images.nameup} />
+                <th class="text-right" scope="col">
+                  Amount{" "}
+                  <div
+                    style={{
+                      display: "inline-grid",
+                      marginLeft: "3px",
+                      position: "absolute",
+                      bottom: "34px",
+                    }}
+                  >
+                    <img
+                      class="pl-1"
+                      src={Images.FilterUp}
+                      onClick={handleDescendingAmount}
+                      style={{
+                        marginBottom: "3px",
+                        cursor: "pointer",
+                      }}
+                    />
+                    <img
+                      class="pl-1"
+                      onClick={handleAscendingAmount}
+                      src={Images.FilterDown}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </div>
                 </th>
-                <th class="pt-3 pb-3 overview-tablehead" scope="col">
-                  Address <img class="pl-1" src={Images.nameup} />
+                <th class="text-right" scope="col">
+                  Address{" "}
+                  <div
+                    style={{
+                      display: "inline-grid",
+                      marginLeft: "3px",
+                      position: "absolute",
+                      bottom: "34px",
+                    }}
+                  >
+                    <img
+                      class="pl-1"
+                      src={Images.FilterUp}
+                      onClick={handleDescendingAddress}
+                      style={{
+                        marginBottom: "3px",
+                        cursor: "pointer",
+                      }}
+                    />
+                    <img
+                      class="pl-1"
+                      onClick={handleAscendingAddress}
+                      src={Images.FilterDown}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </div>
                 </th>
-                <th class="pt-3 pb-3 overview-tablehead" scope="col">
-                  Transaction ID <img class="pl-1" src={Images.nameup} />
+                <th class="text-right" scope="col">
+                  Transaction ID{" "}
+                  <div
+                    style={{
+                      display: "inline-grid",
+                      marginLeft: "3px",
+                      position: "absolute",
+                      bottom: "34px",
+                    }}
+                  >
+                    <img
+                      class="pl-1"
+                      src={Images.FilterUp}
+                      onClick={handleDescendingTransactionID}
+                      style={{
+                        marginBottom: "3px",
+                        cursor: "pointer",
+                      }}
+                    />
+                    <img
+                      class="pl-1"
+                      onClick={handleAscendingTransactionID}
+                      src={Images.FilterDown}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </div>
                 </th>
-                <th
-                  class="pt-3 pb-3"
-                  style={{
-                    color: "#777E90",
-                    fontFamily: "Poppins",
-                    textAlign: "right",
-                    paddingRight: "20px",
-                    fontSize: "12px",
-                    lineHeight: "20px",
-                  }}
-                  scope="col"
-                >
+                <th class="text-right" scope="col">
                   Date
                 </th>
               </tr>
             </thead>
             <tbody style={{ padding: "5px" }}>
-              {KeyStoreClients ? (
+              {transactionHistory ? (
                 <>
-                  {KeyStoreClients.map((d, key) => {
+                  {transactionHistory.map((t, key) => {
                     return (
-                      <>
-                        {d.Transactions.txs.map((t, key2) => {
-                          return (
-                            <tr className="maintdclasshover">
-                              <td>
-                                <div className="d-flex flex-column">
-                                  <div>
-                                    <span
-                                      style={{ fontFamily: "Poppins" }}
-                                      className={
-                                        d.Type === "Withdraw"
-                                          ? "depositclass"
-                                          : "depositclasss"
-                                      }
-                                    >
-                                      {t.type.toUpperCase()}
-                                    </span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td>
-                                <div className="d-flex ">
-                                  <img
-                                    style={{ width: "25px" }}
-                                    style={{ width: "25px" }}
-                                    src={Images.bitcoinnn}
-                                  />
-                                  <div
-                                    style={{
-                                      paddingLeft: "5px",
-                                      fontFamily: "Poppins",
-                                      fontWeight: "500",
-                                    }}
-                                  >
-                                    {t.asset.ticker}
-                                  </div>
-                                  <div className="d-flex align-items-center"></div>
-                                </div>
-                              </td>
-                              <td
-                                style={{
-                                  fontFamily: "Poppins",
-                                  fontWeight: "500",
-                                }}
+                      <tr className="maintdclasshover">
+                        <td>
+                          <div className="d-flex flex-column">
+                            <div>
+                              <span
+                                style={{ fontFamily: "Poppins" }}
+                                className={
+                                  t.type === "Withdraw"
+                                    ? "depositclass"
+                                    : "depositclasss"
+                                }
                               >
-                                {t.transferAmount}
-                                {/* {t.to[0].amount.amount().c[0]} */}
-                              </td>
-                              <td>
-                                <div className="d-flex flex-column">
-                                  <div
-                                    style={{
-                                      paddingLeft: "5px",
-                                      fontFamily: "Poppins",
-                                      fontWeight: "500",
-                                    }}
-                                  >
-                                    {t.to[0].to}
-                                  </div>
-                                </div>
-                              </td>
-                              <td
-                                style={{
-                                  fontFamily: "Poppins",
-                                  color: "#777e90",
-                                  fontWeight: "500",
-                                }}
-                              >
-                                {t.hash}
-                              </td>
-                              <td
-                                style={{
-                                  fontFamily: "Poppins",
-                                  color: "#777e90",
-                                  whiteSpace: "nowrap",
-                                }}
-                              >
-                                {t.date.toString().substring(0, 24)}
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </>
+                                {t.type.toUpperCase()}
+                              </span>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div className="d-flex ">
+                            {/* <img
+                              style={{ width: "25px" }}
+                              style={{ width: "25px" }}
+                              src={Images.bitcoinnn}
+                            /> */}
+                            {gettingLogos(t)}
+                            <div
+                              style={{
+                                paddingLeft: "5px",
+                                fontFamily: "Poppins",
+                                fontWeight: "500",
+                              }}
+                            >
+                              {t.asset.ticker}
+                            </div>
+                            <div className="d-flex align-items-center"></div>
+                          </div>
+                        </td>
+                        <td
+                          style={{
+                            fontFamily: "Poppins",
+                            fontWeight: "500",
+                          }}
+                        >
+                          {t.transferAmount} BTC
+                          {/* {t.to[0].amount.amount().c[0]} */}
+                        </td>
+                        <td>
+                          <div className="d-flex flex-column">
+                            <div
+                              style={{
+                                paddingLeft: "5px",
+                                fontFamily: "Poppins",
+                                fontWeight: "500",
+                              }}
+                            >
+                              {t.to[0].to}
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          style={{
+                            fontFamily: "Poppins",
+                            color: "#777e90",
+                            fontWeight: "500",
+                          }}
+                        >
+                          {t.hash}
+                        </td>
+                        <td
+                          style={{
+                            fontFamily: "Poppins",
+                            color: "#777e90",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {t.date.toString().substring(0, 24)}
+                        </td>
+                      </tr>
                     );
                   })}
                 </>
