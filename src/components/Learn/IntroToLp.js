@@ -219,7 +219,7 @@ function IntoToLP() {
               <div class="card" style={{ border: "none" }}>
                 <img className="u-learncardimage456" src={Images.learnvideo} />
                 <span className="spanclass-343">video tutorial</span>
-                <div class="card-body" style={{ padding: "0px" }}>
+                <div class="card-body">
                   <div>
                     <div className="d-flex u-trainig0990carddde">
                       <img className="u-learnimage456" src={Images.trainer} />
@@ -259,7 +259,7 @@ function IntoToLP() {
                   height="308px"
                 />
                 <span className="spanclass-343900">POPULAR</span>
-                <div class="card-body" style={{ padding: "0px" }}>
+                <div class="card-body">
                   <div>
                     <div className="d-flex u-trainig0990carddde">
                       <img
@@ -294,7 +294,7 @@ function IntoToLP() {
               <div class="card" style={{ border: "none" }}>
                 <img className="u-learncardimage456" src={Images.learnvideo} />
                 <span className="spanclass-343339">NEW</span>
-                <div class="card-body" style={{ padding: "0px" }}>
+                <div class="card-body">
                   <div>
                     <div className="d-flex u-trainig0990carddde">
                       <img
