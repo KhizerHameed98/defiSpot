@@ -790,11 +790,19 @@ export const MidgardPool_Action = () => async (dispatch) => {
     type: MIDGARDPOOL_REQUESTING,
   });
   let poolData = [];
-  let coinMarketCapData = [];
   await axios
     .get(mainRoute.MIDGARD_POOL)
     .then((res) => {
       poolData = res;
+      let data = res.data;
+      if (data) {
+        data = data.sort((a, b) => b.assetPrice - a.assetPrice);
+
+        dispatch({
+          type: MIDGARDPOOL_SUCCESS,
+          payload: { midgardPool: data },
+        });
+      }
     })
     .catch((err) => {
       // setLoading(false);
@@ -806,58 +814,9 @@ export const MidgardPool_Action = () => async (dispatch) => {
 
       alertToast(true, errorMsg);
     });
-  await axios
-    .get(mainRoute.MarketCap)
-    .then((res) => {
-      coinMarketCapData = res;
-    })
-    .catch((err) => {
-      // setLoading(false);
-      console.log(err);
-      dispatch({
-        type: MIDGARDPOOL_FAIL,
-      });
-      const errorMsg = err?.response?.data?.msg || err.message;
-
-      alertToast(true, errorMsg);
-    });
-
-  Promise.all([poolData, coinMarketCapData]).then((res) => {
-    let marketCap = res[1].data;
-    let data = res[0].data;
-
-    for (let i = 0; i < data.length; i++) {
-      let v = data[i].asset.split("-");
-      data[i].asset = v[0];
-
-      let s = data[i].asset.split(".");
-      data[i].blockchain = s[0];
-      data[i].asset = s[1];
-      data[i].address = v[1];
-      let marketData = marketCap?.find((d) => d?.symbol === data[i]?.asset);
-      data[i].coinMarketCap = marketData;
-      data[i].assetFullName = marketData?.name;
-
-      // data[i].change_24h = marketData.quote.USD.percent_change_24h;
-      // data[i].change_7d = marketData.quote.USD.percent_change_7d;
-      data[i].marketCap = marketData?.quote?.USD?.market_cap;
-      data[i].circulating_supply = marketData?.circulating_supply;
-      data[i].total_supply = marketData?.total_supply;
-    }
-
-    data = data.sort((a, b) => b.assetPrice - a.assetPrice);
-
-    dispatch({
-      type: MIDGARDPOOL_SUCCESS,
-      payload: { midgardPool: data },
-    });
-
-    // alertToast(false, "Successfull");
-  });
 
   // setLoading(false);
 };
-
 //Forget Password
 // export const forgetPassword =
 //   ({ formData, history }) =>
