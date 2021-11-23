@@ -123,9 +123,7 @@ export function KeystoreWallet() {
     setLoading
   ) {
     // const enable = await window.ethereum.enable();
-    if (window.ethereum.enable().length > 0) {
-      console.log("MM connected");
-    } else {
+    
       try {
         // localStorage.clear();
         dispatch({ type: LOGOUT });
@@ -424,7 +422,6 @@ export function KeystoreWallet() {
         setLoading(false);
         setConnectKeyStoreModal(false);
       }
-    }
   };
 
   // Swapping
