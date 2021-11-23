@@ -6,7 +6,7 @@ import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css";
 import { DateRangePicker, Calendar } from "react-date-range";
 import { addDays } from "date-fns";
-
+import { handleBreakpoints } from "@mui/system";
 import { useSelector, useDispatch } from "react-redux";
 
 const Activity = () => {

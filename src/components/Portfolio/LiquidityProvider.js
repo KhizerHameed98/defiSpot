@@ -171,26 +171,27 @@ const LiquidityProvider = () => {
           <div className="pr-5">
             <div class=" d-flex form-group has-search">
               <input
-                style={{
-                  borderRadius: "25px",
-                  width: "250px",
-                  paddingTop: "15px",
-                  paddingBottom: "15px",
-                  fontFamily: "DM Sans",
-                }}
+                // style={{
+                //   borderRadius: "25px",
+                //   width: "250px",
+                //   paddingTop: "15px",
+                //   paddingBottom: "15px",
+                //   fontFamily: "DM Sans",
+                // }}
                 value={searchInput}
                 onChange={searchInputHandler}
                 type="text"
-                class="form-control"
-                placeholder="Search pool"
+                class="form-control n-tableSearch"
+                placeholder="Search"
                 aria-label="Search"
               />
               <img
                 style={{
                   width: "20px",
                   height: "20px",
-                  marginLeft: "-32px",
+                  marginLeft: "-35px",
                   marginTop: "10px",
+                  marginBottom: "10px",
                 }}
                 src={Images.searchicon}
               />
@@ -213,6 +214,7 @@ const LiquidityProvider = () => {
                 fontWeight: "600",
                 fontFamily: "Poppins",
               }}
+              className="text-bold"
             >
               Transaction History
               <i

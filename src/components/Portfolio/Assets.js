@@ -11,29 +11,66 @@ const Assets = () => {
   const [tableData, setTableData] = useState(data);
   const [overallBalance_BTC, setOverallBalance_BTC] = useState(0);
   const [overallBalance_USD, setOverallBalance_USD] = useState(0);
+  const [assetBalance, setAssetBalance] = useState([]);
+  const [tempData, setTempData] = useState([]);
+
+  useEffect(() => {
+    setOverallBalance_BTC(mainInstance.overallBalance_BTC);
+    setOverallBalance_USD(mainInstance.overallBalance_USD);
+    setAssetBalance(mainInstance?.assetBalance);
+    setTempData(mainInstance?.assetBalance);
+  }, [mainInstance.KeyStoreClient, mainInstance.assetBalance, mainInstance]);
+
   const searchFilter = (e) => {
-    if (!e.target.value) {
-      setTableData(data);
-    } else {
-      let result2 = data.filter(
-        (value) =>
-          value.Asset.toLowerCase().includes(e.target.value.toLowerCase()) &&
-          value
-      );
-      setTableData(result2);
+    if (assetBalance) {
+      if (!e.target.value) {
+        setTempData(assetBalance);
+      } else {
+        let result = assetBalance.filter(
+          (value) =>
+            value?.asset?.ticker
+              .toLowerCase()
+              .includes(e.target.value.toLowerCase()) && value
+        );
+        setTempData(result);
+      }
     }
   };
   function financial(x) {
-    return Number.parseFloat(x).toFixed(4);
+    return Number.parseFloat(x).toFixed(2);
   }
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
-  useEffect(() => {
-    setOverallBalance_BTC(mainInstance.overallBalance_BTC);
-    setOverallBalance_USD(mainInstance.overallBalance_USD);
-  }, [mainInstance.KeyStoreClient, mainInstance]);
+  const gettingLogos = (t) => {
+    let midgardPool = mainInstance?.midgardPool;
+    let ticker = t?.asset?.ticker;
+    if (t.asset.ticker.toLowerCase() === "rune") {
+      ticker = "XRUNE";
+    }
 
+    let res = midgardPool?.find(
+      (d) => d?.asset.toLowerCase() === ticker.toLowerCase()
+    );
+    return (
+      <>
+        <img style={{ width: "32px", height: "32px" }} src={res?.logo} />
+      </>
+    );
+  };
+
+  const gettingFullName = (t) => {
+    let midgardPool = mainInstance?.midgardPool;
+    let ticker = t?.asset?.ticker;
+    if (t.asset.ticker.toLowerCase() === "rune") {
+      ticker = "XRUNE";
+    }
+
+    let res = midgardPool?.find(
+      (d) => d?.asset.toLowerCase() === ticker.toLowerCase()
+    );
+    return <>{res?.assetFullName}</>;
+  };
   return (
     <div className="col-lg-10 pl-0" style={{ paddingRight: "8px" }}>
       <div className="w-sidebarcoleight">
@@ -105,17 +142,18 @@ const Assets = () => {
                   fontFamily: "DM Sans",
                 }}
                 type="text"
-                class="form-control"
-                placeholder="Search coin"
+                class="form-control n-tableSearch"
+                placeholder="Search"
                 aria-label="Search"
                 onChange={searchFilter}
               />
               <img
                 style={{
-                  width: "17px",
-                  height: "17px",
-                  marginLeft: "-30px",
-                  marginTop: "12px",
+                  width: "20px",
+                  height: "20px",
+                  marginLeft: "-35px",
+                  marginTop: "10px",
+                  marginBottom: "10px",
                 }}
                 src={Images.searchicon}
               />
@@ -143,6 +181,7 @@ const Assets = () => {
                 fontWeight: "600",
                 fontFamily: "Poppins",
               }}
+              className="text-bold"
             >
               Transaction History
               <i
@@ -177,55 +216,65 @@ const Assets = () => {
                 </tr>
               </thead>
               <tbody>
-                {tableData.map((d, key) => {
-                  return (
-                    <tr>
-                      <td>
-                        <div className="d-flex">
-                          <img
-                            style={{ width: "32px", height: "32px" }}
-                            src={Images.btc4}
-                          />
-                          <div className="pl-3">
-                            <div style={{}}>{d.Asset}</div>
-                            <div className="d-flex align-items-center">
-                              <div className=" text-muted">{d.FullName}</div>
+                {tempData ? (
+                  <>
+                    {" "}
+                    {tempData.map((d, key) => {
+                      return (
+                        <tr>
+                          <td>
+                            <div className="d-flex">
+                              {gettingLogos(d)}
+                              <div className="pl-3">
+                                <div style={{}}>{d.asset?.ticker}</div>
+                                <div className="d-flex align-items-center">
+                                  <div className=" text-muted">
+                                    {gettingFullName(d)}
+                                  </div>
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="text-right">
-                        <div className="d-flex flex-column">
-                          <div>${d.Price}</div>
-                        </div>
-                      </td>
-                      <td className="text-right">
-                        <div className="d-flex flex-column">
-                          <div>{d.Quantity} USDT</div>
-                        </div>
-                      </td>
-                      <td className="text-right">
-                        <div className="d-flex flex-column">
-                          <div>${d.Holding}</div>
-                        </div>
-                      </td>
-                      <td className="text-right">
-                        <div
-                          className="d-flex justify-content-end"
-                          className="asset-totalquantity"
-                          style={{ textAlign: "right" }}
-                        >
-                          {d.Interest} BTC
-                        </div>
-                        <div className="d-flex justify-content-end">
-                          <div className=" text-muted assetsprice-b">
-                            ${d.Holding}
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
+                          </td>
+                          <td className="text-right">
+                            <div className="d-flex flex-column">
+                              <div>${financial(d?.marketPriceUSD)}</div>
+                            </div>
+                          </td>
+                          <td className="text-right">
+                            <div className="d-flex flex-column">
+                              <div>
+                                {financial(
+                                  Number(d?.amount.amount().c[0]) /
+                                    Math.pow(10, d?.amount.decimal)
+                                )}{" "}
+                                {d?.asset?.ticker}{" "}
+                              </div>
+                            </div>
+                          </td>
+                          <td className="text-right">
+                            <div className="d-flex flex-column">
+                              <div>${financial(d?.balanceUSD)}</div>
+                            </div>
+                          </td>
+                          <td className="text-right">
+                            <div
+                              className="d-flex justify-content-end"
+                              className="asset-totalquantity"
+                              style={{ textAlign: "right" }}
+                            >
+                              {d.Interest} BTC
+                            </div>
+                            <div className="d-flex justify-content-end">
+                              <div className=" text-muted assetsprice-b">
+                                ${financial(d?.balanceUSD)}
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </>
+                ) : null}
               </tbody>
             </table>
           </div>

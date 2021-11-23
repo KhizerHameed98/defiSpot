@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import Images from "../Helper/AllImages";
-import Setting_Modal from "./Setting_Modal";
 
 const Withdraw_Modal = () => {
   const [withdraw_Modal, setWithdraw_Modal] = useState(false);
   const [settingModal, setSettingModal] = useState(false);
-
+  const [btnOptions, setBtnOptions] = useState({
+    first: true,
+    second: false,
+    third: false,
+    fourth: false,
+  });
+  const [btnOptions2, setBtnOptions2] = useState({
+    first: false,
+    second: false,
+    third: false,
+  });
   return (
     <div>
       {/* settong modal */}
@@ -38,7 +47,7 @@ const Withdraw_Modal = () => {
                   <div class="d-flex justify-content-between">
                     <div class="d-flex">
                       <img
-                        class=""
+                        class="backArrow"
                         style={{
                           height: "10px",
                           marginTop: "15px",
@@ -69,37 +78,146 @@ const Withdraw_Modal = () => {
                     </p>
                   </div>
                   <div className="d-flex justify-content-between">
-                    <button type="button" class="btn n-secondaryButton">
+                    <button
+                      type="button"
+                      class="btn n-secondaryButton settingPercentage"
+                      style={{
+                        boxShadow: btnOptions.first
+                          ? "0 0 0 0.2rem rgb(0 123 255 / 25%)"
+                          : "none",
+                      }}
+                      onClick={() =>
+                        setBtnOptions({
+                          first: true,
+                          second: false,
+                          third: false,
+                          fourth: false,
+                        })
+                      }
+                    >
                       1%
                       {/* <img className="mb-1" src={Images.morearticle}/> */}
                     </button>
-                    <button type="button" class="btn n-secondaryButton">
+                    <button
+                      type="button"
+                      class="btn n-secondaryButton settingPercentage"
+                      style={{
+                        boxShadow: btnOptions.second
+                          ? "0 0 0 0.2rem rgb(0 123 255 / 25%)"
+                          : "none",
+                      }}
+                      onClick={() =>
+                        setBtnOptions({
+                          first: false,
+                          second: true,
+                          third: false,
+                          fourth: false,
+                        })
+                      }
+                    >
                       0.5%
                       {/* <img className="mb-1" src={Images.morearticle}/> */}
                     </button>
-                    <button type="button" class="btn n-secondaryButton">
+                    <button
+                      type="button"
+                      class="btn n-secondaryButton settingPercentage"
+                      style={{
+                        boxShadow: btnOptions.third
+                          ? "0 0 0 0.2rem rgb(0 123 255 / 25%)"
+                          : "none",
+                      }}
+                      onClick={() =>
+                        setBtnOptions({
+                          first: false,
+                          second: false,
+                          third: true,
+                          fourth: false,
+                        })
+                      }
+                    >
                       1%
                       {/* <img className="mb-1" src={Images.morearticle}/> */}
                     </button>
-                    <button type="button" class="btn n-secondaryButton">
+                    <button
+                      type="button"
+                      class="btn n-secondaryButton settingPercentage"
+                      style={{
+                        boxShadow: btnOptions.fourth
+                          ? "0 0 0 0.2rem rgb(0 123 255 / 25%)"
+                          : "none",
+                      }}
+                      onClick={() =>
+                        setBtnOptions({
+                          first: false,
+                          second: false,
+                          third: false,
+                          fourth: true,
+                        })
+                      }
+                    >
                       3%
                       {/* <img className="mb-1" src={Images.morearticle}/> */}
                     </button>
                   </div>
                   <p style={{ fontFamily: "Poppins", marginTop: "32px" }}>
-                    Slipperage tollerance
+                    Transaction Speed
                   </p>
                   <div className="d-flex justify-content-between">
-                    <button type="button" class="btn n-secondaryButton">
-                      1%
+                    <button
+                      type="button"
+                      class="btn n-secondaryButton settingPercentage  "
+                      style={{
+                        boxShadow: btnOptions2.first
+                          ? "0 0 0 0.2rem rgb(0 123 255 / 25%)"
+                          : "none",
+                      }}
+                      onClick={() =>
+                        setBtnOptions2({
+                          first: true,
+                          second: false,
+                          third: false,
+                        })
+                      }
+                    >
+                      Normal
                       {/* <img className="mb-1" src={Images.morearticle}/> */}
                     </button>
-                    <button type="button" class="btn n-secondaryButton">
-                      0.5%
+                    <button
+                      type="button"
+                      class="btn n-secondaryButton settingPercentage"
+                      style={{
+                        boxShadow: btnOptions2.second
+                          ? "0 0 0 0.2rem rgb(0 123 255 / 25%)"
+                          : "none",
+                      }}
+                      onClick={() =>
+                        setBtnOptions2({
+                          first: false,
+                          second: true,
+                          third: false,
+                        })
+                      }
+                    >
+                      Fast
                       {/* <img className="mb-1" src={Images.morearticle}/> */}
                     </button>
-                    <button type="button" class="btn n-secondaryButton">
-                      1%
+                    <button
+                      type="button"
+                      class="btn n-secondaryButton settingPercentage"
+                      style={{
+                        boxShadow: btnOptions2.third
+                          ? "0 0 0 0.2rem rgb(0 123 255 / 25%)"
+                          : "none",
+                      }}
+                      onClick={() =>
+                        setBtnOptions2({
+                          first: false,
+                          second: false,
+                          third: true,
+                        })
+                      }
+                    >
+                      Instant
                       {/* <img className="mb-1" src={Images.morearticle}/> */}
                     </button>
                   </div>
@@ -110,6 +228,10 @@ const Withdraw_Modal = () => {
                     <button
                       style={{ width: "100%" }}
                       className="btn btn n-primaryButton"
+                      onClick={() => {
+                        setSettingModal(false);
+                        setWithdraw_Modal(true);
+                      }}
                     >
                       Save
                     </button>
@@ -150,7 +272,7 @@ const Withdraw_Modal = () => {
                   <div class="d-flex justify-content-between pt-2 pb-2">
                     <div class="d-flex">
                       <img
-                        class="pt-3"
+                        class="pt-3 backArrow"
                         style={{ height: "25px", marginTop: "6px" }}
                         onClick={() => {
                           setWithdraw_Modal(false);
@@ -159,7 +281,6 @@ const Withdraw_Modal = () => {
                       />
                       <p class="yahparagraph pl-2 pt-2">Withdraw</p>
                     </div>
-                    {/* <Setting_Modal setModal={setAddLiquidity_Modal} /> */}
                     <div>
                       <img
                         onClick={() => {
@@ -167,10 +288,14 @@ const Withdraw_Modal = () => {
                           setSettingModal(true);
                           setWithdraw_Modal(false);
                         }}
-                        style={{ height: "25px", marginTop: "15px" }}
+                        style={{
+                          height: "25px",
+                          marginTop: "15px",
+                          cursor: "pointer",
+                        }}
                         src={Images.setting}
                       />
-                    </div>{" "}
+                    </div>
                   </div>
                   <p
                     class="pt-3 pl-2"
@@ -275,7 +400,7 @@ const Withdraw_Modal = () => {
                     <input
                       style={{ width: "700px" }}
                       type="range"
-                      class="form-range"
+                      class="form-range n-sliderRanger"
                       onChange={(e) => {
                         console.log("e======>>", e.target.value);
                       }}
@@ -317,7 +442,7 @@ const Withdraw_Modal = () => {
                       color: "#000",
                     }}
                     type="button"
-                    class="btn btn-outline-secondary"
+                    class="btn btn-outline-secondary btnHoverBlue"
                     onClick={() => {
                       setWithdraw_Modal(false);
                     }}
@@ -327,7 +452,7 @@ const Withdraw_Modal = () => {
                   <button
                     style={{ fontSize: "16px", fontFamily: "DM Sans" }}
                     type="button"
-                    class="btn btn-primary btn-lg pl-5 pr-5"
+                    class="btn btn-primary btn-lg pl-5 pr-5 btnHoverWhite"
                     onClick={() => {
                       setWithdraw_Modal(false);
                     }}

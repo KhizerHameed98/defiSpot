@@ -1,15 +1,17 @@
 import React from "react";
 import { ResponsiveLine } from "@nivo/line";
+import { linearGradientDef } from "@nivo/core";
 import data from "./data";
 
-const LineChartSmartCard = () => {
+const LineChartSmartCard = (props) => {
+  console.log("------", props.data);
   return (
-    <div style={{ height: "100px", width: "150px" }}>
+    <div style={{ height: "42px", width: "138px" }}>
       <ResponsiveLine
-        data={data}
-        margin={{ top: 10, right: 20, bottom: 10, left: 10 }}
+        data={props.data}
+        margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
         xScale={{ type: "point" }}
-        lineWidth={3}
+        lineWidth={1}
         yScale={{
           type: "linear",
           min: "auto",
@@ -17,8 +19,8 @@ const LineChartSmartCard = () => {
           stacked: true,
           reverse: false,
         }}
-        colors={["#8676FF", "#FFBA69"]}
-        curve="natural"
+        colors={["#ff6838"]}
+        // curve="natural"
         enableGridX={false}
         enableGridY={false}
         yFormat=" >-.2f"
@@ -31,7 +33,10 @@ const LineChartSmartCard = () => {
         pointBorderWidth={2}
         pointBorderColor={{ from: "serieColor" }}
         pointLabelYOffset={-12}
+        enableArea={true}
+        areaOpacity={0.04}
         useMesh={true}
+        fill={[{ match: "*", id: "gradientA" }]}
         theme={{
           Yaxis: {
             ticks: {

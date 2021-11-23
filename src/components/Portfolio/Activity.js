@@ -36,6 +36,24 @@ const Activity = () => {
       key: "selection",
     },
   ]);
+  const [selectedOption, setSelectedOption] = useState({
+    oneDay: false,
+    oneWeek: false,
+    oneMonth: false,
+    oneYear: false,
+  });
+
+  useEffect(() => {
+    setState([
+      {
+        startDate: new Date(),
+        // endDate: addDays(new Date(), 7),
+        endDate: new Date(),
+        key: "selection",
+      },
+    ]);
+  }, [toggle]);
+
   const [Enum, set_Enum] = useState({
     allType: "allType",
     withdraw: "withdraw",
@@ -192,6 +210,12 @@ const Activity = () => {
 
   //ONE DAY HANDLER
   const handleOneDay = () => {
+    setSelectedOption({
+      oneDay: true,
+      oneWeek: false,
+      oneMonth: false,
+      oneYear: false,
+    });
     setRangeType(EnumRanges.ONE_DAY);
     setCustomToggle(false);
     const newState = [...state];
@@ -220,6 +244,12 @@ const Activity = () => {
   //One Week Handler
 
   const handleOneWeek = () => {
+    setSelectedOption({
+      oneDay: false,
+      oneWeek: true,
+      oneMonth: false,
+      oneYear: false,
+    });
     setRangeType(EnumRanges.ONE_WEEK);
     setCustomToggle(false);
     let curr = new Date();
@@ -270,6 +300,12 @@ const Activity = () => {
     return new Date(year, month, 0).getDate();
   }
   const handleOneMonth = () => {
+    setSelectedOption({
+      oneDay: false,
+      oneWeek: false,
+      oneMonth: true,
+      oneYear: false,
+    });
     setRangeType(EnumRanges.ONE_MONTH);
     setCustomToggle(false);
     // for date Component
@@ -312,6 +348,12 @@ const Activity = () => {
   };
   //ONE YEAR HANDLER
   const handleOneYear = () => {
+    setSelectedOption({
+      oneDay: false,
+      oneWeek: false,
+      oneMonth: false,
+      oneYear: true,
+    });
     setRangeType(EnumRanges.ONE_YEAR);
     setCustomToggle(false);
     // for date Component
@@ -648,6 +690,7 @@ const Activity = () => {
                   style={{ display: "flex", justifyContent: "center" }}
                 >
                   <DateRangePicker
+                    maxDate={new Date()} //disable future dates
                     onChange={(item) => {
                       if (
                         item.selection.startDate <= new Date() &&
@@ -671,7 +714,7 @@ const Activity = () => {
                       "btn btn-outline-secondary ml-3 pl-3 " +
                       (rangeType === EnumRanges.CUSTOM_RANGE
                         ? "rangeActive"
-                        : null)
+                        : "null")
                     }
                     onClick={handleCustom}
                     style={{
@@ -853,32 +896,26 @@ const Activity = () => {
           <form className="">
             <div class=" d-flex flex-row align-items-center form-group has-search mb-0">
               <input
-                style={{
-                  borderRadius: "30px",
-                  fontSize: "12px",
-                  width: "250px",
-                  height: "36px",
-                  fontFamily: "DM Sans",
-                  backgroundColor: "#fcfcfd",
-                }}
                 type="text"
-                class="form-control"
+                class="form-control n-tableSearch"
                 placeholder="Search"
                 value={searchInput}
                 onChange={SearchFilter}
               />
               <img
                 style={{
-                  width: "17px",
-                  height: "17px",
-                  marginLeft: "-25px",
+                  width: "20px",
+                  height: "20px",
+                  marginLeft: "-35px",
+                  marginTop: "10px",
+                  marginBottom: "10px",
                 }}
                 src={Images.searchicon}
               />
 
               <div style={{ float: "right" }}>
                 <button
-                  class="ml-4 seeallbutton"
+                  class="ml-4 seeallbutton btnHoverBlue"
                   onClick={(e) => {
                     e.preventDefault();
 
@@ -900,7 +937,7 @@ const Activity = () => {
           <div style={{ float: "right" }}>
             <button
               type="button"
-              className="btn btn-primary exportbuttonactivity "
+              className="btn btn-primary n-primaryButton "
               style={{ paddingRight: "16px" }}
               onClick={() => {
                 setExportModal(true);
@@ -1163,7 +1200,7 @@ const Activity = () => {
                   Start trading decentralized without pegged wrapped tokens
                   right now!
                 </p>
-                <button className="w-earn-yieldbuttonactivityss">
+                <button className="w-earn-yieldbuttonactivityss btnHoverBlue">
                   Trade assets <img class="pl-2" src={Images.iconsrightline} />
                 </button>
               </div>
@@ -1218,7 +1255,7 @@ const Activity = () => {
                   Start trading decentralized without pegged wrapped tokens
                   right now!
                 </p>
-                <button className="w-earn-yieldbuttonactivityss">
+                <button className="w-earn-yieldbuttonactivityss btnHoverBlue">
                   Earn yield <img class="pl-2" src={Images.iconsrightline} />
                 </button>
               </div>

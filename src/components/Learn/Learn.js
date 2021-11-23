@@ -34,17 +34,18 @@ const Learn = () => {
             <p className="learnpage-234">Search anything about crypto</p>
             <div class=" d-flex form-group has-search mt-2 n-learnSearch">
               <input
-                class="form-control n-learnSectionSearch"
+                class="form-control n-tableSearch"
                 // style={{}}
                 type="text"
                 placeholder="Search"
               />
               <img
                 style={{
-                  width: "17px",
-                  height: "17px",
-                  marginLeft: "-25px",
+                  width: "20px",
+                  height: "20px",
+                  marginLeft: "-35px",
                   marginTop: "10px",
+                  marginBottom: "10px",
                 }}
                 src={Images.searchicon}
               />
@@ -81,6 +82,7 @@ const Learn = () => {
                 <img className="pl-5" src={Images.ButtonSecondarySmall} />
               </button>
               <div
+                style={{ width: "100%" }}
                 class="dropdown-menu n-dropdownMenuShow"
                 aria-labelledby="dropdownMenuButton"
               >
@@ -150,8 +152,8 @@ const Learn = () => {
           <section>
             <div style={{ marginTop: "64px" }} className="container">
               <div style={{ marginTop: "32px" }} className="row">
-                <div className="col-lg-4">
-                  <div class="card" style={{ border: "none" }}>
+                <div className="col-lg-4 px-0">
+                  <div class="card n-learnCards" style={{ border: "none" }}>
                     <img
                       className="u-learncardimage456"
                       src={Images.learnvideo}
@@ -178,7 +180,7 @@ const Learn = () => {
                               style={{ position: "relative" }}
                             >
                               <p class="card-text pname4566">First name</p>
-                              <p class="card-text pname4566 pl-2">First name</p>
+                              <p class="card-text pname4566 pl-2">Last name</p>
                             </div>
                           </div>
                         </div>
@@ -198,17 +200,17 @@ const Learn = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-4">
-                  <div class="card" style={{ border: "none" }}>
-                    <img
-                      className="u-learncardimage456"
-                      src={Images.learnvideo}
-                      // height="300px"
-                    />
-                    <span className="spanclass-343900">POPULAR</span>
-                    <div class="card-body">
-                      <div>
-                        <Link to={browserRoute.INTRO_TO_LP}>
+                <div className="col-lg-4 px-0">
+                  <div class="card n-learnCards" style={{ border: "none" }}>
+                    <Link to={browserRoute.INTRO_TO_LP}>
+                      <img
+                        className="u-learncardimage456"
+                        src={Images.learnvideo}
+                        // height="300px"
+                      />
+                      <span className="spanclass-343900">POPULAR</span>
+                      <div class="card-body">
+                        <div>
                           <div className="d-flex u-trainig0990carddde">
                             <img
                               style={{ width: "40px", height: "40px" }}
@@ -221,25 +223,25 @@ const Learn = () => {
                               <p class="card-text pname4566">LP University</p>
                             </div>
                           </div>
-                        </Link>
+                        </div>
+                        <div>
+                          <p
+                            class="card-text pname456667"
+                            style={{
+                              fontWeight: "700",
+                              padding: "8px 8px 6px 8px",
+                              marginTop: "-42px",
+                            }}
+                          >
+                            POPULAR
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <p
-                          class="card-text pname456667"
-                          style={{
-                            fontWeight: "700",
-                            padding: "8px 8px 6px 8px",
-                            marginTop: "-42px",
-                          }}
-                        >
-                          POPULAR
-                        </p>
-                      </div>
-                    </div>
+                    </Link>
                   </div>
                 </div>
-                <div className="col-lg-4">
-                  <div class="card" style={{ border: "none" }}>
+                <div className="col-lg-4 px-0">
+                  <div class="card n-learnCards" style={{ border: "none" }}>
                     <img
                       className="u-learncardimage456"
                       src={Images.learnvideo}
@@ -266,7 +268,7 @@ const Learn = () => {
                               style={{ position: "relative" }}
                             >
                               <p class="card-text pname4566">First name</p>
-                              <p class="card-text pname4566 pl-2">First name</p>
+                              <p class="card-text pname4566 pl-2">Last name</p>
                             </div>
                           </div>
                         </div>
@@ -289,8 +291,8 @@ const Learn = () => {
               </div>
               {/* new row */}
               <div style={{ marginTop: "32px" }} className="row">
-                <div className="col-lg-4">
-                  <div class="card" style={{ border: "none" }}>
+                <div className="col-lg-4 px-0">
+                  <div class="card n-learnCards" style={{ border: "none" }}>
                     <img
                       className="u-learncardimage456"
                       src={Images.learnvideo}
@@ -317,7 +319,7 @@ const Learn = () => {
                               style={{ position: "relative" }}
                             >
                               <p class="card-text pname4566">First name</p>
-                              <p class="card-text pname4566 pl-2">First name</p>
+                              <p class="card-text pname4566 pl-2">Last name</p>
                             </div>
                           </div>
                         </div>
@@ -337,8 +339,8 @@ const Learn = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-4">
-                  <div class="card" style={{ border: "none" }}>
+                <div className="col-lg-4 px-0">
+                  <div class="card n-learnCards" style={{ border: "none" }}>
                     <img
                       className="u-learncardimage456"
                       src={Images.learnvideo}
@@ -366,7 +368,7 @@ const Learn = () => {
                               style={{ position: "relative" }}
                             >
                               <p class="card-text pname4566">First name</p>
-                              <p class="card-text pname4566 pl-2">First name</p>
+                              <p class="card-text pname4566 pl-2">Last name</p>
                             </div>
                           </div>
                         </div>
@@ -386,8 +388,8 @@ const Learn = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-4">
-                  <div class="card" style={{ border: "none" }}>
+                <div className="col-lg-4 px-0">
+                  <div class="card n-learnCards" style={{ border: "none" }}>
                     <img
                       className="u-learncardimage456"
                       src={Images.learnvideo}
@@ -414,7 +416,7 @@ const Learn = () => {
                               style={{ position: "relative" }}
                             >
                               <p class="card-text pname4566">First name</p>
-                              <p class="card-text pname4566 pl-2">First name</p>
+                              <p class="card-text pname4566 pl-2">Last name</p>
                             </div>
                           </div>
                         </div>
@@ -436,12 +438,16 @@ const Learn = () => {
                 </div>
               </div>
               <div
-                style={{ marginTop: "32px", marginBottom: "136px" }}
+                // style={{ marginTop: "32px", marginBottom: "136px" }}
                 class="d-flex justify-content-center "
               >
-                <button type="button" class="btn n-secondaryButton">
+                <button
+                  type="button"
+                  class="btn n-secondaryButton n-marketLoadMore"
+                >
+                  <img className="pr-2" src={Images.loadicon} />
+                  {/* <img className="mb-1" src={Images.morearticle} /> */}
                   Load more
-                  {/* <img className="mb-1" src={Images.morearticle}/> */}
                 </button>
               </div>
             </div>

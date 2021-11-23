@@ -57,7 +57,7 @@ const TableBody = ({
           style={{ cursor: "pointer" }}
           onClick={handlePopUpModal}
         >
-          <span className="depositclasss">{d.Yield_Rate}% APR</span>
+          <span className="depositclasss">{d.Yield_Rate}% APY</span>
         </td>
         <td
           className="text-right"

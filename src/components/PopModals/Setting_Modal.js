@@ -10,7 +10,6 @@ const Setting_Modal = ({ setModal }) => {
       {/* settong modal */}
 
       {/*AddLiquidity PopUp Modal BTC */}
-
       <Modal
         show={settingModal}
         onHide={() => {
@@ -66,37 +65,66 @@ const Setting_Modal = ({ setModal }) => {
                     </p>
                   </div>
                   <div className="d-flex justify-content-between">
-                    <button type="button" class="btn n-secondaryButton">
+                    <button
+                      type="button"
+                      class="btn n-secondaryButton 123"
+                      style={{ width: "80px" }}
+                    >
                       1%
                       {/* <img className="mb-1" src={Images.morearticle}/> */}
                     </button>
-                    <button type="button" class="btn n-secondaryButton">
+                    <button
+                      style={{ width: "80px" }}
+                      type="button"
+                      class="btn n-secondaryButton"
+                    >
                       0.5%
                       {/* <img className="mb-1" src={Images.morearticle}/> */}
                     </button>
-                    <button type="button" class="btn n-secondaryButton">
+                    <button
+                      style={{ width: "80px" }}
+                      style={{ width: "80px" }}
+                      type="button"
+                      class="btn n-secondaryButton"
+                    >
                       1%
                       {/* <img className="mb-1" src={Images.morearticle}/> */}
                     </button>
-                    <button type="button" class="btn n-secondaryButton">
+                    <button
+                      style={{ width: "80px" }}
+                      type="button"
+                      class="btn n-secondaryButton"
+                    >
                       3%
                       {/* <img className="mb-1" src={Images.morearticle}/> */}
                     </button>
                   </div>
                   <p style={{ fontFamily: "Poppins", marginTop: "32px" }}>
-                    Slipperage tollerance
+                    Transaction Speed
                   </p>
                   <div className="d-flex justify-content-between">
-                    <button type="button" class="btn n-secondaryButton">
-                      1%
+                    <button
+                      style={{ width: "80px" }}
+                      type="button"
+                      class="btn n-secondaryButton"
+                    >
+                      Normal
                       {/* <img className="mb-1" src={Images.morearticle}/> */}
                     </button>
-                    <button type="button" class="btn n-secondaryButton">
-                      0.5%
+                    <button
+                      style={{ width: "80px" }}
+                      type="button"
+                      class="btn n-secondaryButton"
+                    >
+                      Fast
                       {/* <img className="mb-1" src={Images.morearticle}/> */}
                     </button>
-                    <button type="button" class="btn n-secondaryButton">
-                      1%
+                    <button
+                      style={{ width: "80px" }}
+                      type="button"
+                      class="btn n-secondaryButton"
+                    >
+                    Instant
                       {/* <img className="mb-1" src={Images.morearticle}/> */}
                     </button>
                   </div>

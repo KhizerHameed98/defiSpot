@@ -33,11 +33,13 @@ const initialState = {
   // errors: [],
   midgardPool: null,
   KeyStoreClient: [],
+  clientsObject: {},
   isLoggedin: false,
   loading: false,
   overallBalance_USD: 0,
   overallBalance_BTC: 0,
   transactionHistory: [],
+  assetBalance: [],
   mainModal: false,
 };
 
@@ -114,6 +116,9 @@ export default (state = initialState, { type, payload }) => {
         KeyStoreClient: null,
         transactionHistory: null,
         isLoggedin: false,
+        overallBalance_BTC: null,
+        overallBalance_USD: null,
+        clientsObject: null,
       };
 
     case LOGIN:

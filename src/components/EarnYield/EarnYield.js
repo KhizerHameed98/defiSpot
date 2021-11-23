@@ -33,12 +33,55 @@ const EarnYield = () => {
     setMainState(mainStateRedux);
   }, [mainStateRedux]);
 
+  const [ascendingDescendingName, setAscendingDescendingName] = useState(false);
+  const [ascendingDescendingAPY, setAscendingDescendingAPY] = useState(false);
+  const [ascendingDescendingLiquidity, setAscendingDescendingLiquidity] =
+    useState(false);
+
+  const handleAscendingDescendingName = () => {
+    setAscendingDescendingName(!ascendingDescendingName);
+  };
+  useEffect(() => {
+    if (ascendingDescendingName) {
+      handleAscendingName();
+    } else {
+      handleDescendingName();
+    }
+  }, [ascendingDescendingName]);
+
+  const handleAscendingDescendingAPY = () => {
+    setAscendingDescendingAPY(!ascendingDescendingAPY);
+  };
+  useEffect(() => {
+    if (ascendingDescendingAPY) {
+      handleAscendingAPY();
+    } else {
+      handleDescendingAPY();
+    }
+  }, [ascendingDescendingAPY]);
+
+  const handleAscendingDescendingLiquidity = () => {
+    setAscendingDescendingLiquidity(!ascendingDescendingLiquidity);
+  };
+  useEffect(() => {
+    if (ascendingDescendingLiquidity) {
+      handleAscendingLiquidity();
+    } else {
+      handleDescendingLiquidity();
+    }
+  }, [ascendingDescendingLiquidity]);
+
   function financial(x) {
     return Number.parseFloat(x).toFixed(2);
   }
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
+
+  useEffect(() => {
+    filterAllType();
+  }, []);
+
   function filterAllType() {
     setSearchInput("");
     setFilterType(Enum.allType);
@@ -60,14 +103,18 @@ const EarnYield = () => {
   }
   function filterERC20() {
     setSearchInput("");
-    let res = mainStateRedux.filter((data) => data.blockchain === "ETH");
+    let res = mainStateRedux.filter(
+      (data) => data.blockchain === "ETH" && data.blockchain !== data.asset
+    );
     setFilterType(Enum.erc20);
     setPoolData(res);
     setTempPool(res);
   }
   function filterBEP2() {
     setSearchInput("");
-    let res = mainStateRedux.filter((data) => data.blockchain === "BNB");
+    let res = mainStateRedux.filter(
+      (data) => data.blockchain === "BNB" && data.blockchain !== data.asset
+    );
     console.log("res=====>>", res);
     setFilterType(Enum.bep2);
     setPoolData(res);
@@ -180,6 +227,19 @@ const EarnYield = () => {
     let check3 = [...tempPool];
     let res3 = check3.sort((a, b) => b.liquidityUnits - a.liquidityUnits);
     setTempPool(res3);
+  };
+
+  const getType = (d) => {
+    let type;
+    if (d.asset === d.blockchain) {
+      type = "Native";
+    } else if (d.blockchain === "ETH" && d.asset !== d.blockchain) {
+      type = "ERC-20";
+    } else if (d.blockchain === "BNB" && d.asset !== d.blockchain) {
+      type = "BEP2";
+    }
+
+    return <>{type}</>;
   };
 
   return (
@@ -300,17 +360,18 @@ const EarnYield = () => {
                       backgroundColor: "#fcfcfd",
                     }}
                     type="text"
-                    class="form-control n-tableSearch"
-                    placeholder="Search after pool..."
+                    class="form-control n-tableSearch n-responsiveSearch"
+                    placeholder="Search"
                     onChange={inputSearch}
                     value={searchInput}
                   />
                   <img
                     style={{
-                      width: "17px",
-                      height: "17px",
-                      marginLeft: "-25px",
+                      width: "20px",
+                      height: "20px",
+                      marginLeft: "-35px",
                       marginTop: "10px",
+                      marginBottom: "10px",
                     }}
                     src={Images.searchicon}
                   />
@@ -334,12 +395,14 @@ const EarnYield = () => {
                             marginLeft: "3px",
                             position: "absolute",
                             bottom: "31px",
+                            cursor: "pointer",
                           }}
+                          onClick={handleAscendingDescendingName}
                         >
                           <img
                             class="pl-1"
                             src={Images.FilterUp}
-                            onClick={handleDescendingName}
+                            // onClick={handleDescendingName}
                             style={{
                               marginBottom: "3px",
                               cursor: "pointer",
@@ -348,7 +411,7 @@ const EarnYield = () => {
                           <img
                             class="pl-1"
                             src={Images.FilterDown}
-                            onClick={handleAscendingName}
+                            // onClick={handleAscendingName}
                             style={{ cursor: "pointer" }}
                           />
                         </div>
@@ -362,12 +425,14 @@ const EarnYield = () => {
                             marginLeft: "3px",
                             position: "absolute",
                             bottom: "31px",
+                            cursor: "pointer",
                           }}
+                          onClick={handleAscendingDescendingAPY}
                         >
                           <img
                             class="pl-1"
                             src={Images.FilterUp}
-                            onClick={handleDescendingAPY}
+                            // onClick={handleDescendingAPY}
                             style={{
                               marginBottom: "3px",
                               cursor: "pointer",
@@ -376,7 +441,7 @@ const EarnYield = () => {
                           <img
                             class="pl-1"
                             src={Images.FilterDown}
-                            onClick={handleAscendingAPY}
+                            // onClick={handleAscendingAPY}
                             style={{ cursor: "pointer" }}
                           />
                         </div>
@@ -390,12 +455,14 @@ const EarnYield = () => {
                             marginLeft: "3px",
                             position: "absolute",
                             bottom: "31px",
+                            cursor: "pointer",
                           }}
+                          onClick={handleAscendingDescendingLiquidity}
                         >
                           <img
                             class="pl-1"
                             src={Images.FilterUp}
-                            onClick={handleDescendingLiquidity}
+                            // onClick={handleDescendingLiquidity}
                             style={{
                               marginBottom: "3px",
                               cursor: "pointer",
@@ -404,7 +471,7 @@ const EarnYield = () => {
                           <img
                             class="pl-1"
                             src={Images.FilterDown}
-                            onClick={handleAscendingLiquidity}
+                            // onClick={handleAscendingLiquidity}
                             style={{ cursor: "pointer" }}
                           />
                         </div>
@@ -439,7 +506,7 @@ const EarnYield = () => {
                                         fontSize: "14px",
                                       }}
                                     >
-                                      {d.assetFullName}
+                                      {d.asset}
                                     </div>
                                     <div class="d-flex align-items-center">
                                       <div
@@ -449,7 +516,7 @@ const EarnYield = () => {
                                           fontWeight: "500",
                                         }}
                                       >
-                                        {d.blockchain}
+                                        {getType(d)}
                                       </div>
                                     </div>
                                   </div>
@@ -458,15 +525,15 @@ const EarnYield = () => {
                               <td className="text-right">
                                 <div>
                                   <span
-                                    style={{
-                                      backgroundColor:
-                                        "rgba(88, 189, 125, 0.5)",
-                                      color: "#23262F",
-                                      fontSize: "14px",
-                                      fontWeight: "400",
-                                      borderRadius: "4px",
-                                      whiteSpace: "nowrap",
-                                    }}
+                                    // style={{
+                                    //   backgroundColor:
+                                    //     "rgba(88, 189, 125, 0.5)",
+                                    //   color: "#23262F",
+                                    //   fontSize: "14px",
+                                    //   fontWeight: "400",
+                                    //   borderRadius: "4px",
+                                    //   whiteSpace: "nowrap",
+                                    // }}
                                     class="depositclasss"
                                   >
                                     {financial(d.poolAPY)}% APY{" "}
@@ -569,11 +636,12 @@ const EarnYield = () => {
                 </div>
               </div>
             </div>
-              <div class="d-flex justify-content-center n-marketLoadMore">
-                <Link to ={browserRoute.LEARN}>
-              <button type="button" class="btn n-secondaryButton">
-                Load more
-              </button>
+            <div class="d-flex justify-content-center n-marketLoadMore">
+              <Link to={browserRoute.LEARN}>
+                <button type="button" class="btn n-secondaryButton">
+                  <img className="pr-2" src={Images.loadicon} />
+                  Load more
+                </button>
               </Link>
               {/* On loading Add button with loaing img */}
               {/* <button type="button" class="btn loaderbutton">

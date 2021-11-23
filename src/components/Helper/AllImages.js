@@ -95,6 +95,18 @@ import articleimage from "../../assets/images/articleimage.png";
 import stepOne from "../../assets/images/step-one.png";
 import stepTwo from "../../assets/images/step-two.png";
 import stepThree from "../../assets/images/step-three.png";
+import placeholder from "../../assets/images/placeholder.png";
+import us from "../../assets/images/US.svg";
+import vn from "../../assets/images/VN.svg";
+import ru from "../../assets/images/RU.svg";
+import cap from "../../assets/images/dropdown-cap.svg";
+import notificationdot from "../../assets/images/notification-dot.svg";
+import firstarticle from "../../assets/images/firstArti.png";
+import secondarticle from "../../assets/images/secondArti.png";
+import thirdarticle from "../../assets/images/thirdArti.png";
+import bch from "../../assets/images/bch.png"
+import eth from "../../assets/images/eth.png"
+import ltc from "../../assets/images/ltc.png"
 
 const Images = {
   FilterDown,
@@ -103,6 +115,7 @@ const Images = {
   chartmarket,
   searchbarr,
   homeimg,
+  placeholder,
   homevideo,
   overview,
   traineravatar,
@@ -139,6 +152,9 @@ const Images = {
   btc3,
   btc4,
   btc5,
+  bch,
+  eth,
+  ltc,
   lefttwoline,
   moreright,
   btc6,
@@ -193,6 +209,14 @@ const Images = {
   stepOne,
   stepTwo,
   stepThree,
+  us,
+  vn,
+  ru,
+  cap,
+  notificationdot,
+  thirdarticle,
+  secondarticle,
+  firstarticle,
 };
 
 export default Images;

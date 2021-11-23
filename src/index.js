@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { ToastContainer } from "react-toastify";
-
 import { Provider } from "react-redux";
 import store from "./Redux/store/store";
 import { MidgardPool_Action } from "./Services/mainServices";

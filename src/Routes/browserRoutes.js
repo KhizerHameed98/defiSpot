@@ -9,6 +9,7 @@ const browserRoute = {
   PORTFOLIO_ACTIVITY: "/portfolio/assets/activity",
   PORTFOLIO_LIQUIDITY: "/portfolio/liquidity",
   INTRO_TO_LP: "/introtolp",
+  NOTIFICATIONS: "/notifications",
   EARNYIELD: "/earnyield",
 };
   export default browserRoute;

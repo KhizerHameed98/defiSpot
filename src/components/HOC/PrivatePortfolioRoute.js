@@ -17,13 +17,13 @@ const PrivatePortfolioRoute = ({ component: Component, path, ...rest }) => {
                   <li className="marketsidetitle">
                     <Link
                       to={browserRoute.PORTFOLIO_OVERVIEW}
-                      style={{ textDecoration: "none", color: "#777E90" }}
+                      // style={{ textDecoration: "none", color: "#777E90" }}
                       className={
                         window.location.href.indexOf(
                           browserRoute.PORTFOLIO_OVERVIEW
                         ) !== -1
-                          ? "sideBarActive w-box-black"
-                          : "w-box-black"
+                          ? "sideBarActive w-box-black text-bold"
+                          : "w-box-black text-bold"
                       }
                     >
                       Overview
@@ -32,13 +32,13 @@ const PrivatePortfolioRoute = ({ component: Component, path, ...rest }) => {
                   <li className="marketsidetitle">
                     <Link
                       to={browserRoute.PORTFOLIO_ASSETS}
-                      style={{ textDecoration: "none", color: "#777E90" }}
+                      // style={{ textDecoration: "none", color: "#777E90" }}
                       className={
                         window.location.href.indexOf(
                           browserRoute.PORTFOLIO_ASSETS
                         ) !== -1
-                          ? "sideBarActive w-box-purple"
-                          : "w-box-purple"
+                          ? "sideBarActive w-box-purple text-bold"
+                          : "w-box-purple text-bold"
                       }
                     >
                       Assets
@@ -47,13 +47,13 @@ const PrivatePortfolioRoute = ({ component: Component, path, ...rest }) => {
                   <li className="marketsidetitle">
                     <Link
                       to={browserRoute.PORTFOLIO_LIQUIDITY}
-                      style={{ textDecoration: "none", color: "#777E90" }}
+                      // style={{ textDecoration: "none", color: "#777E90" }}
                       className={
                         window.location.href.indexOf(
                           browserRoute.PORTFOLIO_LIQUIDITY
                         ) !== -1
-                          ? "sideBarActive w-box-yellow"
-                          : "w-box-yellow"
+                          ? "sideBarActive w-box-yellow text-bold"
+                          : "w-box-yellow text-bold"
                       }
                     >
                       Liquidity providing

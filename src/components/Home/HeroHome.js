@@ -1,47 +1,44 @@
 import React, { useState, useEffect, Fragment, useRef } from "react";
 import withMainLayout from "../HOC/withMainLayout";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import browserRoute from "../../Routes/browserRoutes";
 import Images from "../Helper/AllImages";
 import { MidgardPool_Action } from "../../Redux/actions/actions";
+import { handleMainModal } from "../../Services/mainServices";
 import { useSelector, useDispatch } from "react-redux";
+import CryptoJS from "crypto-js";
 import Loader from "../Loader/Loader";
+import { ResponsiveLine } from "@nivo/line";
+import { Bar, Pie, Line } from "react-chartjs-2";
+import LineChartSmartCard from "../GraphChart";
 
 export const HeroHome = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [poolData, setPoolData] = useState([]);
   const mainState = useSelector((state) => state.main.midgardPool);
   const loading = useSelector((state) => state.main.loading);
+  const loggedin = useSelector((state) => state.main.isLoggedin);
   // const [state, setstte] = useState({ name: "ali", age: "20", no: "1028505852" });
   const myRef = useRef(null);
   const executeScroll = () =>
     myRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-  // useEffect(() => {
-  //   let today = new Date();
-  //   let yesterday = new Date();
-
-  //   yesterday.setDate(today.getDate() - 2);
-  //   yesterday.setHours(0);
-  //   yesterday.setMinutes(1);
-  //   yesterday.setSeconds(0);
-  //   let timeStamp1 = yesterday.getTime();
-  //   yesterday.setDate(today.getDate() - 1);
-  //   yesterday.setHours(0);
-  //   yesterday.setMinutes(0);
-  //   yesterday.setSeconds(0);
-  //   let timeStamp2 = yesterday.getTime();
-
-  //   console.log("Today: " + today);
-  //   console.log("Yesterday: " + yesterday);
-  //   console.log("TimeStamp1: ", timeStamp1);
-  //   console.log("TimeStamp2: ", timeStamp2);
-  // }, []);
   function financial(x) {
     return Number.parseFloat(x).toFixed(2);
   }
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
+  function handleRoutingtoBuy(d) {
+    if (!loggedin) {
+      dispatch(handleMainModal(true));
+    } else {
+      history.push(`${browserRoute.BUYMARKET}/${d._id}`);
+    }
+  }
+  // function handleRouting(data) {
+  //   history.push(`${browserRoute.BUYMARKET}/${data._id}`);
+  // }
 
   return (
     <div>
@@ -60,7 +57,11 @@ export const HeroHome = () => {
                   legendary crypto asset exchange.{" "}
                 </p>
                 <Link to={browserRoute.MARKET}>
-                  <button type="button" class="n-primaryButton">
+                  <button
+                    type="button"
+                    class="n-primaryButton"
+                    style={{ fontSize: "16px", padding: "16px 24px" }}
+                  >
                     Get started now
                   </button>
                 </Link>
@@ -197,7 +198,7 @@ export const HeroHome = () => {
           <div class="n-marketTrendHeading">
             <h2 class="markettrend">Market trend</h2>
             <Link to={browserRoute.MARKET}>
-              <button class="btn n-secondaryButton n-ButtonResponsive">
+              <button class="n-secondaryButton n-ButtonResponsive">
                 Go to market
               </button>
             </Link>
@@ -268,7 +269,7 @@ export const HeroHome = () => {
                                       {d.assetFullName}
                                     </div>
                                     <div
-                                      class="pl-2 text-muted"
+                                      class="text-muted"
                                       style={{
                                         fontSize: "16px",
                                         marginLeft: "12px",
@@ -305,34 +306,128 @@ export const HeroHome = () => {
                                 </td>
                                 <td>
                                   <div class="graph">
+                                    <LineChartSmartCard
+                                      data={[
+                                        {
+                                          id: "Parent",
+                                          color: "hsl(6, 70%, 50%)",
+                                          data: d.graphData.map((data) => {
+                                            return {
+                                              x: new Date(
+                                                Number(data.timeStamp) * 1000
+                                              )
+                                                .toString()
+                                                .substring(4, 16),
+                                              y: data.assetPriceUSD,
+                                            };
+                                          }),
+                                        },
+                                      ]}
+                                    />
+
                                     {/* <img src={Images.crt1} alt="" />
                                       {/* <Graph /> */}
+                                    {/* <Line
+                                      width={600}
+                                      height={250}
+                                      style={{
+                                        position: "relative",
+                                        height: "40px",
+                                        width: "80px",
+                                      }}
+                                      data={{
+                                        labels: d.graphData.map((data) =>
+                                          new Date(
+                                            Number(data.timeStamp) * 1000
+                                          )
+                                            .toString()
+                                            .substring(4, 16)
+                                        ),
 
-                                    {d.change_24h > 0 ? (
-                                      <>
-                                        <img src={Images.crt1} />
-                                      </>
-                                    ) : (
-                                      <>
-                                        <img
-                                          style={{
-                                            width: "136px",
-                                            height: "40px",
-                                          }}
-                                          src={Images.crt2}
-                                        />
-                                      </>
-                                    )}
+                                        datasets: [
+                                          {
+                                            label: d.asset,
+
+                                            data: d.graphData.map(
+                                              (data) => data.assetPriceUSD
+                                            ),
+
+                                            backgroundColor: "rgba(0,0,255,.6)",
+
+                                            borderWidth: 1,
+
+                                            borderColor: "#00f",
+
+                                            hoverBorderWidth: 3,
+
+                                            hoverBorderColor: "#000",
+                                          },
+                                        ],
+                                      }}
+                                      options={{
+                                        title: {
+                                          display: true,
+
+                                          text: "Daily Corona Update",
+
+                                          fontSize: 25,
+                                        },
+
+                                        legend: {
+                                          display: false,
+
+                                          position: "top", // top, bottom ,left, right
+
+                                          labels: {
+                                            fontColor: "#000",
+                                          },
+                                        },
+
+                                        layout: {
+                                          padding: {
+                                            left: 0,
+
+                                            right: 0,
+
+                                            top: 0,
+
+                                            bottom: 0,
+                                          },
+                                        },
+
+                                        tooltips: {
+                                          enabled: true, 
+                                        },
+                                      }}
+                                    /> */}
                                   </div>
                                 </td>
                                 <td>
-                                  <Link
-                                    to={`${browserRoute.BUYMARKET}/${d.asset}`}
+                                  <div
+                                    // to={`${browserRoute.BUYMARKET}/${d.asset}`}
+                                    style={{
+                                      cursor: "pointer",
+                                      textDecoration: "none",
+                                      textAlign: "center",
+                                      display: "inline-block",
+                                    }}
                                   >
-                                    <div class="btn n-secondaryButton">
+                                    <div
+                                      style={{
+                                        cursor: "pointer",
+                                        textDecoration: "none",
+                                        textAlign: "center",
+                                        display: "inline-block",
+                                      }}
+                                      class="n-secondaryButton"
+                                      onClick={() => handleRoutingtoBuy(d)}
+                                    >
+                                      {/* <button */}
+                                      {/* > */}
                                       Trade
+                                      {/* </button> */}
                                     </div>
-                                  </Link>{" "}
+                                  </div>{" "}
                                 </td>
                               </tr>
                             </>
@@ -373,7 +468,7 @@ export const HeroHome = () => {
                     alt="Card image cap"
                   />
                 </div>
-                <div class="card-body n-cardContent">
+                <div class="n-cardContent">
                   <h5
                     class="card-title d-flex justify-content-center"
                     style={{
@@ -404,7 +499,8 @@ export const HeroHome = () => {
                   <div class="d-flex justify-content-center">
                     <Link
                       to={browserRoute.MARKET}
-                      class="btn n-secondaryButton"
+                      class="n-secondaryButton"
+                      style={{ textDecoration: "none" }}
                     >
                       Buy crypto
                     </Link>
@@ -428,7 +524,7 @@ export const HeroHome = () => {
                     alt="Card image cap"
                   />
                 </div>
-                <div class="card-body n-cardContent">
+                <div class="n-cardContent">
                   <h5
                     class="card-title d-flex justify-content-center"
                     style={{
@@ -459,7 +555,8 @@ export const HeroHome = () => {
                   <div class="d-flex justify-content-center">
                     <Link
                       to={browserRoute.MARKET}
-                      class="btn n-secondaryButton"
+                      class="n-secondaryButton"
+                      style={{ textDecoration: "none" }}
                     >
                       Trade now
                     </Link>
@@ -483,7 +580,7 @@ export const HeroHome = () => {
                     alt="Card image cap"
                   />
                 </div>
-                <div class="card-body n-cardContent">
+                <div class="n-cardContent">
                   <h5
                     class="card-title d-flex justify-content-center"
                     style={{
@@ -514,7 +611,8 @@ export const HeroHome = () => {
                   <div class="d-flex justify-content-center">
                     <Link
                       to={browserRoute.EARNYIELD}
-                      class="btn align-items-center n-secondaryButton"
+                      class="align-items-center n-secondaryButton"
+                      style={{ textDecoration: "none" }}
                     >
                       Earn now
                     </Link>
@@ -526,7 +624,7 @@ export const HeroHome = () => {
           <div class="n-cryptoReadMore">
             <button
               type="button"
-              class="btn d-flex justify-content-center n-primaryButton"
+              class="d-flex justify-content-center n-primaryButton"
             >
               Read more
             </button>
@@ -614,7 +712,7 @@ export const HeroHome = () => {
           </div>
         </div>
       </section>
-      <section style={{ backgroundColor: "#FCFCFD" }} ref={myRef}>
+      <section ref={myRef}>
         <section style={{ backgroundColor: "#FCFCFD" }} class="container">
           <div class="row">
             <div class="col-md-12 n-learnSection">
@@ -624,7 +722,7 @@ export const HeroHome = () => {
                   <button
                     style={{ fontWeight: "bold" }}
                     type="button"
-                    class="btn n-secondaryButton n-ButtonResponsive"
+                    class="n-secondaryButton n-ButtonResponsive"
                   >
                     View more
                   </button>
@@ -632,7 +730,7 @@ export const HeroHome = () => {
               </div>
               <div id="tabsContent" class="tab-content">
                 <div id="home1" class="tab-pane fade active show">
-                  <section style={{ backgroundColor: "#FCFCFD" }}>
+                  <section className="u-mainhomesection788882">
                     <div class="container px-0">
                       <div class="row">
                         <div class="col-lg-6">
@@ -656,7 +754,7 @@ export const HeroHome = () => {
                             <Link to={browserRoute.LEARN}>
                               <button
                                 type="button"
-                                class="btn n-secondaryButton n-ButtonResponsive"
+                                class="n-secondaryButton n-ButtonResponsive"
                                 style={{ float: "right" }}
                               >
                                 Learn more
@@ -671,7 +769,7 @@ export const HeroHome = () => {
                                     fill-rule="evenodd"
                                     clip-rule="evenodd"
                                     d="M0.528596 0.195262C0.268246 0.455612 0.268246 0.877722 0.528596 1.13807L2.39052 3L0.528596 4.86193C0.268246 5.12228 0.268246 5.54439 0.528596 5.80474C0.788945 6.06509 1.21106 6.06509 1.4714 5.80474L3.80474 3.4714C4.06509 3.21106 4.06509 2.78895 3.80474 2.5286L1.4714 0.195262C1.21106 -0.0650874 0.788945 -0.0650874 0.528596 0.195262Z"
-                                    fill="#000000"
+                                    fill="#777e90"
                                   />
                                 </svg>
                                 {/* <img
@@ -760,7 +858,7 @@ export const HeroHome = () => {
                             </div>
                             <div>
                               <img
-                                src={Images.homeimg}
+                                src={Images.firstarticle}
                                 width="100%"
                                 height="100%"
                               />
@@ -780,7 +878,7 @@ export const HeroHome = () => {
                             </div>
                             <div>
                               <img
-                                src={Images.homeimg}
+                                src={Images.secondarticle}
                                 width="100%"
                                 height="100%"
                               />
@@ -800,7 +898,7 @@ export const HeroHome = () => {
                             </div>
                             <div>
                               <img
-                                src={Images.homeimg}
+                                src={Images.thirdarticle}
                                 width="100%"
                                 height="100%"
                               />

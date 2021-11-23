@@ -49,8 +49,18 @@ import {
   formatAssetAmountCurrency,
 } from "@xchainjs/xchain-util";
 import { environment } from "./environment";
-import CryptoJS from "crypto-js";
+import CryptoJS, { algo } from "crypto-js";
 import { formatBaseAsAssetAmount } from "@xchainjs/xchain-util";
+import { KeystoreWallet } from "./KeystoreWalletService/KeystoreWallet";
+import { WalletConnectService } from "./WalletConnectService/walletConnect-service";
+import { XDEFIService } from "./XdefiService/xdefi-service";
+import { MetamaskService } from "./MetaMaskService/metamask.service";
+
+const walletConnectService = new WalletConnectService();
+const xdefiService = new XDEFIService();
+const keyStoreInstance = new KeystoreWallet();
+const metaMaskService = new MetamaskService();
+
 //alert toast
 const alertToast = (error, message) => {
   if (!error) {
@@ -106,6 +116,19 @@ export const handleLogout = () => async (dispatch) => {
   dispatch({
     type: LOGOUT,
   });
+  // const aa = await metaMaskService.setProvider(null);
+  // console.log(aa);
+  // await window.ethereum.disconnect();
+  // await window.ethereum.request({
+  //   method: "wallet_requestPermissions",
+  //   params: [
+  //     {
+  //       eth_accounts: {},
+  //     },
+  //   ],
+  // });
+  // localStorage.clear();
+  // walletConnectService.disconnect();
   alertToast(true, "Wallet Disconnected");
 };
 
@@ -130,6 +153,26 @@ export const createKeyStore =
 //Connect KeyStore
 let fileReader;
 // serverEncryption - Function is used to encrypt data with server key
+
+export async function serverEncryptionAndRouting(unencryptedData, history) {
+  try {
+    let res = CryptoJS.AES.encrypt(
+      unencryptedData.toString(),
+      "OptimusFox"
+    ).toString();
+    console.log("ENCRYPTED======>>", res);
+    // let dec = serverDecryption(res);
+    // console.log("DECRYPTED======>>", dec);
+    // let bytes = await CryptoJS.AES.decrypt(res, "OptimusFox")
+    //   .toString(CryptoJS.enc.Utf8, getCircularReplacer)
+    //   .toString();
+    // console.log("BYTES====>>", bytes);
+    history.push(`${browserRoute.BUYMARKET}/${res}`);
+  } catch (e) {
+    return e.message;
+  }
+}
+
 const getCircularReplacer = () => {
   const seen = new WeakSet();
   return (key, value) => {
@@ -142,366 +185,111 @@ const getCircularReplacer = () => {
     return value;
   };
 };
-async function serverEncryption(unencryptedData) {
-  try {
-    return CryptoJS.AES.encrypt(
-      unencryptedData.toString(),
-      "OptimusFox"
-    ).toString();
-  } catch (e) {
-    return e.message;
-  }
-}
 
 // serverDecryption - Function is used to decrypt data with server key
 
-async function serverDecryption(encryptedData) {
+export async function serverDecryption(encryptedData) {
   try {
-    let bytes = CryptoJS.AES.decrypt(encryptedData, "OptimusFox");
-
-    return bytes.toString(CryptoJS.enc.Utf8);
+    let bytes = await CryptoJS.AES.decrypt(
+      encryptedData,
+      "OptimusFox"
+    ).toString(getCircularReplacer(), CryptoJS.enc.Utf8);
+    console.log("BYTES====>>", bytes);
+    return bytes;
+    // return bytes.toString(CryptoJS.enc.Utf8);
+    // console.log("DATA======>>>", bytes.toString(CryptoJS.enc.Utf8));
   } catch (e) {
     return e.message;
   }
 }
 
 //COnnect MetaMask
-let web3, account;
+// let web3, account;
 
 export const MetaMaskConnection = (setMainModel) => async (dispatch) => {
   if (!window.ethereum) {
     alert("Please install metamask first");
   } else {
     try {
-      web3 = new Web3(window.ethereum);
-      await window.ethereum.enable();
-      account = await web3.eth.getAccounts();
-      console.log("accounts====>>>", account);
-      localStorage.clear();
-      dispatch({ type: LOGOUT });
-      localStorage.setItem("walletAccount", account);
-      // localStorage.setItem("isLoggedin", true);
+      const metamask = await metaMaskService.connect(
+        dispatch,
+        setMainModel,
+        alertToast
+      );
+      console.log(metamask);
 
-      dispatch({ type: LOGIN });
+      // web3 = new Web3(window.ethereum);
+      // await window.ethereum.enable();
+      // account = await web3.eth.getAccounts();
+      // console.log("accounts====>>>", account);
+      // localStorage.clear();
+      // dispatch({ type: LOGOUT });
+      // localStorage.setItem("walletAccount", account);
+      // // localStorage.setItem("isLoggedin", true);
 
-      // localStorage.setItem(TYPE, METAMASK);
-      setMainModel(false);
-      alertToast(false, "MetaMask Connected Successfully!");
+      // dispatch({ type: LOGIN });
+
+      // // localStorage.setItem(TYPE, METAMASK);
+      // setMainModel(false);
+      // alertToast(false, "MetaMask Connected Successfully!");
     } catch (error) {
       console.log(error);
     }
   }
 };
 
+export const WalletConnectConnection = (setMainModel) => async (dispatch) => {
+  // const res = await window.ethereum.isConnected();
+  // if (res) {
+  // console.log(window.ethereum.isConnected());
+  // alert("Please disconnect your MetaMask");
+  // } else {
+  walletConnectService.connect(dispatch, setMainModel, alertToast);
+  // }
+};
+
+export const XDEFIConnection = (setMainModel) => async (dispatch) => {
+  xdefiService.connectXDEFI(dispatch, setMainModel, alertToast);
+};
+
 export const connectKeyStore =
   (password, fileKeyStore, setConnectKeyStoreModal, setLoading) =>
   async (dispatch) => {
-    try {
-      // localStorage.clear();
-      dispatch({ type: LOGOUT });
-      setLoading(true);
-      const handleFileRead = async () => {
-        const content = JSON.parse(fileReader.result);
-        console.log(content);
-        let res = await decryptFromKeystore(content, password);
-        console.log("decryption=====>", res);
-        // … do something with the 'content' …
+    keyStoreInstance.connect(
+      dispatch,
+      password,
+      fileKeyStore,
+      setConnectKeyStoreModal,
+      setLoading
+    );
+  };
 
-        //Network is defined here for all the general networks
-        let clients = {};
-        let mainClients = [];
-        const network =
-          environment.network === "testnet" ? Network.Testnet : Network.Mainnet;
-        console.log("Enabled Network: ---------------> ", network);
-        //Binance Address is getting from here
-        const userBinanceClient = new binanceClient({ network, phrase: res });
-        console.log("here", userBinanceClient);
-        let BinanceClientAddress = userBinanceClient.getAddress();
-        // clients.Binance = userBinanceClient;
-        console.log(
-          "User Binance Client address: ---------------> ",
-          BinanceClientAddress
-        );
-        //Transactions history of Binance Client getting here
-        const transationResultOfBinanceClient =
-          await userBinanceClient.getTransactions({
-            address: BinanceClientAddress,
-          });
-        console.log(
-          "Transaction Data of Binance CLient",
-          transationResultOfBinanceClient
-        );
-        const balanceBinance = await userBinanceClient.getBalance(
-          BinanceClientAddress
-        );
-        console.log("balance ee oy!!", balanceBinance);
-        clients.Balance = balanceBinance;
-        clients.Transactions = transationResultOfBinanceClient;
-        clients.Address = BinanceClientAddress;
-        mainClients.push({ ...clients });
-
-        //Bitcoin Client is set here
-        const userBtcClient = new bitcoinClient({
-          network,
-          phrase: res,
-          sochainUrl: "https://sochain.com/api/v2",
-          blockstreamUrl: "https://blockstream.info",
-        });
-        //Bitcoin Client is Address generating from here
-
-        console.log("User Btc Client: ---------------> ", userBtcClient);
-        let addressBtc = userBtcClient.getAddress();
-
-        console.log("BTC Address: ---------------> ", addressBtc);
-        //Balance of Bitcoin is getting from here
-        // const providerBTC = await userBtcClient.getProvider();
-        const balanceBtc = await userBtcClient.getBalance(addressBtc);
-
-        console.log("balance Of BTC: ---------------> ", balanceBtc);
-        //Transactions history of BTC Client getting here
-        const transationResultOfBTCClient = await userBtcClient.getTransactions(
-          {
-            address: addressBtc,
-          }
-        );
-        console.log(
-          "Transaction Data of BTC CLient",
-          transationResultOfBTCClient
-        );
-        clients.Address = addressBtc;
-        clients.Balance = balanceBtc;
-        clients.Transactions = transationResultOfBTCClient;
-        mainClients.push({ ...clients });
-
-        //Thorchain Client is set here
-        const userThorchainClient = new thorchainClient({
-          network,
-          phrase: res,
-        });
-        console.log(
-          "User Thorchain Client: ---------------> ",
-          userThorchainClient
-        );
-        //Thorchain Address is generation from here
-
-        const thorAddress = await userThorchainClient.getAddress();
-        console.log("THORChain Address: ---------------> ", thorAddress);
-        //Balance of THORChain is getting from here
-        const balanceThor = await userThorchainClient.getBalance(thorAddress);
-        console.log("length====>>>", balanceThor.length);
-        console.log("THORChain Balance: ---------------> ", balanceThor);
-        //Transactions history of Thorchain Client getting here
-        const transationResultOfTHORChain =
-          await userThorchainClient.getTransactions({ address: thorAddress });
-        console.log(
-          "Transaction Data of THORChain CLient",
-          transationResultOfTHORChain
-        );
-        clients.Address = thorAddress;
-        clients.Balance = balanceThor;
-        clients.Transactions = transationResultOfTHORChain;
-        mainClients.push({ ...clients });
-
-        // Ethereum CLinet is set here
-        const userEthereumClient = new ethereumClient({
-          network: "testnet",
-          phrase: res,
-          etherscanApiKey: environment.etherscanKey,
-          infuraCreds: { projectId: environment.infuraProjectId },
-        });
-        // //Ethereum Client Address is generation from here
-        // console.log("User Ethereum Client: ---------------> ", userEthereumClient.getAddress());
-        //Ethereum CLient Provider is printing here
-        const provider = userEthereumClient.getProvider();
-
-        console.log("Ethereum Provider: ---------------> ", provider);
-        // //Ethereum Balance is getting from here
-        clients.Ethereum = userEthereumClient;
-        let addressEth = userEthereumClient.getAddress();
-
-        const ethBalance = await provider.getBalance(addressEth);
-
-        console.log(
-          "Ethereum Balance: ---------------> ",
-          ethBalance.toString()
-        );
-        console.log("Ethereum Address: ---------------> ", addressEth);
-        //Ethereum Client Balance is getting from here
-        const balance1eth = await userEthereumClient.getBalance(addressEth);
-        console.log("Ethereum Client Balance: ---------------> ", balance1eth);
-        console.log(res);
-        let check = balance1eth[0];
-        //Transactions history of Ethereum Client getting here
-        const transationResultOfEthereum =
-          await userEthereumClient.getTransactions({ address: addressEth });
-        console.log(
-          "Transaction Data of Ethereum CLient",
-          transationResultOfEthereum
-        );
-        clients.Address = addressEth;
-        clients.Balance = balance1eth;
-        clients.Transactions = transationResultOfEthereum;
-        mainClients.push({ ...clients });
-
-        //LTC Client is setup here
-        const userLtcClient = new litecoinClient({
-          network,
-          phrase: res,
-        });
-        // LTC Client Address generation is done here
-        let addressLTC = userLtcClient.getAddress();
-
-        console.log("User LTC Client: ---------------> ", addressLTC);
-        //LTC Client Balance is getting from here
-        const balanceLTC = await userLtcClient.getBalance(addressLTC);
-        console.log("LTC Client Balance: ---------------> ", balanceLTC);
-
-        //Transactions history of LTC Client getting here
-        const transationResultOfLTC = await userLtcClient.getTransactions({
-          address: addressLTC,
-        });
-        console.log("Transaction Data of LTC CLient", transationResultOfLTC);
-        clients.Address = addressLTC;
-        clients.Balance = balanceLTC;
-        clients.Transactions = transationResultOfLTC;
-        mainClients.push({ ...clients });
-
-        // //BCH Client is setup here
-        // const userbchClient = new bitcoinCashClient({ network, phrase: res });
-
-        // //BCH Client Address generation is done here
-        // let addressBCH = userbchClient.getAddress();
-
-        // console.log("User BCH Client: ---------------> ", addressBCH);
-        // //BCH Client Balance getting is done here
-        // const balanceBCH = await userbchClient.getBalance(addressBCH);
-        // console.log("LTC Client Balance: ---------------> ", balanceBCH);
-
-        // //Transaction History of BCH Client getting here
-        // const transationResultOfBCH = await userbchClient.getTransactions({
-        //   address: addressBCH,
-        // });
-        // console.log("Transaction Data of LTC CLient", transationResultOfBCH);
-        // clients.Address = addressBCH;
-        // clients.Balance = balanceBCH;
-        // clients.Transactions = transationResultOfBCH;
-        // mainClients.push({ ...clients });
-        mainClients.map((d, key) => {
-          d.Transactions.txs.map((t, key) => {
-            let res =
-              Number(t?.to[0]?.amount?.amount()?.c[0]) /
-              Math.pow(10, Number(t?.to[0]?.amount?.decimal));
-            t.transferAmount = res;
-          });
-        });
-        console.log("Clients===>>>", clients);
-        // localStorage.setItem("isLoggedin", true);
-        // localStorage.setItem(TYPE, KEYSTORE);
-        const EncryptedClients = await serverEncryption(
-          // JSON.stringify(clients, getCircularReplacer())
-          JSON.stringify(res)
-        );
-        console.log("Check====>>>", EncryptedClients);
-        // localStorage.setItem("phrase", EncryptedClients);
-        // let clientsDescryption = await serverDecryption(clientsEncryption);
-        // console.log("Check6====>>>", JSON.parse(clientsDescryption));
-
-        let concatAssetName = "";
-        let totalAmountInBTC = 0;
-        let totalAmountInUSD = 0;
-        let transactionHistory = [];
-        mainClients.map((d, mainKey) => {
-          d.Balance.map((t, key) => {
-            let asset = t?.asset?.ticker?.split("/");
-            if (asset[1]) {
-              asset = asset[1];
-            } else {
-              asset = asset[0];
-            }
-            concatAssetName = concatAssetName + asset + ",";
-
-            // console.log("TICKER", asset, t.amount.amount());
-          });
-          d.Transactions.txs.map((t, key) => {
-            transactionHistory.push(t);
-            let res =
-              Number(t?.to[0]?.amount?.amount()?.c[0]) /
-              Math.pow(10, Number(t?.to[0]?.amount?.decimal));
-            t.transferAmount = res;
-          });
-        });
-        let apiDataBTC = await axios.get(
-          `https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=${concatAssetName}`
-        );
-        let apiDataUSD = await axios.get(
-          `https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=${concatAssetName}`
-        );
-
-        let dataBTC = apiDataBTC.data;
-        let dataUSD = apiDataUSD.data;
-        console.log("DATA IN USD==========>>", dataUSD);
-        mainClients.map((d, mainKey) => {
-          d.Balance.map((t, key) => {
-            let asset = t?.asset?.ticker?.split("/");
-            if (asset[1]) {
-              asset = asset[1];
-            } else {
-              asset = asset[0];
-            }
-            // console.log("heyData=====>>",asset, data[asset]);
-            let value =
-              Number(t.amount.amount().c[0]) /
-              Math.pow(10, Number(t.amount.decimal));
-            // totalAmountInBTC = totalAmountInBTC + value;
-            // console.log("Value Before", asset, value);
-            let valueBTC = value / dataBTC[asset];
-            let valueUSD = value / dataUSD[asset];
-            totalAmountInUSD = totalAmountInUSD + valueUSD;
-            totalAmountInBTC = totalAmountInBTC + valueBTC;
-          });
-        });
-        // .then((res) => {
-
-        // })
-        // .catch((err) => {
-        //   alertToast(true, "CryptoCompare: Failed");
-        // });
-        console.log("TOTAL AMOUNTBTC======>>>", totalAmountInBTC);
-        console.log("TOTAL AMOUNTUSD======>>>", totalAmountInUSD);
-
-        console.log("mainClients======>>>", mainClients);
-
-        setConnectKeyStoreModal(false);
-        alertToast(false, "KeyStore Connected Successfully!");
-        dispatch({
-          type: KEYSTORECONNECTION_SUCCESS,
-          payload: {
-            KeyStoreClient: mainClients,
-            overallBalance_USD: totalAmountInUSD,
-            overallBalance_BTC: totalAmountInBTC,
-            transactionHistory: transactionHistory,
-            isLoggedin: true,
-          },
-        });
-        setLoading(false);
-
-        //PolkaDot Client is setup here
-        //  const userPolkaDotClient = new PolkadotClient({
-        //    network:'testnet',
-        //    phrase:res
-        //  });
-        //  console.log("User PolkaDot Client: ---------------> ", userPolkaDotClient.getAddress());
-      };
-
-      fileReader = new FileReader();
-      fileReader.onloadend = handleFileRead;
-      fileReader.readAsText(fileKeyStore);
-    } catch (error) {
-      alertToast(true, error?.message || "Something went wrong");
-
-      setLoading(false);
-      setConnectKeyStoreModal(false);
-    }
+//Native Token Swapping
+export const nativeSwapping =
+  (
+    fromAsset,
+    toAsset,
+    amount,
+    decimal,
+    midgardPool,
+    setYayModal,
+    setTransactionHash,
+    setStatusLink,
+    setLoading
+  ) =>
+  async (dispatch) => {
+    keyStoreInstance.nativeSwapping(
+      dispatch,
+      fromAsset,
+      toAsset,
+      amount,
+      decimal,
+      midgardPool,
+      setYayModal,
+      setTransactionHash,
+      setStatusLink,
+      setLoading
+    );
   };
 
 //KeyStore Transaction History
@@ -574,7 +362,9 @@ export const GetKeyStore_TransactionHistory = () => async (dispatch) => {
     // const providerBTC = await userBtcClient.getProvider();
     const balanceBtc = await userBtcClient.getBalance(addressBtc);
 
-    console.log("balance Of BTC: ---------------> ", balanceBtc);
+    console.log("balance Of BTCCC: ---------------> ", balanceBtc);
+    console.log("balance: ---------------> ", balanceBtc[0].amount.amount());
+
     //Transactions history of BTC Client getting here
     const transationResultOfBTCClient = await userBtcClient.getTransactions({
       address: addressBtc,
@@ -790,6 +580,11 @@ export const MidgardPool_Action = () => async (dispatch) => {
     type: MIDGARDPOOL_REQUESTING,
   });
   let poolData = [];
+  let coinMarketCapData = [];
+  // let check = await axios.get(
+  //   "https://viewblock.io/thorchain/tx/996DFA621B1C2CE978541381541906AF311FA7B24C39A37DAC6C76CF8FB5ABF9?network=testnet"
+  // );
+  // console.log("check======>>>", check);
   await axios
     .get(mainRoute.MIDGARD_POOL)
     .then((res) => {
@@ -817,6 +612,7 @@ export const MidgardPool_Action = () => async (dispatch) => {
 
   // setLoading(false);
 };
+
 //Forget Password
 // export const forgetPassword =
 //   ({ formData, history }) =>

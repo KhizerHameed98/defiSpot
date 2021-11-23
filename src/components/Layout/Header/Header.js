@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
-import Logo from "../../../assets/images/logo.png";
-import headerdown from "../../../assets/images/headerdown.png";
+import React, { useState, useEffect, useRef } from "react";
+
 import doticon from "../../../assets/images/doticon.png";
 import bell from "../../../assets/images/bell.png";
 import walleto from "../../../assets/images/walleto.png";
@@ -14,14 +13,14 @@ import { useDispatch, useSelector } from "react-redux";
 import Images from "./../../Helper/AllImages";
 import Darkmode from "darkmode-js";
 
-import { LOGOUT } from "../../../Redux/actions/types";
-
 import {
   createKeyStore,
   connectKeyStore,
   MetaMaskConnection,
   handleMainModal,
   handleLogout,
+  WalletConnectConnection,
+  XDEFIConnection,
 } from "../../../Services/mainServices";
 export const Header = () => {
   const options = {
@@ -50,6 +49,39 @@ export const Header = () => {
   const [selectedLang, setSelectedLang] = useState("ENG");
   const [connectKeyStore_password, setConnectKeyStore_password] = useState("");
   const [title, setTitle] = useState("");
+  const [notificationPopup, setNotificationPopup] = useState(false);
+  const [languageDropDown, setLanguageDropDown] = useState(false);
+  const [learnDropDown, setLearnDropDown] = useState(false);
+
+  const myRef = useRef();
+  const myRefLanguage = useRef();
+  const myRefLearn = useRef();
+
+  useEffect(() => {
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+    function handleClick(e) {
+      if (myRef && myRef.current) {
+        const ref = myRef.current;
+        if (!ref.contains(e.target)) {
+          setNotificationPopup(false);
+        }
+      }
+      if (myRefLanguage && myRefLanguage.current) {
+        const ref2 = myRefLanguage.current;
+        if (!ref2.contains(e.target)) {
+          setLanguageDropDown(false);
+        }
+      }
+      if (myRefLearn && myRefLearn.current) {
+        const ref2 = myRefLearn.current;
+        if (!ref2.contains(e.target)) {
+          setLearnDropDown(false);
+        }
+      }
+    }
+  }, []);
+
   // Crypto Constants for xchain
   const cipher = "aes-128-ctr";
   const kdf = "pbkdf2";
@@ -95,6 +127,14 @@ export const Header = () => {
     disptach(MetaMaskConnection(setMainModel));
   };
 
+  const connectWalletConnect = async () => {
+    disptach(WalletConnectConnection(setMainModel));
+  };
+
+  const connectXdefi = async () => {
+    disptach(XDEFIConnection(setMainModel));
+  };
+
   const handleLanguageChange = (event) => {
     console.log(event.target.value);
     // const option = document.getElementsByClassName("option");
@@ -108,13 +148,13 @@ export const Header = () => {
       console.log("options=======", option[i].innerHTML);
       // if(option[i])
       if (option[i].innerHTML === "ENG") {
-        option[i].innerHTML = "English";
+        option[i].innerHTML = "ENG";
       }
       if (option[i].innerHTML === "RU") {
-        option[i].innerHTML = "Russian";
+        option[i].innerHTML = "RU";
       }
       if (option[i].innerHTML === "VIE") {
-        option[i].innerHTML = "Vietnamese";
+        option[i].innerHTML = "VIE";
       }
     }
     // setSelectedLang(event.target.value);
@@ -125,13 +165,13 @@ export const Header = () => {
     for (let i = 0; i < option.length; i++) {
       console.log("options=======", option[i].innerHTML);
       // if(option[i])
-      if (option[i].innerHTML === "English") {
+      if (option[i].innerHTML === "ENG") {
         option[i].innerHTML = "ENG";
       }
-      if (option[i].innerHTML === "Russian") {
+      if (option[i].innerHTML === "RU") {
         option[i].innerHTML = "RU";
       }
-      if (option[i].innerHTML === "Vietnamese") {
+      if (option[i].innerHTML === "VIE") {
         option[i].innerHTML = "VIE";
       }
     }
@@ -142,7 +182,7 @@ export const Header = () => {
   };
 
   return (
-    <div>
+    <div style={{ backgroundColor: "#fcfcfd" }}>
       {/* <!-- Create KeyStore Modal  --> */}
       <Modal
         show={createKeyStoreModal}
@@ -165,13 +205,18 @@ export const Header = () => {
                 <div class="d-flex justify-content-between">
                   <div class="d-flex">
                     <img
-                      class=""
+                      className="backArrow"
                       style={{
                         height: "10px",
                         marginTop: "15px",
                         paddingRight: "12px",
                       }}
                       src={Images.lefttwoline}
+                      onClick={() => {
+                        setCreateKeyStoreModal(false);
+                        setSelectionModal(true);
+                        // setMainModel(true);
+                      }}
                     />
                     <p class="yahparagraph">Create Keystore</p>
                   </div>
@@ -180,7 +225,7 @@ export const Header = () => {
                     <img
                       className="popupcrosss"
                       onClick={() => {
-                        setConnectKeyStoreModal(false);
+                        setCreateKeyStoreModal(false);
                       }}
                       src={Images.crossicon}
                     />
@@ -268,13 +313,17 @@ export const Header = () => {
                   <div class="d-flex justify-content-between">
                     <div class="d-flex">
                       <img
-                        class=""
+                        className="backArrow"
                         style={{
                           height: "10px",
                           marginTop: "15px",
                           paddingRight: "12px",
                         }}
                         src={Images.lefttwoline}
+                        onClick={() => {
+                          setConnectKeyStoreModal(false);
+                          setSelectionModal(true);
+                        }}
                       />
                       <p class="yahparagraph">Connect Keystore</p>
                     </div>
@@ -297,6 +346,7 @@ export const Header = () => {
                       <label for="file">Please Select Keystore File</label>
                       <input
                         type="file"
+                        accept=".txt"
                         placeholder="choose filesss"
                         onChange={(e) => {
                           setFileKeyStore(e.target.files[0]);
@@ -326,7 +376,11 @@ export const Header = () => {
                       <button
                         style={{ width: "100%" }}
                         className="btn btn n-primaryButton"
-                        onClick={connectKeyStoreFunction}
+                        onClick={
+                          connectKeyStore_password.length > 0
+                            ? connectKeyStoreFunction
+                            : ""
+                        }
                       >
                         Connect
                         {loading ? (
@@ -438,8 +492,9 @@ export const Header = () => {
                     CHOOSE WALLET
                   </h5>
                   <button
-                    class="d-flex justify-content-between connectwallet"
+                    class="d-flex justify-content-between connectwallet "
                     style={{ width: "100%", background: "none" }}
+                    onClick={connectWalletConnect}
                   >
                     <div class="d-flex">
                       <img style={{ paddingRight: "8px" }} src={walleto} />
@@ -498,6 +553,7 @@ export const Header = () => {
                   <button
                     class="d-flex justify-content-between connectwallet mt-3"
                     style={{ width: "100%", background: "none" }}
+                    onClick={connectXdefi}
                   >
                     <div class="d-flex">
                       <img
@@ -627,13 +683,17 @@ export const Header = () => {
                   <div class="d-flex justify-content-between">
                     <div class="d-flex">
                       <img
-                        class=""
+                        className="backArrow"
                         style={{
                           height: "10px",
                           marginTop: "15px",
                           paddingRight: "12px",
                         }}
                         src={Images.lefttwoline}
+                        onClick={() => {
+                          setSelectionModal(false);
+                          setMainModel(true);
+                        }}
                       />
                       <p class="yahparagraph">Select</p>
                     </div>
@@ -641,7 +701,7 @@ export const Header = () => {
                       <img
                         className="popupcrosss"
                         onClick={() => {
-                          setConnectKeyStoreModal(false);
+                          setSelectionModal(false);
                         }}
                         src={Images.crossicon}
                       />
@@ -667,7 +727,7 @@ export const Header = () => {
                     CHOOSE WALLET
                   </h5>
                   <button
-                    class="d-flex justify-content-between connectwallet"
+                    class="d-flex justify-content-between connectwallet btnHoverBlue"
                     style={{ width: "100%", background: "none" }}
                     onClick={() => {
                       setSelectionModal(false);
@@ -677,7 +737,7 @@ export const Header = () => {
                     <div class="d-flex">
                       <a
                         style={{
-                          color: "#23262F",
+                          // color: "#23262F",
                           fontSize: "14px",
                           paddingLeft: "5px",
                           fontFamily: "Poppins",
@@ -698,7 +758,7 @@ export const Header = () => {
                     />
                   </button>
                   <button
-                    class="d-flex justify-content-between connectwallet mt-3"
+                    class="d-flex justify-content-between connectwallet mt-3 btnHoverBlue"
                     style={{ width: "100%", background: "none" }}
                     onClick={() => {
                       setSelectionModal(false);
@@ -708,7 +768,7 @@ export const Header = () => {
                     <div class="d-flex">
                       <a
                         style={{
-                          color: "#23262F",
+                          // color: "#23262F",
                           fontSize: "14px",
                           fontFamily: "Poppins",
                           paddingLeft: "10px",
@@ -741,17 +801,27 @@ export const Header = () => {
         class="container"
         style={{ padding: "0px", backgroundColor: "#FCFCFD" }}
       >
-        <nav class="navbar navbar-expand-lg navbar-light bg-light pb-2">
+        <nav
+          class="navbar navbar-expand-lg navbar-light"
+          style={{
+            backgroundColor: "#fcfcfd",
+            // height: "80px",
+            padding: "20px 0px",
+            margin: "0px 15px",
+          }}
+        >
           <Link
             className="navbar-brand"
             to={browserRoute.HOME}
-            style={{ marginRight: "0px" }}
+            // style={{ marginRight: "0px", borderRight: "1px solid #E6E8EC" }}
+            class="n-defiLogo"
           >
             <img
               style={{
-                borderRight: "1px solid #E6E8EC",
+                // borderRight: "1px solid #E6E8EC",
                 paddingRight: "20px",
-                marginRight: "12px",
+                marginRight: "20px",
+                marginBottom: "4px",
                 width: "120px",
               }}
               // src={Images.defilogo}
@@ -770,9 +840,13 @@ export const Header = () => {
             <span class="navbar-toggler-icon"></span>
           </button>
 
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-              <li className="nav-item">
+          <div
+            class="collapse navbar-collapse"
+            id="navbarSupportedContent"
+            style={{ height: "40px" }}
+          >
+            <ul class="navbar-nav mr-auto n-navbarNav">
+              <li className="nav-item d-flex flex-row align-items-center">
                 <Link
                   to={browserRoute.MARKET}
                   className={
@@ -785,7 +859,6 @@ export const Header = () => {
                   Market
                 </Link>
               </li>
-
               <li class="nav-item">
                 <Link
                   to={browserRoute.EARNYIELD}
@@ -813,43 +886,57 @@ export const Header = () => {
                 </Link>
               </li>
               <li class="nav-item">
-                <div class="d-flex flex-row justify-content-center">
+                <div class="n-menuLearnLink">
                   <Link
-                    to={browserRoute.LEARN}
+                    // to={browserRoute.LEARN}
+                    to="#"
                     className={
-                      "nav-link " +
+                      "nav-link nn-learnDropDown" +
                       (window.location.href.indexOf(browserRoute.LEARN) !== -1
                         ? "active"
                         : null)
                     }
                   >
-                    Learn
+                    <Link to={browserRoute.LEARN}>Learn</Link>
                     <img
+                      ref={myRefLearn}
+                      onClick={() => setLearnDropDown(!learnDropDown)}
                       className="w-header-learn-arrow"
                       // src={headerdown}
                       src={Images.iconarowdown}
                     />
-                    <ul class="n-learnDropDown" role="menu">
-                      <li>
-                        <a href="">Algo</a>
-                      </li>
-                      <li>
-                        <a href="">Gate</a>
-                      </li>
-                      <li>
-                        <a href="">Subject</a>
-                      </li>
-                      <li>
-                        <a href="">Practise</a>
-                      </li>
-                    </ul>
+                    {/* <div class="n-learnDropDownCap">
+                      <img src={Images.cap} />
+                    </div> */}
+                    {
+                      <div className="n-learnMainDropDown">
+                        <span class="triangle1"></span>
+                        <ul class="n-learnDropDown" role="menu">
+                          <li>
+                            <a href="">Tutorial</a>
+                          </li>
+                          <hr />
+                          <li>
+                            <a href="">Liquidity Providing</a>
+                          </li>
+                          <hr />
+                          <li>
+                            <a href="">Trading</a>
+                          </li>
+                          <hr />
+                          <li>
+                            <a href="">Wallet</a>
+                          </li>
+                        </ul>
+                      </div>
+                    }
                   </Link>
                 </div>
               </li>
             </ul>
-            <div class="nav-link">
-              <select
-                class="select"
+            <div class="n-languageSelect">
+              {/* <select
+                class="select n-languageSelect"
                 style={{
                   width: "70px",
                   listStyle: "none",
@@ -861,12 +948,12 @@ export const Header = () => {
                   fontFamily: "DM Sans",
                   cursor: "pointer",
                 }}
-                // value={selectedLang}
+                value={selectedLang}
                 onChange={handleLanguageChange}
                 onClick={handleOnClick}
                 onAbort={handleAbort}
-              >
-                {/* <option
+              > */}
+              {/* <option
                   className="option"
                   style={{ color: "#23262F" }}
                   selected
@@ -874,32 +961,31 @@ export const Header = () => {
                 >
                   {selectedLang}
                 </option> */}
-                <option
+              {/* <option
                   className="option"
                   style={{ color: "#23262F" }}
                   value="ENG"
                 >
-                  {selectedLang === "ENG" ? "ENG" : "English"}
-                  {/* English */}
+                  {selectedLang === "ENG" ? "ENG" : "ENG"}
+                  English
                 </option>
                 <option
                   className="option"
                   style={{ color: "#23262F" }}
                   value="VIE"
                 >
-                  {/* Vietnamese
-                   */}
-                  {selectedLang === "VIE" ? "VIE" : "Vietnamese"}
+                  Vietnamese
+                  {selectedLang === "VIE" ? "VIE" : "VIE"}
                 </option>
                 <option
                   className="option"
                   style={{ color: "#23262F" }}
                   value="RU"
                 >
-                  {/* Russian */}
-                  {selectedLang === "RU" ? "RU" : "Russian"}
-                </option>
-              </select>
+                  Russian
+                  {selectedLang === "RU" ? "RU" : "RU"}
+                </option> */}
+              {/* </select> */}
               {/* <img
                 style={{
                   marginRight: "40px",
@@ -908,22 +994,137 @@ export const Header = () => {
                 }}
                 src={Images.iconarowdown}
               /> */}
-              <img
+              {/* <img
                 className="w-header-learn-arrow"
                 style={{
-                  marginRight: "4px",
+                  marginRight: "32px",
                   marginTop: "-1px",
                   cursor: "pointer",
                 }}
                 // src={headerdown}
                 src={Images.iconarowdown}
-              />
+              /> */}
+              {/* New Language DropDown */}
+              <div
+                onClick={() => setLanguageDropDown(!languageDropDown)}
+                ref={myRefLanguage}
+              >
+                ENG
+                <img
+                  className="n-languageArrow"
+                  // src={headerdown}
+                  src={Images.iconarowdown}
+                  style={{ marginBottom: "1px" }}
+                />
+              </div>
+              {/* <div class="n-dropDownCap">
+                <img src={Images.cap} />
+              </div> */}
+              {languageDropDown && (
+                <div className="n-languageMainDropDown">
+                  <span class="triangle2"></span>
+                  <ul class="n-languageDropDown" role="menu">
+                    <li>
+                      <img src={Images.us} />
+                      ENG
+                    </li>
+                    <hr />
+                    <li>
+                      <img src={Images.vn} />
+                      VIE
+                    </li>
+                    <hr />
+                    <li>
+                      <img src={Images.ru} />
+                      RU
+                    </li>
+                  </ul>
+                </div>
+              )}
             </div>
-            <Link className="navbar-brand pr-3" to="/">
-              <img src={bell} />
-            </Link>
-            <span className="navbar-brand pr-3" to="/">
+
+            <div
+              className="navbar-brand n-notificationHover position-relative"
+              style={{
+                height: "40px",
+                marginRight: "32px",
+                paddingBottom: "41px",
+                // cursor: "pointer",
+              }}
+              onClick={() => setNotificationPopup(!notificationPopup)}
+              ref={myRef}
+            >
+              <img src={bell} style={{ cursor: "pointer" }} />
+              {/* <div className="n-notificationCap">
+                <img src={Images.cap} />
+              </div> */}
+              {notificationPopup && (
+                <div className="n-notificationMainDropDown">
+                  <span class="triangle"></span>
+                  <div className="n-notificationDropDown">
+                    <div className="n-notificationBody">
+                      <h5>Notifications</h5>
+                      <ul className="n-notificationsList">
+                        <li className="d-flex flex-row align-items-start justify-content-between">
+                          <div className="n-notificationContent">
+                            <div className="d-flex flex-row justify-content-between align-items-center">
+                              <h6>Login attempted from new IP</h6>
+                              <img src={Images.notificationdot} />
+                            </div>
+                            <p>2021-03-10 20:19:15</p>
+                          </div>
+                        </li>
+                        <hr />
+                        <li className="d-flex flex-row align-items-start justify-content-between">
+                          <div className="n-notificationContent">
+                            <div className="d-flex flex-row justify-content-between align-items-center">
+                              <h6>Login attempted from new IP</h6>
+                              <img src={Images.notificationdot} />
+                            </div>
+                            <p>2021-03-10 20:19:15</p>
+                          </div>
+                        </li>
+                        <hr />
+                        <li className="d-flex flex-row align-items-start justify-content-between">
+                          <div className="n-notificationContent">
+                            <div className="d-flex flex-row justify-content-between align-items-center">
+                              <h6>Login attempted from new IP</h6>
+                              <img src={Images.notificationdot} />
+                            </div>
+                            <p>2021-03-10 20:19:15</p>
+                          </div>
+                        </li>
+                      </ul>
+                      <div class="n-notificationButtons d-fex flex-row align-items-center w-100">
+                        <button class="n-primaryNotifactionButton">
+                          <Link
+                            // style={{color:"#fcfcfd"}}
+                            to={browserRoute.NOTIFICATIONS}
+                            className={
+                              "" +
+                              (window.location.href.indexOf(
+                                browserRoute.NOTIFICATIONS
+                              ) !== -1
+                                ? ""
+                                : null)
+                            }
+                          >
+                            View all
+                          </Link>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+            <span
+              className="navbar-brand"
+              to="/"
+              style={{ marginRight: "32px", paddingBottom: "11px" }}
+            >
               <img
+                style={{ cursor: "pointer" }}
                 src={doticon}
                 onClick={() => {
                   darkmode.toggle();

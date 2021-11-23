@@ -301,6 +301,19 @@ const Overview = () => {
     );
   };
 
+  const gettingFullName = (t) => {
+    let midgardPool = keyStoreInstance?.midgardPool;
+    let ticker = t?.asset?.ticker;
+    if (t.asset.ticker.toLowerCase() === "rune") {
+      ticker = "XRUNE";
+    }
+
+    let res = midgardPool?.find(
+      (d) => d?.asset.toLowerCase() === ticker.toLowerCase()
+    );
+    return <>{res.assetFullName}</>;
+  };
+
   function financial(x) {
     return Number.parseFloat(x).toFixed(2);
   }
@@ -424,7 +437,12 @@ const Overview = () => {
                             color: "23262F",
                           }}
                         >
-                          3.12194287 BTC
+                          {overallBalance_BTC ? (
+                            <>{financial(overallBalance_BTC)}</>
+                          ) : (
+                            0
+                          )}{" "}
+                          BTC
                         </p>
                         <p
                           className="d-flex justify-content-end"
@@ -437,7 +455,14 @@ const Overview = () => {
                             margin: "0px",
                           }}
                         >
-                          $10,095.35
+                          ${" "}
+                          {overallBalance_USD ? (
+                            <>
+                              {numberWithCommas(financial(overallBalance_USD))}
+                            </>
+                          ) : (
+                            0
+                          )}
                         </p>
                       </div>
                     </div>
@@ -573,7 +598,7 @@ const Overview = () => {
                       color: "#23262F",
                     }}
                   >
-                    $398.5k
+                    $ {numberWithCommas(financial(overallBalance_USD))}
                   </h3>
                   <img
                     style={{
@@ -852,39 +877,28 @@ const Overview = () => {
             <div className="pr-3 my-2 my-sm-0">
               <div class=" d-flex form-group has-search mb-0">
                 <input
-                  style={{
-                    borderRadius: "30px",
-                    fontFamily: "Poppins",
-                    fontSize: "12px",
-                    fontWeight: "400",
-                    width: "250px",
-                    height: "36px",
-                    lineHeight: "20px",
-                    padding: "10px 16px",
-                    color: "#777E90",
-                  }}
                   type="text"
-                  class="form-control"
+                  class="form-control n-tableSearch"
                   placeholder="Search"
                   value={searchInput}
                   onChange={SearchFilter}
                 />
                 <img
                   style={{
-                    width: "17px",
-                    height: "17px",
-                    marginLeft: "-27px",
+                    width: "20px",
+                    height: "20px",
+                    marginLeft: "-35px",
                     marginTop: "10px",
+                    marginBottom: "10px",
                   }}
                   src={Images.searchicon}
                 />
-                {/* <span
-            style={{ paddingTop: "10px", marginLeft: "-22px" }}
-            class=" fa fa-search form-control-feedback"
-          ></span> */}
               </div>
             </div>
-            <button class="mr-2 seeallbutton" style={{ maxWidth: "130px" }}>
+            <button
+              class="mr-2 seeallbutton btnHoverBlue"
+              style={{ maxWidth: "130px" }}
+            >
               See all{" "}
               <img src={Images.seeall} style={{ paddingLeft: "10px" }} />
             </button>
@@ -1072,7 +1086,7 @@ const Overview = () => {
                                 fontWeight: "500",
                               }}
                             >
-                              {t.asset.ticker}
+                              {gettingFullName(t)}
                             </div>
                             <div className="d-flex align-items-center"></div>
                           </div>
