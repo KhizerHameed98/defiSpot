@@ -43,7 +43,9 @@ const LiquidityProvider = () => {
   };
 
   return (
-    <div class="col-lg-10 pl-0" style={{ paddingRight: "8px" }}>
+    <div class="col-lg-10 n-liquidityMainArea"
+    //  style={{ paddingRight: "8px" }} pl-0
+     >
       <div class="w-sidebarcoleight">
         <h4 className="u-overview09888">Liquidity providing </h4>
         <div class="d-flex justify-content-between flex-column flex-sm-row">
@@ -167,8 +169,8 @@ const LiquidityProvider = () => {
       </div>
       <p className="w-over-center-heading">Funds</p>
       <div class="w-sidebarcoleight">
-        <div class="d-flex justify-content-between">
-          <div className="pr-5">
+        <div class="d-flex justify-content-between flex-wrap">
+          <div className="n-liquiditySearch">
             <div class=" d-flex form-group has-search">
               <input
                 // style={{
@@ -204,7 +206,7 @@ const LiquidityProvider = () => {
             placeholder="Search"
             aria-label="Search"
           /> */}
-          <p class="" style={{ color: "#777E90" }}>
+          <p class="trans-history" style={{ color: "#777E90" }}>
             <Link
               to={browserRoute.PORTFOLIO_ACTIVITY}
               style={{
@@ -224,9 +226,9 @@ const LiquidityProvider = () => {
             </Link>
           </p>
         </div>
-        <div id="starred" class="mr-3 mt-3 pb-5">
+        <div id="starred" class="mt-3 pb-5">
           <div class="table-responsive w-comon-table-style">
-            <table class="table">
+            <table class="table u-liquiditytavblw98">
               <thead>
                 <tr style={{ borderBottom: "1.5px solid #E6E8EC" }}>
                   <th scope="col">Pools</th>

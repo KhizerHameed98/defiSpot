@@ -263,7 +263,12 @@ export class XDEFIService {
       );
 
       setMainModel(false);
-      dispatch({ type: LOGIN });
+      dispatch({
+        type: LOGIN,
+        payload: {
+          walletType: "XDEFI",
+        },
+      });
       alertToast(false, "Wallet connected!");
 
       userThorchainClient.getAddress = () => thorAddress;

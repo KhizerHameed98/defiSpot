@@ -518,7 +518,7 @@ const Overview = () => {
                 style={{ paddingLeft: "0px", paddingRight: "0px" }}
                 className="col-lg-12"
               >
-                <div className="w-overview_portfoliobg mt-1">
+                <div className="w-overview_portfoliobg">
                   <div className="d-flex justify-content-between">
                     <div className="d-flex">
                       <img
@@ -814,7 +814,7 @@ const Overview = () => {
       )}
       <p className="w-over-center-heading">Transaction History</p>
       <div className="w-sidebarcoleight">
-        <div className="d-flex justify-content-between flex-sm-row flex-column">
+        <div className="d-flex justify-content-between flex-wrap flex-sm-row flex-column">
           <ul className="list-unstyled d-block d-sm-flex flex-row align-items-center mb-0">
             <li
               className="d-inline-block d-sm-flex flex-row justify-content-center align-items-center"
@@ -874,7 +874,7 @@ const Overview = () => {
             </li>
           </ul>
           <div class="d-flex flex-column flex-sm-row align-content-start align-items-sm-center ">
-            <div className="pr-3 my-2 my-sm-0">
+            <div className="my-2 my-sm-0 n-overviewSearch">
               <div class=" d-flex form-group has-search mb-0">
                 <input
                   type="text"
@@ -896,7 +896,7 @@ const Overview = () => {
               </div>
             </div>
             <button
-              class="mr-2 seeallbutton btnHoverBlue"
+              class="seeallbutton btnHoverBlue"
               style={{ maxWidth: "130px" }}
             >
               See all{" "}

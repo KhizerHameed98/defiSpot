@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import withMainLayout from "../HOC/withMainLayout";
 import { Modal } from "react-bootstrap";
 import Images from "../Helper/AllImages";
@@ -7,69 +7,14 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { ResponsiveLine } from "@nivo/line";
 import Chart from "react-apexcharts";
+import { linearGradientDef } from "@nivo/core";
 
 import {
   nativeSwapping,
   handleMainModal,
   serverDecryption,
 } from "../../Services/mainServices";
-
-const data = [
-  {
-    id: "japan",
-    color: "hsl(344, 70%, 50%)",
-    data: [
-      {
-        x: "plane",
-        y: 95,
-      },
-      {
-        x: "helicopter",
-        y: 149,
-      },
-      {
-        x: "boat",
-        y: 62,
-      },
-      {
-        x: "train",
-        y: 99,
-      },
-      {
-        x: "subway",
-        y: 113,
-      },
-      {
-        x: "bus",
-        y: 31,
-      },
-      {
-        x: "car",
-        y: 250,
-      },
-      {
-        x: "moto",
-        y: 24,
-      },
-      {
-        x: "bicycle",
-        y: 140,
-      },
-      {
-        x: "horse",
-        y: 135,
-      },
-      {
-        x: "skateboard",
-        y: 188,
-      },
-      {
-        x: "others",
-        y: 290,
-      },
-    ],
-  },
-];
+import Setting_Modal from "../PopModals/Setting_Modal";
 
 const series = [
   {
@@ -319,6 +264,28 @@ const series = [
 ];
 
 const BuyPlatform = () => {
+  const myRefSwap = useRef();
+  const myRefSwap2 = useRef();
+
+  useEffect(() => {
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+    function handleClick(e) {
+      if (myRefSwap && myRefSwap.current) {
+        const ref = myRefSwap.current;
+        if (!ref.contains(e.target)) {
+          setOptionsDropdown(false);
+        }
+      }
+      if (myRefSwap2 && myRefSwap2.current) {
+        const ref = myRefSwap2.current;
+        if (!ref.contains(e.target)) {
+          setToOptionDropDown(false);
+        }
+      }
+    }
+  }, []);
+
   let history = useHistory();
   const dispatch = useDispatch();
 
@@ -332,992 +299,1331 @@ const BuyPlatform = () => {
   const [tokenData, setTokenData] = useState([]);
   const [keyStore, setKeyStore] = useState([]);
   const [selectedCurr, setSelectedCurr] = useState(null);
-  const [walletAddress, setWalletAddress] = useState("");
   const [statusLink, setStatusLink] = useState("");
   const [loading, setLoading] = useState(false);
+  const [toOptionDropDown, setToOptionDropDown] = useState(false);
+  const [selectedCurrTo, setSelectedCurrTo] = useState("");
   const [optionsDropdown, setOptionsDropdown] = useState(false);
   const mainState = useSelector((state) => state.main.midgardPool);
+  const graphState = useSelector((state) => state.main.graphDataCombined);
+  const [midgardData, setMidgardData] = useState([]);
   const loggedin = useSelector((state) => state.main.isLoggedin);
   const assetBalance = useSelector((state) => state.main.assetBalance);
   const midgardPool = useSelector((state) => state.main.midgardPool);
   const [graphData, setGraphData] = useState([]);
+  const [search, setSearch] = useState("");
+  const [slippagePercent, setSlippagePercent] = useState(0);
+  const [updatedGraphData, setUpdatedGraphData] = useState();
+  const [selectedFilter, setSelectedFilter] = useState("1D");
+  const [graphData1D, setGraphData1D] = useState([]);
+  const [graphData1H, setGraphData1H] = useState([]);
+  const [graphData1M, setGraphData1M] = useState([]);
+  const [graphData1Y, setGraphData1Y] = useState([]);
+
+  useEffect(() => {
+    console.log("===== DDD ======== ", graphData1D);
+    console.log("===== HHH ======== ", graphData1H);
+    console.log("===== MMM ======== ", graphData1M);
+    console.log("===== YYY ======== ", graphData1Y);
+  }, [graphData1H, graphData1M, graphData1Y, graphData1D]);
+
+  // useEffect(() => {
+
+  //   if (selectedFilter == "1D") {
+  //     setGraphData(graphData1D);
+  //   } else if (selectedFilter == "1H") {
+  //     setGraphData(graphData1H);
+  //   } else if (selectedFilter == "1M") {
+  //     setGraphData(graphData1M);
+  //   } else if (selectedFilter == "1Y") {
+  //     setGraphData(graphData1Y);
+  //   }
+  // }, [selectedFilter]);
+
+  useEffect(() => {
+    if (graphState?.length > 0) {
+      if (tokenData) {
+        console.log(`GGgggGGGGGGGGGGGGGG----- `, graphState);
+        let res = graphState?.filter((d) => d.assetName == tokenData.rawData);
+        console.log("QQQQQQQQQQQQQQQQQQQ=====>>", res);
+        setUpdatedGraphData(res);
+
+        const graph1D = res[0]?.graphData1D;
+        const graph1H = res[0]?.graphData1Hr;
+        const graph1M = res[0]?.graphData1M;
+        const graph1Y = res[0]?.graphData1Y;
+
+        let finalData = graph1D?.map((data, k) => {
+          return {
+            x:
+              new Date(Number(data.timeStamp) * 1000)
+                .toString()
+                .substring(4, 16) + `${k}`,
+            y: data.assetPriceUSD,
+          };
+        });
+
+        let finalData2 = graph1H?.map((data, k) => {
+          return {
+            x:
+              new Date(Number(data.timeStamp) * 1000)
+                .toString()
+                .substring(4, 16) + `${k}`,
+            y: data.assetPriceUSD,
+          };
+        });
+
+        let finalData3 = graph1M?.map((data, k) => {
+          return {
+            x:
+              new Date(Number(data.timeStamp) * 1000)
+                .toString()
+                .substring(4, 16) + `${k}`,
+            y: data.assetPriceUSD,
+          };
+        });
+
+        let finalData4 = graph1Y?.map((data, k) => {
+          return {
+            x:
+              new Date(Number(data.timeStamp) * 1000)
+                .toString()
+                .substring(4, 16) + `${k}`,
+            y: data.assetPriceUSD,
+          };
+        });
+
+        setGraphData1D([
+          {
+            id: res?.[0]?.assetName,
+            color: "hsl(344, 70%, 50%)",
+            data: finalData,
+          },
+        ]);
+
+        setGraphData1H([
+          {
+            id: res?.[0]?.assetName,
+            color: "hsl(344, 70%, 50%)",
+            data: finalData2,
+          },
+        ]);
+
+        setGraphData1M([
+          {
+            id: res?.[0]?.assetName,
+            color: "hsl(344, 70%, 50%)",
+            data: finalData3,
+          },
+        ]);
+
+        setGraphData1Y([
+          {
+            id: res?.[0]?.assetName,
+            color: "hsl(344, 70%, 50%)",
+            data: finalData4,
+          },
+        ]);
+
+        console.log("=-=-=RRRRRRR-=-=-=>", res?.[0]?.assetName);
+        console.log("=-=-=1D DATAAAAAAAAAAA-=-=-=>", finalData);
+        console.log("=-=-=1H DATAAAAAAAAAAA-=-=-=>", finalData2);
+        console.log("=-=-=1M DATAAAAAAAAAAA-=-=-=>", finalData3);
+        console.log("=-=-=1Y DATAAAAAAAAAAA-=-=-=>", finalData4);
+
+        // setGraphData(graphData1D);
+      }
+    }
+  }, [tokenData]);
+
+  useEffect(() => {
+    console.log("hey====>>>", graphData);
+  }, [graphData]);
 
   const [displayLineGraph, setDisplayLineGraph] = useState(true);
-
+  const RUNE = {
+    asset: "RUNE",
+    blockchain: "THOR",
+    assetFullName: "Rune",
+    rawData: "THOR.RUNE",
+    logo: "https://cryptologos.cc/logos/thorchain-rune-logo.png",
+    address: "",
+  };
   useEffect(() => {
     setKeyStore(assetBalance);
   }, [assetBalance]);
 
-
-useEffect(async () => {
-  if (selectedCurr && tokenData) {
-    await axios
-      .get(
-        `https://min-api.cryptocompare.com/data/price?fsym=${tokenData?.asset}&tsyms=${selectedCurr?.asset?.ticker}`
-      )
-      .then((res) => {
-        console.log("res===>>", res.data);
-        setTokenPriceUSD(res.data);
-      });
-  }
-}, [selectedCurr]);
-
-useEffect(() => {
-  if (!loggedin) {
-    history.push("/");
-  }
-}, [loggedin]);
-
-useEffect(async () => {
-  if (mainState) {
-    let data = mainState?.filter((d) => d._id === id);
-
-    setTokenData(data[0]);
-    console.log("=-=-=-=-=>>>>>", data[0]);
-
-    const gData = data[0].graphData;
-
-    var finalData = gData.map((data) => {
-      return {
-        x: new Date(Number(data.timeStamp) * 1000).toString().substring(4, 16),
-        y: data.assetPriceUSD,
-      };
-    });
-
-    console.log("=-=-=FINAL-=-=-=>", finalData);
-
-    setGraphData([
-      {
-        id: data[0].asset,
-        color: "hsl(344, 70%, 50%)",
-        data: finalData,
-      },
-    ]);
-
-    // console.log("ID====>>", decryptedObject);
-  } else {
-    history.push("/");
-  }
-}, [mainState]);
-
-useEffect(() => {
-  keyStore?.slice(0, 1)?.map((t) => {
-    if (t?.asset) {
-      setSelectedCurr(t);
+  useEffect(() => {
+    if (mainState) {
+      let res = mainState[0];
+      console.log("mainState=====>>", mainState);
+      setSelectedCurrTo(res);
+      setMidgardData([...mainState]);
     }
-  });
-}, [keyStore]);
+  }, [mainState]);
 
-const handleCloseYay = () => setYayModal(false);
-const handleShowYay = () => {
-  setConfirmModal(false);
-  setYayModal(true);
-};
-const handleCloseConfirm = () => {
-  setConfirmModal(false);
-};
-const handleShowConfirm = () => {
-  //check loggedin state
-  if (loggedin) {
-    // setConfirmModal(true);
-    const fromData = midgardPool.find(
-      (data) =>
-        data.blockchain === selectedCurr.asset.chain &&
-        data.asset === selectedCurr.asset.ticker
-    );
-    const decimal = selectedCurr.amount.decimal;
-    if (fromData) {
-      dispatch(
-        nativeSwapping(
-          fromData,
-          tokenData,
-          fromAmount,
-          decimal,
-          midgardPool,
-          setYayModal,
-          setTransactionHash,
-          setStatusLink,
-          setLoading
+  useEffect(() => {
+    if (midgardData) {
+      midgardData.unshift(RUNE);
+    }
+  }, [midgardData]);
+  useEffect(async () => {
+    if (selectedCurr && tokenData) {
+      await axios
+        .get(
+          `https://min-api.cryptocompare.com/data/price?fsym=${tokenData?.asset}&tsyms=${selectedCurr?.asset?.ticker}`
         )
-      );
+        .then((res) => {
+          console.log("res===>>", res.data);
+          console.log("some============", res.data[Object.keys(res.data)[0]]);
+          setTokenPriceUSD(res.data[Object.keys(res.data)[0]]);
+        });
     }
-  } else {
-    // console.log("loggedOUT");
-    dispatch(handleMainModal(true));
-  }
-};
-function financial(x) {
-  return Number.parseFloat(x).toFixed(2);
-}
-function numberWithCommas(x) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-const fromAmountHandler = (e) => {
-  if (e.target.value >= 0) {
-    setFromAmount(e.target.value);
-    setToAmount(financial(Number(e.target.value) / Number(TokenPriceUSD)));
-  }
-};
-const toAmountHandler = (e) => {
-  // if (e.target.value >= 0) {
-  //   setToAmount(e.target.value);
-  //   setFromAmount(financial(Number(e.target.value) * Number(TokenPriceUSD)));
-  // }
-  console.log("e=>>", e.target.value);
-  
-};
-const gettingLogos = (t) => {
-  let midgardPool = mainState;
+  }, [selectedCurr]);
 
-  console.log("t-========>>", t);
-  let ticker = t?.asset?.ticker;
-  if (t.asset.ticker.toLowerCase() === "rune") {
-    ticker = "XRUNE";
+  useEffect(() => {
+    if (!loggedin) {
+      history.push("/");
+    }
+  }, [loggedin]);
+
+  useEffect(async () => {
+    if (mainState) {
+      let data = mainState?.filter((d) => d._id === id);
+
+      setTokenData(data[0]);
+      console.log("=-=-=-=-=>>>>>", data[0]);
+
+      const gData = data[0].graphData;
+
+      var finalData = gData.map((data) => {
+        return {
+          x: new Date(Number(data.timeStamp) * 1000)
+            .toString()
+            .substring(4, 10),
+          y: data.assetPriceUSD,
+        };
+      });
+
+      console.log("=-=-=FINAL-=-=-=>", finalData);
+
+      // setGraphData([
+      //   {
+      //     id: data[0].asset,
+      //     color: "hsl(344, 70%, 50%)",
+      //     data: finalData,
+      //   },
+      // ]);
+
+      // console.log("ID====>>", decryptedObject);
+    } else {
+      history.push("/");
+    }
+  }, [mainState]);
+
+  useEffect(() => {
+    if (graphData1D) {
+      setGraphData(graphData1D);
+    }
+  }, [graphData1D]);
+
+  useEffect(() => {
+    if (keyStore) {
+      keyStore.slice(0, 1).map((t) => {
+        if (t.asset) {
+          setSelectedCurr(t);
+        }
+      });
+    }
+  }, [keyStore]);
+
+  const handleCloseYay = () => setYayModal(false);
+  const handleShowYay = () => {
+    setConfirmModal(false);
+    setYayModal(true);
+  };
+  const handleCloseConfirm = () => {
+    setConfirmModal(false);
+  };
+  const handleShowConfirm = () => {
+    //check loggedin state
+    if (loggedin) {
+      // setConfirmModal(true);
+      let fromData;
+      if (selectedCurr?.asset?.ticker === "RUNE") {
+        fromData = RUNE;
+      } else {
+        fromData = midgardPool.find(
+          (data) =>
+            data.blockchain === selectedCurr.asset.chain &&
+            data.asset === selectedCurr.asset.ticker
+        );
+      }
+
+      console.log("fromData=====>>", fromData);
+      const decimal = selectedCurr.amount.decimal;
+      if (fromData) {
+        dispatch(
+          nativeSwapping(
+            fromData,
+            selectedCurrTo,
+            fromAmount,
+            decimal,
+            midgardPool,
+            setYayModal,
+            setTransactionHash,
+            setStatusLink,
+            setLoading
+          )
+        );
+      }
+    } else {
+      // console.log("loggedOUT");
+      dispatch(handleMainModal(true));
+    }
+  };
+  function financial(x) {
+    return Number.parseFloat(x).toFixed(2);
+  }
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+  const fromAmountHandler = (e) => {
+    const name = selectedCurr?.asset?.ticker;
+    console.log("to amount set-- ", e.target.value);
+    if (e.target.value >= 0) {
+      setFromAmount(e.target.value);
+      console.log(
+        "to amount set-- ",
+        financial(Number(e.target.value) / Number(TokenPriceUSD))
+      );
+      setToAmount(financial(Number(e.target.value) / Number(TokenPriceUSD)));
+    }
+  };
+  const toAmountHandler = (e) => {
+    // if (e.target.value >= 0) {
+    //   setToAmount(e.target.value);
+    //   setFromAmount(financial(Number(e.target.value) * Number(TokenPriceUSD)));
+    // }
+    console.log("e=>>", e.target.value);
+  };
+  const gettingLogos = (t) => {
+    let midgardPool = mainState;
+
+    let ticker = t?.asset?.ticker;
+    if (t.asset.ticker.toLowerCase() === "rune") {
+      ticker = "XRUNE";
+    }
+
+    let res = midgardPool?.find(
+      (d) => d?.asset.toLowerCase() === ticker.toLowerCase()
+    );
+    return (
+      <img
+        src={res.logo}
+        width="24px"
+        height="24px"
+        style={{ marginRight: "6px" }}
+      />
+    );
+  };
+
+  function financial(x) {
+    return Number.parseFloat(x).toFixed(2);
+  }
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+  console.log("=-=-=StateFinalData-=-=- ", graphData);
+
+  const statusRouting = () => {
+    // history.push(statusLink);
+    console.log("statusLink=====", statusLink);
+  };
+
+  const filterAllType = (e) => {
+    e.preventDefault();
+    setKeyStore(assetBalance);
+  };
+  const filterNative = (e) => {
+    e.preventDefault();
+    let res = assetBalance.filter(
+      (data) => data?.asset?.chain === data?.asset?.ticker
+    );
+    setKeyStore(res);
+  };
+
+  const filterERC20 = (e) => {
+    e.preventDefault();
+    let res = assetBalance.filter(
+      (data) => data?.asset?.chain === "ETH" && data?.asset?.ticker !== "ETH"
+    );
+    setKeyStore(res);
+  };
+
+  const filterBEP2 = (e) => {
+    e.preventDefault();
+    let res = assetBalance.filter(
+      (data) => data?.asset?.chain === "BNB" && data?.asset?.ticker !== "BNB"
+    );
+    setKeyStore(res);
+  };
+
+  {
+    /*TO */
   }
 
-  let res = midgardPool?.find(
-    (d) => d?.asset.toLowerCase() === ticker.toLowerCase()
-  );
+  const filterAllTypeTo = (e) => {
+    e.preventDefault();
+
+    setMidgardData(mainState);
+  };
+  const filterNativeTo = (e) => {
+    e.preventDefault();
+    let res = mainState.filter((data) => data?.blockchain === data?.asset);
+    setMidgardData(res);
+  };
+
+  const filterERC20To = (e) => {
+    e.preventDefault();
+    let res = mainState.filter(
+      (data) => data?.blockchain === "ETH" && data?.asset !== "ETH"
+    );
+    setMidgardData(res);
+  };
+
+  const filterBEP2To = (e) => {
+    e.preventDefault();
+    let res = mainState.filter(
+      (data) => data?.blockchain === "BNB" && data?.asset !== "BNB"
+    );
+    setMidgardData(res);
+  };
+  const implementSearch = (e) => {
+    setSearch(e.target.value);
+  };
+
   return (
-    <img
-      src={res.logo}
-      width="24px"
-      height="24px"
-      style={{ marginRight: "6px" }}
-    />
-  );
-};
+    <>
+      {/*Yay Pop Up Modal*/}
 
-function financial(x) {
-  return Number.parseFloat(x).toFixed(2);
-}
-function numberWithCommas(x) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-console.log("=-=-=StateFinalData-=-=- ", graphData);
+      <Modal
+        show={YayModal}
+        onHide={handleCloseYay}
+        // backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header
+          closeButton
+          style={{ borderBottom: "none" }}
+        ></Modal.Header>
+        <Modal.Body>
+          {/* <!-- Modal --> */}
 
-const statusRouting = () => {
-  // history.push(statusLink);
-  console.log("statusLink=====", statusLink);
-};
-
-return (
-  <>
-    {/*Yay Pop Up Modal*/}
-
-    <Modal
-      show={YayModal}
-      onHide={handleCloseYay}
-      // backdrop="static"
-      keyboard={false}
-    >
-      <Modal.Header closeButton style={{ borderBottom: "none" }}></Modal.Header>
-      <Modal.Body>
-        {/* <!-- Modal --> */}
-
-        <div
-          // class="modal fade"
-          id="successBuy"
-          tabindex="-1"
-          role="dialog"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div>
+          <div
+            // class="modal fade"
+            id="successBuy"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
             <div>
-              <div class="modal-body">
-                <div class="d-flex justify-content-center  mb-3">
-                  <h1
-                    style={{
-                      fontWeight: "bold",
-                      paddingTop: "12px",
-                      fontFamily: "DM Sans",
-                      fontSize: "48px",
-                      paddingRight: "10px",
-                    }}
-                  >
-                    Yay!
-                  </h1>
-                  <img src={Images.Yay} />
-                </div>
-                <div class="d-flex justify-content-center ">
-                  <p class="yahparagraph">You Transaction has Initiated!</p>
-                </div>
-                <div class=" ">
-                  <a
-                    href={statusLink}
-                    class=""
-                    style={{
-                      cursor: "pointer",
-                      color: "blue",
-                      fontSize: "14px",
-                      width: "450px",
-                      display: "block",
-                      whiteSpace: "nowrap",
-                      textOverflow: "ellipsis",
-                      overflow: "hidden",
-                    }}
-                  >
-                    {statusLink}
-                  </a>
-                </div>
-                <div class="transactionclasss">
-                  <div class="d-flex justify-content-between pt-2">
-                    <p
+              <div>
+                <div class="modal-body">
+                  <div class="d-flex justify-content-center  mb-3">
+                    <h1
                       style={{
-                        color: "#777E90",
-                        fontSize: "14px",
-                        fontFamily: "Poppins",
-                        paddingTop: "24px",
+                        fontWeight: "bold",
+                        paddingTop: "12px",
+                        fontFamily: "DM Sans",
+                        fontSize: "48px",
+                        paddingRight: "10px",
                       }}
                     >
-                      Status
-                    </p>
-                    <p
-                      style={{
-                        color: "#777E90",
-                        fontSize: "14px",
-                        paddingRight: "48px",
-                        paddingTop: "24px",
-                        fontFamily: "Poppins",
-                      }}
-                    >
-                      Transaction ID
+                      Yay!
+                    </h1>
+                    <img src={Images.Yay} />
+                  </div>
+                  <div class="d-flex justify-content-center ">
+                    <p class="yahparagraph">
+                      Your transaction has been initiated!
                     </p>
                   </div>
-                  <div class="d-flex justify-content-between">
-                    <p
+                  <div class=" ">
+                    <a
+                      href={statusLink}
+                      class=""
                       style={{
-                        color: "#58BD7D",
-                        fontWeight: "bold",
-                        fontFamily: "Poppins",
+                        cursor: "pointer",
+                        color: "blue",
                         fontSize: "14px",
-                      }}
-                    >
-                      Initiated
-                    </p>
-                    <br />
-                    <p
-                      style={{
-                        marginLeft: "50px",
-                        fontWeight: "bold",
-                        fontFamily: "Poppins",
-                        fontSize: "14px",
+                        width: "450px",
+                        display: "block",
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis",
                         overflow: "hidden",
                       }}
                     >
-                      {transactionHash ? <> {transactionHash}</> : null}
+                      {statusLink}
+                    </a>
+                  </div>
+                  <div class="transactionclasss">
+                    <div class="d-flex justify-content-between pt-2">
+                      <p
+                        style={{
+                          color: "#777E90",
+                          fontSize: "14px",
+                          fontFamily: "Poppins",
+                          paddingTop: "24px",
+                        }}
+                      >
+                        Status
+                      </p>
+                      <p
+                        style={{
+                          color: "#777E90",
+                          fontSize: "14px",
+                          paddingRight: "48px",
+                          paddingTop: "24px",
+                          fontFamily: "Poppins",
+                        }}
+                      >
+                        Transaction ID
+                      </p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                      <p
+                        style={{
+                          color: "#58BD7D",
+                          fontWeight: "bold",
+                          fontFamily: "Poppins",
+                          fontSize: "14px",
+                        }}
+                      >
+                        Initiated
+                      </p>
+                      <br />
+                      <p
+                        style={{
+                          marginLeft: "50px",
+                          fontWeight: "bold",
+                          fontFamily: "Poppins",
+                          fontSize: "14px",
+                          overflow: "hidden",
+                        }}
+                      >
+                        {transactionHash ? <> {transactionHash}</> : null}
+                      </p>
+                    </div>
+                    <hr class="solid" />
+                    <p
+                      style={{
+                        color: "#777E90",
+                        fontSize: "18px",
+                        fontFamily: "Poppins",
+                        fontSize: "14px",
+                      }}
+                    >
+                      Address
+                    </p>
+                    <p
+                      style={{
+                        fontWeight: "bold",
+                        fontFamily: "Poppins",
+                        fontSize: "14px",
+                      }}
+                    >
+                      0msx836930...87r398
+                    </p>
+                  </div>
+                  <div class="d-flex justify-content-between pt-5">
+                    <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
+                      1.1137
+                    </p>
+                    <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
+                      BTC
                     </p>
                   </div>
                   <hr class="solid" />
-                  <p
-                    style={{
-                      color: "#777E90",
-                      fontSize: "18px",
-                      fontFamily: "Poppins",
-                      fontSize: "14px",
-                    }}
-                  >
-                    Address
-                  </p>
-                  <p
-                    style={{
-                      fontWeight: "bold",
-                      fontFamily: "Poppins",
-                      fontSize: "14px",
-                    }}
-                  >
-                    0msx836930...87r398
-                  </p>
+                  <div class="d-flex justify-content-between">
+                    <p class="servicefee">Service fee</p>
+                    <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
+                      0.0045 ETH
+                    </p>
+                  </div>
+                  <div class="d-flex justify-content-between ">
+                    <p class="servicefee">You will get</p>
+                    <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
+                      1.1123 BTC
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div class="d-flex justify-content-center pb-3 pt-2 pl-3 pr-3">
-                <button
-                  type="button"
-                  class="btn btn-primary btn-lg btnHoverWhite"
-                >
-                  Wallet
-                </button>
+                <div class="d-flex justify-content-center pb-3 pt-2 pl-3 pr-3">
+                  {/* <button
+                    type="button"
+                    class="btn btn-primary btn-lg btnHoverWhite"
+                  >
+                    Wallet
+                  </button> */}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        {/* <!-- modal end --> */}
-      </Modal.Body>
-    </Modal>
+          {/* <!-- modal end --> */}
+        </Modal.Body>
+      </Modal>
 
-    {/*Confirm PopUp Modal */}
+      {/*Confirm PopUp Modal */}
 
-    <Modal
-      show={confirmModal}
-      onHide={handleCloseConfirm}
-      backdrop="static"
-      keyboard={false}
-      size="lg"
-    >
-      {/* <Modal.Header
+      <Modal
+        show={confirmModal}
+        onHide={handleCloseConfirm}
+        backdrop="static"
+        keyboard={false}
+        size="lg"
+      >
+        {/* <Modal.Header
           closeButton
           style={{ borderBottom: "none" }}
         ></Modal.Header> */}
-      <Modal.Body>
-        {/* <!-- Modal --> */}
-        <div
-          id="exampleModal"
-          tabindex="-1"
-          role="dialog"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div role="document">
-            <div>
-              <div class="modal-body">
-                <div class="d-flex justify-content-between pt-2 pb-2">
-                  <div class="d-flex">
-                    <img
-                      class="pt-3 backArrow"
-                      style={{ height: "25px", marginTop: "3px" }}
-                      onClick={handleCloseConfirm}
-                      src={Images.lefttwoline}
-                    />
-                    <p class="yahparagraphs pl-2 pt-1">Confirm</p>
-                  </div>
-                  <div>
-                    <img
-                      className="settingmodlicon4444"
-                      style={{
-                        height: "25px",
-                        marginTop: "10px",
-                        cursor: "pointer",
-                      }}
-                      src={Images.setting}
-                    />
-                  </div>
-                </div>
-                <div
-                  class="d-flex justify-content-between mt-5 pl-5 pr-5 pt-3 pb-3"
-                  style={{
-                    backgroundColor: "#F4F5F6",
-                    borderRadius: "10px",
-                  }}
-                >
-                  <div class="d-flex">
-                    <img
-                      class="pt-1"
-                      style={{ height: "45px" }}
-                      src={Images.From}
-                    />
-                    <div class="pl-2">
-                      <p
-                        class="tranparagraph"
-                        style={{ margin: "0px", fontFamily: "DM Sans" }}
-                      >
-                        From
-                      </p>
-                      <p
+        <Modal.Body>
+          {/* <!-- Modal --> */}
+          <div
+            id="exampleModal"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div role="document">
+              <div>
+                <div class="modal-body">
+                  <div class="d-flex justify-content-between pt-2 pb-2">
+                    <div class="d-flex">
+                      <img
+                        class="pt-3 backArrow"
+                        style={{ height: "25px", marginTop: "3px" }}
+                        onClick={handleCloseConfirm}
+                        src={Images.lefttwoline}
+                      />
+                      <p class="yahparagraphs pl-2 pt-1">Confirm</p>
+                    </div>
+                    <div>
+                      <img
+                        className="settingmodlicon4444"
                         style={{
-                          fontWeight: "bold",
-                          fontFamily: "Poppins",
-                          fontSize: "14px",
+                          height: "25px",
+                          marginTop: "10px",
+                          cursor: "pointer",
                         }}
-                      >
-                        35,000 USDT
-                      </p>
+                        src={Images.setting}
+                      />
                     </div>
                   </div>
-                  <div class="d-flex">
-                    <img
-                      class="pt-1"
-                      style={{ height: "45px" }}
-                      src={Images.to}
-                    />
-                    <div class="pl-2">
-                      <p
-                        class="tranparagraph"
-                        style={{ margin: "0px", fontFamily: "DM Sans" }}
-                      >
-                        {" "}
-                        To
-                      </p>
-                      <p
-                        style={{
-                          fontWeight: "bold",
-                          fontFamily: "Poppins",
-                          fontSize: "14px",
-                        }}
-                      >
-                        1.1137 BTC
-                      </p>
+                  <div
+                    class="d-flex justify-content-between mt-5 pl-5 pr-5 pt-3 pb-3"
+                    style={{
+                      backgroundColor: "#F4F5F6",
+                      borderRadius: "10px",
+                    }}
+                  >
+                    <div class="d-flex">
+                      <img
+                        class="pt-1"
+                        style={{ height: "45px" }}
+                        src={Images.From}
+                      />
+                      <div class="pl-2">
+                        <p
+                          class="tranparagraph"
+                          style={{ margin: "0px", fontFamily: "DM Sans" }}
+                        >
+                          From
+                        </p>
+                        <p
+                          style={{
+                            fontWeight: "bold",
+                            fontFamily: "Poppins",
+                            fontSize: "14px",
+                          }}
+                        >
+                          35,000 USDT
+                        </p>
+                      </div>
+                    </div>
+                    <div class="d-flex">
+                      <img
+                        class="pt-1"
+                        style={{ height: "45px" }}
+                        src={Images.to}
+                      />
+                      <div class="pl-2">
+                        <p
+                          class="tranparagraph"
+                          style={{ margin: "0px", fontFamily: "DM Sans" }}
+                        >
+                          {" "}
+                          To
+                        </p>
+                        <p
+                          style={{
+                            fontWeight: "bold",
+                            fontFamily: "Poppins",
+                            fontSize: "14px",
+                          }}
+                        >
+                          1.1137 BTC
+                        </p>
+                      </div>
+                    </div>
+                    <div class="d-flex">
+                      <img
+                        class="pt-1"
+                        style={{ height: "45px" }}
+                        src={Images.proto}
+                      />
+                      <div class="pl-2">
+                        <p
+                          class="tranparagraph"
+                          style={{ margin: "0px", fontFamily: "DM Sans" }}
+                        >
+                          {" "}
+                          Protocol
+                        </p>
+                        <p
+                          style={{
+                            fontWeight: "bold",
+                            fontFamily: "Poppins",
+                            fontSize: "14px",
+                          }}
+                        >
+                          THORChain
+                        </p>
+                      </div>
                     </div>
                   </div>
-                  <div class="d-flex">
-                    <img
-                      class="pt-1"
-                      style={{ height: "45px" }}
-                      src={Images.proto}
-                    />
-                    <div class="pl-2">
-                      <p
-                        class="tranparagraph"
-                        style={{ margin: "0px", fontFamily: "DM Sans" }}
-                      >
-                        {" "}
-                        Protocol
-                      </p>
-                      <p
-                        style={{
-                          fontWeight: "bold",
-                          fontFamily: "Poppins",
-                          fontSize: "14px",
-                        }}
-                      >
-                        THORChain
-                      </p>
-                    </div>
+                  <div class="d-flex justify-content-between pt-5">
+                    <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
+                      1.1137
+                    </p>
+                    <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
+                      BTC
+                    </p>
+                  </div>
+                  <hr class="solid" />
+                  <div class="d-flex justify-content-between">
+                    <p class="servicefee">Service fee</p>
+                    <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
+                      0.0045 ETH
+                    </p>
+                  </div>
+                  <div class="d-flex justify-content-between ">
+                    <p class="servicefee">You will get</p>
+                    <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
+                      1.1123 BTC
+                    </p>
                   </div>
                 </div>
-                <div class="d-flex justify-content-between pt-5">
-                  <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
-                    1.1137
-                  </p>
-                  <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
-                    BTC
-                  </p>
+                <div class="d-flex justify-content-between pb-3 pt-2 pl-3 pr-3">
+                  <button
+                    style={{
+                      paddingLeft: "30px",
+                      paddingRight: "30px",
+                      borderColor: "#E6E8EC",
+                      borderRadius: "20px",
+                      fontFamily: "Poppins",
+                      color: "#000",
+                    }}
+                    type="button"
+                    class="btn btn-outline-secondary"
+                    onClick={handleCloseConfirm}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    style={{ fontSize: "16px", fontFamily: "DM Sans" }}
+                    class="btn btn-primary btn-lg btnHoverWhite"
+                    onClick={handleShowYay}
+                  >
+                    I understand, continue
+                  </button>
                 </div>
-                <hr class="solid" />
-                <div class="d-flex justify-content-between">
-                  <p class="servicefee">Service fee</p>
-                  <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
-                    0.0045 ETH
-                  </p>
-                </div>
-                <div class="d-flex justify-content-between ">
-                  <p class="servicefee">You will get</p>
-                  <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
-                    1.1123 BTC
-                  </p>
-                </div>
-              </div>
-              <div class="d-flex justify-content-between pb-3 pt-2 pl-3 pr-3">
-                <button
-                  style={{
-                    paddingLeft: "30px",
-                    paddingRight: "30px",
-                    borderColor: "#E6E8EC",
-                    borderRadius: "20px",
-                    fontFamily: "Poppins",
-                    color: "#000",
-                  }}
-                  type="button"
-                  class="btn btn-outline-secondary"
-                  onClick={handleCloseConfirm}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  style={{ fontSize: "16px", fontFamily: "DM Sans" }}
-                  class="btn btn-primary btn-lg btnHoverWhite"
-                  onClick={handleShowYay}
-                >
-                  I understand, continue
-                </button>
               </div>
             </div>
           </div>
-        </div>
-        {/* <!-- modal end --> */}
-      </Modal.Body>
-    </Modal>
-    {/* Div Started */}
-    <section style={{ backgroundColor: "#F1F2F4", paddingTop: "3px" }}>
-      <div
-        class="container mt-1 pt-2 pb-2"
-        style={{
-          backgroundColor: "#FCFCFD",
-          borderRadius: "15px",
-        }}
-      >
-        <div className="row">
-          <div className="col-lg-4">
-            <h4 className="u-headinfswaming09888">{tokenData?.asset}/USDT</h4>
-          </div>
-          <div className="col-lg-8">
-            <div className="d-flex justify-content-between u-swappingdonemain3455">
-              <div>
-                <p class="marketparatwow">
-                  {" "}
-                  <img src={Images.clock} /> Change
-                </p>
+          {/* <!-- modal end --> */}
+        </Modal.Body>
+      </Modal>
+      {/* Div Started */}
+      <section style={{ backgroundColor: "#F1F2F4", paddingTop: "3px" }}>
+        <div
+          class="container mt-1 pt-2 pb-2"
+          style={{
+            backgroundColor: "#FCFCFD",
+            borderRadius: "15px",
+          }}
+        >
+          <div className="row">
+            <div className="col-lg-4">
+              <h4 className="u-headinfswaming09888">{tokenData?.asset}/USDT</h4>
+            </div>
+            <div className="col-lg-8">
+              <div className="d-flex justify-content-between flex-wrap u-swappingdonemain3455">
+                <div>
+                  <p class="marketparatwow">
+                    {" "}
+                    {/* <img src={Images.clock} /> */}
+                    <img src={Images.up} /> Change
+                  </p>
 
-                {tokenData.change_24h >= 0 ? (
-                  <>
-                    <h5
-                      style={{
-                        color: "#00C076",
-                        fontFamily: "Poppins",
-                        fontWeight: "400",
-                        fontSize: "16px",
-                      }}
-                    >
-                      {numberWithCommas(financial(tokenData?.assetPriceUSD))} +
-                      {financial(tokenData?.change_24h)}%
-                    </h5>
-                  </>
-                ) : (
-                  <>
+                  {tokenData.change_24h >= 0 ? (
                     <>
                       <h5
                         style={{
-                          color: "#f04e4e",
+                          color: "#00C076",
                           fontFamily: "Poppins",
                           fontWeight: "400",
                           fontSize: "16px",
                         }}
                       >
-                        ${numberWithCommas(financial(tokenData?.assetPriceUSD))}
-                        {/* {" "} */}({financial(tokenData?.change_24h)}%)
+                        {numberWithCommas(financial(tokenData?.assetPriceUSD))}{" "}
+                        +{financial(tokenData?.change_24h)}%
                       </h5>
                     </>
-                  </>
-                )}
-              </div>
-              <div>
-                <p class="marketparatwow">
-                  {" "}
-                  <img src={Images.up} /> High
-                </p>
-                <h5
-                  style={{
-                    fontFamily: "DM Sans",
-                    fontFamily: "Poppins",
-                    fontWeight: "400",
-                    fontSize: "16px",
-                  }}
-                >
-                  {tokenData.change_24h_Highest >= 0 ? (
-                    <>
-                      ${numberWithCommas(financial(tokenData?.biggestVal))}
-                      {/* + */}
-                      {/* {financial(tokenData?.change_24h_Highest)}% */}
-                    </>
                   ) : (
                     <>
-                      {numberWithCommas(financial(tokenData?.biggestVal))}
-                      {/* {" "} */}
-                      {/* {financial(tokenData?.change_24h_Highest)}% */}
+                      <>
+                        <h5
+                          style={{
+                            color: "#f04e4e",
+                            fontFamily: "Poppins",
+                            fontWeight: "400",
+                            fontSize: "16px",
+                          }}
+                        >
+                          $
+                          {numberWithCommas(
+                            financial(tokenData?.assetPriceUSD)
+                          )}
+                          {/* {" "} */}({financial(tokenData?.change_24h)}%)
+                        </h5>
+                      </>
                     </>
                   )}
-                </h5>
-              </div>
-              <div>
-                <p class="marketparatwow">
-                  {" "}
-                  <img src={Images.down} /> Low
-                </p>
-                <h5
-                  style={{
-                    fontFamily: "DM Sans",
-                    fontFamily: "Poppins",
-                    fontWeight: "400",
-                    fontSize: "16px",
-                  }}
-                >
-                  {tokenData.change_24h_Lowest >= 0 ? (
-                    <>
-                      ${numberWithCommas(financial(tokenData?.smallestVal))}
-                      {/* + */}
-                      {/* {financial(tokenData?.change_24h_Lowest)}% */}
-                    </>
-                  ) : (
-                    <>
-                      ${numberWithCommas(financial(tokenData?.smallestVal))}
-                      {/* {" "} */}
-                      {/* {financial(tokenData?.change_24h_Lowest)}% */}
-                    </>
-                  )}{" "}
-                </h5>
-              </div>
-              <div>
-                <p class="marketparatwow">
-                  {" "}
-                  <img src={Images.hourr} /> Volume
-                </p>
-                <h5
-                  style={{
-                    fontFamily: "DM Sans",
-                    fontFamily: "Poppins",
-                    fontWeight: "400",
-                    fontSize: "16px",
-                  }}
-                >
-                  {tokenData.change_24h >= 0 ? (
-                    <>
-                      ${numberWithCommas(financial(tokenData?.volume24h))}
-                      {/* + */}
-                      {/* {financial(tokenData?.change_24h)}% */}
-                    </>
-                  ) : (
-                    <>
-                      ${numberWithCommas(financial(tokenData?.volume24h))}
-                      {/* {" "} */}
-                      {/* {financial(tokenData?.change_24h)}% */}
-                    </>
-                  )}{" "}
-                </h5>
+                </div>
+                <div className="d-flex flex-row">
+                  <div class="pr-4">
+                    <p class="marketparatwow">
+                      {" "}
+                      <img src={Images.up} /> High
+                    </p>
+                    <h5
+                      style={{
+                        fontFamily: "DM Sans",
+                        fontFamily: "Poppins",
+                        fontWeight: "400",
+                        fontSize: "16px",
+                      }}
+                    >
+                      {tokenData.change_24h_Highest >= 0 ? (
+                        <>
+                          ${numberWithCommas(financial(tokenData?.biggestVal))}
+                          {/* + */}
+                          {/* {financial(tokenData?.change_24h_Highest)}% */}
+                        </>
+                      ) : (
+                        <>
+                          {numberWithCommas(financial(tokenData?.biggestVal))}
+                          {/* {" "} */}
+                          {/* {financial(tokenData?.change_24h_Highest)}% */}
+                        </>
+                      )}
+                    </h5>
+                  </div>
+                  <div class="pl-4">
+                    <p class="marketparatwow">
+                      {" "}
+                      <img src={Images.down} /> Low
+                    </p>
+                    <h5
+                      style={{
+                        fontFamily: "DM Sans",
+                        fontFamily: "Poppins",
+                        fontWeight: "400",
+                        fontSize: "16px",
+                      }}
+                    >
+                      {tokenData.change_24h_Lowest >= 0 ? (
+                        <>
+                          ${numberWithCommas(financial(tokenData?.smallestVal))}
+                          {/* + */}
+                          {/* {financial(tokenData?.change_24h_Lowest)}% */}
+                        </>
+                      ) : (
+                        <>
+                          ${numberWithCommas(financial(tokenData?.smallestVal))}
+                          {/* {" "} */}
+                          {/* {financial(tokenData?.change_24h_Lowest)}% */}
+                        </>
+                      )}{" "}
+                    </h5>
+                  </div>
+                </div>
+                <div>
+                  <p class="marketparatwow">
+                    {" "}
+                    <img src={Images.hourr} /> Volume
+                  </p>
+                  <h5
+                    style={{
+                      fontFamily: "DM Sans",
+                      fontFamily: "Poppins",
+                      fontWeight: "400",
+                      fontSize: "16px",
+                    }}
+                  >
+                    {tokenData.change_24h >= 0 ? (
+                      <>
+                        ${numberWithCommas(financial(tokenData?.volume24h))}
+                        {/* + */}
+                        {/* {financial(tokenData?.change_24h)}% */}
+                      </>
+                    ) : (
+                      <>
+                        ${numberWithCommas(financial(tokenData?.volume24h))}
+                        {/* {" "} */}
+                        {/* {financial(tokenData?.change_24h)}% */}
+                      </>
+                    )}{" "}
+                  </h5>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-    <section style={{ backgroundColor: "#F1F2F4" }}>
-      <div style={{ paddingLeft: "0px" }} class="container">
-        <div class="row">
-          <div class="col-lg-8  mt-1 mb-3">
-            <div
-              class="pt-3  pb-4"
-              style={{ backgroundColor: "#FCFCFD", borderRadius: "15px" }}
-            >
+      </section>
+      <section style={{ backgroundColor: "#F1F2F4" }}>
+        <div style={{ paddingLeft: "0px" }} class="container">
+          <div class="row">
+            <div class="col-lg-8  mt-1 mb-3">
               <div
-                style={{ borderBottom: "2px solid #e6e8ec" }}
-                class="d-flex justify-content-between"
+                class="pt-3  pb-4"
+                style={{ backgroundColor: "#FCFCFD", borderRadius: "15px" }}
               >
-                <p className="u-burmarketmainpparagrpahj00">
-                  {numberWithCommas(financial(tokenData?.assetPriceUSD))} USD{" "}
-                  <span
+                <div
+                  style={{ borderBottom: "2px solid #e6e8ec" }}
+                  class="d-flex justify-content-between align-items-center pb-3"
+                >
+                  <p className="u-burmarketmainpparagrpahj00">
+                    {numberWithCommas(financial(tokenData?.assetPriceUSD))} USD{" "}
+                    <span
+                      style={{
+                        color: "#4FBF67",
+                        fontSize: "18px",
+                        fontFamily: "Poppins",
+                        fontWeight: "400",
+                      }}
+                    >
+                      +0.92%
+                    </span>
+                  </p>
+                  <div style={{ marginTop: "-10px" }} className="mb-2">
+                    <button
+                      className="btn n-secondaryButton "
+                      onClick={() => setDisplayLineGraph(true)}
+                      style={{
+                        boxShadow: displayLineGraph
+                          ? "0 0 0 0.2rem rgb(0 123 255 / 25%)"
+                          : "none",
+                      }}
+                    >
+                      Graph
+                    </button>
+                    <button
+                      className=" ml-2 btn n-secondaryButton"
+                      onClick={() => setDisplayLineGraph(false)}
+                      style={{
+                        boxShadow: !displayLineGraph
+                          ? "0 0 0 0.2rem rgb(0 123 255 / 25%)"
+                          : "none",
+                      }}
+                    >
+                      Candles
+                    </button>
+                  </div>
+                  <div
+                    class="d-flex"
                     style={{
-                      color: "#4FBF67",
-                      fontSize: "18px",
-                      fontFamily: "Poppins",
-                      fontWeight: "400",
+                      // marginTop: "40px",
+                      paddingRight: "30px",
                     }}
                   >
-                    +0.92%
-                  </span>
-                </p>
-                <div style={{ marginTop: "-10px" }} className="mb-2">
-                  <button
-                    className="btn n-secondaryButton "
-                    onClick={() => setDisplayLineGraph(true)}
-                  >
-                    Graph
-                  </button>
-                  <button
-                    className=" ml-2 btn n-secondaryButton"
-                    onClick={() => setDisplayLineGraph(false)}
-                  >
-                    Candles
-                  </button>
+                    <button
+                      class="graphbutton"
+                      onClick={() => {
+                        setSelectedFilter("1H");
+                        setGraphData(graphData1H);
+                      }}
+                      style={{
+                        color: selectedFilter == "1H" ? "black" : "#808191",
+                      }}
+                    >
+                      1H
+                    </button>
+                    {/* <button class="graphbutton pl-2">24H</button> */}
+                    <button
+                      class="graphbutton pl-2"
+                      onClick={() => {
+                        setSelectedFilter("1D");
+                        setGraphData(graphData1D);
+                      }}
+                      style={{
+                        color: selectedFilter == "1D" ? "black" : "#808191",
+                      }}
+                    >
+                      1D
+                    </button>
+                    <button
+                      class="graphbutton pl-2"
+                      onClick={() => {
+                        setSelectedFilter("1M");
+                        setGraphData(graphData1M);
+                      }}
+                      style={{
+                        color: selectedFilter == "1M" ? "black" : "#808191",
+                      }}
+                    >
+                      1M
+                    </button>
+                    <button
+                      class="graphbutton pl-2"
+                      onClick={() => {
+                        setSelectedFilter("1Y");
+                        setGraphData(graphData1Y);
+                      }}
+                      style={{
+                        color: selectedFilter == "1Y" ? "black" : "#808191",
+                      }}
+                    >
+                      1Y
+                    </button>
+                    {/* <button class="graphbutton pl-2">ALL</button> */}
+                  </div>
                 </div>
-                <div
-                  class="d-flex"
-                  style={{ marginTop: "40px", paddingRight: "30px" }}
-                >
-                  <button class="graphbutton">1h</button>
-                  <button class="graphbutton pl-2">24h</button>
-                  <button class="graphbutton pl-2">1D</button>
-                  <button class="graphbutton pl-2">1M</button>
-                  <button class="graphbutton pl-2">1Y</button>
-                  <button class="graphbutton pl-2">ALL</button>
-                </div>
-              </div>
-              {/* <img
+                {/* <img
                   class="pt-5 pb-4"
                   style={{ width: "700px", paddingLeft: "30px" }}
                   src={Images.linechart}
                 /> */}
-              <div
-                class=" pb-4"
-                style={{
-                  width: "700px",
-                  paddingLeft: "30px",
-                  height: "400px",
-                }}
-              >
-                {displayLineGraph ? (
-                  <ResponsiveLine
-                    enableGridX={false}
-                    enableGridY={false}
-                    data={graphData}
-                    margin={{ top: 30, right: 70, bottom: 70, left: 50 }}
-                    xScale={{ type: "point" }}
-                    yScale={{
-                      type: "linear",
-                      min: "auto",
-                      max: "auto",
-                      stacked: true,
-                      reverse: false,
-                    }}
-                    yFormat=" >-.2f"
-                    axisBottom={{ tickRotation: -45 }}
-                    colors={["#4fbf67"]}
-                    lineWidth={2}
-                    enableArea={true}
-                    areaOpacity={0.07}
-                    axisTop={null}
-                    axisRight={null}
-                    pointSize={0}
-                    pointColor={{ theme: "background" }}
-                    pointBorderWidth={2}
-                    pointBorderColor={{ from: "serieColor" }}
-                    pointLabelYOffset={-12}
-                    useMesh={true}
-                    legends={[
-                      {
-                        anchor: "bottom-right",
-                        direction: "column",
-                        justify: false,
-                        translateX: 100,
-                        translateY: 0,
-                        itemsSpacing: 0,
-                        itemDirection: "left-to-right",
-                        itemWidth: 80,
-                        itemHeight: 20,
-                        itemOpacity: 0.75,
-                        symbolSize: 12,
-                        symbolShape: "circle",
-                        symbolBorderColor: "rgba(0, 0, 0, .5)",
-                        effects: [
-                          {
-                            on: "hover",
-                            style: {
-                              itemBackground: "rgba(0, 0, 0, .03)",
-                              itemOpacity: 1,
+                <div
+                  class=""
+                  style={{
+                    width: "100%",
+                    height: "400px",
+                    marginBottom: "20px",
+                  }}
+                >
+                  {console.log(
+                    "graphdata<><><><><><><<><><><><><<><>><><><<>",
+                    graphData
+                  )}
+                  {console.log(
+                    "graphdata1D<><><><><><><<><><><><><<><>><><><<>",
+                    graphData1D
+                  )}{" "}
+                  {console.log(
+                    "graphdata1M<><><><><><><<><><><><><<><>><><><<>",
+                    graphData1M
+                  )}{" "}
+                  {console.log(
+                    "graphdata1H<><><><><><><<><><><><><<><>><><><<>",
+                    graphData1H
+                  )}{" "}
+                  {console.log(
+                    "graphdata1Y<><><><><><><<><><><><><<><>><><><<>",
+                    graphData1Y
+                  )}
+                  {displayLineGraph ? (
+                    <ResponsiveLine
+                      enableGridX={false}
+                      enableGridY={false}
+                      data={graphData}
+                      margin={{ top: 20, right: 30, bottom: 10, left: 30 }}
+                      xScale={{ type: "point" }}
+                      yScale={{
+                        type: "linear",
+                        min: "auto",
+                        max: "auto",
+                        stacked: true,
+                        reverse: false,
+                      }}
+                      curve="monotoneY"
+                      yFormat=" >-.2f"
+                      axisBottom={null}
+                      colors={["#355dff"]}
+                      lineWidth={3}
+                      enableArea={true}
+                      areaOpacity={0.3}
+                      axisTop={null}
+                      axisRight={null}
+                      axisLeft={null}
+                      pointSize={0}
+                      pointColor={{ theme: "background" }}
+                      pointBorderWidth={2}
+                      pointBorderColor={{ from: "serieColor" }}
+                      pointLabelYOffset={-12}
+                      useMesh={true}
+                      useMesh={true}
+                      defs={[
+                        linearGradientDef("gradientA", [
+                          { offset: 0, color: "inherit" },
+                          { offset: 60, color: "inherit", opacity: 0.4 },
+                          { offset: 75, color: "inherit", opacity: 0.2 },
+                          { offset: 85, color: "inherit", opacity: 0.1 },
+                          { offset: 100, color: "inherit", opacity: 0.08 },
+                        ]),
+                      ]}
+                      fill={[{ match: "*", id: "gradientA" }]}
+                      legends={[]}
+                    />
+                  ) : (
+                    <Chart
+                      options={{
+                        options: {
+                          chart: {
+                            id: "candlestick",
+                          },
+                          xaxis: {
+                            categories: [
+                              1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
+                              1999,
+                            ],
+                          },
+                        },
+                        chart: {
+                          toolbar: {
+                            tools: {
+                              download: false,
                             },
                           },
-                        ],
-                      },
-                    ]}
-                  />
-                ) : (
-                  <Chart
-                    options={{
-                      options: {
-                        chart: {
-                          id: "candlestick",
                         },
-                        xaxis: {
-                          categories: [
-                            1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
-                            1999,
-                          ],
-                        },
-                      },
-                    }}
-                    series={series}
-                    type="candlestick"
-                    width="600"
-                  />
-                )}
-              </div>
-              <div
-                style={{ paddingLeft: "90px", paddingRight: "90px" }}
-                class="d-flex justify-content-between"
-              >
-                <p style={{ fontFamily: "DM Sans", fontWeight: "bold" }}>
-                  Sept15
-                </p>
-                <p style={{ fontFamily: "DM Sans", fontWeight: "bold" }}>
-                  Sept15
-                </p>
-                <p style={{ fontFamily: "DM Sans", fontWeight: "bold" }}>
-                  Sept15
-                </p>
-                <p style={{ fontFamily: "DM Sans", fontWeight: "bold" }}>
-                  Sept15
-                </p>
-              </div>
-              <hr class="solid" style={{ margin: "0px" }} />
-              <div class="row">
+                      }}
+                      series={series}
+                      type="candlestick"
+                      width="600"
+                    />
+                  )}
+                </div>
+                {console.log("----graphData----- ", graphData)}
+
                 <div
-                  class="col-lg-6"
-                  style={{ borderRight: "1px solid lightgrey" }}
+                  style={{ paddingLeft: "30px", paddingRight: "30px" }}
+                  class="d-flex justify-content-around"
                 >
-                  <div class="d-flex pl-5 pt-5">
-                    <img style={{ height: "40px" }} src={Images.pt1} />
-                    <div class="pl-2">
-                      <p
-                        style={{
-                          margin: "0px",
-                          color: "#808191",
-                          fontFamily: "Poppins",
-                          fontSize: "14px",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        Market cap
-                        {/* <i class="pl-2 fa fa-exclamation-circle"></i> */}
-                        <img class="pl-1 pt-1" src={Images.exclamation} />
+                  {graphData &&
+                    graphData[0]?.data?.slice(0, 4).map((d) => (
+                      <p style={{ fontWeight: "500" }}>
+                        {/* Sept15 */}
+                        {d.x}
                       </p>
-                      <p class="font-weight-bold">
-                        {numberWithCommas(financial(tokenData?.marketCap))} USD
-                      </p>
-                    </div>
-                  </div>
+                    ))}
                 </div>
-                <div class="col-lg-6">
-                  <div class="d-flex pl-5 pt-5">
-                    <img style={{ height: "40px" }} src={Images.pt2} />
-                    <div class="pl-2">
-                      <p
-                        style={{
-                          margin: "0px",
-                          color: "#808191",
-                          fontFamily: "Poppins",
-                          fontSize: "14px",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        Volume(24h)
-                        <img class="pl-1 pt-1" src={Images.exclamation} />
-                      </p>
-                      <p class="font-weight-bold">
-                        {numberWithCommas(financial(tokenData?.volume24h))} USD
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <hr class="solid" style={{ margin: "0px" }} />
-              <div class="row">
-                <div
-                  class="col-lg-6"
-                  style={{ borderRight: "1px solid lightgrey" }}
-                >
-                  <div class="d-flex pl-5 pt-5">
-                    <img style={{ height: "40px" }} src={Images.pt3} />
-                    <div class="pl-2">
-                      <p
-                        style={{
-                          margin: "0px",
-                          color: "#808191",
-                          fontFamily: "Poppins",
-                          fontSize: "14px",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        Circulating Supply
-                        <img class="pl-1 pt-1" src={Images.exclamation} />
-                      </p>
-                      <p class="font-weight-bold">
-                        {numberWithCommas(
-                          financial(tokenData?.circulating_supply)
-                        )}{" "}
-                        USD
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="d-flex pl-5 pt-5">
-                    <img style={{ height: "40px" }} src={Images.pt4} />
-                    <div class="pl-2">
-                      <p
-                        style={{
-                          margin: "0px",
-                          color: "#808191",
-                          fontFamily: "Poppins",
-                          fontSize: "14px",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        Total Supply
-                        <img class="pl-1 pt-1" src={Images.exclamation} />
-                      </p>
-                      <p class="font-weight-bold">
-                        {numberWithCommas(financial(tokenData?.total_supply))}{" "}
-                        USD
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <hr class="solid" style={{ margin: "0px" }} />
-              <div class="row">
-                <div class="col-lg-8 pl-5 pt-5 pb-4">
-                  <h2 class="bitcoinheadeing">About Bitcoin</h2>
-                  <p
-                    style={{
-                      color: "#5e5b5b",
-                      fontFamily: "Poppins",
-                      fontSize: "14px",
-                    }}
+
+                <hr class="solid" style={{ margin: "0px" }} />
+                <div class="row">
+                  <div
+                    class="col-lg-6"
+                    style={{ borderRight: "1px solid lightgrey" }}
                   >
-                    The worlds first Cryptocurrency, Bitcoin is stored and
-                    exchange securely on the internet through a digital ledger
-                    known as a blochchain. Bitcoins are divisible into smaller
-                    units known as satoshis-each satoshi is worth 0.00000001
-                    bitcoin.
-                  </p>
+                    <div class="d-flex pl-5 pt-5">
+                      <img style={{ height: "40px" }} src={Images.pt1} />
+                      <div class="pl-2">
+                        <p
+                          style={{
+                            margin: "0px",
+                            color: "#808191",
+                            fontFamily: "Poppins",
+                            fontSize: "14px",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Market cap
+                          {/* <i class="pl-2 fa fa-exclamation-circle"></i> */}
+                          <img class="pl-1 pt-1" src={Images.exclamation} />
+                        </p>
+                        <p class="font-weight-bold">
+                          {numberWithCommas(financial(tokenData?.marketCap))}{" "}
+                          USD
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="d-flex pl-5 pt-5">
+                      <img style={{ height: "40px" }} src={Images.pt2} />
+                      <div class="pl-2">
+                        <p
+                          style={{
+                            margin: "0px",
+                            color: "#808191",
+                            fontFamily: "Poppins",
+                            fontSize: "14px",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Volume(24h)
+                          <img class="pl-1 pt-1" src={Images.exclamation} />
+                        </p>
+                        <p class="font-weight-bold">
+                          {numberWithCommas(financial(tokenData?.volume24h))}{" "}
+                          USD
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="col-lg-4 pt-5">
-                  <div class="d-flex">
-                    <img
-                      class="pt-2"
-                      style={{ width: "20px", height: "25px" }}
-                      src={Images.warrr}
-                    />
-                    <a
-                      class="pt-2 pl-3"
-                      href="#"
-                      style={{
-                        fontWeight: "700",
-                        fontFamily: "Poppins",
-                        fontSize: "14px",
-                      }}
-                    >
-                      Official Website
-                    </a>
+                <hr class="solid" style={{ margin: "0px" }} />
+                <div class="row">
+                  <div
+                    class="col-lg-6"
+                    style={{ borderRight: "1px solid lightgrey" }}
+                  >
+                    <div class="d-flex pl-5 pt-5">
+                      <img style={{ height: "40px" }} src={Images.pt3} />
+                      <div class="pl-2">
+                        <p
+                          style={{
+                            margin: "0px",
+                            color: "#808191",
+                            fontFamily: "Poppins",
+                            fontSize: "14px",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Circulating Supply
+                          <img class="pl-1 pt-1" src={Images.exclamation} />
+                        </p>
+                        <p class="font-weight-bold">
+                          {numberWithCommas(
+                            financial(tokenData?.circulating_supply)
+                          )}{" "}
+                          USD
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <div class="d-flex">
-                    <img
-                      class="pt-2"
-                      style={{ width: "20px", height: "25px" }}
-                      src={Images.warrr}
-                    />
-                    <a
-                      class="pt-2 pl-3"
-                      href="#"
-                      style={{
-                        fontWeight: "700",
-                        fontFamily: "Poppins",
-                        fontSize: "14px",
-                      }}
-                    >
-                      White Paper
-                    </a>
+                  <div class="col-lg-6">
+                    <div class="d-flex pl-5 pt-5">
+                      <img style={{ height: "40px" }} src={Images.pt4} />
+                      <div class="pl-2">
+                        <p
+                          style={{
+                            margin: "0px",
+                            color: "#808191",
+                            fontFamily: "Poppins",
+                            fontSize: "14px",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Total Supply
+                          <img class="pl-1 pt-1" src={Images.exclamation} />
+                        </p>
+                        <p class="font-weight-bold">
+                          {numberWithCommas(financial(tokenData?.total_supply))}{" "}
+                          USD
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <div class="d-flex">
-                    <img
-                      class="pt-2"
-                      style={{ width: "20px", height: "25px" }}
-                      src={Images.warrr}
-                    />
-                    <a
-                      class="pt-2 pl-3"
-                      href="#"
+                </div>
+                <hr class="solid" style={{ margin: "0px" }} />
+                <div class="row">
+                  <div class="col-lg-8 pl-5 pt-5 pb-4">
+                    <h2 class="bitcoinheadeing">About Bitcoin</h2>
+                    <p
                       style={{
-                        fontWeight: "700",
+                        color: "#5e5b5b",
                         fontFamily: "Poppins",
                         fontSize: "14px",
                       }}
                     >
-                      Source Code
-                    </a>
+                      The worlds first Cryptocurrency, Bitcoin is stored and
+                      exchange securely on the internet through a digital ledger
+                      known as a blochchain. Bitcoins are divisible into smaller
+                      units known as satoshis-each satoshi is worth 0.00000001
+                      bitcoin.
+                    </p>
+                  </div>
+                  <div class="col-lg-4 pt-5">
+                    <div class="d-flex">
+                      <img
+                        class="pt-2"
+                        style={{ width: "20px", height: "25px" }}
+                        src={Images.warrr}
+                      />
+                      <a
+                        class="pt-2 pl-3"
+                        href="#"
+                        style={{
+                          fontWeight: "700",
+                          fontFamily: "Poppins",
+                          fontSize: "14px",
+                        }}
+                      >
+                        Official Website
+                      </a>
+                    </div>
+                    <div class="d-flex">
+                      <img
+                        class="pt-2"
+                        style={{ width: "20px", height: "25px" }}
+                        src={Images.warrr}
+                      />
+                      <a
+                        class="pt-2 pl-3"
+                        href="#"
+                        style={{
+                          fontWeight: "700",
+                          fontFamily: "Poppins",
+                          fontSize: "14px",
+                        }}
+                      >
+                        White Paper
+                      </a>
+                    </div>
+                    <div class="d-flex">
+                      <img
+                        class="pt-2"
+                        style={{ width: "20px", height: "25px" }}
+                        src={Images.warrr}
+                      />
+                      <a
+                        class="pt-2 pl-3"
+                        href="#"
+                        style={{
+                          fontWeight: "700",
+                          fontFamily: "Poppins",
+                          fontSize: "14px",
+                        }}
+                      >
+                        Source Code
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div
-            class="col-lg-4 mt-1 mb-3 pt-4 pb-4"
-            style={{
-              backgroundColor: "#FCFCFD",
-              height: "350px",
-              borderRadius: "15px",
-            }}
-          >
-            {/* <button
+            <div
+              class="col-lg-4 mt-1 mb-3 pt-4 pb-4"
+              style={{
+                backgroundColor: "#FCFCFD",
+                height: "350px",
+                borderRadius: "15px",
+              }}
+            >
+              {/* <button
                 class="mt-2"
                 style={{
                   padding: "5px 15px 5px 15px",
@@ -1337,249 +1643,430 @@ return (
                   Market
                 </Link>
               </button> */}
-            <div
-              style={{ borderBottom: "2px solid #e6e8ec" }}
-              class="d-flex justify-content-between"
-            >
-              <h2
-                style={{
-                  color: "#23262F",
-                  fontWeight: "600",
-                  fontFamily: "Poppins",
-                  fontSize: "24px",
-                }}
+              <div
+                style={{ borderBottom: "2px solid #e6e8ec" }}
+                class="d-flex justify-content-between"
               >
-                Swap
-                {/* {tokenData?.asset} */}
-              </h2>
-              <div class="d-flex">
-                <img
+                <h2
                   style={{
-                    height: "15px",
-                    width: "15px",
-                    paddingTop: "2px",
-                  }}
-                  src={Images.bbbtc}
-                />
-                <p
-                  style={{
-                    fontFamily: "Poppins",
-                    fontSize: "12px",
+                    color: "#23262F",
                     fontWeight: "600",
+                    fontFamily: "Poppins",
+                    fontSize: "24px",
                   }}
-                  class="pl-2"
                 >
-                  10,098,36 USDT
-                </p>
-              </div>
-            </div>
-            <form>
-              <div class="input-group mb-3 mt-3 position-relative">
-                <div class="n-currencySelect">
-                  <div class="n-currency">
-                    <div
-                      class="d-flex flex-row align-items-center"
-                      onClick={() => {
-                        setOptionsDropdown(!optionsDropdown);
-                      }}
-                    >
-                      {selectedCurr ? <> {gettingLogos(selectedCurr)}</> : null}
-                      {selectedCurr?.asset?.ticker}
-                    </div>
-                  </div>
-                  {/* <ul className="n-currencyDropDown"> */}
-                  <ul
-                    class={
-                      `n-currencyDropDown ` +
-                      (optionsDropdown ? "d-block" : "d-none")
-                    }
+                  Swap
+                  <Setting_Modal setSlippagePercent={setSlippagePercent} />
+                  {/* {tokenData?.asset} */}
+                </h2>
+                <div class="d-flex">
+                  <img
+                    style={{
+                      height: "15px",
+                      width: "15px",
+                      paddingTop: "2px",
+                    }}
+                    src={Images.bbbtc}
+                  />
+                  <p
+                    style={{
+                      fontFamily: "Poppins",
+                      fontSize: "12px",
+                      fontWeight: "600",
+                    }}
+                    class="pl-2"
                   >
-                    <ul className="list-unstyled n-learnFilterLabels mb-2">
-                      <li
-                        className="d-flex flex-row justify-content-between align-items-center"
-                        style={{ margin: "0 4px" }}
-                      >
-                        <button
-                          className="alltype"
-                          style={{ color: "#fff", fontFamily: "DM Sans" }}
-                        >
-                          All
-                        </button>
-                      </li>
-                      <li
-                        className="d-flex flex-row justify-content-center align-items-center"
-                        style={{ margin: "0 4px" }}
-                      >
-                        <button
-                          className="alltype-nonActive"
-                          style={{
-                            color: "#fff",
-                            fontFamily: "DM Sans",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          Native
-                        </button>
-                      </li>
-                      <li
-                        className="d-flex flex-row justify-content-center align-items-center"
-                        style={{ margin: "0 4px" }}
-                      >
-                        <button
-                          className="alltype-nonActive"
-                          style={{ color: "#fff", fontFamily: "DM Sans" }}
-                        >
-                          ERC20
-                        </button>
-                      </li>
-                      <li
-                        className="d-flex flex-row justify-content-center align-items-center"
-                        style={{ margin: "0 4px" }}
-                      >
-                        <button
-                          className="alltype-nonActive"
-                          style={{ color: "#fff", fontFamily: "DM Sans" }}
-                        >
-                          BEP2
-                        </button>
-                      </li>
-                    </ul>
-                    <div class=" d-flex form-group has-search mb-2 n-inputSearch w-100">
-                      <input
-                        type="text"
-                        class="form-control n-tableSearch w-100"
-                        placeholder="Search"
-                      />
-                      <img
-                        style={{
-                          width: "20px",
-                          height: "20px",
-                          marginLeft: "-35px",
-                          marginTop: "10px",
-                          marginBottom: "10px",
-                        }}
-                        src={Images.searchicon}
-                      />
-                    </div>
+                    {financial(
+                      Number(selectedCurr?.amount?.amount().c[0]) /
+                        Math.pow(10, selectedCurr?.amount.decimal)
+                    )}{" "}
+                    {selectedCurr?.asset?.ticker}
+                  </p>
+                </div>
+              </div>
+              {/*Slippage*/}
+              <h6>Slippage: {slippagePercent}%</h6>
 
-                    {keyStore?.map((d, key) => {
-                      return (
-                        <>
-                          <li
-                            class="d-flex flex-row align-items-center"
-                            style={{ cursor: "pointer" }}
-                            onClick={() => {
-                              setSelectedCurr(d);
-                              setOptionsDropdown(false);
-                            }}
+              <form>
+                <div class="input-group mb-3 mt-3 position-relative">
+                  <div class="n-currencySelect" ref={myRefSwap}>
+                    <div class="n-currency">
+                      <div
+                        class="d-flex flex-row align-items-center"
+                        onClick={() => {
+                          setOptionsDropdown(!optionsDropdown);
+                        }}
+                      >
+                        {selectedCurr ? (
+                          <> {gettingLogos(selectedCurr)}</>
+                        ) : null}
+                        {selectedCurr?.asset?.ticker}
+                      </div>
+                    </div>
+                    {/* <ul className="n-currencyDropDown"> */}
+                    <ul
+                      class={
+                        `n-currencyDropDown w-currency-height ` +
+                        (optionsDropdown ? "d-block" : "d-none")
+                      }
+                    >
+                      <ul className="list-unstyled n-learnFilterLabels mb-2">
+                        <li
+                          className="d-flex flex-row justify-content-between align-items-center"
+                          style={{ margin: "0 4px" }}
+                        >
+                          <button
+                            className="alltype"
+                            style={{ color: "#fff", fontFamily: "DM Sans" }}
+                            onClick={filterAllType}
                           >
-                            {gettingLogos(d)}
-                            {/* <img
+                            All
+                          </button>
+                        </li>
+                        <li
+                          className="d-flex flex-row justify-content-center align-items-center"
+                          style={{ margin: "0 4px" }}
+                        >
+                          <button
+                            className="alltype-nonActive"
+                            style={{
+                              color: "#fff",
+                              fontFamily: "DM Sans",
+                              whiteSpace: "nowrap",
+                            }}
+                            onClick={filterNative}
+                          >
+                            Native
+                          </button>
+                        </li>
+                        <li
+                          className="d-flex flex-row justify-content-center align-items-center"
+                          style={{ margin: "0 4px" }}
+                        >
+                          <button
+                            className="alltype-nonActive"
+                            style={{ color: "#fff", fontFamily: "DM Sans" }}
+                            onClick={filterERC20}
+                          >
+                            ERC20
+                          </button>
+                        </li>
+                        <li
+                          className="d-flex flex-row justify-content-center align-items-center"
+                          style={{ margin: "0 4px" }}
+                        >
+                          <button
+                            className="alltype-nonActive"
+                            style={{ color: "#fff", fontFamily: "DM Sans" }}
+                            onClick={filterBEP2}
+                          >
+                            BEP2
+                          </button>
+                        </li>
+                      </ul>
+                      <div class=" d-flex form-group has-search mb-2 n-inputSearch w-100 ">
+                        <input
+                          type="text"
+                          value={search}
+                          class="form-control n-tableSearch w-100"
+                          placeholder="Search"
+                          onChange={implementSearch}
+                        />
+                        <img
+                          style={{
+                            width: "20px",
+                            height: "20px",
+                            marginLeft: "-35px",
+                            marginTop: "10px",
+                            marginBottom: "10px",
+                          }}
+                          src={Images.searchicon}
+                        />
+                      </div>
+
+                      {keyStore
+                        ?.filter((val) => {
+                          return val?.asset?.ticker
+                            ?.toLowerCase()
+                            .includes(search.toLowerCase());
+                        })
+                        .map((d, key) => {
+                          return (
+                            <>
+                              <li
+                                class="d-flex flex-row align-items-center w-hover-drop"
+                                style={{ cursor: "pointer" }}
+                                onClick={() => {
+                                  setSelectedCurr(d);
+                                  setOptionsDropdown(false);
+                                }}
+                              >
+                                {gettingLogos(d)}
+                                {/* <img
                                 src={Images.ltc}
                                 // width="24px"
                                 // height="24px"
                                 style={{ marginRight: "6px" }}
                               /> */}
-                            <div class="d-flex flex-row align-items-center justify-content-between w-100 n-currencyDetails">
-                              <div class="n-currencyName d-flex flex-column justify-content-start">
-                                <p>{d?.asset?.ticker}</p>
-                                <span>Native</span>
-                              </div>
-                              <div class="n-currencyValue">0</div>
-                            </div>
-                          </li>
-                          <hr />
-                        </>
-                      );
-                    })}
-                  </ul>
+                                <div class="d-flex flex-row align-items-center justify-content-between w-100 n-currencyDetails">
+                                  <div class="n-currencyName d-flex flex-column justify-content-start">
+                                    <p>{d?.asset?.ticker}</p>
+                                    <span>Native</span>
+                                  </div>
+                                  <div class="n-currencyValue">
+                                    {financial(
+                                      Number(d?.amount?.amount()?.c[0]) /
+                                        Math.pow(10, d?.amount?.decimal)
+                                    )}{" "}
+                                    {d?.asset?.ticker}
+                                  </div>
+                                </div>
+                              </li>
+                              <hr />
+                            </>
+                          );
+                        })}
+                    </ul>
+                  </div>
+                  <input
+                    style={{
+                      borderRadius: "10px",
+                      border: "3px solid #E6E8EC",
+                      color: "#777E90",
+                      fontSize: "14px",
+                      backgroundColor: "#fcfcfd",
+                      fontWeight: "bold",
+                      fontFamily: "Poppins",
+                      paddingLeft: "25%",
+                      paddingRight: "20%",
+                      // textAlign: "end",
+                    }}
+                    type="text"
+                    min={0}
+                    value={fromAmount}
+                    onChange={fromAmountHandler}
+                    class="form-control pt-4 pb-4"
+                    aria-label="From"
+                    aria-describedby="basic-addon2"
+                  />
+                  {/* <div class="input-group-append"> */}
+                  <button
+                    style={{
+                      border: "none",
+                      position: "absolute",
+                      right: "4px",
+                      top: "10px",
+                      color: "#777E90",
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                      fontFamily: "Poppins",
+                      zIndex: "4",
+                      boxShadow: "none",
+                    }}
+                    class="btn"
+                    type="button"
+                  >
+                    {selectedCurr?.asset?.ticker}
+                    {/* USDT */}
+                  </button>
+                  {/* </div> */}
                 </div>
-                <input
-                  style={{
-                    borderRadius: "10px",
-                    border: "3px solid #E6E8EC",
-                    color: "#777E90",
-                    fontSize: "14px",
-                    backgroundColor: "#fcfcfd",
-                    fontWeight: "bold",
-                    fontFamily: "Poppins",
-                    paddingLeft: "20%",
-                  }}
-                  type="text"
-                  min={0}
-                  value={fromAmount}
-                  onChange={fromAmountHandler}
-                  class="form-control pt-4 pb-4"
-                  aria-label="From"
-                  aria-describedby="basic-addon2"
-                />
-                {/* <div class="input-group-append"> */}
-                <button
-                  style={{
-                    border: "none",
-                    position: "absolute",
-                    right: "4px",
-                    top: "10px",
-                    color: "#777E90",
-                    fontSize: "14px",
-                    fontWeight: "bold",
-                    fontFamily: "Poppins",
-                    zIndex: "4",
-                  }}
-                  class="btn"
-                  type="button"
-                >
-                  {selectedCurr?.ticker}
-                  {/* USDT */}
-                </button>
-                {/* </div> */}
-              </div>
-            </form>
-            <form>
-              <div class="input-group mb-3 mt-3">
-                <input
-                  style={{
-                    borderRadius: "10px",
-                    border: "3px solid #E6E8EC",
-                    color: "#777E90",
-                    fontSize: "14px",
-                    backgroundColor: "#fcfcfd",
-                    fontWeight: "bold",
-                    fontFamily: "Poppins",
-                  }}
-                  disabled
-                  type="text"
-                  // value={toAmount}
-                  // onChange={toAmountHandler}
-                  
-                  class="form-control pt-4 pb-4"
-                  placeholder="TO"
-                  aria-label="From"
-                  aria-describedby="basic-addon2"
-                />
-                {/* <div class="input-group-append"> */}
-                <button
-                  style={{
-                    border: "none",
-                    position: "absolute",
-                    right: "12px",
-                    top: "10px",
-                    color: "#777E90",
-                    fontSize: "14px",
-                    fontWeight: "bold",
-                    fontFamily: "Poppins",
-                    zIndex: "4",
-                  }}
-                  class="btn"
-                  type="button"
-                >
-                  {tokenData?.asset}
-                </button>
-                {/* </div> */}
-              </div>
-            </form>
+              </form>
+              {/*end*/}
+              <form>
+                <div class="input-group mb-3 mt-3">
+                  <div class="n-currencySelect" ref={myRefSwap2}>
+                    <div class="n-currency">
+                      <div
+                        class="d-flex flex-row align-items-center"
+                        onClick={() => {
+                          setToOptionDropDown(!toOptionDropDown);
+                        }}
+                      >
+                        {selectedCurrTo ? (
+                          <>
+                            {" "}
+                            <img
+                              src={selectedCurrTo.logo}
+                              width="24px"
+                              height="24px"
+                              style={{ marginRight: "6px" }}
+                            />
+                          </>
+                        ) : null}
+                        {selectedCurrTo?.asset}
+                      </div>
+                    </div>
+                    {/* <ul className="n-currencyDropDown"> */}
+                    <ul
+                      class={
+                        `n-currencyDropDown w-currency-height ` +
+                        (toOptionDropDown ? "d-block" : "d-none")
+                      }
+                    >
+                      <ul className="list-unstyled n-learnFilterLabels mb-2">
+                        <li
+                          className="d-flex flex-row justify-content-between align-items-center"
+                          style={{ margin: "0 4px" }}
+                        >
+                          <button
+                            className="alltype"
+                            style={{ color: "#fff", fontFamily: "DM Sans" }}
+                            onClick={filterAllTypeTo}
+                          >
+                            All
+                          </button>
+                        </li>
+                        <li
+                          className="d-flex flex-row justify-content-center align-items-center"
+                          style={{ margin: "0 4px" }}
+                        >
+                          <button
+                            className="alltype-nonActive"
+                            style={{
+                              color: "#fff",
+                              fontFamily: "DM Sans",
+                              whiteSpace: "nowrap",
+                            }}
+                            onClick={filterNativeTo}
+                          >
+                            Native
+                          </button>
+                        </li>
+                        <li
+                          className="d-flex flex-row justify-content-center align-items-center"
+                          style={{ margin: "0 4px" }}
+                        >
+                          <button
+                            className="alltype-nonActive"
+                            style={{ color: "#fff", fontFamily: "DM Sans" }}
+                            onClick={filterERC20To}
+                          >
+                            ERC20
+                          </button>
+                        </li>
+                        <li
+                          className="d-flex flex-row justify-content-center align-items-center"
+                          style={{ margin: "0 4px" }}
+                        >
+                          <button
+                            className="alltype-nonActive"
+                            style={{ color: "#fff", fontFamily: "DM Sans" }}
+                            onClick={filterBEP2To}
+                          >
+                            BEP2
+                          </button>
+                        </li>
+                      </ul>
+                      <div class=" d-flex form-group has-search mb-2 n-inputSearch w-100 ">
+                        <input
+                          type="text"
+                          value={search}
+                          class="form-control n-tableSearch w-100"
+                          placeholder="Search"
+                          onChange={implementSearch}
+                        />
+                        <img
+                          style={{
+                            width: "20px",
+                            height: "20px",
+                            marginLeft: "-35px",
+                            marginTop: "10px",
+                            marginBottom: "10px",
+                          }}
+                          src={Images.searchicon}
+                        />
+                      </div>
 
-            {/* <div class="input-group mb-3 mt-3">
+                      {midgardData
+                        ?.filter((val) => {
+                          return val?.asset
+                            ?.toLowerCase()
+                            .includes(search.toLowerCase());
+                        })
+                        .map((d, key) => {
+                          return (
+                            <>
+                              <li
+                                class="d-flex flex-row align-items-center w-hover-drop"
+                                style={{ cursor: "pointer" }}
+                                onClick={() => {
+                                  setSelectedCurrTo(d);
+                                  setToOptionDropDown(false);
+                                }}
+                              >
+                                <img
+                                  src={d?.logo}
+                                  width="24px"
+                                  height="24px"
+                                  style={{ marginRight: "6px" }}
+                                />
+                                {/* <img
+                                src={Images.ltc}
+                                // width="24px"
+                                // height="24px"
+                                style={{ marginRight: "6px" }}
+                              /> */}
+                                <div class="d-flex flex-row align-items-center justify-content-between w-100 n-currencyDetails">
+                                  <div class="n-currencyName d-flex flex-column justify-content-start">
+                                    <p>{d?.asset}</p>
+                                    <span>Native</span>
+                                  </div>
+                                  {/* <div class="n-currencyValue">0</div> */}
+                                </div>
+                              </li>
+                              <hr />
+                            </>
+                          );
+                        })}
+                    </ul>
+                  </div>
+                  <input
+                    style={{
+                      borderRadius: "10px",
+                      border: "3px solid #E6E8EC",
+                      color: "#777E90",
+                      fontSize: "14px",
+                      backgroundColor: "#fcfcfd",
+                      fontWeight: "bold",
+                      fontFamily: "Poppins",
+                      paddingLeft: "25%",
+                      paddingRight: "20%",
+                      // textAlign: "end",
+                    }}
+                    disabled
+                    type="text"
+                    value={toAmount}
+                    onChange={toAmountHandler}
+                    class="form-control pt-4 pb-4"
+                    // placeholder="TO"
+                    aria-label="From"
+                    aria-describedby="basic-addon2"
+                  />
+                  {/* <div class="input-group-append"> */}
+                  <button
+                    style={{
+                      border: "none",
+                      position: "absolute",
+                      right: "4px",
+                      top: "10px",
+                      color: "#777E90",
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                      fontFamily: "Poppins",
+                      zIndex: "4",
+                      boxShadow: "none",
+                    }}
+                    class="btn"
+                    type="button"
+                  >
+                    {selectedCurrTo?.asset}
+                  </button>
+                  {/* </div> */}
+                </div>
+              </form>
+
+              {/* <div class="input-group mb-3 mt-3">
                 <input
                   style={{ borderRight: "none" }}
                   type="text"
@@ -1599,21 +2086,22 @@ return (
                 </div>
               </div> */}
 
-            <button
-              disabled={loading}
-              style={{ fontSize: "16px", fontFamily: "Dm Sans" }}
-              type="button"
-              class="btn btn-primary btn-lg btnHoverWhite w-100"
-              onClick={handleShowConfirm}
-            >
-              Swap {tokenData?.asset}
-            </button>
+              <button
+                disabled={loading}
+                // disabled={true}
+                style={{ fontSize: "16px", fontFamily: "Dm Sans" }}
+                type="button"
+                class="btn btn-primary btn-lg btnHoverWhite w-100"
+                onClick={handleShowConfirm}
+              >
+                Swap {tokenData?.asset}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
-  </>
-);
+      </section>
+    </>
+  );
 };
 
 export default withMainLayout(BuyPlatform);

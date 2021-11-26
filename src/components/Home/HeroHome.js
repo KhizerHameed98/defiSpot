@@ -43,9 +43,9 @@ export const HeroHome = () => {
   return (
     <div>
       <section style={{ overflow: "hidden" }}>
-        <div class="container">
+        <div class="container nn-heroSection">
           <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-6 n-heroContent">
               <div class="marketbanner">
                 <h2 class="marketbannerhed">
                   Buy & sell <br />
@@ -66,11 +66,11 @@ export const HeroHome = () => {
                   </button>
                 </Link>
               </div>
-              <img
-                class="n-downArrow"
-                src={Images.lorarrow}
-                onClick={executeScroll}
-              />
+              
+              <svg onClick={executeScroll} class="n-downArrow" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path className="arr-fill" fill-rule="evenodd" clip-rule="evenodd" d="M20.7348 18.0909C21.1094 18.4968 21.0841 19.1294 20.6783 19.504L17.1783 22.7348C16.7953 23.0884 16.2048 23.0884 15.8218 22.7348L12.3217 19.504C11.9159 19.1294 11.8906 18.4968 12.2652 18.091C12.6398 17.6851 13.2724 17.6598 13.6783 18.0344L15.5 19.716L15.5 10C15.5 9.44771 15.9477 9 16.5 9C17.0523 9 17.5 9.44771 17.5 10L17.5 19.716L19.3217 18.0344C19.7275 17.6598 20.3602 17.6851 20.7348 18.0909Z"/>
+              <path d="M2 16C2 8.26801 8.26801 2 16 2L16 -2C6.05887 -2 -2 6.05887 -2 16L2 16ZM16 30C8.26801 30 2 23.732 2 16L-2 16C-2 25.9411 6.05887 34 16 34L16 30ZM30 16C30 23.732 23.732 30 16 30L16 34C25.9411 34 34 25.9411 34 16L30 16ZM34 16C34 6.05887 25.9411 -2 16 -2L16 2C23.732 2 30 8.26801 30 16L34 16Z" fill="#E6E8EC"/>
+              </svg>
             </div>
             <div class="col-lg-6 n-responsiveHeroImage">
               <img className="mainimaggehomepage" src={Images.mainbanneri} />
@@ -194,7 +194,7 @@ export const HeroHome = () => {
         className="w-section-space-top-btm"
         style={{ backgroundColor: "#FCFCFD" }}
       >
-        <div class="container">
+        <div class="container nn-marketSection">
           <div class="n-marketTrendHeading">
             <h2 class="markettrend">Market trend</h2>
             <Link to={browserRoute.MARKET}>
@@ -204,7 +204,7 @@ export const HeroHome = () => {
             </Link>
           </div>
 
-          <div id="starred" class="px-2 pt-1 n-marketTable">
+          <div id="starred" class="pt-1 n-marketTable">
             <div class="table-responsive w-comon-table-style-row-space w-mr-botom-h-tb">
               <div
                 className="w-brd-tb"
@@ -307,18 +307,23 @@ export const HeroHome = () => {
                                 <td>
                                   <div class="graph">
                                     <LineChartSmartCard
+                                      color={
+                                        d?.change_7d >= 0
+                                          ? "#45B26B"
+                                          : "#ff6838"
+                                      }
                                       data={[
                                         {
                                           id: "Parent",
-                                          color: "hsl(6, 70%, 50%)",
-                                          data: d.graphData.map((data) => {
+
+                                          data: d?.graphData?.map((data) => {
                                             return {
                                               x: new Date(
                                                 Number(data.timeStamp) * 1000
                                               )
                                                 .toString()
                                                 .substring(4, 16),
-                                              y: data.assetPriceUSD,
+                                              y: data?.assetPriceUSD,
                                             };
                                           }),
                                         },
@@ -412,7 +417,7 @@ export const HeroHome = () => {
                                       display: "inline-block",
                                     }}
                                   >
-                                    <div
+                                    <Link
                                       style={{
                                         cursor: "pointer",
                                         textDecoration: "none",
@@ -421,12 +426,13 @@ export const HeroHome = () => {
                                       }}
                                       class="n-secondaryButton"
                                       onClick={() => handleRoutingtoBuy(d)}
+                                      to="#"
                                     >
                                       {/* <button */}
                                       {/* > */}
                                       Trade
                                       {/* </button> */}
-                                    </div>
+                                    </Link>
                                   </div>{" "}
                                 </td>
                               </tr>

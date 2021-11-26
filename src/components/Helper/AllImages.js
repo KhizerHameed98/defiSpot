@@ -26,7 +26,7 @@ import Wallet from "../../assets/images/wallet.png";
 import cr1 from "../../assets/images/cr1.png";
 import cr2 from "../../assets/images/cr2.png";
 import cr3 from "../../assets/images/cr3.png";
-import lorarrow from "../../assets/images/lorarrow.png";
+import lorarrow from "../../assets/images/Arrow-icon.svg";
 import mainbanneri from "../../assets/images/mainbanneri.png";
 import Yay from "../../assets/images/Yay.png";
 import From from "../../assets/images/from.png";

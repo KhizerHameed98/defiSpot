@@ -250,24 +250,25 @@ const EarnYield = () => {
         </div>
       ) : (
         <>
-          <section style={{ backgroundColor: "#C0E1FF" }}>
+          <section  className="u-market876662">
             <div class="container">
               <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-6 n-earnYeildContent">
                   <div class="marketbanner">
                     <h2 class="marketbannerhed">Earn yield now</h2>
                     <p
-                      style={{
-                        fontSize: "24px",
-                        fontFamily: "Poppins",
-                        fontWeight: "400",
-                      }}
+                    className="uearnyidledpage66555"
+                      // style={{
+                      //   fontSize: "24px",
+                      //   fontFamily: "Poppins",
+                      //   fontWeight: "400",
+                      // }}
                     >
                       Provide your tokens to earn annual yield.
                     </p>
                   </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6 n-earnYeildImage">
                   <img className="earnyield-pagepic" src={Images.pageyeild} />
                 </div>
               </div>
@@ -276,9 +277,9 @@ const EarnYield = () => {
 
           <section
             style={{ backgroundColor: "#FCFCFD" }}
-            class="n-earnYeildTable"
+            class=""
           >
-            <div class="container pt-5">
+            <div class="container n-earnYeildContainer">
               <div class="d-flex flex-row justify-content-between align-items-center flex-wrap mb-5">
                 <ul class="list-unstyled d-flex flex-row align-items-center mb-0">
                   <li
@@ -325,9 +326,8 @@ const EarnYield = () => {
                           ? "alltype"
                           : "alltype-nonActive"
                       }
-                      style={{ color: "#fff", fontFamily: "DM Sans" }}
+                      style={{ color: "#fff", fontFamily: "DM Sans", whiteSpace: "nowrap" }}
                       onClick={filterERC20}
-                      style={{ whiteSpace: "nowrap" }}
                     >
                       ERC-20
                     </button>
@@ -417,63 +417,69 @@ const EarnYield = () => {
                         </div>
                       </th>
                       <th className="text-right" scope="col">
-                        APY{" "}
                         <div
                           style={{
-                            display: "inline-grid",
-                            paddingBottom: "4px",
-                            marginLeft: "3px",
-                            position: "absolute",
-                            bottom: "31px",
+                            display: "inline-flex",
+                            alignItems: "center",
                             cursor: "pointer",
                           }}
-                          onClick={handleAscendingDescendingAPY}
                         >
-                          <img
-                            class="pl-1"
-                            src={Images.FilterUp}
-                            // onClick={handleDescendingAPY}
+                          APY{" "}
+                          <span
+                            onClick={handleAscendingDescendingAPY}
                             style={{
-                              marginBottom: "3px",
-                              cursor: "pointer",
+                              display: "inline-flex",
+                              flexDirection: "column",
                             }}
-                          />
-                          <img
-                            class="pl-1"
-                            src={Images.FilterDown}
-                            // onClick={handleAscendingAPY}
-                            style={{ cursor: "pointer" }}
-                          />
+                          >
+                            <img
+                              class="pl-1"
+                              src={Images.FilterUp}
+                              style={{
+                                marginBottom: "3px",
+                                cursor: "pointer",
+                              }}
+                            />
+                            <img
+                              class="pl-1"
+                              src={Images.FilterDown}
+                              style={{ cursor: "pointer" }}
+                            />
+                          </span>
                         </div>
                       </th>
                       <th className="text-right" scope="col">
-                        Liquidity{" "}
                         <div
                           style={{
-                            display: "inline-grid",
-                            paddingBottom: "4px",
-                            marginLeft: "3px",
-                            position: "absolute",
-                            bottom: "31px",
+                            display: "inline-flex",
+                            alignItems: "center",
                             cursor: "pointer",
                           }}
-                          onClick={handleAscendingDescendingLiquidity}
                         >
-                          <img
-                            class="pl-1"
-                            src={Images.FilterUp}
-                            // onClick={handleDescendingLiquidity}
+                          Liquidity{" "}
+                          <span
+                            onClick={handleAscendingDescendingLiquidity}
                             style={{
-                              marginBottom: "3px",
-                              cursor: "pointer",
+                              display: "inline-flex",
+                              flexDirection: "column",
                             }}
-                          />
-                          <img
-                            class="pl-1"
-                            src={Images.FilterDown}
-                            // onClick={handleAscendingLiquidity}
-                            style={{ cursor: "pointer" }}
-                          />
+                          >
+                            <img
+                              class="pl-1"
+                              src={Images.FilterUp}
+                              // onClick={handleDescendingLiquidity}
+                              style={{
+                                marginBottom: "3px",
+                                cursor: "pointer",
+                              }}
+                            />
+                            <img
+                              class="pl-1"
+                              src={Images.FilterDown}
+                              // onClick={handleAscendingLiquidity}
+                              style={{ cursor: "pointer" }}
+                            />
+                          </span>
                         </div>
                       </th>
                       <th className="text-right" scope="col">
@@ -514,6 +520,7 @@ const EarnYield = () => {
                                         style={{
                                           fontSize: "14px",
                                           fontWeight: "500",
+                                          whiteSpace: "nowrap"
                                         }}
                                       >
                                         {getType(d)}
@@ -564,7 +571,7 @@ const EarnYield = () => {
               </div>
             </div>
           </section>
-          <section class="n-marketSection">
+          <section class="n-marketSection" style={{ backgroundColor: "#FCFCFD" }}>
             <div class="container">
               <div style={{ marginBottom: "64px" }}>
                 <h2 class="d-flex justify-content-center marketmainheade">
@@ -636,10 +643,10 @@ const EarnYield = () => {
                 </div>
               </div>
             </div>
-            <div class="d-flex justify-content-center n-marketLoadMore">
+            <div class="d-flex justify-content-center w-marketLoadMore">
               <Link to={browserRoute.LEARN}>
                 <button type="button" class="btn n-secondaryButton">
-                  <img className="pr-2" src={Images.loadicon} />
+                  {/* <img className="pr-2" src={Images.loadicon} /> */}
                   Load more
                 </button>
               </Link>

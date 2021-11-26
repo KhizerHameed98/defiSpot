@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import withMainLayout from "../HOC/withMainLayout";
 import { Modal } from "react-bootstrap";
 import Images from "../Helper/AllImages";
-import { useHistory, useParams, withRouter } from "react-router-dom";
+import { useHistory, useParams, withRouter, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { ResponsiveLine } from "@nivo/line";
@@ -13,6 +13,7 @@ import {
   handleMainModal,
   serverDecryption,
 } from "../../Services/mainServices";
+import { filter } from "rxjs";
 
 const data = [
   {
@@ -327,12 +328,15 @@ const BuyPlatform = () => {
   const [confirmModal, setConfirmModal] = useState(false);
   const [fromAmount, setFromAmount] = useState("");
   const [toAmount, setToAmount] = useState("");
-  const [fromData, setFromData] = useState(null);
+  const [transactionHash, setTransactionHash] = useState("");
   const [TokenPriceUSD, setTokenPriceUSD] = useState("");
   const [tokenData, setTokenData] = useState([]);
   const [keyStore, setKeyStore] = useState([]);
   const [selectedCurr, setSelectedCurr] = useState(null);
   const [walletAddress, setWalletAddress] = useState("");
+  const [statusLink, setStatusLink] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const [optionsDropdown, setOptionsDropdown] = useState(false);
   const mainState = useSelector((state) => state.main.midgardPool);
   const loggedin = useSelector((state) => state.main.isLoggedin);
@@ -345,88 +349,26 @@ const BuyPlatform = () => {
   useEffect(() => {
     setKeyStore(assetBalance);
   }, [assetBalance]);
+
+  useEffect(async () => {
+    if (selectedCurr && tokenData) {
+      await axios
+        .get(
+          `https://min-api.cryptocompare.com/data/price?fsym=${tokenData?.asset}&tsyms=${selectedCurr?.asset?.ticker}`
+        )
+        .then((res) => {
+          console.log("res===>>", res.data);
+          setTokenPriceUSD(res.data);
+        });
+    }
+  }, [selectedCurr]);
+
   useEffect(() => {
     if (!loggedin) {
       history.push("/");
     }
   }, [loggedin]);
-  useEffect(() => {
-    keyStore?.slice(0, 1)?.map((t) => {
-      if (t?.asset) {
-        setSelectedCurr(t);
-      }
-    });
-  }, [keyStore]);
 
-  const handleCloseYay = () => setYayModal(false);
-  const handleShowYay = () => {
-    setConfirmModal(false);
-    setYayModal(true);
-  };
-  const handleCloseConfirm = () => {
-    setConfirmModal(false);
-  };
-  const handleShowConfirm = () => {
-    //check loggedin state
-    setYayModal(true);
-    // if (loggedin) {
-    //   // setConfirmModal(true);
-    //   const fromData = midgardPool.find(
-    //     (data) =>
-    //       data.blockchain === selectedCurr.asset.chain &&
-    //       data.asset === selectedCurr.asset.ticker
-    //   );
-    //   const decimal = selectedCurr.amount.decimal;
-    //   if (fromData) {
-    //     dispatch(
-    //       nativeSwapping(fromData, tokenData, fromAmount, decimal, midgardPool)
-    //     );
-    //   }
-
-    // } else {
-    //   // console.log("loggedOUT");
-    //   dispatch(handleMainModal(true));
-    // }
-  };;
-  function financial(x) {
-    return Number.parseFloat(x).toFixed(2);
-  }
-  function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
-  const fromAmountHandler = (e) => {
-    if (e.target.value >= 0) {
-      setFromAmount(e.target.value);
-      setToAmount(financial(Number(e.target.value) / Number(TokenPriceUSD)));
-    }
-  };
-  const toAmountHandler = (e) => {
-    if (e.target.value >= 0) {
-      setToAmount(e.target.value);
-      setFromAmount(financial(Number(e.target.value) * Number(TokenPriceUSD)));
-    }
-  };
-  const gettingLogos = (t) => {
-    let midgardPool = mainState;
-
-    console.log("t-========>>", t);
-    let ticker = t?.asset?.ticker;
-    if (t.asset.ticker.toLowerCase() === "rune") {
-      ticker = "XRUNE";
-    }
-
-    let res = midgardPool?.find(
-      (d) => d?.asset.toLowerCase() === ticker.toLowerCase()
-    );
-    return (
-      <img
-        src={res.logo}
-        width="24px"
-        height="24px"
-        style={{ marginRight: "6px" }}
-      />
-    );
-  };
   useEffect(async () => {
     if (mainState) {
       let data = mainState?.filter((d) => d._id === id);
@@ -455,20 +397,97 @@ const BuyPlatform = () => {
         },
       ]);
 
-      await axios
-        .get(
-          `https://min-api.cryptocompare.com/data/price?fsym=${data[0].asset}&tsyms=USD`
-        )
-        .then((res) => {
-          console.log("res===>>", res.data.USD);
-          setTokenPriceUSD(res.data.USD);
-        });
-
       // console.log("ID====>>", decryptedObject);
     } else {
       history.push("/");
     }
   }, [mainState]);
+
+  useEffect(() => {
+    keyStore?.slice(0, 1)?.map((t) => {
+      if (t?.asset) {
+        setSelectedCurr(t);
+      }
+    });
+  }, [keyStore]);
+
+  const handleCloseYay = () => setYayModal(false);
+  const handleShowYay = () => {
+    setConfirmModal(false);
+    setYayModal(true);
+  };
+  const handleCloseConfirm = () => {
+    setConfirmModal(false);
+  };
+  const handleShowConfirm = () => {
+    //check loggedin state
+    if (loggedin) {
+      // setConfirmModal(true);
+      const fromData = midgardPool.find(
+        (data) =>
+          data.blockchain === selectedCurr.asset.chain &&
+          data.asset === selectedCurr.asset.ticker
+      );
+      const decimal = selectedCurr.amount.decimal;
+      if (fromData) {
+        dispatch(
+          nativeSwapping(
+            fromData,
+            tokenData,
+            fromAmount,
+            decimal,
+            midgardPool,
+            setYayModal,
+            setTransactionHash,
+            setStatusLink,
+            setLoading
+          )
+        );
+      }
+    } else {
+      // console.log("loggedOUT");
+      dispatch(handleMainModal(true));
+    }
+  };
+  function financial(x) {
+    return Number.parseFloat(x).toFixed(2);
+  }
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+  const fromAmountHandler = (e) => {
+    if (e.target.value >= 0) {
+      setFromAmount(e.target.value);
+      setToAmount(financial(Number(e.target.value) / Number(TokenPriceUSD)));
+    }
+  };
+  const toAmountHandler = (e) => {
+    // if (e.target.value >= 0) {
+    //   setToAmount(e.target.value);
+    //   setFromAmount(financial(Number(e.target.value) * Number(TokenPriceUSD)));
+    // }
+    console.log("e=>>", e.target.value);
+  };
+  const gettingLogos = (t) => {
+    let midgardPool = mainState;
+
+    let ticker = t?.asset?.ticker;
+    if (t.asset.ticker.toLowerCase() === "rune") {
+      ticker = "XRUNE";
+    }
+
+    let res = midgardPool?.find(
+      (d) => d?.asset.toLowerCase() === ticker.toLowerCase()
+    );
+    return (
+      <img
+        src={res.logo}
+        width="24px"
+        height="24px"
+        style={{ marginRight: "6px" }}
+      />
+    );
+  };
 
   function financial(x) {
     return Number.parseFloat(x).toFixed(2);
@@ -477,6 +496,40 @@ const BuyPlatform = () => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
   console.log("=-=-=StateFinalData-=-=- ", graphData);
+
+  const statusRouting = () => {
+    // history.push(statusLink);
+    console.log("statusLink=====", statusLink);
+  };
+
+  const filterAllType = (e) => {
+    e.preventDefault();
+    setKeyStore(assetBalance);
+  };
+  const filterNative = (e) => {
+    e.preventDefault();
+    let res = assetBalance.filter(
+      (data) => data?.asset?.chain === data?.asset?.ticker
+    );
+    setKeyStore(res);
+  };
+
+  const filterERC20 = (e) => {
+    e.preventDefault();
+    let res = assetBalance.filter(
+      (data) => data?.asset?.chain === "ETH" && data?.asset?.ticker !== "ETH"
+    );
+    setKeyStore(res);
+  };
+
+  const filterBEP2 = (e) => {
+    e.preventDefault();
+    let res = assetBalance.filter(
+      (data) => data?.asset?.chain === "BNB" && data?.asset?.ticker !== "BNB"
+    );
+    setKeyStore(res);
+  };
+
   return (
     <>
       {/*Yay Pop Up Modal*/}
@@ -502,7 +555,7 @@ const BuyPlatform = () => {
             aria-labelledby="exampleModalLabel"
             aria-hidden="true"
           >
-            <div class="modal-dialog" role="document">
+            <div>
               <div>
                 <div class="modal-body">
                   <div class="d-flex justify-content-center  mb-3">
@@ -520,38 +573,27 @@ const BuyPlatform = () => {
                     <img src={Images.Yay} />
                   </div>
                   <div class="d-flex justify-content-center ">
-                    <p class="yahparagraph">You successfully bought</p>
+                    <p class="yahparagraph">
+                      Your transaction has been initiated!
+                    </p>
                   </div>
-                  <div class="d-flex justify-content-center">
-                    <p
+                  <div class=" ">
+                    <a
+                      href={statusLink}
+                      class=""
                       style={{
-                        fontWeight: "bold",
-                        fontFamily: "Poppins",
-                        fontSize: "16px",
+                        cursor: "pointer",
+                        color: "blue",
+                        fontSize: "14px",
+                        width: "450px",
+                        display: "block",
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis",
+                        overflow: "hidden",
                       }}
                     >
-                      <span
-                        style={{
-                          color: "#58BD7D",
-                          fontWeight: "bold",
-                          fontFamily: "Poppins",
-                          fontSize: "16px",
-                        }}
-                      >
-                        1.1123 BTC
-                      </span>{" "}
-                      for{" "}
-                      <span
-                        style={{
-                          color: "#07C078",
-                          fontWeight: "bold",
-                          fontFamily: "Poppins",
-                        }}
-                      >
-                        35,000 USDT
-                      </span>
-                      !
-                    </p>
+                      {statusLink}
+                    </a>
                   </div>
                   <div class="transactionclasss">
                     <div class="d-flex justify-content-between pt-2">
@@ -586,16 +628,19 @@ const BuyPlatform = () => {
                           fontSize: "14px",
                         }}
                       >
-                        Completed
+                        Initiated
                       </p>
+                      <br />
                       <p
                         style={{
+                          marginLeft: "50px",
                           fontWeight: "bold",
                           fontFamily: "Poppins",
                           fontSize: "14px",
+                          overflow: "hidden",
                         }}
                       >
-                        0msx836930...87r398
+                        {transactionHash ? <> {transactionHash}</> : null}
                       </p>
                     </div>
                     <hr class="solid" />
@@ -621,12 +666,12 @@ const BuyPlatform = () => {
                   </div>
                 </div>
                 <div class="d-flex justify-content-center pb-3 pt-2 pl-3 pr-3">
-                  <button
+                  {/* <button
                     type="button"
                     class="btn btn-primary btn-lg btnHoverWhite"
                   >
                     Wallet
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>
@@ -672,7 +717,7 @@ const BuyPlatform = () => {
                     </div>
                     <div>
                       <img
-                      className="settingmodlicon4444"
+                        className="settingmodlicon4444"
                         style={{
                           height: "25px",
                           marginTop: "10px",
@@ -1031,7 +1076,7 @@ const BuyPlatform = () => {
                       enableGridX={false}
                       enableGridY={false}
                       data={graphData}
-                      margin={{ top: 30, right: 70, bottom: 30, left: 40 }}
+                      margin={{ top: 30, right: 70, bottom: 70, left: 50 }}
                       xScale={{ type: "point" }}
                       yScale={{
                         type: "linear",
@@ -1041,9 +1086,14 @@ const BuyPlatform = () => {
                         reverse: false,
                       }}
                       yFormat=" >-.2f"
+                      axisBottom={{ tickRotation: -45 }}
+                      colors={["#4fbf67"]}
+                      lineWidth={2}
+                      enableArea={true}
+                      areaOpacity={0.07}
                       axisTop={null}
                       axisRight={null}
-                      pointSize={10}
+                      pointSize={0}
                       pointColor={{ theme: "background" }}
                       pointBorderWidth={2}
                       pointBorderColor={{ from: "serieColor" }}
@@ -1358,7 +1408,11 @@ const BuyPlatform = () => {
                     }}
                     class="pl-2"
                   >
-                    10,098,36 USDT
+                    {financial(
+                      Number(selectedCurr?.amount?.amount().c[0]) /
+                        Math.pow(10, selectedCurr?.amount.decimal)
+                    )}{" "}
+                    {selectedCurr?.asset?.ticker}
                   </p>
                 </div>
               </div>
@@ -1372,9 +1426,9 @@ const BuyPlatform = () => {
                           setOptionsDropdown(!optionsDropdown);
                         }}
                       >
-                        {selectedCurr? (<>                        {gettingLogos(selectedCurr)}
-
-                        </>):null}
+                        {selectedCurr ? (
+                          <> {gettingLogos(selectedCurr)}</>
+                        ) : null}
                         {selectedCurr?.asset?.ticker}
                       </div>
                     </div>
@@ -1393,6 +1447,7 @@ const BuyPlatform = () => {
                           <button
                             className="alltype"
                             style={{ color: "#fff", fontFamily: "DM Sans" }}
+                            onClick={filterAllType}
                           >
                             All
                           </button>
@@ -1408,6 +1463,7 @@ const BuyPlatform = () => {
                               fontFamily: "DM Sans",
                               whiteSpace: "nowrap",
                             }}
+                            onClick={filterNative}
                           >
                             Native
                           </button>
@@ -1419,6 +1475,7 @@ const BuyPlatform = () => {
                           <button
                             className="alltype-nonActive"
                             style={{ color: "#fff", fontFamily: "DM Sans" }}
+                            onClick={filterERC20}
                           >
                             ERC20
                           </button>
@@ -1430,6 +1487,7 @@ const BuyPlatform = () => {
                           <button
                             className="alltype-nonActive"
                             style={{ color: "#fff", fontFamily: "DM Sans" }}
+                            onClick={filterBEP2}
                           >
                             BEP2
                           </button>
@@ -1453,7 +1511,7 @@ const BuyPlatform = () => {
                         />
                       </div>
 
-                      {keyStore.map((d, key) => {
+                      {keyStore?.map((d, key) => {
                         return (
                           <>
                             <li
@@ -1476,7 +1534,13 @@ const BuyPlatform = () => {
                                   <p>{d?.asset?.ticker}</p>
                                   <span>Native</span>
                                 </div>
-                                <div class="n-currencyValue">0</div>
+                                <div class="n-currencyValue">
+                                  {financial(
+                                    Number(d?.amount?.amount()?.c[0]) /
+                                      Math.pow(10, d?.amount?.decimal)
+                                  )}{" "}
+                                  {d?.asset?.ticker}
+                                </div>
                               </div>
                             </li>
                             <hr />
@@ -1539,9 +1603,8 @@ const BuyPlatform = () => {
                       fontFamily: "Poppins",
                     }}
                     type="text"
-                    // value={toAmount}
-                    // onChange={toAmountHandler}
-                    disabled
+                    value={toAmount}
+                    onChange={toAmountHandler}
                     class="form-control pt-4 pb-4"
                     placeholder="TO"
                     aria-label="From"
@@ -1590,6 +1653,7 @@ const BuyPlatform = () => {
               </div> */}
 
               <button
+                disabled={loading}
                 style={{ fontSize: "16px", fontFamily: "Dm Sans" }}
                 type="button"
                 class="btn btn-primary btn-lg btnHoverWhite w-100"

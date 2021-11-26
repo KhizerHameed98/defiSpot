@@ -8,10 +8,10 @@ const Learn = () => {
   return (
     <div>
       <section>
-        <div class="container">
+        <div class="container n-learnMain">
           <h2
             className="d-flex justify-content-center marketbannerhed"
-            style={{ marginTop: "80px" }}
+            // style={{ marginTop: "80px" }}
           >
             Learn DeFi trading
           </h2>
@@ -77,22 +77,23 @@ const Learn = () => {
                 data-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false"
+                style={{ fontWeight: "500" }}
               >
                 Recently added
-                <img className="pl-5" src={Images.ButtonSecondarySmall} />
+                <img className="pl-5 ml-5" src={Images.ButtonSecondarySmall} />
               </button>
               <div
-                style={{ width: "100%" }}
+                style={{ width: "100%", borderRadius: "10px", border: "2px solid #e6e8ec" }}
                 class="dropdown-menu n-dropdownMenuShow"
                 aria-labelledby="dropdownMenuButton"
               >
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item n-dropDrownItem" href="#">
                   Action
                 </a>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item n-dropDrownItem" href="#">
                   Another action
                 </a>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item n-dropDrownItem" href="#">
                   Something else here
                 </a>
               </div>
@@ -200,7 +201,7 @@ const Learn = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-4 px-0">
+                <div className="col-lg-4 px-0 d-flex flex-column align-items-center">
                   <div class="card n-learnCards" style={{ border: "none" }}>
                     <Link to={browserRoute.INTRO_TO_LP}>
                       <img
@@ -240,7 +241,7 @@ const Learn = () => {
                     </Link>
                   </div>
                 </div>
-                <div className="col-lg-4 px-0">
+                <div className="col-lg-4 px-0 d-flex flex-column align-items-end">
                   <div class="card n-learnCards" style={{ border: "none" }}>
                     <img
                       className="u-learncardimage456"
@@ -339,7 +340,7 @@ const Learn = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-4 px-0">
+                <div className="col-lg-4 px-0 d-flex flex-column align-items-center">
                   <div class="card n-learnCards" style={{ border: "none" }}>
                     <img
                       className="u-learncardimage456"
@@ -388,7 +389,7 @@ const Learn = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-4 px-0">
+                <div className="col-lg-4 px-0 d-flex flex-column align-items-end">
                   <div class="card n-learnCards" style={{ border: "none" }}>
                     <img
                       className="u-learncardimage456"
@@ -445,7 +446,7 @@ const Learn = () => {
                   type="button"
                   class="btn n-secondaryButton n-marketLoadMore"
                 >
-                  <img className="pr-2" src={Images.loadicon} />
+                  {/* <img className="pr-2" src={Images.loadicon} /> */}
                   {/* <img className="mb-1" src={Images.morearticle} /> */}
                   Load more
                 </button>

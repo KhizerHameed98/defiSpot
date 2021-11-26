@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import withMainLayout from "../HOC/withMainLayout";
 import { Link, useHistory } from "react-router-dom";
 import Images from "../Helper/AllImages";
@@ -11,6 +11,7 @@ import Pagination from "@mui/material/Pagination";
 import { handleMainModal } from "../../Services/mainServices";
 import { Bar, Pie, Line } from "react-chartjs-2";
 import LineChartSmartCard from "../GraphChart";
+import LogoShapeImage from "./LogoShape"
 
 const Market = () => {
   const [poolData, setPoolData] = useState([]);
@@ -37,6 +38,8 @@ const Market = () => {
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
 
+  const myRef = useRef(null);
+
   const countData = poolData?.length;
   useEffect(() => {
     if (countData % cardsPerPage === 0) {
@@ -47,9 +50,11 @@ const Market = () => {
   }, [countData, cardsPerPage]);
 
   const handleChange = (event, value) => {
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
+    myRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     setPage(value);
   };
+
   function handleRouting(data) {
     if (loggedIn) {
       history.push(`${browserRoute.BUYMARKET}/${data._id}`);
@@ -101,6 +106,7 @@ const Market = () => {
     setPage(1);
     setSearchInput("");
     let res = mainState?.filter((data) => data?.blockchain === "ETH");
+    console.log("resERC=====>>", res);
     setFilterType(Enum.erc20);
     setPoolData(res);
     setTempPool(res);
@@ -108,7 +114,7 @@ const Market = () => {
   function filterBEP2() {
     setPage(1);
     setSearchInput("");
-    let res = mainState.filter((data) => data.blockchain === "BNB");
+    let res = mainState?.filter((data) => data.blockchain === "BNB");
     console.log("res=====>>", res);
     setFilterType(Enum.bep2);
     setPoolData(res);
@@ -262,10 +268,10 @@ const Market = () => {
 
   return (
     <div>
-      <section style={{ backgroundColor: "#C0E1FF", overflow: "hidden" }}>
+      <section className="u-market876662">
         <div class="container">
           <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-6 n-marketHero">
               <div class="marketbanner">
                 <h2 class="marketbannerhed">
                   Today's <br />
@@ -286,7 +292,7 @@ const Market = () => {
                 </p>
               </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6 n-marketHeroImage">
               <img className="marketmainimage" src={Images.market} />
             </div>
           </div>
@@ -340,7 +346,7 @@ const Market = () => {
                               >
                                 <p
                                   class="marketparagraph d-flex"
-                                  style={{ width: "122px" }}
+                                  // style={{ width: "122px" }}
                                 >
                                   {d?.asset}/USDT{" "}
                                   {d?.change_24h >= 0 ? (
@@ -372,6 +378,7 @@ const Market = () => {
                                     fontFamily: "Poppins",
                                     color: "#23262F",
                                     fontSize: "12px",
+                                    marginBottom: "0px"
                                   }}
                                 >
                                   {numberWithCommas(
@@ -379,8 +386,31 @@ const Market = () => {
                                   )}
                                 </p>
                               </div>
-                              <div style={{ paddingLeft: "7px" }}>
-                                {d.change_24h > 0 ? (
+                              <div 
+                              // style={{ paddingLeft: "10px" }} 
+                              class="n-marketLineGraph">
+                                <LineChartSmartCard
+                                  color={
+                                    d?.change_7d >= 0 ? "#45B26B" : "#ff6838"
+                                  }
+                                  data={[
+                                    {
+                                      id: "Parent",
+
+                                      data: d?.graphData?.map((data) => {
+                                        return {
+                                          x: new Date(
+                                            Number(data.timeStamp) * 1000
+                                          )
+                                            .toString()
+                                            .substring(4, 16),
+                                          y: data.assetPriceUSD,
+                                        };
+                                      }),
+                                    },
+                                  ]}
+                                />
+                                {/* {d.change_24h > 0 ? (
                                   <>
                                     <img src={Images.crt1} />
                                   </>
@@ -391,7 +421,7 @@ const Market = () => {
                                       src={Images.chartmarket}
                                     />
                                   </>
-                                )}
+                                )} */}
                               </div>
                             </div>
                           </div>
@@ -421,7 +451,7 @@ const Market = () => {
             >
               <div className="" style={{ padding: "0 32px" }}>
                 <div class="d-flex flex-row justify-content-between align-items-center flex-wrap">
-                  <ul class="list-unstyled d-flex flex-row align-items-center mb-0">
+                  <ul class="list-unstyled d-flex flex-row align-items-center justify-content-between mb-0">
                     <li
                       className="d-flex flex-row justify-content-center align-items-center"
                       style={{ marginRight: "16px" }}
@@ -536,7 +566,7 @@ const Market = () => {
         </div>
       </section>
       <section style={{ backgroundColor: "#FCFCFD" }}>
-        <div class="container n-marketSectionTable">
+        <div class="container n-marketSectionTable" ref={myRef}>
           {loading ? (
             <div
               style={{
@@ -636,10 +666,9 @@ const Market = () => {
                           <div
                             style={{
                               display: "inline-grid",
-                              // paddingBottom: "4px",
+
                               marginLeft: "3px",
-                              position: "absolute",
-                              bottom: "31px",
+
                               cursor: "pointer",
                             }}
                             onClick={handleAscendingDescendingPrice}
@@ -725,6 +754,7 @@ const Market = () => {
                                 </td>
                                 <td>
                                   <div class="d-flex flex-row align-items-center">
+                                    
                                     <img
                                       style={{ width: "32px" }}
                                       src={d?.logo}
@@ -797,11 +827,16 @@ const Market = () => {
                                   <div>
                                     <span className="buyTokenGraph">
                                       <LineChartSmartCard
+                                        color={
+                                          d?.change_7d >= 0
+                                            ? "#45B26B"
+                                            : "#ff6838"
+                                        }
                                         data={[
                                           {
                                             id: "Parent",
-                                            color: "hsl(6, 70%, 50%)",
-                                            data: d.graphData.map((data) => {
+
+                                            data: d?.graphData?.map((data) => {
                                               return {
                                                 x: new Date(
                                                   Number(data.timeStamp) * 1000
@@ -833,13 +868,14 @@ const Market = () => {
                                   className="text-right"
                                   style={{ Height: "42px" }}
                                 >
-                                  <button
+                                  <Link
+                                    to="#"
                                     style={{ fontFamily: "DM Sans" }}
                                     className=" btn btn-primary buybutttonmarket"
                                     onClick={() => handleRouting(d)}
                                   >
                                     Buy
-                                  </button>
+                                  </Link>
                                 </td>
                               </tr>
                             );
@@ -875,6 +911,9 @@ const Market = () => {
                                   </td>
                                   <td style={{ border: "none" }}>
                                     <div class="d-flex flex-row align-items-center">
+                                   
+                                    
+                                    
                                       <img
                                         style={{ width: "32px" }}
                                         src={d?.logo}
@@ -956,8 +995,6 @@ const Market = () => {
                                     <div
                                       style={{
                                         textAlign: "right",
-                                        width: "80px",
-                                        overflow: "hidden",
                                       }}
                                     >
                                       {toMil(financial(d?.marketCap))}
@@ -973,8 +1010,6 @@ const Market = () => {
                                     <div
                                       style={{
                                         textAlign: "right",
-                                        width: "80px",
-                                        overflow: "hidden",
                                       }}
                                     >
                                       ${toMil(d?.volume24h)}
@@ -986,11 +1021,16 @@ const Market = () => {
                                       {/* <img src={Images.crt1} alt="" />
                                       {/* <Graph /> */}
                                       <LineChartSmartCard
+                                        color={
+                                          d?.change_7d >= 0
+                                            ? "#45B26B"
+                                            : "#ff6838"
+                                        }
                                         data={[
                                           {
                                             id: "Parent",
                                             color: "hsl(6, 70%, 50%)",
-                                            data: d.graphData.map((data) => {
+                                            data: d?.graphData?.map((data) => {
                                               return {
                                                 x: new Date(
                                                   Number(data.timeStamp) * 1000
@@ -1009,13 +1049,14 @@ const Market = () => {
                                     className="text-right"
                                     style={{ Height: "42px" }}
                                   >
-                                    <button
+                                    <Link
+                                      to="#"
                                       style={{ fontFamily: "DM Sans" }}
                                       className=" btn btn-primary buybutttonmarket"
                                       onClick={() => handleRouting(d)}
                                     >
                                       Buy
-                                    </button>
+                                    </Link>
                                   </td>
                                 </tr>
                               </>
@@ -1038,7 +1079,7 @@ const Market = () => {
           )}
         </div>
       </section>
-      <section class="n-marketSection">
+      <section class="n-marketSection" style={{ backgroundColor: "#FCFCFD" }}>
         <div class="container">
           <div style={{ marginBottom: "64px" }}>
             <h2 class="d-flex justify-content-center marketmainheade">
@@ -1119,7 +1160,7 @@ const Market = () => {
               type="button"
               class="btn n-secondaryButton n-marketLoadMore"
             >
-              <img className="pr-2" src={Images.loadicon} />
+              {/* <img className="pr-2" src={Images.loadicon} /> */}
               Load more
             </button>
           </Link>

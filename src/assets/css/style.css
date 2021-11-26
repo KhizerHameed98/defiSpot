@@ -55,6 +55,31 @@ body {
   color: #ffffff !important;
   margin: 0 10px;
 }
+.u-iconfotterpostion5667 {
+  position: absolute;
+  right: 28px;
+  bottom: 59.5px;
+}
+.u-backgrounfoterr45565 {
+  fill: #3772ff;
+  cursor: pointer;
+}
+.u-backgrounfoterr45565:hover {
+  fill: grey;
+}
+.u-footerinputfiled98887 {
+  background-color: rgb(55, 114, 255);
+  color: white;
+  padding-left: 22px;
+  padding-right: 7px;
+  margin-left: -45px;
+  margin-top: 7px;
+  margin-bottom: 6px;
+  padding-top: 8px;
+  font-size: 14px;
+  border-radius: 20px;
+  cursor: pointer;
+}
 .navbar-expand-lg {
   background-color: #393c6d;
 }
@@ -78,14 +103,14 @@ body {
   font-size: 14px;
   line-height: 16px;
   text-align: center;
-  color: #777e90;
+  color: #777e90 !important;
   padding-left: 0px !important;
   padding-right: 0px !important;
   height: 40px;
 }
 
 .nav-link:hover {
-  color: #353945;
+  color: #353945 !important;
 }
 
 .n-menuLearnLink {
@@ -171,10 +196,7 @@ body {
   line-height: 56px;
   letter-spacing: -0.02em;
   color: #23262f;
-  margin-bottom: 0;
-}
-.rdrDefinedRangesWrapper {
-  display: none;
+  margin-bottom: 40px;
 }
 button:focus {
   outline: 0px dotted;
@@ -393,12 +415,19 @@ button:focus {
 }
 .connectwallet {
   border: 3px solid #e6e8ec;
-  border-radius: 15px;
+  border-radius: 12px;
   padding-left: 20px;
   padding-top: 10px;
   padding-bottom: 8px;
 }
-.connectwallet:hover{
+.connectwalletss {
+  border: 2px solid #e6e8ec;
+  border-radius: 12px;
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 8px;
+}
+.connectwallet:hover {
   border: 3px solid #e6e8ec;
   background-color: #3772ff;
   color: #fcfcfd;
@@ -511,6 +540,10 @@ button:focus {
   margin-bottom: 0;
 }
 
+.n-learnMain {
+  margin-top: 80px;
+}
+
 .n-heroDescription {
   font-family: Poppins;
   font-style: normal;
@@ -526,6 +559,7 @@ button:focus {
   align-items: center;
   width: -webkit-fill-available;
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 .n-marketTrendHeading {
   display: flex;
@@ -564,11 +598,17 @@ button:focus {
 .n-downArrow {
   margin-top: 180px;
   margin-bottom: 43px;
+  border-radius: 50%;
+  cursor: pointer;
 }
 .n-downArrow:hover {
   background-color: #3772ff;
-  border-radius: 30px;
-  cursor: pointer;
+}
+.n-downArrow .arr-fill {
+  fill: #e6e8ec;
+}
+.n-downArrow:hover .arr-fill {
+  fill: #fff;
 }
 
 .mainhover {
@@ -588,8 +628,7 @@ button:focus {
   box-shadow: 0px 64px 64px -48px rgba(15, 15, 15, 0.1);
 }
 .markethover {
-  padding-top: 20px;
-  padding-left: 10px;
+  padding: 12px 10px;
 }
 .btn-primary {
   padding-left: 16px;
@@ -761,7 +800,7 @@ button:focus {
   border: none;
   font-size: 14px;
   font-weight: 600;
-  margin-top: -48px;
+  /* margin-top: -48px; */
   margin-left: 6px;
   color: #808191;
 }
@@ -860,11 +899,15 @@ button:focus {
   position: relative;
   right: 75px;
   width: 692px;
+  /* n-responsive-heroImage */
+  top: -40px;
 }
 .font-weight-bold {
   font-family: DM Sans;
 }
-
+.trans-history:hover .fa {
+  color: black;
+}
 .btnHoverBlue:hover {
   background-color: #3772ff !important;
   color: #fff !important;
@@ -1162,18 +1205,18 @@ input::-webkit-input-placeholder {
 
   color: #777e90 !important;
 }
-.settingmodlicon4444:hover{
+.settingmodlicon4444:hover {
   background-color: #3772ff;
   border-radius: 20px;
 }
-.svgfootericon6777{
-  fill: #777e90 ;
+.svgfootericon6777 {
+  fill: #777e90;
 }
-.svgfootericon6777:hover{
+.svgfootericon6777:hover {
   fill: #3772ff;
   cursor: pointer;
 }
-.dropdownn88777776{
+.dropdownn88777776 {
   min-width: 50px !important;
 }
 .uadreetext899 {
@@ -1234,6 +1277,10 @@ input::-webkit-input-placeholder {
 
   color: #23262f;
 }
+.u-market876662 {
+  background-color: #c0e1ff;
+  overflow: hidden;
+}
 .usection0000text {
   font-family: Poppins;
   font-style: normal;
@@ -1264,9 +1311,6 @@ input::-webkit-input-placeholder {
 .darkmode--activated .cryptoTraderDescription {
   color: #777e90 !important;
 }
-.darkmode--activated .table {
-  background-color: #000 !important;
-}
 .darkmode--activated .shadowclass {
   background-color: #23262f !important;
 }
@@ -1282,11 +1326,77 @@ input::-webkit-input-placeholder {
 .darkmode--activated .u-mainhomesection788882 {
   background-color: #000 !important;
 }
+.darkmode--activated .markettrend {
+  color: #fcfcfd !important;
+}
+.darkmode--activated .n-articleDetails h2 {
+  color: #fcfcfd !important;
+}
+.darkmode--activated .u-column333 {
+  color: #fcfcfd !important;
+}
+.darkmode--activated .ufottertext-34 {
+  color: #fcfcfd !important;
+}
+.darkmode--activated .u-market876662 {
+  background-color: #dee2e6 !important;
+}
+.darkmode--activated .w-text-23262f {
+  color: #fcfcfd !important;
+}
+.darkmode--activated .cardtext {
+  color: #fcfcfd !important;
+}
+.darkmode--activated .cardborder{
+  background-color: #000 !important;
+}
+.darkmode--activated .uearnyidledpage66555 {
+  color: #b1b5c4 !important ;
+}
+.darkmode--activated .btn-secondary234 {
+  color: #fcfcfd !important;
+}
+.darkmode--activated .w-portfolio-left-bar-main {
+  background-color: #000 !important;
+}
+.darkmode--activated .w-sidebarcoleight {
+  background-color: #000 !important;
+}
+.darkmode--activated .u-overview09888 {
+  color: #fcfcfd !important;
+}
+.darkmode--activated .w-over-text {
+  color: #fcfcfd !important;
+}
+.darkmode--activated .w-overview_portfoliobg {
+  background-color: #000 !important;
+}
+.darkmode--activated .form-control {
+  background-color: #000 !important;
+}
+.darkmode--activated .u-mainclassliquidity6788 {
+  color: #fcfcfd !important;
+}
+.darkmode--activated .h3 {
+  color: #fcfcfd !important;
+}
+.darkmode--activated .n-learnCards{
+  background-color: #000 !important;
+}
+.darkmode--activated .text-bold{
+  color: #fcfcfd !important;
+}
 .assetsprice-b {
   color: #777e90;
   font-size: 14px;
   font-family: Poppins;
   font-weight: 400;
+}
+.u-widtradre8777:hover{
+  border: 2px solid #E6E8EC;
+  box-sizing: border-box;
+  border-radius: 48px;
+  cursor: pointer;
 }
 .asset-totalquantity {
   color: #23262f;
@@ -1347,8 +1457,9 @@ input::-webkit-input-placeholder {
   border-left: none;
   border-right: none;
   border-top: none;
-  border-bottom: 3px solid;
+  border-bottom: 2px solid;
   border-color: #e6e8ec;
+  border-radius: 0;
   width: 352px;
 }
 
@@ -1493,7 +1604,7 @@ input::-webkit-inner-spin-button {
   font-weight: 400;
   color: #23262f;
   margin-top: 5px;
-  margin-bottom: 0px;
+  margin-bottom: 2px;
 }
 .pname4566 {
   font-size: 12px;
@@ -1636,15 +1747,6 @@ input::-webkit-inner-spin-button {
   font-family: POppins !important;
   color: #23262f !important;
 }
-.rdrDateDisplay {
-  display: none !important;
-}
-.rdrMonthAndYearWrapper {
-  display: none;
-}
-.rdrMonthAndYearPickers {
-  display: none !important;
-}
 .rdrMonthName {
   text-align: center !important;
   font-weight: 600;
@@ -1652,14 +1754,11 @@ input::-webkit-inner-spin-button {
   margin-top: -48px;
   font-size: 16px !important;
   font-family: Poppins !important;
-  margin-bottom: 16px;
+
   color: #23262f !important;
   padding: 0.833em;
 }
 .form-control {
-  background-color: #fcfcfd !important;
-}
-.table {
   background-color: #fcfcfd !important;
 }
 .buybutttonmarket {
@@ -1667,10 +1766,7 @@ input::-webkit-inner-spin-button {
   line-height: 16px;
   text-align: center;
   background-color: #3772ff;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  padding-left: 35px;
-  padding-right: 35px;
+  height: 40px;
   font-family: DM Sans;
   font-weight: 700;
 }
@@ -1715,7 +1811,7 @@ input::-webkit-inner-spin-button {
   color: #353945;
 }
 .umarketsect22222 {
-  padding: 24px 24px 24px 24px;
+  padding: 16px 16px 16px 16px;
 }
 .n-marketGraphImage {
   width: 138px;
@@ -1897,7 +1993,7 @@ input::-webkit-inner-spin-button {
   margin: 80px 16px 0px;
 }
 .emailInputArrow:hover {
-  background-color: #777e90; 
+  background-color: #777e90;
   color: #fff;
   padding: 8px 7px 0px 9px;
   margin: 7px 0px 6px -45px;
@@ -1922,6 +2018,10 @@ input::-webkit-inner-spin-button {
   display: none;
   top: 81px;
   height: 210px;
+}
+.w-marketLoadMore {
+  padding-top: 64px;
+  padding-bottom: 130px;
 }
 
 /* .n-learnDropDownCap {
@@ -1956,6 +2056,15 @@ ul.navbar-nav li.nav-item a:hover .n-learnMainDropDown {
   margin: 12px 0px;
 }
 
+.learn-menuItem {
+  color: #777e90 !important;
+  text-decoration: none;
+}
+.learn-menuItem:hover {
+  color: #353945 !important;
+  text-decoration: none !important;
+}
+
 ul.navbar-nav li.nav-item a .n-learnMainDropDown .n-learnDropDown li a {
   text-decoration: none;
   font-family: DM Sans;
@@ -1963,7 +2072,7 @@ ul.navbar-nav li.nav-item a .n-learnMainDropDown .n-learnDropDown li a {
   font-weight: bold;
   font-size: 14px;
   line-height: 16px;
-  color: #777e90;
+  color: #777e90 !important;
 }
 
 ul.navbar-nav
@@ -1973,7 +2082,7 @@ ul.navbar-nav
   .n-learnDropDown
   li:hover
   a {
-  color: #353945;
+  color: #353945 !important;
 }
 
 .n-learnDropDown {
@@ -2128,6 +2237,7 @@ ul.navbar-nav
   width: 32px;
   height: 100px;
   position: absolute;
+  z-index: 999;
 }
 
 .n-notificationMainDropDown .n-notificationDropDown {
@@ -2140,6 +2250,7 @@ ul.navbar-nav
   box-shadow: 0px 16px 64px rgb(31 47 70 / 15%);
   top: 24.5px;
   right: -111px;
+  z-index: 11;
 }
 
 /* .n-notificationCap {
@@ -2174,6 +2285,7 @@ ul.navbar-nav
 
 .n-notificationContent {
   width: 286px;
+  padding: 2px;
 }
 
 .n-notificationContent:hover {
@@ -2215,6 +2327,19 @@ ul.navbar-nav
   padding: 12px 39.5px;
   font-family: DM Sans;
   width: 100%;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: center;
+  color: #fcfcfd !important;
+  background-color: #3772ff;
+  border-radius: 90px;
+  border: 2px #3772ff solid;
+}
+.n-primaryNotifactionButtonss {
+  padding: 12px 39.5px;
+  font-family: DM Sans;
   font-style: normal;
   font-weight: bold;
   font-size: 14px;
@@ -2398,7 +2523,7 @@ ul.navbar-nav
 
 .n-currency {
   position: absolute;
-  z-index: 9999;
+  z-index: 10;
   top: 15px;
   left: 15px;
   color: #777e90;
@@ -2416,13 +2541,19 @@ ul.navbar-nav
   display: none;
   position: absolute;
   background-color: #fcfcfd;
-  z-index: 9999;
+  z-index: 55;
   top: 40px;
   left: 0px;
   padding: 15px;
   border-radius: 12px;
   box-shadow: 0px 16px 64px rgb(31 47 70 / 15%);
-  width: 318px;
+  width: 350px;
+}
+
+.w-currency-height
+{
+  max-height: 500px;
+  overflow-y: scroll;
 }
 
 .n-currencyDropDown li:hover {
@@ -2521,6 +2652,13 @@ ul.navbar-nav
   margin-top: 50px;
 }
 
+/* ========Swaping screen dropdown============== */
+
+.w-hover-drop:hover {
+  background-color: #ccc;
+  border-radius: 6px;
+}
+
 /* ========comman Table Style============== */
 .w-comon-table-style table thead tr th {
   border: none;
@@ -2536,7 +2674,7 @@ ul.navbar-nav
 .w-comon-table-style table tbody tr td {
   padding: 16px;
   font-family: "Poppins";
-  font-size: 14px;
+  font-size: 16px;
   vertical-align: middle;
   font-weight: 500;
   color: #23262f;
@@ -2678,7 +2816,7 @@ ul.navbar-nav
 }
 .w-pd-over-left {
   padding-left: 0px;
-  padding-right: 4px;
+  padding-right: 8px;
 }
 .w-ast-pd {
   padding-left: 0px;
@@ -2690,20 +2828,124 @@ ul.navbar-nav
 .w-ast-pd-2 {
   padding-left: 4px;
 }
-@media screen and (max-width: 767px) {
+.n-marketLineGraph {
+  padding-left: 10px;
+}
+
+/* {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 32px;
+  color: #353945;
+} */
+
+.n-learnSearch {
+  position: relative;
+  right: 15px;
+}
+
+.n-overviewSearch {
+  padding-right: 12px;
+}
+
+.n-assetMainArea {
+  padding: 0px 8px 0px 0px;
+}
+
+.n-liquidityMainArea {
+  padding: 0px 8px 0px 0px;
+}
+
+@media screen and (max-width: 768px) {
   .w-pd-port-body {
-    padding-left: 8px;
-    padding-right: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
   .w-portfolio-left-bar-main {
     border-radius: 4px;
   }
+  .w-sidebarcoleight {
+    margin: 16px 0px;
+  }
+  .w-ast-pd-1 {
+    padding: 0px 16px;
+  }
+  .w-ast-pd-2 {
+    padding: 0px 16px;
+  }
+  .w-overview_portfoliobg {
+    margin-top: 16px;
+  }
+  .seeallbutton {
+    margin-left: 0;
+  }
+  .w-over-center-heading {
+    margin: 16px 0px;
+  }
   .w-pd-over-left {
-    padding-left: 8px;
-    padding-right: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 16px;
   }
   .w-ast-pd {
     padding: 0;
+  }
+  .n-overviewSearch {
+    padding-right: 0px;
+  }
+  .w-sidebarcoleight {
+    padding: 16px;
+  }
+  .n-assetMainArea {
+    padding: 0px 16px;
+  }
+  .n-liquidityMainArea {
+    padding: 0px 16px;
+  }
+  .n-assetsSearch {
+    width: 100%;
+  }
+  .n-assetsSearch div {
+    width: 100%;
+  }
+  .n-assetsSearch div input {
+    width: 100% !important;
+  }
+  .n-liquiditySearch {
+    width: 100%;
+  }
+  .n-liquiditySearch div {
+    width: 100%;
+  }
+  .n-liquiditySearch div input {
+    width: 100% !important;
+  }
+  .articleDetails {
+    padding: 64px 32px 0px;
+  }
+  .articleDetailsHeading {
+    padding: 0;
+  }
+  .articleDescription {
+    padding: 0;
+  }
+  .n-introToLp {
+    margin: 0;
+  }
+  .articleIcons svg {
+    /* margin: 8px; */
+    /* padding: 8px; */
+  }
+  .articleHeading {
+    font-size: 48px;
+  }
+  .mainvideocalss98766 {
+    margin-top: 40px;
+  }
+  .u-burmarketmainpparagrpahj00 {
+    white-space: nowrap;
   }
 }
 .buttonlearnmorebordered {
@@ -2718,11 +2960,29 @@ ul.navbar-nav
   border-radius: 90px;
   margin-left: 16px;
 }
+.n-dropdownMenuShow .n-dropDrownItem {
+  padding: 8px 16px !important;
+  font-family: Poppins !important;
+  font-size: 14px !important;
+  line-height: 21px !important;
+  color: #777e90 !important;
+}
+
+.n-dropdownMenuShow .n-dropDrownItem:active {
+  background-color: #e6e8ec !important;
+  color: #23262f !important;
+}
 /* responiscec sss ccsss */
 @media screen and (max-width: 480px) {
-  .mainimaggehomepage {
-    width: 330px;
+  .n-heroContent {
+    /* padding: 32px 32px 0px !important; */
   }
+  .nn-heroSection {
+    padding: 32px 32px 0px;
+  }
+  /* .mainimaggehomepage {
+    width: 330px;
+  } */
   .depositclasss {
     font-size: 15px;
   }
@@ -2736,6 +2996,7 @@ ul.navbar-nav
     line-height: 48px;
     letter-spacing: -0.01em;
     color: #23262f;
+    margin-bottom: 20px;
   }
   .cryptoTraderDescription {
     display: flex;
@@ -2744,13 +3005,23 @@ ul.navbar-nav
     font-weight: 400;
     font-family: Poppins;
     font-size: 16px;
-    margin-bottom: 35px;
+    margin-bottom: 48px;
   }
+  .n-marketHeroImage {
+    padding: 0px 32px !important;
+  }
+
   .marketmainimage {
     width: 100%;
   }
   .imagewidth {
     width: 330px;
+  }
+  .n-marketLineGraph {
+    padding-left: 40px;
+  }
+  .nn-marketSection {
+    padding: 0px 32px;
   }
   .minutstart {
     padding-top: 20px;
@@ -2764,17 +3035,33 @@ ul.navbar-nav
   .imagebannnerssss {
     width: 100%;
   }
-  .n-dropdownMenuShow {
+  /* .n-dropdownMenuShow {
     width: 100%;
-  }
+  } */
   .marketbannerhed {
     font-family: DM Sans;
     font-style: normal;
     font-weight: bold;
-    font-size: 48px;
-    line-height: 56px;
-    letter-spacing: -0.02em;
+    font-size: 40px;
+    line-height: 48px;
+    letter-spacing: -0.01em;
     color: #23262f;
+    padding-bottom: 16px;
+  }
+  .marketbanner p {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+    color: #353945;
+    margin-bottom: 0px;
+  }
+  .n-earnYeildImage {
+    padding: 0px 32px !important;
+  }
+  .umarketp3456 {
+    margin-bottom: 0px;
   }
   .n-heroDescription {
     font-family: Poppins;
@@ -2782,22 +3069,61 @@ ul.navbar-nav
     font-weight: normal;
     font-size: 16px;
     line-height: 24px;
-    color: #777e91;
+    color: #777e91 !important;
+    margin-bottom: 32px !important;
+  }
+  .n-earnYeildContent {
+    padding: 64px 32px 0px !important;
   }
   .mainimaggehomepage {
     position: relative;
-    right: 115px;
-    width: 600px;
+    right: 0px;
+    top: 0;
+    width: 400px;
   }
   .marketmainheade {
-    font-size: 35px;
+    font-family: DM Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 40px;
+    line-height: 48px;
+    text-align: center;
+    letter-spacing: -0.01em;
+    color: #23262f;
+    margin-bottom: 0px;
   }
   .marketbanner {
-    margin-top: 32px;
-    margin-bottom: 48px;
+    margin-top: 0px;
+    margin-bottom: 0px;
   }
   .n-responsiveHeroImage {
+    padding: 0px 32px !important;
     margin-bottom: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    top: 16px;
+  }
+  .n-learnMain {
+    padding: 64px 32px 0px !important;
+    margin-top: 0;
+  }
+  .n-learnMain h2 {
+    text-align: center;
+  }
+  .u-iconfotterpostion5667 {
+    position: absolute;
+    right: 22px;
+    bottom: 49px;
+  }
+  .n-learnMain .learnp111 {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    margin-bottom: 0px;
   }
 
   .n-articleDetails {
@@ -2830,7 +3156,7 @@ ul.navbar-nav
     font-size: 14px;
     line-height: 24px;
     color: #777e91;
-    margin-top: 22px;
+    margin-top: 5px;
     margin-bottom: 0;
   }
   .n-articleCardList {
@@ -2844,7 +3170,10 @@ ul.navbar-nav
     margin-bottom: 35px;
   }
   .n-cryptoReadMore {
-    margin-top: 35px;
+    margin-top: 32px;
+  }
+  .n-marketHero {
+    padding: 64px 32px 0px !important;
   }
   .markettrend {
     font-family: DM Sans;
@@ -2854,6 +3183,7 @@ ul.navbar-nav
     line-height: 48px;
     letter-spacing: -0.01em;
     color: #23262f;
+    margin-bottom: 32px;
   }
   .n-marketTrendHeading {
     display: flex;
@@ -2861,11 +3191,12 @@ ul.navbar-nav
     justify-content: start;
     align-items: flex-start;
   }
-  .n-ButtonResponsive {
+  /* .n-ButtonResponsive {
     margin-top: 20px;
-  }
+  } */
   .n-learnSection {
-    margin-bottom: 50px;
+    padding: 0px 32px;
+    margin-bottom: 64px;
   }
   .n-articleButton {
     display: flex;
@@ -2876,12 +3207,15 @@ ul.navbar-nav
     margin-top: 24px;
   }
   .w-section-space-top-btm {
-    padding-bottom: 35px;
-    padding-top: 35px;
+    padding-bottom: 32px;
+    padding-top: 32px;
   }
   .cryptotraders {
-    padding-bottom: 35px;
-    padding-top: 35px;
+    padding-bottom: 64px;
+    padding-top: 64px;
+  }
+  .cryptotraders .container {
+    padding: 0px 32px !important;
   }
   .marketbutton {
     background-color: #fcfcfd;
@@ -2897,11 +3231,16 @@ ul.navbar-nav
     padding-left: 0px;
     padding-top: 20px;
   }
+  .n-learnSearch {
+    position: relative;
+    right: 0px;
+  }
   .bitcoinclasssmian {
     display: flex;
     flex-direction: column;
     height: auto;
     align-items: center;
+    margin-bottom: 16px;
   }
   .n-downArrow {
     display: none;
@@ -2914,10 +3253,10 @@ ul.navbar-nav
   }
 
   .n-tradeCard {
-    margin: 15px 0px;
+    margin: 0px 0px 16px;
   }
   .n-getStartedSection {
-    padding: 35px 15px 35px;
+    padding: 64px 32px 64px;
   }
   .footerlogo345 {
     padding-top: 20px !important;
@@ -2966,10 +3305,10 @@ ul.navbar-nav
     margin-top: 28px !important;
   }
   .n-marketSection {
-    padding-top: 48px;
+    padding-top: 64px;
   }
   .n-marketSectionTable {
-    padding-top: 0;
+    padding: 0px 32px 0px;
   }
   .n-marketLearnCard {
     display: flex;
@@ -2978,8 +3317,7 @@ ul.navbar-nav
     align-items: center;
   }
   .n-marketLoadMore {
-    margin-left: 15px;
-    margin-bottom: 45px;
+    margin: 48px 0px 48px;
   }
   .n-marketCardInv {
     margin: 0px 0px 20px;
@@ -3011,11 +3349,23 @@ ul.navbar-nav
     justify-content: space-between;
     align-items: center;
   }
+
+  .btn:disabled
+  {
+    pointer-events: none;
+  }
   .n-learnSectionDropDown button {
     width: 100%;
   }
   .n-dropdownMenuShow {
     width: 100%;
+  }
+  .n-dropdownMenuShow .n-dropDrownItem {
+    padding: 8px 16px !important;
+    font-family: Poppins !important;
+    font-size: 14px !important;
+    line-height: 21px !important;
+    color: #777e90 !important;
   }
   .n-learnFilterLabels {
     margin-top: 20px;
@@ -3041,18 +3391,45 @@ ul.navbar-nav
   .u-learncardimage456 {
     width: 100%;
   }
-
   .n-learnCards {
     width: 100% !important;
+  }
+  .n-earnYeildContainer {
+    padding: 48px 32px 0px;
   }
 }
 
 @media screen and (min-width: 481px) and (max-width: 768px) {
+  .nn-heroSection {
+    padding: 32px 32px 0px;
+  }
+  .n-marketHero {
+    padding: 32px 32px 0px !important;
+  }
+  .n-earnYeildContent {
+    padding: 32px 32px 0px !important;
+  }
+  .marketbannerhed {
+    font-size: 48px;
+  }
+  .marketbanner {
+    margin-top: 0;
+  }
+  .uearnyidledpage66555 {
+    font-size: 24px;
+  }
+  .mainimaggehomepage {
+    position: relative;
+    right: 0;
+    width: 100%;
+    top: 40px;
+  }
   .bitcoinclasssmian {
     display: flex;
     flex-direction: column;
     height: auto;
     align-items: center;
+    margin-top: 64px;
   }
   .n-downArrow {
     display: none;
@@ -3102,6 +3479,7 @@ ul.navbar-nav
   }
   .n-tableSearch {
     margin-top: 20px;
+    width: 100%;
   }
   .n-inputSearch {
     width: 100%;
@@ -3124,6 +3502,7 @@ ul.navbar-nav
   .n-marketLearnCard {
     display: flex;
     flex-direction: column;
+    /* flex-wrap: wrap; */
     justify-content: space-between;
     align-items: center;
   }
@@ -3166,15 +3545,44 @@ ul.navbar-nav
     padding-left: 15px;
     padding-bottom: 20px;
   }
+  .n-earnYeildContainer {
+    padding: 48px 32px 0px;
+  }
 }
 
 @media screen and (min-width: 768px) and (max-width: 992px) {
+  .nn-heroSection {
+    padding: 64px 32px 0px;
+  }
+  .n-marketHero {
+    padding: 64px 32px 0px !important;
+  }
+  .n-earnYeildContent {
+    padding: 64px 32px 0px !important;
+  }
+  .marketbanner {
+    margin-top: 0;
+  }
+  .uearnyidledpage66555 {
+    font-size: 24px;
+  }
+  .n-downArrow {
+    margin-top: 64px;
+    margin-bottom: 32px;
+  }
+  .mainimaggehomepage {
+    position: relative;
+    right: 0;
+    width: 100%;
+    top: 0px;
+  }
   .bitcoinclasssmian {
     display: flex;
     flex-direction: row;
     height: auto;
     align-items: center;
     flex-wrap: wrap;
+    margin-top: 20px;
   }
   .mainhover {
     height: 50% !important;
@@ -3211,7 +3619,8 @@ ul.navbar-nav
   }
   .n-marketLearnCard {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
   }
@@ -3255,9 +3664,27 @@ ul.navbar-nav
     padding-left: 15px;
     padding-bottom: 20px;
   }
+  .n-earnYeildContainer {
+    padding: 48px 0px 0px;
+  }
+  .cardborder {
+    width: 330px;
+  }
 }
 
 @media screen and (min-width: 992px) and (max-width: 1200px) {
+  .marketbanner {
+    margin-top: 80px;
+  }
+  .mainimaggehomepage {
+    position: relative;
+    right: 0px;
+    width: 100%;
+    top: 40px;
+  }
+  .n-downArrow {
+    margin-top: 80px;
+  }
   .n-articleDetails {
     display: flex;
     flex-direction: column;
@@ -3270,6 +3697,12 @@ ul.navbar-nav
   .footerlogo345 {
     padding-top: 20px;
     border-right: 0px;
+  }
+  .uearnyidledpage66555 {
+    font-size: 24px;
+  }
+  .marketbanner {
+    margin-top: 120px !important;
   }
   .marketmainimage {
     width: 100%;
@@ -3305,11 +3738,20 @@ ul.navbar-nav
   .card-body {
     padding: 1.25rem 0px !important;
   }
+  .n-earnYeildContainer {
+    padding: 48px 0px 0px;
+  }
+  .cardborder {
+    width: 416px;
+  }
 }
 
 @media screen and (min-width: 1200px) and (max-width: 2000px) {
   .footerlogo345 {
     padding-top: 20px;
     border-right: 0px;
+  }
+  .n-earnYeildContainer {
+    padding: 48px 0px 0px;
   }
 }

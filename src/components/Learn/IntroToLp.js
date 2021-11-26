@@ -67,12 +67,12 @@ function IntoToLP() {
             </span>
           </div>
           <div className="articleVideo">
-            <img src={Images.articlevideo} alt="Article Video" />
+            <img src={Images.articlevideo} alt="Article Video" className="img-fluid" />
           </div>
           <div className="row mainvideocalss98766">
-            <img src={Images.placeholder} />
+            <img src={Images.placeholder} class="img-fluid"/>
           </div>
-          <div className="row">
+          <div className="row n-introToLp">
             <div className="articleDescription">
               <h5>Introduction</h5>
               <svg
@@ -126,9 +126,9 @@ function IntoToLP() {
                 your favorite landing page layouts or hit the ground running
                 with 10 pre-built templates, all in light or dark mode."
               </p>
-              <div  className="col-lg-10 d-flex justify-content-end offset-1 articleImage">
-              <img src={Images.articleimage} alt="Article Image" />
-            </div>
+              <div className="col-lg-10 d-flex justify-content-end offset-lg-1 articleImage">
+                <img src={Images.articleimage} alt="Article Image" class="img-fluid" />
+              </div>
             </div>
             <div className="articleDescription">
               <h5>How expensive is TradingView?</h5>
@@ -153,7 +153,7 @@ function IntoToLP() {
                 with 10 pre-built templates, all in light or dark mode."
               </p>
             </div>
-          
+
             <div className="articleDescription">
               <h5>Understanding the TradingView UI</h5>
               <svg
@@ -188,6 +188,7 @@ function IntoToLP() {
               xmlns="http://www.w3.org/2000/svg"
               onMouseEnter={handleMouseEnterShare}
               onMouseLeave={handleMouseLeaveShare}
+              style={{ cursor: "pointer" }}
             >
               <rect
                 x="1"
@@ -214,6 +215,7 @@ function IntoToLP() {
               />
             </svg>
             <svg
+              style={{ cursor: "pointer" }}
               // className="n-downArrow"
               width="48"
               height="48"
@@ -243,138 +245,92 @@ function IntoToLP() {
           </div>
         </div>
       </section>
-      <section>
-        <div className="container" style={{ marginBottom: "130px" }}>
-          <div className="row">
-            <div className="col-lg-4" style={{ paddingLeft: "0px" }}>
-              <div class="card" style={{ border: "none" }}>
-                <img className="u-learncardimage456" src={Images.learnvideo} />
-                <span className="spanclass-343">video tutorial</span>
-                <div class="card-body">
-                  <div>
-                    <div className="d-flex u-trainig0990carddde">
-                      <img className="u-learnimage456" src={Images.trainer} />
-                      <div className="ml-2">
-                        <h5 class="card-title cardtitle234">CEX vs DEX</h5>
-                        <div
-                          className="d-flex"
-                          style={{ position: "relative" }}
-                        >
-                          <p class="card-text pname4566">First name</p>
-                          <p class="card-text pname4566 pl-2">First name</p>
-                        </div>
-                      </div>
+      <section class="n-marketSection">
+            <div class="container">
+              <div style={{ marginBottom: "64px" }}>
+                <h2 class="d-flex justify-content-center marketmainheade">
+                  Learn about DeFi
+                </h2>
+                <p
+                  class="d-flex justify-content-center"
+                  style={{
+                    textAlign: "center",
+                    fontFamily: "Poppins",
+                    fontSize: "16px",
+                    fontWeight: "400",
+                    color: "#353945",
+                    margin: "0",
+                  }}
+                >
+                  Browse our library of resources to learn more about DeFi and
+                  how
+                  <br /> to use it to yield or trade
+                </p>
+              </div>
+              <div class="mt-3 n-marketLearnCard">
+                <div class="n-marketCardInv">
+                  <div class="card cardborder">
+                    <img
+                      class="card-img-top"
+                      style={{ borderRadius: "12px" }}
+                      src={Images.mediacontainer}
+                      alt="Card image cap"
+                    />
+                    <div class="card-body n-learnCard">
+                      <h6 class="marketcardone">Learn & Earn</h6>
+                      <p class="cardtext">
+                        Earn yield by providing liquidity to pools
+                      </p>
                     </div>
                   </div>
-                  <div>
-                    <p
-                      class="card-text pname456667"
-                      style={{
-                        fontWeight: "700",
-                        padding: "8px 8px 6px 8px",
-                        marginTop: "-60px",
-                      }}
-                    >
-                      POPULAR
-                    </p>
+                  {/* <hr class="solid earnyieldclasssolid" /> */}
+                </div>
+                <div class="n-marketCardInv">
+                  <div class="card cardborder">
+                    <img
+                      class="card-img-top"
+                      style={{ borderRadius: "12px" }}
+                      src={Images.mediacontainer}
+                      alt="Card image cap"
+                    />
+                    <div class="card-body n-learnCard">
+                      <h6 class="marketcardtwo">WEEKLY WATCHLIST AIRDROP</h6>
+                      <p class="cardtext">
+                        The biggest advantages of decentralized exchange
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="n-marketCardInv">
+                  <div class="card cardborder">
+                    <img
+                      class="card-img-top"
+                      src={Images.mediacontainer}
+                      style={{ borderRadius: "12px" }}
+                      alt="Card image cap"
+                    />
+                    <div class="card-body n-learnCard">
+                      <h6 class="marketcardthree">FEATURED</h6>
+                      <p class="cardtext">Submit your watchlist and win USDT</p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            {/* card 2 */}
-            <div className="col-lg-4">
-              <div class="card" style={{ border: "none" }}>
-                <img
-                  className="u-learncardimage456"
-                  src={Images.learnvideo}
-                  height="308px"
-                />
-                <span className="spanclass-343900">POPULAR</span>
-                <div class="card-body">
-                  <div>
-                    <div className="d-flex u-trainig0990carddde">
-                      <img
-                        style={{ width: "40px", height: "40px" }}
-                        src={Images.trainer}
-                      />
-                      <div className="ml-2">
-                        <h5 class="card-title cardtitle234">
-                          Introduction to LP
-                        </h5>
-                        <p class="card-text pname4566">LP University</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <p
-                      class="card-text pname456667"
-                      style={{
-                        fontWeight: "700",
-                        padding: "8px 8px 6px 8px",
-                        marginTop: "-42px",
-                      }}
-                    >
-                      POPULAR
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* card 3 */}
-            <div className="col-lg-4" style={{ paddingRight: "0px" }}>
-              <div class="card" style={{ border: "none" }}>
-                <img className="u-learncardimage456" src={Images.learnvideo} />
-                <span className="spanclass-343339">NEW</span>
-                <div class="card-body">
-                  <div>
-                    <div className="d-flex u-trainig0990carddde">
-                      <img
-                        style={{
-                          position: "relative",
-                          top: "2px",
-                          width: "40px",
-                          height: "40px",
-                        }}
-                        src={Images.trainer}
-                      />
-                      <div className="ml-2">
-                        <h5 class="card-title cardtitle234">What is DeFi?</h5>
-                        <div
-                          className="d-flex"
-                          style={{ position: "relative" }}
-                        >
-                          <p class="card-text pname4566">First name</p>
-                          <p class="card-text pname4566 pl-2">First name</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <p
-                      class="card-text pname456667"
-                      style={{
-                        fontWeight: "700",
-                        padding: "8px 8px 6px 8px",
-                        marginTop: "-60px",
-                      }}
-                    >
-                      POPULAR
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            style={{ marginTop: "32px" }}
-            class="d-flex justify-content-center"
-          >
-            <button type="button" class="btn n-secondaryButton">
+            <div class="d-flex justify-content-center n-marketLoadMore">
+              <Link to={browserRoute.LEARN}>
+                <button type="button" class="btn n-secondaryButton">
+                  {/* <img className="pr-2" src={Images.loadicon} /> */}
+                  Load more
+                </button>
+              </Link>
+              {/* On loading Add button with loaing img */}
+              {/* <button type="button" class="btn loaderbutton">
+              <img className="pr-2" src={Images.loadicon} />
               Load more
-            </button>
-          </div>
-        </div>
-      </section>
+            </button> */}
+            </div>
+          </section>
     </div>
   );
 }

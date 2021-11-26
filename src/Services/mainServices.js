@@ -56,6 +56,7 @@ import { WalletConnectService } from "./WalletConnectService/walletConnect-servi
 import { XDEFIService } from "./XdefiService/xdefi-service";
 import { MetamaskService } from "./MetaMaskService/metamask.service";
 
+const web3 = new Web3(window.ethereum);
 const walletConnectService = new WalletConnectService();
 const xdefiService = new XDEFIService();
 const keyStoreInstance = new KeystoreWallet();
@@ -116,20 +117,12 @@ export const handleLogout = () => async (dispatch) => {
   dispatch({
     type: LOGOUT,
   });
-  // const aa = await metaMaskService.setProvider(null);
-  // console.log(aa);
-  // await window.ethereum.disconnect();
-  // await window.ethereum.request({
-  //   method: "wallet_requestPermissions",
-  //   params: [
-  //     {
-  //       eth_accounts: {},
-  //     },
-  //   ],
-  // });
-  // localStorage.clear();
-  // walletConnectService.disconnect();
+  if (localStorage.walletconnect) walletConnectService.disconnect();
   alertToast(true, "Wallet Disconnected");
+
+  setTimeout(function () {
+    window.location.reload();
+  }, 500);
 };
 
 //Create KeyStore
@@ -207,16 +200,17 @@ export async function serverDecryption(encryptedData) {
 // let web3, account;
 
 export const MetaMaskConnection = (setMainModel) => async (dispatch) => {
-  if (!window.ethereum) {
-    alert("Please install metamask first");
+  if (!window.ethereum.isMetaMask) {
+    alert("Please install MetaMask Extension");
   } else {
+    // console.log("in else", window.ethereum);
     try {
       const metamask = await metaMaskService.connect(
         dispatch,
         setMainModel,
         alertToast
       );
-      console.log(metamask);
+      // console.log(metamask);
 
       // web3 = new Web3(window.ethereum);
       // await window.ethereum.enable();
@@ -233,28 +227,60 @@ export const MetaMaskConnection = (setMainModel) => async (dispatch) => {
       // setMainModel(false);
       // alertToast(false, "MetaMask Connected Successfully!");
     } catch (error) {
+      // console.log("in catch");
       console.log(error);
     }
   }
 };
 
 export const WalletConnectConnection = (setMainModel) => async (dispatch) => {
-  // const res = await window.ethereum.isConnected();
-  // if (res) {
-  // console.log(window.ethereum.isConnected());
-  // alert("Please disconnect your MetaMask");
-  // } else {
-  walletConnectService.connect(dispatch, setMainModel, alertToast);
+  if (web3.eth) {
+    const acc = await web3.eth.getAccounts();
+    if (acc.length > 0) {
+      alert("Please disconnect your MetaMask from the extension");
+    } else {
+      walletConnectService.connect(dispatch, setMainModel, alertToast);
+    }
+  } else {
+    walletConnectService.connect(dispatch, setMainModel, alertToast);
+  }
   // }
 };
 
 export const XDEFIConnection = (setMainModel) => async (dispatch) => {
-  xdefiService.connectXDEFI(dispatch, setMainModel, alertToast);
+  if (window.xfi) {
+    const eth = await window.xfi;
+    if (
+      eth?.binance &&
+      eth?.bitcoin &&
+      eth?.ethereum &&
+      eth?.terra &&
+      eth?.thorchain
+    ) {
+      const eth = await window.xfi;
+      const acc = await window.xfi.ethereum.getaccounts();
+      console.log("eth-=-=-= ", eth);
+      console.log("acc-=-=-= ", acc);
+      // if (acc.length > 0) {
+      // alert("Please disconnect your MetaMask");
+      // } else {
+      xdefiService.connectXDEFI(dispatch, setMainModel, alertToast);
+      // }
+    } else {
+      alert("Please proritise XDEFI");
+    }
+  } else {
+    alert("Please install XDEFI extension");
+  }
 };
 
 export const connectKeyStore =
   (password, fileKeyStore, setConnectKeyStoreModal, setLoading) =>
   async (dispatch) => {
+    // const acc = await web3.eth.getAccounts();
+    // if (acc.length > 0) {
+    //   alert("Please disconnect your MetaMask");
+    // } else {
     keyStoreInstance.connect(
       dispatch,
       password,
@@ -262,6 +288,7 @@ export const connectKeyStore =
       setConnectKeyStoreModal,
       setLoading
     );
+    // }
   };
 
 //Native Token Swapping
@@ -591,6 +618,12 @@ export const MidgardPool_Action = () => async (dispatch) => {
       poolData = res;
       let data = res.data;
       if (data) {
+        data?.map((d, key) => {
+          if (d.asset === "XRUNE") {
+            d.logo = "https://cryptologos.cc/logos/thorchain-rune-logo.png";
+          }
+        });
+
         data = data.sort((a, b) => b.assetPrice - a.assetPrice);
 
         dispatch({

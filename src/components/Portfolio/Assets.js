@@ -72,7 +72,9 @@ const Assets = () => {
     return <>{res?.assetFullName}</>;
   };
   return (
-    <div className="col-lg-10 pl-0" style={{ paddingRight: "8px" }}>
+    <div className="col-lg-10 n-assetMainArea"
+    //  style={{ paddingRight: "8px" }} pl-0
+     >
       <div className="w-sidebarcoleight">
         <h2 className="u-overview09888">Assets</h2>
         <div
@@ -130,8 +132,8 @@ const Assets = () => {
       </div>
       <p className="w-over-center-heading">Funds</p>
       <div className="w-sidebarcoleight">
-        <div className="d-flex justify-content-between">
-          <div>
+        <div className="d-flex justify-content-between flex-wrap">
+          <div class="n-assetsSearch">
             <div class=" d-flex form-group has-search">
               <input
                 style={{
@@ -171,7 +173,7 @@ const Assets = () => {
             aria-label="Search"
             onChange={searchFilter}
           /> */}
-          <p className="" style={{ color: "#777E90" }}>
+          <p className="trans-history" style={{ color: "#777E90" }}>
             <Link
               to={browserRoute.PORTFOLIO_ACTIVITY}
               style={{

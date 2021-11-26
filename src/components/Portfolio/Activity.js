@@ -822,7 +822,7 @@ const Activity = () => {
                   />
                 </div>
                 <div style={{ justifyContent: "center", display: "flex" }}>
-                  <button className="btn btn-primary" onClick={tableToCSV}>
+                  <button className="btn btn-primary btnHoverWhite" onClick={tableToCSV}>
                     Download .CSV
                   </button>
                 </div>

@@ -9,17 +9,18 @@ const LineChartSmartCard = (props) => {
     <div style={{ height: "42px", width: "138px" }}>
       <ResponsiveLine
         data={props.data}
-        margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+        margin={{ top: 3, right: 0, bottom: 3, left: 0 }}
         xScale={{ type: "point" }}
-        lineWidth={1}
+        lineWidth={3}
         yScale={{
           type: "linear",
           min: "auto",
           max: "auto",
           stacked: true,
-          reverse: false,
+          // reverse: false,
         }}
-        colors={["#ff6838"]}
+        curve="linear"
+        colors={props.color}
         // curve="natural"
         enableGridX={false}
         enableGridY={false}
@@ -34,8 +35,16 @@ const LineChartSmartCard = (props) => {
         pointBorderColor={{ from: "serieColor" }}
         pointLabelYOffset={-12}
         enableArea={true}
-        areaOpacity={0.04}
+        areaBaselineValue={true}
+        areaOpacity={0.1}
         useMesh={true}
+        defs={[
+          linearGradientDef("gradientA", [
+            { offset: 0, color: "inherit" },
+            
+            { offset: 100, color: "#fff", opacity: 0 },
+          ]),
+        ]}
         fill={[{ match: "*", id: "gradientA" }]}
         theme={{
           Yaxis: {

@@ -68,19 +68,26 @@ export const AddLiquidity = () => {
                       <p class="yahparagraph">Setting</p>
                     </div>
                     <div>
-                      <img
+                    <svg className="u-widtradre8777" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                   onClick={() => {
+                    setSettingModal(false);
+                    setAddLiquidity_Modal(true);
+                  }}>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="#23262F"/>
+</svg>
+                      {/* <img
                         className="popupcrosss"
                         onClick={() => {
                           setSettingModal(false);
                           setAddLiquidity_Modal(true);
                         }}
                         src={Images.crossicon}
-                      />
+                      /> */}
                     </div>
                   </div>
                   <div>
                     <p style={{ fontFamily: "Poppins", marginTop: "32px" }}>
-                      Slipperage tollerance
+                      Slipperage Tollerance
                     </p>
                   </div>
                   <div className="d-flex justify-content-between">
@@ -278,18 +285,15 @@ export const AddLiquidity = () => {
                 <div class="modal-body">
                   <div class="d-flex justify-content-between pt-2 pb-2">
                     <div class="d-flex">
-                      <img
+                      {/* <img
                         class="pt-3 backArrow"
                         style={{ height: "25px", marginTop: "12px" }}
                         onClick={() => {
                           setAddLiquidity_Modal(false);
                         }}
                         src={Images.lefttwoline}
-                      />
+                      /> */}
                       <p class="yahparagraph pl-2 pt-3">Add Liquidity</p>
-                    </div>
-                    {/* <Setting_Modal setModal={setAddLiquidity_Modal} /> */}
-                    <div>
                       <img
                       className="settingmodlicon4444"
                         onClick={() => {
@@ -299,11 +303,30 @@ export const AddLiquidity = () => {
                         }}
                         style={{
                           height: "25px",
-                          marginTop: "15px",
+                          marginTop: "24px",
+                          marginLeft:"10px",
                           cursor: "pointer",
                         }}
                         src={Images.setting}
                       />
+                    </div>
+                    {/* <Setting_Modal setModal={setAddLiquidity_Modal} /> */}
+                    <div>
+                    <svg style={{marginTop:"20px"}} className="u-widtradre8777" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                   onClick={() => {
+                    setSettingModal(false);
+                    setAddLiquidity_Modal(true);
+                  }}>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="#23262F"/>
+</svg>
+                    {/* <img
+                        className="popupcrosss"
+                        onClick={() => {
+                          setSettingModal(false);
+                          setAddLiquidity_Modal(true);
+                        }}
+                        src={Images.crossicon}
+                      /> */}
                     </div>
                   </div>
                   <div

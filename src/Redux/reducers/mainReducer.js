@@ -13,6 +13,7 @@ import {
   LOGOUT,
   LOGIN,
   MAINMODAL,
+  SET_GRAPH_DATA,
 } from "../actions/types";
 
 const initialState = {
@@ -40,7 +41,9 @@ const initialState = {
   overallBalance_BTC: 0,
   transactionHistory: [],
   assetBalance: [],
+  walletType: null,
   mainModal: false,
+  graphDataCombined: {},
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -124,9 +127,16 @@ export default (state = initialState, { type, payload }) => {
     case LOGIN:
       return {
         ...state,
+        ...payload,
         isLoggedin: true,
       };
     case MAINMODAL:
+      return {
+        ...state,
+        ...payload,
+      };
+
+    case SET_GRAPH_DATA:
       return {
         ...state,
         ...payload,

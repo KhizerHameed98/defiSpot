@@ -8,11 +8,11 @@ import defi from "../../../assets/images/defi.png";
 import ledger from "../../../assets/images/ledger.png";
 import browserRoute from "../../../Routes/browserRoutes";
 import { Link } from "react-router-dom";
-import { Modal } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Images from "./../../Helper/AllImages";
 import Darkmode from "darkmode-js";
-
+import Web3 from "web3";
 import {
   createKeyStore,
   connectKeyStore,
@@ -22,6 +22,9 @@ import {
   WalletConnectConnection,
   XDEFIConnection,
 } from "../../../Services/mainServices";
+
+const web3 = new Web3(window.ethereum);
+
 export const Header = () => {
   const options = {
     bottom: "64px", // default: '32px'
@@ -52,10 +55,12 @@ export const Header = () => {
   const [notificationPopup, setNotificationPopup] = useState(false);
   const [languageDropDown, setLanguageDropDown] = useState(false);
   const [learnDropDown, setLearnDropDown] = useState(false);
-
+  const [passwordMatchError, setPasswordMatchError] = useState(false);
+  const [xdefiExtension, setXdefiExtension] = useState(false);
   const myRef = useRef();
   const myRefLanguage = useRef();
   const myRefLearn = useRef();
+  const hiddenFileInput = useRef(null);
 
   useEffect(() => {
     document.addEventListener("click", handleClick);
@@ -107,10 +112,42 @@ export const Header = () => {
   }, [loggedIn]);
 
   const setMainModel = async (val) => {
-    disptach(handleMainModal(val));
+    const acc = await web3.eth;
+    const xdf = await window.xfi;
+
+    // const prov = await window.ethereum.enable();
+    // console.log("modal prov==== ", prov);
+    // console.log("modal eth==== ", acc);
+    // console.log("modal xdf==== ", xdf);
+
+    // const bal = await web3.eth.getBalance(acc[0]);
+    // console.log("modal bal==== ", bal);
+
+    if (val == true) {
+      const eth = await window.xfi;
+      if (
+        eth?.binance &&
+        eth?.bitcoin &&
+        eth?.ethereum &&
+        eth?.terra &&
+        eth?.thorchain
+      ) {
+        setXdefiExtension(true);
+        disptach(handleMainModal(val));
+      } else {
+        disptach(handleMainModal(val));
+      }
+    } else {
+      setXdefiExtension(false);
+      disptach(handleMainModal(val));
+    }
   };
   const submitKeyStore = async () => {
-    disptach(createKeyStore(password, setCreateKeyStoreModal));
+    if (password == confirmPassword) {
+      disptach(createKeyStore(password, setCreateKeyStoreModal));
+    } else {
+      setPasswordMatchError(true);
+    }
   };
 
   const connectKeyStoreFunction = async () => {
@@ -122,6 +159,10 @@ export const Header = () => {
         setLoading
       )
     );
+  };
+
+  const handleClick = (event) => {
+    hiddenFileInput.current.click();
   };
   const connectMetaMask = async () => {
     disptach(MetaMaskConnection(setMainModel));
@@ -181,6 +222,27 @@ export const Header = () => {
     disptach(handleLogout());
   };
 
+  const enterKeyDown = (e) => {
+    if (e.keyCode === 13) {
+      if (connectKeyStore_password.length > 0) {
+        if (fileKeyStore?.name) connectKeyStoreFunction();
+      }
+    }
+  };
+
+  const enterKeyDownNewPswd = (e) => {
+    if (e.keyCode === 13) {
+      if (password.length > 0) {
+        if (password != confirmPassword) {
+          setPasswordMatchError(true);
+        } else {
+          setPasswordMatchError(false);
+        }
+      } else {
+      }
+    }
+  };
+
   return (
     <div style={{ backgroundColor: "#fcfcfd" }}>
       {/* <!-- Create KeyStore Modal  --> */}
@@ -238,6 +300,7 @@ export const Header = () => {
                   >
                     <label for="pwd">Input Password</label>
                     <input
+                      autoComplete="new-password"
                       style={{ borderRadius: "20px" }}
                       type="password"
                       value={password}
@@ -254,12 +317,34 @@ export const Header = () => {
                   >
                     <label for="pwd">Confirm Password</label>
                     <input
+                      autoComplete="new-password"
                       style={{ borderRadius: "20px" }}
                       type="password"
-                      value={password}
+                      value={confirmPassword}
                       placeholder="Confirm Password"
                       class="form-control"
+                      onChange={(e) => {
+                        setConfirmPassword(e.target.value);
+                      }}
+                      onFocus={() => setPasswordMatchError(false)}
+                      onBlur={() =>
+                        password != confirmPassword
+                          ? setPasswordMatchError(true)
+                          : setPasswordMatchError(false)
+                      }
+                      onKeyDown={enterKeyDownNewPswd}
                     />
+                    {passwordMatchError && (
+                      <div
+                        style={{
+                          fontSize: "10px",
+                          marginLeft: "14px",
+                          color: "red",
+                        }}
+                      >
+                        Passwords do not match
+                      </div>
+                    )}
                   </div>
                   <div
                     style={{ marginTop: "32px", display: "grid" }}
@@ -271,12 +356,12 @@ export const Header = () => {
                     >
                       Create
                     </button>
-                    <button
+                    {/* <button
                       className="btn btn n-secondaryButton mt-3"
                       onClick={connectKeyStore}
                     >
                       Connect Wallet
-                    </button>
+                    </button> */}
                   </div>
                   {/* <button type="submit" class="btn btn-primary ml-2">
                         Connect Wallet
@@ -294,7 +379,12 @@ export const Header = () => {
       <Modal
         show={connectKeyStoreModal}
         onHide={() => {
-          setConnectKeyStoreModal(false);
+          if (loading) {
+            setConnectKeyStoreModal(false);
+            window.location.reload();
+          } else {
+            setConnectKeyStoreModal(false);
+          }
         }}
         // backdrop="static"
         keyboard={false}
@@ -321,8 +411,13 @@ export const Header = () => {
                         }}
                         src={Images.lefttwoline}
                         onClick={() => {
-                          setConnectKeyStoreModal(false);
-                          setSelectionModal(true);
+                          if (loading) {
+                            setConnectKeyStoreModal(false);
+                            window.location.reload();
+                          } else {
+                            setConnectKeyStoreModal(false);
+                            setSelectionModal(true);
+                          }
                         }}
                       />
                       <p class="yahparagraph">Connect Keystore</p>
@@ -331,7 +426,12 @@ export const Header = () => {
                       <img
                         className="popupcrosss"
                         onClick={() => {
-                          setConnectKeyStoreModal(false);
+                          if (loading) {
+                            setConnectKeyStoreModal(false);
+                            window.location.reload();
+                          } else {
+                            setConnectKeyStoreModal(false);
+                          }
                         }}
                         src={Images.crossicon}
                       />
@@ -344,14 +444,26 @@ export const Header = () => {
                     >
                       {/*file Input*/}
                       <label for="file">Please Select Keystore File</label>
-                      <input
-                        type="file"
-                        accept=".txt"
-                        placeholder="choose filesss"
-                        onChange={(e) => {
-                          setFileKeyStore(e.target.files[0]);
-                        }}
-                      />
+                      <div>
+                        <Button className="btnHoverWhite" onClick={handleClick}>
+                          Choose File
+                        </Button>
+                        <input
+                          ref={hiddenFileInput}
+                          style={{ display: "none" }}
+                          type="file"
+                          accept=".txt"
+                          placeholder="choose filesss"
+                          onChange={(e) => {
+                            setFileKeyStore(e.target.files[0]);
+                          }}
+                        />
+                        <label style={{ marginLeft: "4px" }}>
+                          {fileKeyStore.name
+                            ? fileKeyStore.name
+                            : "No file chosen"}
+                        </label>
+                      </div>
                     </div>
                     <div
                       style={{ marginTop: "32px", fontFamily: "Poppins" }}
@@ -367,6 +479,7 @@ export const Header = () => {
                         }}
                         placeholder="Password"
                         class="form-control"
+                        onKeyDown={enterKeyDown}
                       />
                     </div>
                     <div
@@ -378,8 +491,10 @@ export const Header = () => {
                         className="btn btn n-primaryButton"
                         onClick={
                           connectKeyStore_password.length > 0
-                            ? connectKeyStoreFunction
-                            : ""
+                            ? fileKeyStore?.name
+                              ? connectKeyStoreFunction
+                              : null
+                            : null
                         }
                       >
                         Connect
@@ -492,7 +607,7 @@ export const Header = () => {
                     CHOOSE WALLET
                   </h5>
                   <button
-                    class="d-flex justify-content-between connectwallet "
+                    class="d-flex justify-content-between connectwallet btnHoverWhite"
                     style={{ width: "100%", background: "none" }}
                     onClick={connectWalletConnect}
                   >
@@ -522,9 +637,12 @@ export const Header = () => {
                     />
                   </button>
                   <button
-                    class="d-flex justify-content-between connectwallet mt-3"
-                    style={{ width: "100%", background: "none" }}
-                    onClick={connectMetaMask}
+                    class="d-flex justify-content-between connectwallet btnHoverWhite mt-3"
+                    style={{
+                      width: "100%",
+                      background: "none",
+                    }}
+                    onClick={xdefiExtension ? null : connectMetaMask}
                   >
                     <div class="d-flex">
                       <img style={{ paddingRight: "8px" }} src={meta} />
@@ -537,7 +655,9 @@ export const Header = () => {
                           fontWeight: "600",
                         }}
                       >
-                        METAMASK WALLET
+                        {xdefiExtension
+                          ? "DISABLE XDEFI WALLET"
+                          : "METAMASK WALLET"}
                       </a>
                     </div>
                     <img
@@ -551,7 +671,7 @@ export const Header = () => {
                     />
                   </button>
                   <button
-                    class="d-flex justify-content-between connectwallet mt-3"
+                    class="d-flex justify-content-between connectwallet btnHoverWhite mt-3"
                     style={{ width: "100%", background: "none" }}
                     onClick={connectXdefi}
                   >
@@ -584,7 +704,7 @@ export const Header = () => {
                   </button>
 
                   <button
-                    class="d-flex justify-content-between connectwallet mt-3"
+                    class="d-flex justify-content-between connectwallet btnHoverWhite mt-3"
                     style={{ width: "100%", background: "none" }}
                   >
                     {" "}
@@ -622,7 +742,7 @@ export const Header = () => {
                     />
                   </button>
                   <button
-                    class="d-flex justify-content-between connectwallet mt-3 mb-3"
+                    class="d-flex justify-content-between connectwallet btnHoverWhite mt-3 mb-3"
                     style={{ width: "100%", background: "none" }}
                     onClick={() => {
                       setMainModel(false);
@@ -727,7 +847,7 @@ export const Header = () => {
                     CHOOSE WALLET
                   </h5>
                   <button
-                    class="d-flex justify-content-between connectwallet btnHoverBlue"
+                    class="d-flex justify-content-between connectwalletss btnHoverBlue"
                     style={{ width: "100%", background: "none" }}
                     onClick={() => {
                       setSelectionModal(false);
@@ -758,7 +878,7 @@ export const Header = () => {
                     />
                   </button>
                   <button
-                    class="d-flex justify-content-between connectwallet mt-3 btnHoverBlue"
+                    class="d-flex justify-content-between connectwalletss mt-3 btnHoverBlue"
                     style={{ width: "100%", background: "none" }}
                     onClick={() => {
                       setSelectionModal(false);
@@ -821,7 +941,6 @@ export const Header = () => {
                 // borderRight: "1px solid #E6E8EC",
                 paddingRight: "20px",
                 marginRight: "20px",
-                marginBottom: "4px",
                 width: "120px",
               }}
               // src={Images.defilogo}
@@ -897,7 +1016,9 @@ export const Header = () => {
                         : null)
                     }
                   >
-                    <Link to={browserRoute.LEARN}>Learn</Link>
+                    <Link className="learn-menuItem" to={browserRoute.LEARN}>
+                      Learn
+                    </Link>
                     <img
                       ref={myRefLearn}
                       onClick={() => setLearnDropDown(!learnDropDown)}

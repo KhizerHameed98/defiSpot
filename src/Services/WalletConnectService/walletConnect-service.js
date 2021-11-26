@@ -9,10 +9,13 @@ import { ETH_DECIMAL, getTokenAddress } from "@xchainjs/xchain-ethereum";
 import { TCAbi } from "./thorchain.abi";
 
 import { LOGIN } from "../../Redux/actions/types";
+import Web3 from "web3";
 
+const web3 = new Web3(window.ethereum);
 const walletConnectprovider = new WalletConnectProvider({
   infuraId: "ece2a3079cb54d0883716a41e515eb44",
 });
+
 // walletConnectprovider = walletConnectprovider || {};
 
 export class WalletConnectService {
@@ -157,30 +160,22 @@ export class WalletConnectService {
   }
 
   async connect(dispatch, setMainModel, alertToast) {
-    const enable = await window.ethereum.enable();
-    if (enable instanceof Array && enable.length > 0) {
-      console.log("-=-=-----------", enable);
-      console.log("MM connected");
-    } else {
-      console.log(window.ethereum.enable().length);
-
-      console.log("else ================");
-      try {
-        const enable = await walletConnectprovider.enable();
-        if (enable instanceof Array && enable.length > 0) {
-          setMainModel(false);
-          this.handleAccountsChanged(enable, this._provider);
-          dispatch({ type: LOGIN });
-          alertToast(false, "Wallet connected!");
-        }
-        return enable;
-      } catch (e) {
-        if (e) {
-          console.log(e);
-          window.location.reload();
-        }
+    try {
+      const enable = await walletConnectprovider.enable();
+      if (enable instanceof Array && enable.length > 0) {
+        setMainModel(false);
+        this.handleAccountsChanged(enable, this._provider);
+        dispatch({ type: LOGIN });
+        alertToast(false, "Wallet connected!");
+      }
+      return enable;
+    } catch (e) {
+      if (e) {
+        console.log(e);
+        window.location.reload();
       }
     }
+    // }
   }
 
   async disconnect() {

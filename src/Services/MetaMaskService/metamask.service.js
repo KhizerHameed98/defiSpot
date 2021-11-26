@@ -164,7 +164,12 @@ export class MetamaskService {
       const enable = await window.ethereum.enable();
       if (enable instanceof Array && enable.length > 0) {
         setMainModel(false);
-        dispatch({ type: LOGIN });
+        dispatch({
+          type: LOGIN,
+          payload: {
+            walletType: "METAMASK",
+          },
+        });
         alertToast(false, "MetaMask connected!");
 
         this.handleAccountsChanged(enable, this._provider);

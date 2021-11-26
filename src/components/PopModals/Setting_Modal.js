@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import Images from "../Helper/AllImages";
 
-const Setting_Modal = ({ setModal }) => {
+const Setting_Modal = ({ setSlippagePercent }) => {
   const [settingModal, setSettingModal] = useState(false);
-
+  const [slippage, setSlippage] = useState(0);
   return (
     <div>
       {/* settong modal */}
@@ -14,7 +14,7 @@ const Setting_Modal = ({ setModal }) => {
         show={settingModal}
         onHide={() => {
           setSettingModal(false);
-          setModal(true);
+          // setModal(true);
         }}
         keyboard={false}
         size="md"
@@ -46,14 +46,14 @@ const Setting_Modal = ({ setModal }) => {
                         }}
                         src={Images.lefttwoline}
                       />
-                      <p class="yahparagraph">Setting</p>
+                      <p class="yahparagraph">Settings</p>
                     </div>
                     <div>
                       <img
                         className="popupcrosss"
                         onClick={() => {
                           setSettingModal(false);
-                          setModal(true);
+                          // setModal(true);
                         }}
                         src={Images.crossicon}
                       />
@@ -69,6 +69,9 @@ const Setting_Modal = ({ setModal }) => {
                       type="button"
                       class="btn n-secondaryButton 123"
                       style={{ width: "80px" }}
+                      onClick={() => {
+                        setSlippage(1);
+                      }}
                     >
                       1%
                       {/* <img className="mb-1" src={Images.morearticle}/> */}
@@ -77,6 +80,9 @@ const Setting_Modal = ({ setModal }) => {
                       style={{ width: "80px" }}
                       type="button"
                       class="btn n-secondaryButton"
+                      onClick={() => {
+                        setSlippage(0.5);
+                      }}
                     >
                       0.5%
                       {/* <img className="mb-1" src={Images.morearticle}/> */}
@@ -86,6 +92,9 @@ const Setting_Modal = ({ setModal }) => {
                       style={{ width: "80px" }}
                       type="button"
                       class="btn n-secondaryButton"
+                      onClick={() => {
+                        setSlippage(1);
+                      }}
                     >
                       1%
                       {/* <img className="mb-1" src={Images.morearticle}/> */}
@@ -94,6 +103,9 @@ const Setting_Modal = ({ setModal }) => {
                       style={{ width: "80px" }}
                       type="button"
                       class="btn n-secondaryButton"
+                      onClick={() => {
+                        setSlippage(3);
+                      }}
                     >
                       3%
                       {/* <img className="mb-1" src={Images.morearticle}/> */}
@@ -124,7 +136,7 @@ const Setting_Modal = ({ setModal }) => {
                       type="button"
                       class="btn n-secondaryButton"
                     >
-                    Instant
+                      Instant
                       {/* <img className="mb-1" src={Images.morearticle}/> */}
                     </button>
                   </div>
@@ -135,6 +147,10 @@ const Setting_Modal = ({ setModal }) => {
                     <button
                       style={{ width: "100%" }}
                       className="btn btn n-primaryButton"
+                      onClick={() => {
+                        setSlippagePercent(slippage);
+                        setSettingModal(false);
+                      }}
                     >
                       Save
                     </button>
@@ -152,7 +168,7 @@ const Setting_Modal = ({ setModal }) => {
           onClick={() => {
             // setModal(false);
             setSettingModal(true);
-            setModal(false);
+            // setModal(false);
           }}
           style={{ height: "25px", marginTop: "15px" }}
           src={Images.setting}

@@ -404,6 +404,7 @@ export function KeystoreWallet() {
               transactionHistory: transactionHistory,
               clientsObject: clientsObject,
               isLoggedin: true,
+              walletType: "KEYSTORE",
             },
           });
           setLoading(false);
@@ -422,6 +423,7 @@ export function KeystoreWallet() {
         setLoading(false);
         setConnectKeyStoreModal(false);
       }
+    
   };
 
   // Swapping
@@ -450,7 +452,6 @@ export function KeystoreWallet() {
         break;
       case "BNB":
         walletAddress = userBinanceClient.getAddress();
-
         break;
 
       case "BTC":
@@ -478,17 +479,21 @@ export function KeystoreWallet() {
     }
 
     try {
-      let inboundApi = await axios.get(
-        "https://testnet.midgard.thorchain.info/v2/thorchain/inbound_addresses"
-      );
-      inboundApi = inboundApi.data;
-      let inboundAddress = inboundApi.find(
-        (data) => data.chain === fromAsset.blockchain
-      );
-      console.log("Inbound Object===>>", inboundAddress.address.toString());
+      let inboundAddress;
+      if (fromAsset?.blockchain === "THOR") {
+        inboundAddress = "tthor1mrckazz7l67tz435dp9m3qaygzm6xmsqeglrj8";
+      } else {
+        let inboundApi = await axios.get(
+          "https://testnet.midgard.thorchain.info/v2/thorchain/inbound_addresses"
+        );
+        inboundApi = inboundApi.data;
+        inboundAddress = inboundApi.find(
+          (data) => data.chain === fromAsset?.blockchain
+        );
+      }
       //  const Memo = "=:THOR.RUNE:tthor1fcaf3n4h34ls3cu4euwl6f7kex0kpctkf5p8d7";
 
-      const Memo = `=:${toAsset.rawData}:${walletAddress}`;
+      const Memo = `=:${toAsset?.rawData}:${walletAddress}`;
       const send_amount = Number(amount) * Number(Math.pow(10, decimal));
       console.log("send Amount===>>", send_amount);
       let viewblock;
@@ -580,8 +585,9 @@ export function KeystoreWallet() {
 
         case "THOR":
           console.log("Hey THOR");
+          console.log("inound=====>>", inboundAddress);
           let response6 = await userThorchainClient.transfer({
-            recipient: inboundAddress.address,
+            recipient: inboundAddress,
             asset: assetFromString(fromAsset.rawData),
             amount: baseAmount(amount * 10 ** decimal),
             memo: Memo,
