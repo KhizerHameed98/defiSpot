@@ -15,6 +15,7 @@ import {
   serverDecryption,
 } from "../../Services/mainServices";
 import Setting_Modal from "../PopModals/Setting_Modal";
+import { CRYPTOCOMPARE_KEY } from "../../Services/environment";
 
 const series = [
   {
@@ -263,9 +264,52 @@ const series = [
   },
 ];
 
-const BuyPlatform = () => {
+const BuyPlatform = ({ match }) => {
   const myRefSwap = useRef();
   const myRefSwap2 = useRef();
+
+  let history = useHistory();
+  const dispatch = useDispatch();
+
+  const { id } = useParams();
+  const [YayModal, setYayModal] = useState(false);
+  const [confirmModal, setConfirmModal] = useState(false);
+  const [fromAmount, setFromAmount] = useState("");
+  const [toAmount, setToAmount] = useState("");
+  const [transactionHash, setTransactionHash] = useState("");
+  const [TokenPriceUSD, setTokenPriceUSD] = useState("");
+  const [tokenData, setTokenData] = useState(null);
+  const [keyStore, setKeyStore] = useState([]);
+  const [selectedCurr, setSelectedCurr] = useState(null);
+  const [statusLink, setStatusLink] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [toOptionDropDown, setToOptionDropDown] = useState(false);
+  const [selectedCurrTo, setSelectedCurrTo] = useState("");
+  const [optionsDropdown, setOptionsDropdown] = useState(false);
+  const mainState = useSelector((state) => state.main.midgardPool);
+  const graphState = useSelector((state) => state.main.graphDataCombined);
+  const walletType = useSelector((state) => state.main.walletType);
+  const [midgardData, setMidgardData] = useState([]);
+  const loggedin = useSelector((state) => state.main.isLoggedin);
+  const assetBalance = useSelector((state) => state.main.assetBalance);
+  const midgardPool = useSelector((state) => state.main.midgardPool);
+  const [graphData, setGraphData] = useState([]);
+  const [search, setSearch] = useState("");
+  const [slippagePercent, setSlippagePercent] = useState(0);
+  const [updatedGraphData, setUpdatedGraphData] = useState();
+  const [selectedFilter, setSelectedFilter] = useState("1D");
+  const [graphData1D, setGraphData1D] = useState([]);
+  const [graphData1H, setGraphData1H] = useState([]);
+  const [graphData1M, setGraphData1M] = useState([]);
+  const [graphData1Y, setGraphData1Y] = useState([]);
+  const [emptyError, setEmptyError] = useState(false);
+
+  useEffect(() => {
+    console.log("===== DDD ======== ", graphData1D);
+    console.log("===== HHH ======== ", graphData1H);
+    console.log("===== MMM ======== ", graphData1M);
+    console.log("===== YYY ======== ", graphData1Y);
+  }, [graphData1H, graphData1M, graphData1Y, graphData1D]);
 
   useEffect(() => {
     document.addEventListener("click", handleClick);
@@ -285,48 +329,6 @@ const BuyPlatform = () => {
       }
     }
   }, []);
-
-  let history = useHistory();
-  const dispatch = useDispatch();
-
-  const { id } = useParams();
-  const [YayModal, setYayModal] = useState(false);
-  const [confirmModal, setConfirmModal] = useState(false);
-  const [fromAmount, setFromAmount] = useState("");
-  const [toAmount, setToAmount] = useState("");
-  const [transactionHash, setTransactionHash] = useState("");
-  const [TokenPriceUSD, setTokenPriceUSD] = useState("");
-  const [tokenData, setTokenData] = useState([]);
-  const [keyStore, setKeyStore] = useState([]);
-  const [selectedCurr, setSelectedCurr] = useState(null);
-  const [statusLink, setStatusLink] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [toOptionDropDown, setToOptionDropDown] = useState(false);
-  const [selectedCurrTo, setSelectedCurrTo] = useState("");
-  const [optionsDropdown, setOptionsDropdown] = useState(false);
-  const mainState = useSelector((state) => state.main.midgardPool);
-  const graphState = useSelector((state) => state.main.graphDataCombined);
-  const [midgardData, setMidgardData] = useState([]);
-  const loggedin = useSelector((state) => state.main.isLoggedin);
-  const assetBalance = useSelector((state) => state.main.assetBalance);
-  const midgardPool = useSelector((state) => state.main.midgardPool);
-  const [graphData, setGraphData] = useState([]);
-  const [search, setSearch] = useState("");
-  const [slippagePercent, setSlippagePercent] = useState(0);
-  const [updatedGraphData, setUpdatedGraphData] = useState();
-  const [selectedFilter, setSelectedFilter] = useState("1D");
-  const [graphData1D, setGraphData1D] = useState([]);
-  const [graphData1H, setGraphData1H] = useState([]);
-  const [graphData1M, setGraphData1M] = useState([]);
-  const [graphData1Y, setGraphData1Y] = useState([]);
-
-  useEffect(() => {
-    console.log("===== DDD ======== ", graphData1D);
-    console.log("===== HHH ======== ", graphData1H);
-    console.log("===== MMM ======== ", graphData1M);
-    console.log("===== YYY ======== ", graphData1Y);
-  }, [graphData1H, graphData1M, graphData1Y, graphData1D]);
-
   // useEffect(() => {
 
   //   if (selectedFilter == "1D") {
@@ -344,7 +346,14 @@ const BuyPlatform = () => {
     if (graphState?.length > 0) {
       if (tokenData) {
         console.log(`GGgggGGGGGGGGGGGGGG----- `, graphState);
-        let res = graphState?.filter((d) => d.assetName == tokenData.rawData);
+        console.log(`tokenDATA<><><><><><><><><><><><><>----- `, tokenData);
+        // console.log(
+        //   `tokenDATASPLIT<><><><><><><><><><><><><>----- `,
+        //   tokenData?.rawData.split("-")[0]
+        // );
+        let res = graphState?.filter(
+          (d) => d.assetName.split("-")[0] === tokenData?.rawData.split("-")[0]
+        );
         console.log("QQQQQQQQQQQQQQQQQQQ=====>>", res);
         setUpdatedGraphData(res);
 
@@ -353,12 +362,17 @@ const BuyPlatform = () => {
         const graph1M = res[0]?.graphData1M;
         const graph1Y = res[0]?.graphData1Y;
 
+        console.log("graph1D<><><><><><><<><><><><><><><>", graph1D);
         let finalData = graph1D?.map((data, k) => {
           return {
             x:
               new Date(Number(data.timeStamp) * 1000)
                 .toString()
-                .substring(4, 16) + `${k}`,
+                .substring(4, 10) +
+              " " +
+              new Date(Number(data.timeStamp) * 1000)
+                .toString()
+                .substring(16, 21),
             y: data.assetPriceUSD,
           };
         });
@@ -368,27 +382,29 @@ const BuyPlatform = () => {
             x:
               new Date(Number(data.timeStamp) * 1000)
                 .toString()
-                .substring(4, 16) + `${k}`,
+                .substring(4, 10) +
+              " " +
+              new Date(Number(data.timeStamp) * 1000)
+                .toString()
+                .substring(16, 21),
             y: data.assetPriceUSD,
           };
         });
 
         let finalData3 = graph1M?.map((data, k) => {
           return {
-            x:
-              new Date(Number(data.timeStamp) * 1000)
-                .toString()
-                .substring(4, 16) + `${k}`,
+            x: new Date(Number(data.timeStamp) * 1000)
+              .toString()
+              .substring(4, 16),
             y: data.assetPriceUSD,
           };
         });
 
         let finalData4 = graph1Y?.map((data, k) => {
           return {
-            x:
-              new Date(Number(data.timeStamp) * 1000)
-                .toString()
-                .substring(4, 16) + `${k}`,
+            x: new Date(Number(data.timeStamp) * 1000)
+              .toString()
+              .substring(4, 16),
             y: data.assetPriceUSD,
           };
         });
@@ -434,11 +450,10 @@ const BuyPlatform = () => {
         // setGraphData(graphData1D);
       }
     }
+    if (tokenData) {
+      setSelectedCurrTo(tokenData);
+    }
   }, [tokenData]);
-
-  useEffect(() => {
-    console.log("hey====>>>", graphData);
-  }, [graphData]);
 
   const [displayLineGraph, setDisplayLineGraph] = useState(true);
   const RUNE = {
@@ -457,7 +472,6 @@ const BuyPlatform = () => {
     if (mainState) {
       let res = mainState[0];
       console.log("mainState=====>>", mainState);
-      setSelectedCurrTo(res);
       setMidgardData([...mainState]);
     }
   }, [mainState]);
@@ -469,17 +483,18 @@ const BuyPlatform = () => {
   }, [midgardData]);
   useEffect(async () => {
     if (selectedCurr && tokenData) {
+      setToAmount(0);
+      setFromAmount(0);
       await axios
         .get(
-          `https://min-api.cryptocompare.com/data/price?fsym=${tokenData?.asset}&tsyms=${selectedCurr?.asset?.ticker}`
+          `https://min-api.cryptocompare.com/data/price?fsym=${selectedCurrTo?.asset}&tsyms=${selectedCurr?.asset?.ticker}&api_key=${CRYPTOCOMPARE_KEY}`
         )
         .then((res) => {
           console.log("res===>>", res.data);
-          console.log("some============", res.data[Object.keys(res.data)[0]]);
           setTokenPriceUSD(res.data[Object.keys(res.data)[0]]);
         });
     }
-  }, [selectedCurr]);
+  }, [selectedCurr, selectedCurrTo]);
 
   useEffect(() => {
     if (!loggedin) {
@@ -488,15 +503,16 @@ const BuyPlatform = () => {
   }, [loggedin]);
 
   useEffect(async () => {
-    if (mainState) {
-      let data = mainState?.filter((d) => d._id === id);
+    if (mainState && mainState.length) {
+      console.log("mainStata<><><><><><><><><><><><><><><><><><><>", mainState);
+      let data = mainState?.filter((d) => d._id === match.params.id);
 
       setTokenData(data[0]);
-      console.log("=-=-=-=-=>>>>>", data[0]);
+      console.log("data[0]======-=-=-=-=>>>>>", data[0]);
 
       const gData = data[0].graphData;
 
-      var finalData = gData.map((data) => {
+      var finalData = gData?.map((data) => {
         return {
           x: new Date(Number(data.timeStamp) * 1000)
             .toString()
@@ -529,8 +545,8 @@ const BuyPlatform = () => {
 
   useEffect(() => {
     if (keyStore) {
-      keyStore.slice(0, 1).map((t) => {
-        if (t.asset) {
+      keyStore?.slice(0, 1)?.map((t) => {
+        if (t?.asset) {
           setSelectedCurr(t);
         }
       });
@@ -538,50 +554,58 @@ const BuyPlatform = () => {
   }, [keyStore]);
 
   const handleCloseYay = () => setYayModal(false);
-  const handleShowYay = () => {
-    setConfirmModal(false);
-    setYayModal(true);
-  };
+
   const handleCloseConfirm = () => {
     setConfirmModal(false);
   };
   const handleShowConfirm = () => {
     //check loggedin state
-    if (loggedin) {
-      // setConfirmModal(true);
-      let fromData;
-      if (selectedCurr?.asset?.ticker === "RUNE") {
-        fromData = RUNE;
-      } else {
-        fromData = midgardPool.find(
-          (data) =>
-            data.blockchain === selectedCurr.asset.chain &&
-            data.asset === selectedCurr.asset.ticker
-        );
-      }
 
-      console.log("fromData=====>>", fromData);
-      const decimal = selectedCurr.amount.decimal;
-      if (fromData) {
-        dispatch(
-          nativeSwapping(
-            fromData,
-            selectedCurrTo,
-            fromAmount,
-            decimal,
-            midgardPool,
-            setYayModal,
-            setTransactionHash,
-            setStatusLink,
-            setLoading
-          )
-        );
+    setConfirmModal(true);
+  };
+
+  //Submit Swap
+  const submitSwap = () => {
+    if (fromAmount.length > 0) {
+      if (loggedin) {
+        let fromData;
+        if (selectedCurr?.asset?.ticker === "RUNE") {
+          fromData = RUNE;
+        } else {
+          fromData = midgardPool.find(
+            (data) =>
+              data.blockchain === selectedCurr.asset.chain &&
+              data.asset === selectedCurr.asset.ticker
+          );
+        }
+        console.log("fromData=====>>", fromData);
+        const decimal = selectedCurr.amount.decimal;
+        if (fromData) {
+          dispatch(
+            nativeSwapping(
+              fromData,
+              selectedCurrTo,
+              fromAmount,
+              decimal,
+              midgardPool,
+              setYayModal,
+              setConfirmModal,
+              setTransactionHash,
+              setStatusLink,
+              setLoading,
+              walletType
+            )
+          );
+        }
+      } else {
+        // console.log("loggedOUT");
+        dispatch(handleMainModal(true));
       }
     } else {
-      // console.log("loggedOUT");
-      dispatch(handleMainModal(true));
+      setEmptyError(true);
     }
   };
+
   function financial(x) {
     return Number.parseFloat(x).toFixed(2);
   }
@@ -597,15 +621,14 @@ const BuyPlatform = () => {
         "to amount set-- ",
         financial(Number(e.target.value) / Number(TokenPriceUSD))
       );
-      setToAmount(financial(Number(e.target.value) / Number(TokenPriceUSD)));
+      setToAmount(Number(e.target.value) / Number(TokenPriceUSD));
     }
   };
   const toAmountHandler = (e) => {
-    // if (e.target.value >= 0) {
-    //   setToAmount(e.target.value);
-    //   setFromAmount(financial(Number(e.target.value) * Number(TokenPriceUSD)));
-    // }
-    console.log("e=>>", e.target.value);
+    if (e.target.value >= 0) {
+      setToAmount(e.target.value);
+      setFromAmount(Number(e.target.value) * Number(TokenPriceUSD));
+    }
   };
   const gettingLogos = (t) => {
     let midgardPool = mainState;
@@ -910,7 +933,7 @@ const BuyPlatform = () => {
                       <p class="yahparagraphs pl-2 pt-1">Confirm</p>
                     </div>
                     <div>
-                      <img
+                      {/* <img
                         className="settingmodlicon4444"
                         style={{
                           height: "25px",
@@ -918,7 +941,7 @@ const BuyPlatform = () => {
                           cursor: "pointer",
                         }}
                         src={Images.setting}
-                      />
+                      /> */}
                     </div>
                   </div>
                   <div
@@ -948,7 +971,7 @@ const BuyPlatform = () => {
                             fontSize: "14px",
                           }}
                         >
-                          35,000 USDT
+                          {fromAmount} {selectedCurr?.asset?.ticker}
                         </p>
                       </div>
                     </div>
@@ -973,7 +996,7 @@ const BuyPlatform = () => {
                             fontSize: "14px",
                           }}
                         >
-                          1.1137 BTC
+                          {toAmount} {selectedCurrTo?.asset}
                         </p>
                       </div>
                     </div>
@@ -1005,10 +1028,10 @@ const BuyPlatform = () => {
                   </div>
                   <div class="d-flex justify-content-between pt-5">
                     <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
-                      1.1137
+                      {toAmount}
                     </p>
                     <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
-                      BTC
+                      {selectedCurrTo?.asset}
                     </p>
                   </div>
                   <hr class="solid" />
@@ -1042,10 +1065,11 @@ const BuyPlatform = () => {
                     Cancel
                   </button>
                   <button
+                    disabled={loading}
                     type="button"
                     style={{ fontSize: "16px", fontFamily: "DM Sans" }}
                     class="btn btn-primary btn-lg btnHoverWhite"
-                    onClick={handleShowYay}
+                    onClick={submitSwap}
                   >
                     I understand, continue
                   </button>
@@ -1058,76 +1082,107 @@ const BuyPlatform = () => {
       </Modal>
       {/* Div Started */}
       <section style={{ backgroundColor: "#F1F2F4", paddingTop: "3px" }}>
-        <div
-          class="container mt-1 pt-2 pb-2"
-          style={{
-            backgroundColor: "#FCFCFD",
-            borderRadius: "15px",
-          }}
-        >
-          <div className="row">
-            <div className="col-lg-4">
-              <h4 className="u-headinfswaming09888">{tokenData?.asset}/USDT</h4>
-            </div>
-            <div className="col-lg-8">
-              <div className="d-flex justify-content-between flex-wrap u-swappingdonemain3455">
-                <div>
-                  <p class="marketparatwow">
-                    {" "}
-                    {/* <img src={Images.clock} /> */}
-                    <img src={Images.up} /> Change
-                  </p>
+        <div class="swap-container mt-1 pt-2 pb-2">
+          <div
+            style={{
+              backgroundColor: "#FCFCFD",
+              borderRadius: "15px",
+              padding: "10px 15px",
+            }}
+          >
+            <div className="row">
+              <div className="col-lg-4">
+                <div
+                  className="d-flex align-items-center"
+                  style={{ height: "100%" }}
+                >
+                  <div>
+                    <img
+                      style={{
+                        width: "18px",
+                        margin: "0 10px",
+                        cursor: "pointer",
+                      }}
+                      src={Images.iconsLeftline}
+                      onClick={() => history.goBack()}
+                    />
 
-                  {tokenData.change_24h >= 0 ? (
-                    <>
-                      <h5
-                        style={{
-                          color: "#00C076",
-                          fontFamily: "Poppins",
-                          fontWeight: "400",
-                          fontSize: "16px",
-                        }}
-                      >
-                        {numberWithCommas(financial(tokenData?.assetPriceUSD))}{" "}
-                        +{financial(tokenData?.change_24h)}%
-                      </h5>
-                    </>
-                  ) : (
-                    <>
+                    <img
+                      style={{ width: "32px", margin: "0 10px" }}
+                      // src={Images.btc}
+                      src={tokenData?.logo}
+                    />
+                  </div>
+                  <div>
+                    <h4 className="w-headinfswaming09888">
+                      {tokenData?.assetFullName}
+                    </h4>
+                    <h4 className="w-headinfswaming01">{tokenData?.asset}</h4>
+                  </div>
+                </div>
+              </div>
+              <div className="col-lg-8">
+                <div className="d-flex justify-content-between flex-wrap u-swappingdonemain3455">
+                  <div className="w-swap-top-inner">
+                    <p class="w-marketparatwow">
+                      {" "}
+                      {/* <img src={Images.clock} /> */}
+                      <img src={Images.up} /> Change
+                    </p>
+
+                    {tokenData?.change_24h >= 0 ? (
                       <>
                         <h5
                           style={{
-                            color: "#f04e4e",
-                            fontFamily: "Poppins",
-                            fontWeight: "400",
-                            fontSize: "16px",
+                            color: "#00C076",
+                            fontFamily: "DM Sans",
+                            fontWeight: "600",
+                            fontSize: "12px",
+                            marginBottom: "0",
                           }}
                         >
-                          $
                           {numberWithCommas(
                             financial(tokenData?.assetPriceUSD)
-                          )}
-                          {/* {" "} */}({financial(tokenData?.change_24h)}%)
+                          )}{" "}
+                          +{financial(tokenData?.change_24h)}%
                         </h5>
                       </>
-                    </>
-                  )}
-                </div>
-                <div className="d-flex flex-row">
-                  <div class="pr-4">
-                    <p class="marketparatwow">
+                    ) : (
+                      <>
+                        <>
+                          <h5
+                            style={{
+                              color: "#f04e4e",
+                              fontFamily: "DM Sans",
+                              fontWeight: "600",
+                              fontSize: "12px",
+                              marginBottom: "0",
+                            }}
+                          >
+                            $
+                            {numberWithCommas(
+                              financial(tokenData?.assetPriceUSD)
+                            )}
+                            {/* {" "} */}({financial(tokenData?.change_24h)}%)
+                          </h5>
+                        </>
+                      </>
+                    )}
+                  </div>
+                  <div className="w-swap-top-inner">
+                    <p class="w-marketparatwow">
                       {" "}
                       <img src={Images.up} /> High
                     </p>
                     <h5
                       style={{
                         fontFamily: "DM Sans",
-                        fontFamily: "Poppins",
-                        fontWeight: "400",
-                        fontSize: "16px",
+                        fontWeight: "600",
+                        fontSize: "12px",
+                        marginBottom: "0",
                       }}
                     >
-                      {tokenData.change_24h_Highest >= 0 ? (
+                      {tokenData?.change_24h_Highest >= 0 ? (
                         <>
                           ${numberWithCommas(financial(tokenData?.biggestVal))}
                           {/* + */}
@@ -1142,20 +1197,20 @@ const BuyPlatform = () => {
                       )}
                     </h5>
                   </div>
-                  <div class="pl-4">
-                    <p class="marketparatwow">
+                  <div className="w-swap-top-inner">
+                    <p class="w-marketparatwow">
                       {" "}
                       <img src={Images.down} /> Low
                     </p>
                     <h5
                       style={{
                         fontFamily: "DM Sans",
-                        fontFamily: "Poppins",
-                        fontWeight: "400",
-                        fontSize: "16px",
+                        fontWeight: "600",
+                        fontSize: "12px",
+                        marginBottom: "0",
                       }}
                     >
-                      {tokenData.change_24h_Lowest >= 0 ? (
+                      {tokenData?.change_24h_Lowest >= 0 ? (
                         <>
                           ${numberWithCommas(financial(tokenData?.smallestVal))}
                           {/* + */}
@@ -1170,34 +1225,47 @@ const BuyPlatform = () => {
                       )}{" "}
                     </h5>
                   </div>
-                </div>
-                <div>
-                  <p class="marketparatwow">
-                    {" "}
-                    <img src={Images.hourr} /> Volume
-                  </p>
-                  <h5
-                    style={{
-                      fontFamily: "DM Sans",
-                      fontFamily: "Poppins",
-                      fontWeight: "400",
-                      fontSize: "16px",
-                    }}
-                  >
-                    {tokenData.change_24h >= 0 ? (
-                      <>
-                        ${numberWithCommas(financial(tokenData?.volume24h))}
-                        {/* + */}
-                        {/* {financial(tokenData?.change_24h)}% */}
-                      </>
-                    ) : (
-                      <>
-                        ${numberWithCommas(financial(tokenData?.volume24h))}
-                        {/* {" "} */}
-                        {/* {financial(tokenData?.change_24h)}% */}
-                      </>
-                    )}{" "}
-                  </h5>
+
+                  <div className="w-swap-top-inner">
+                    <p class="w-marketparatwow">
+                      {" "}
+                      <img src={Images.down} /> Volume
+                    </p>
+                    <h5
+                      style={{
+                        fontFamily: "DM Sans",
+                        fontWeight: "600",
+                        fontSize: "12px",
+                        marginBottom: "0",
+                      }}
+                    >
+                      {tokenData?.change_24h >= 0 ? (
+                        <>
+                          ${numberWithCommas(financial(tokenData?.volume24h))}
+                          {/* + */}
+                          {/* {financial(tokenData?.change_24h)}% */}
+                        </>
+                      ) : (
+                        <>
+                          ${numberWithCommas(financial(tokenData?.volume24h))}
+                          {/* {" "} */}
+                          {/* {financial(tokenData?.change_24h)}% */}
+                        </>
+                      )}{" "}
+                    </h5>
+                  </div>
+                  <div className="w-swap-top-inner d-flex align-items-center w-swap-top-inner-bg">
+                    <h5
+                      style={{
+                        fontFamily: "DM Sans",
+                        fontWeight: "600",
+                        fontSize: "12px",
+                        marginBottom: "0",
+                      }}
+                    >
+                      {selectedFilter}
+                    </h5>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1205,53 +1273,54 @@ const BuyPlatform = () => {
         </div>
       </section>
       <section style={{ backgroundColor: "#F1F2F4" }}>
-        <div style={{ paddingLeft: "0px" }} class="container">
+        <div class="swap-container">
           <div class="row">
-            <div class="col-lg-8  mt-1 mb-3">
+            <div class="col-lg-8  mt-1 mb-3 order-2 order-lg-1">
               <div
-                class="pt-3  pb-4"
+                class=""
                 style={{ backgroundColor: "#FCFCFD", borderRadius: "15px" }}
               >
                 <div
-                  style={{ borderBottom: "2px solid #e6e8ec" }}
-                  class="d-flex justify-content-between align-items-center pb-3"
+                  style={{ borderBottom: "2px solid #f2f2f2", height: "60px" }}
+                  class="d-flex justify-content-between align-items-center"
                 >
-                  <p className="u-burmarketmainpparagrpahj00">
+                  <div className="d-flex align-items-center">
+                  <p className="u-burmarketmainpparagrpahj00 d-flex align-items-center">
                     {numberWithCommas(financial(tokenData?.assetPriceUSD))} USD{" "}
                     <span
                       style={{
                         color: "#4FBF67",
-                        fontSize: "18px",
-                        fontFamily: "Poppins",
-                        fontWeight: "400",
+                        fontSize: "12px",
+                        fontFamily: 'Poppins',
+                        fontWeight: "500",
+                        marginLeft: "10px",
                       }}
                     >
                       +0.92%
                     </span>
                   </p>
-                  <div style={{ marginTop: "-10px" }} className="mb-2">
+                  <div className="ml-4">
                     <button
-                      className="btn n-secondaryButton "
+                      className={
+                        displayLineGraph
+                          ? "btn w-swap-chartButtonAC mx-1"
+                          : "btn w-swap-chartButton mx-1"
+                      }
                       onClick={() => setDisplayLineGraph(true)}
-                      style={{
-                        boxShadow: displayLineGraph
-                          ? "0 0 0 0.2rem rgb(0 123 255 / 25%)"
-                          : "none",
-                      }}
                     >
                       Graph
                     </button>
                     <button
-                      className=" ml-2 btn n-secondaryButton"
+                      className={
+                        displayLineGraph
+                          ? "btn w-swap-chartButton mx-1"
+                          : "btn w-swap-chartButtonAC mx-1"
+                      }
                       onClick={() => setDisplayLineGraph(false)}
-                      style={{
-                        boxShadow: !displayLineGraph
-                          ? "0 0 0 0.2rem rgb(0 123 255 / 25%)"
-                          : "none",
-                      }}
                     >
                       Candles
                     </button>
+                  </div>
                   </div>
                   <div
                     class="d-flex"
@@ -1345,7 +1414,7 @@ const BuyPlatform = () => {
                     "graphdata1Y<><><><><><><<><><><><><<><>><><><<>",
                     graphData1Y
                   )}
-                  {displayLineGraph ? (
+                  {displayLineGraph && graphData.length ? (
                     <ResponsiveLine
                       enableGridX={false}
                       enableGridY={false}
@@ -1375,14 +1444,14 @@ const BuyPlatform = () => {
                       pointBorderColor={{ from: "serieColor" }}
                       pointLabelYOffset={-12}
                       useMesh={true}
-                      useMesh={true}
+                      areaBaselineValue={true}
                       defs={[
                         linearGradientDef("gradientA", [
                           { offset: 0, color: "inherit" },
                           { offset: 60, color: "inherit", opacity: 0.4 },
                           { offset: 75, color: "inherit", opacity: 0.2 },
-                          { offset: 85, color: "inherit", opacity: 0.1 },
-                          { offset: 100, color: "inherit", opacity: 0.08 },
+                          { offset: 85, color: "inherit", opacity: 0 },
+                          { offset: 100, color: "inherit", opacity: 0 },
                         ]),
                       ]}
                       fill={[{ match: "*", id: "gradientA" }]}
@@ -1423,7 +1492,7 @@ const BuyPlatform = () => {
                   class="d-flex justify-content-around"
                 >
                   {graphData &&
-                    graphData[0]?.data?.slice(0, 4).map((d) => (
+                    graphData[0]?.data?.slice(0, 4)?.map((d) => (
                       <p style={{ fontWeight: "500" }}>
                         {/* Sept15 */}
                         {d.x}
@@ -1444,9 +1513,9 @@ const BuyPlatform = () => {
                           style={{
                             margin: "0px",
                             color: "#808191",
-                            fontFamily: "Poppins",
+                            fontFamily: "DM Sans",
                             fontSize: "14px",
-                            fontWeight: "bold",
+                            fontWeight: "400",
                           }}
                         >
                           Market cap
@@ -1468,9 +1537,9 @@ const BuyPlatform = () => {
                           style={{
                             margin: "0px",
                             color: "#808191",
-                            fontFamily: "Poppins",
+                            fontFamily: "DM Sans",
                             fontSize: "14px",
-                            fontWeight: "bold",
+                            fontWeight: "400",
                           }}
                         >
                           Volume(24h)
@@ -1498,8 +1567,9 @@ const BuyPlatform = () => {
                             margin: "0px",
                             color: "#808191",
                             fontFamily: "Poppins",
+                            fontFamily: "DM Sans",
                             fontSize: "14px",
-                            fontWeight: "bold",
+                            fontWeight: "400",
                           }}
                         >
                           Circulating Supply
@@ -1522,9 +1592,9 @@ const BuyPlatform = () => {
                           style={{
                             margin: "0px",
                             color: "#808191",
-                            fontFamily: "Poppins",
+                            fontFamily: "DM Sans",
                             fontSize: "14px",
-                            fontWeight: "bold",
+                            fontWeight: "400",
                           }}
                         >
                           Total Supply
@@ -1567,8 +1637,8 @@ const BuyPlatform = () => {
                         class="pt-2 pl-3"
                         href="#"
                         style={{
-                          fontWeight: "700",
-                          fontFamily: "Poppins",
+                          fontWeight: "500",
+                          fontFamily: "DM Sans",
                           fontSize: "14px",
                         }}
                       >
@@ -1585,8 +1655,8 @@ const BuyPlatform = () => {
                         class="pt-2 pl-3"
                         href="#"
                         style={{
-                          fontWeight: "700",
-                          fontFamily: "Poppins",
+                          fontWeight: "500",
+                          fontFamily: "DM Sans",
                           fontSize: "14px",
                         }}
                       >
@@ -1603,8 +1673,8 @@ const BuyPlatform = () => {
                         class="pt-2 pl-3"
                         href="#"
                         style={{
-                          fontWeight: "700",
-                          fontFamily: "Poppins",
+                          fontWeight: "500",
+                          fontFamily: "DM Sans",
                           fontSize: "14px",
                         }}
                       >
@@ -1615,15 +1685,16 @@ const BuyPlatform = () => {
                 </div>
               </div>
             </div>
-            <div
-              class="col-lg-4 mt-1 mb-3 pt-4 pb-4"
-              style={{
-                backgroundColor: "#FCFCFD",
-                height: "350px",
-                borderRadius: "15px",
-              }}
-            >
-              {/* <button
+            <div class="col-lg-4 mt-1 mb-3 order-1 order-lg-2">
+              <div
+                style={{
+                  backgroundColor: "#FCFCFD",
+                  height: "350px",
+                  borderRadius: "15px",
+                }}
+                // className="pt-4 pb-4"
+              >
+                {/* <button
                 class="mt-2"
                 style={{
                   padding: "5px 15px 5px 15px",
@@ -1643,430 +1714,468 @@ const BuyPlatform = () => {
                   Market
                 </Link>
               </button> */}
-              <div
-                style={{ borderBottom: "2px solid #e6e8ec" }}
-                class="d-flex justify-content-between"
-              >
-                <h2
+                <div
                   style={{
-                    color: "#23262F",
-                    fontWeight: "600",
-                    fontFamily: "Poppins",
-                    fontSize: "24px",
+                    borderBottom: "2px solid #f2f2f2",
+                    padding: "15px",
+                    height: "60px",
                   }}
+                  class="d-flex justify-content-between"
                 >
-                  Swap
-                  <Setting_Modal setSlippagePercent={setSlippagePercent} />
-                  {/* {tokenData?.asset} */}
-                </h2>
-                <div class="d-flex">
-                  <img
+                  <h2
+                    style={{
+                      color: "#23262F",
+                      fontWeight: "600",
+                      fontFamily: "DM Sans",
+                      fontSize: "18px",
+                      marginBottom: "0px",
+                      width: "100%",
+                    }}
+                    class="d-flex justify-content-between"
+                  >
+                    <span>Swap</span>
+                    <Setting_Modal setSlippagePercent={setSlippagePercent} />
+                    {/* {tokenData?.asset} */}
+                  </h2>
+                </div>
+                {/*Slippage*/}
+                {/* <h6>Slippage: {slippagePercent}%</h6> */}
+                <div style={{ padding: "20px 15px" }}>
+                  <form>
+                    <div class="input-group position-relative">
+                      <div class="n-currencySelect" ref={myRefSwap}>
+                        <div class="w-currency">
+                          <div
+                            class="d-flex flex-row align-items-center"
+                            onClick={() => {
+                              setOptionsDropdown(!optionsDropdown);
+                            }}
+                          >
+                            {selectedCurr ? (
+                              <> {gettingLogos(selectedCurr)}</>
+                            ) : null}
+                            {/* {selectedCurr?.asset?.ticker} */}
+                            <img
+                              style={{ width: "18px" }}
+                              src={Images.iconarowdown}
+                            />
+                          </div>
+                        </div>
+                        {/* <ul className="n-currencyDropDown"> */}
+                        <ul
+                          class={
+                            `n-currencyDropDown w-currency-height ` +
+                            (optionsDropdown ? "d-block" : "d-none")
+                          }
+                        >
+                          <ul className="w-pd-outer list-unstyled n-learnFilterLabels mb-2">
+                            <li
+                              className="d-flex flex-row justify-content-between align-items-center"
+                              style={{ margin: "0 4px" }}
+                            >
+                              <button
+                                className="alltype"
+                                style={{ color: "#fff", fontFamily: "DM Sans" }}
+                                onClick={filterAllType}
+                              >
+                                All
+                              </button>
+                            </li>
+                            <li
+                              className="d-flex flex-row justify-content-center align-items-center"
+                              style={{ margin: "0 4px" }}
+                            >
+                              <button
+                                className="alltype-nonActive"
+                                style={{
+                                  color: "#fff",
+                                  fontFamily: "DM Sans",
+                                  whiteSpace: "nowrap",
+                                }}
+                                onClick={filterNative}
+                              >
+                                Native
+                              </button>
+                            </li>
+                            <li
+                              className="d-flex flex-row justify-content-center align-items-center"
+                              style={{ margin: "0 4px" }}
+                            >
+                              <button
+                                className="alltype-nonActive"
+                                style={{ color: "#fff", fontFamily: "DM Sans" }}
+                                onClick={filterERC20}
+                              >
+                                ERC20
+                              </button>
+                            </li>
+                            <li
+                              className="d-flex flex-row justify-content-center align-items-center"
+                              style={{ margin: "0 4px" }}
+                            >
+                              <button
+                                className="alltype-nonActive"
+                                style={{ color: "#fff", fontFamily: "DM Sans" }}
+                                onClick={filterBEP2}
+                              >
+                                BEP2
+                              </button>
+                            </li>
+                          </ul>
+                          <div class="w-pd-outer d-flex form-group has-search mb-2 n-inputSearch w-100 ">
+                            <input
+                              type="text"
+                              value={search}
+                              class="form-control n-tableSearch w-100"
+                              placeholder="Search"
+                              onChange={implementSearch}
+                            />
+                            <img
+                              style={{
+                                width: "20px",
+                                height: "20px",
+                                marginLeft: "-35px",
+                                marginTop: "10px",
+                                marginBottom: "10px",
+                              }}
+                              src={Images.searchicon}
+                            />
+                          </div>
+
+                          {keyStore
+                            ?.filter((val) => {
+                              return val?.asset?.ticker
+                                ?.toLowerCase()
+                                .includes(search?.toLowerCase());
+                            })
+                            .map((d, key) => {
+                              return (
+                                <>
+                                  <li
+                                    class="d-flex flex-row align-items-center w-hover-drop"
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => {
+                                      setSelectedCurr(d);
+                                      setOptionsDropdown(false);
+                                    }}
+                                  >
+                                    {gettingLogos(d)}
+                                    {/* <img
+                                src={Images.ltc}
+                                // width="24px"
+                                // height="24px"
+                                style={{ marginRight: "6px" }}
+                              /> */}
+                                    <div class="d-flex flex-row align-items-center justify-content-between w-100 n-currencyDetails">
+                                      <div class="n-currencyName d-flex flex-column justify-content-start">
+                                        <p>{d?.asset?.ticker}</p>
+                                        <span>Native</span>
+                                      </div>
+                                      <div class="n-currencyValue">
+                                        {financial(
+                                          Number(d?.amount?.amount()?.c[0]) /
+                                            Math.pow(10, d?.amount?.decimal)
+                                        )}{" "}
+                                        {d?.asset?.ticker}
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <hr className="m-0"></hr>
+                                </>
+                              );
+                            })}
+                        </ul>
+                      </div>
+                      <input
+                        style={{
+                          borderRadius: "15px",
+                          border: "3px solid #f6f6f6",
+                          color: "#777E90",
+                          fontSize: "14px",
+                          backgroundColor: "#fcfcfd",
+                          fontWeight: "600",
+                          fontFamily: "DM Sans",
+                          paddingLeft: "25%",
+                          paddingRight: "15%",
+                          textAlign: "right",
+                        }}
+                        onFocus={() => setEmptyError(false)}
+                        type="text"
+                        min={0}
+                        value={fromAmount}
+                        onChange={fromAmountHandler}
+                        class="form-control pt-4 pb-4"
+                        aria-label="From"
+                        aria-describedby="basic-addon2"
+                      />
+                      {/* <div class="input-group-append"> */}
+                      <button
+                        style={{
+                          border: "none",
+                          position: "absolute",
+                          right: "4px",
+                          top: "10px",
+                          color: "#212529",
+                          fontSize: "14px",
+                          fontWeight: "600",
+                          fontFamily: "DM Sans",
+                          zIndex: "4",
+                          boxShadow: "none",
+                        }}
+                        class="btn"
+                        type="button"
+                      >
+                        {selectedCurr?.asset?.ticker}
+                        {/* USDT */}
+                      </button>
+                      {/* </div> */}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: 10,
+                        color: "red",
+                        marginLeft: 32,
+                        marginTop: -14,
+                        height: "5px",
+                      }}
+                    >
+                      {emptyError && <>Swapping amount is required</>}
+                    </div>
+                  </form>
+                  {/*end*/}
+                  <div class="d-flex justify-content-end py-3 pr-2">
+                    {/* <img
                     style={{
                       height: "15px",
                       width: "15px",
                       paddingTop: "2px",
                     }}
                     src={Images.bbbtc}
-                  />
-                  <p
-                    style={{
-                      fontFamily: "Poppins",
-                      fontSize: "12px",
-                      fontWeight: "600",
-                    }}
-                    class="pl-2"
-                  >
-                    {financial(
-                      Number(selectedCurr?.amount?.amount().c[0]) /
-                        Math.pow(10, selectedCurr?.amount.decimal)
-                    )}{" "}
-                    {selectedCurr?.asset?.ticker}
-                  </p>
-                </div>
-              </div>
-              {/*Slippage*/}
-              <h6>Slippage: {slippagePercent}%</h6>
-
-              <form>
-                <div class="input-group mb-3 mt-3 position-relative">
-                  <div class="n-currencySelect" ref={myRefSwap}>
-                    <div class="n-currency">
-                      <div
-                        class="d-flex flex-row align-items-center"
-                        onClick={() => {
-                          setOptionsDropdown(!optionsDropdown);
-                        }}
-                      >
-                        {selectedCurr ? (
-                          <> {gettingLogos(selectedCurr)}</>
-                        ) : null}
-                        {selectedCurr?.asset?.ticker}
-                      </div>
-                    </div>
-                    {/* <ul className="n-currencyDropDown"> */}
-                    <ul
-                      class={
-                        `n-currencyDropDown w-currency-height ` +
-                        (optionsDropdown ? "d-block" : "d-none")
-                      }
+                  /> */}
+                    <p
+                      style={{
+                        fontFamily: "DM Sans",
+                        fontSize: "12px",
+                        fontWeight: "400",
+                        color: "#777e90",
+                      }}
+                      class="pl-2 mb-0"
                     >
-                      <ul className="list-unstyled n-learnFilterLabels mb-2">
-                        <li
-                          className="d-flex flex-row justify-content-between align-items-center"
-                          style={{ margin: "0 4px" }}
-                        >
-                          <button
-                            className="alltype"
-                            style={{ color: "#fff", fontFamily: "DM Sans" }}
-                            onClick={filterAllType}
-                          >
-                            All
-                          </button>
-                        </li>
-                        <li
-                          className="d-flex flex-row justify-content-center align-items-center"
-                          style={{ margin: "0 4px" }}
-                        >
-                          <button
-                            className="alltype-nonActive"
-                            style={{
-                              color: "#fff",
-                              fontFamily: "DM Sans",
-                              whiteSpace: "nowrap",
-                            }}
-                            onClick={filterNative}
-                          >
-                            Native
-                          </button>
-                        </li>
-                        <li
-                          className="d-flex flex-row justify-content-center align-items-center"
-                          style={{ margin: "0 4px" }}
-                        >
-                          <button
-                            className="alltype-nonActive"
-                            style={{ color: "#fff", fontFamily: "DM Sans" }}
-                            onClick={filterERC20}
-                          >
-                            ERC20
-                          </button>
-                        </li>
-                        <li
-                          className="d-flex flex-row justify-content-center align-items-center"
-                          style={{ margin: "0 4px" }}
-                        >
-                          <button
-                            className="alltype-nonActive"
-                            style={{ color: "#fff", fontFamily: "DM Sans" }}
-                            onClick={filterBEP2}
-                          >
-                            BEP2
-                          </button>
-                        </li>
-                      </ul>
-                      <div class=" d-flex form-group has-search mb-2 n-inputSearch w-100 ">
-                        <input
-                          type="text"
-                          value={search}
-                          class="form-control n-tableSearch w-100"
-                          placeholder="Search"
-                          onChange={implementSearch}
-                        />
-                        <img
-                          style={{
-                            width: "20px",
-                            height: "20px",
-                            marginLeft: "-35px",
-                            marginTop: "10px",
-                            marginBottom: "10px",
-                          }}
-                          src={Images.searchicon}
-                        />
-                      </div>
-
-                      {keyStore
-                        ?.filter((val) => {
-                          return val?.asset?.ticker
-                            ?.toLowerCase()
-                            .includes(search.toLowerCase());
-                        })
-                        .map((d, key) => {
-                          return (
-                            <>
-                              <li
-                                class="d-flex flex-row align-items-center w-hover-drop"
-                                style={{ cursor: "pointer" }}
-                                onClick={() => {
-                                  setSelectedCurr(d);
-                                  setOptionsDropdown(false);
-                                }}
-                              >
-                                {gettingLogos(d)}
-                                {/* <img
-                                src={Images.ltc}
-                                // width="24px"
-                                // height="24px"
-                                style={{ marginRight: "6px" }}
-                              /> */}
-                                <div class="d-flex flex-row align-items-center justify-content-between w-100 n-currencyDetails">
-                                  <div class="n-currencyName d-flex flex-column justify-content-start">
-                                    <p>{d?.asset?.ticker}</p>
-                                    <span>Native</span>
-                                  </div>
-                                  <div class="n-currencyValue">
-                                    {financial(
-                                      Number(d?.amount?.amount()?.c[0]) /
-                                        Math.pow(10, d?.amount?.decimal)
-                                    )}{" "}
-                                    {d?.asset?.ticker}
-                                  </div>
-                                </div>
-                              </li>
-                              <hr />
-                            </>
-                          );
-                        })}
-                    </ul>
+                      Available Balance
+                    </p>
+                    <p
+                      style={{
+                        fontFamily: "DM Sans",
+                        fontSize: "12px",
+                        fontWeight: "600",
+                      }}
+                      class="pl-2 mb-0"
+                    >
+                      {financial(
+                        Number(selectedCurr?.amount?.amount().c[0]) /
+                          Math.pow(10, selectedCurr?.amount.decimal)
+                      )}{" "}
+                      {selectedCurr?.asset?.ticker}
+                    </p>
                   </div>
-                  <input
-                    style={{
-                      borderRadius: "10px",
-                      border: "3px solid #E6E8EC",
-                      color: "#777E90",
-                      fontSize: "14px",
-                      backgroundColor: "#fcfcfd",
-                      fontWeight: "bold",
-                      fontFamily: "Poppins",
-                      paddingLeft: "25%",
-                      paddingRight: "20%",
-                      // textAlign: "end",
-                    }}
-                    type="text"
-                    min={0}
-                    value={fromAmount}
-                    onChange={fromAmountHandler}
-                    class="form-control pt-4 pb-4"
-                    aria-label="From"
-                    aria-describedby="basic-addon2"
-                  />
-                  {/* <div class="input-group-append"> */}
-                  <button
-                    style={{
-                      border: "none",
-                      position: "absolute",
-                      right: "4px",
-                      top: "10px",
-                      color: "#777E90",
-                      fontSize: "14px",
-                      fontWeight: "bold",
-                      fontFamily: "Poppins",
-                      zIndex: "4",
-                      boxShadow: "none",
-                    }}
-                    class="btn"
-                    type="button"
-                  >
-                    {selectedCurr?.asset?.ticker}
-                    {/* USDT */}
-                  </button>
-                  {/* </div> */}
-                </div>
-              </form>
-              {/*end*/}
-              <form>
-                <div class="input-group mb-3 mt-3">
-                  <div class="n-currencySelect" ref={myRefSwap2}>
-                    <div class="n-currency">
-                      <div
-                        class="d-flex flex-row align-items-center"
-                        onClick={() => {
-                          setToOptionDropDown(!toOptionDropDown);
-                        }}
-                      >
-                        {selectedCurrTo ? (
-                          <>
-                            {" "}
-                            <img
-                              src={selectedCurrTo.logo}
-                              width="24px"
-                              height="24px"
-                              style={{ marginRight: "6px" }}
-                            />
-                          </>
-                        ) : null}
-                        {selectedCurrTo?.asset}
-                      </div>
-                    </div>
-                    {/* <ul className="n-currencyDropDown"> */}
-                    <ul
-                      class={
-                        `n-currencyDropDown w-currency-height ` +
-                        (toOptionDropDown ? "d-block" : "d-none")
-                      }
-                    >
-                      <ul className="list-unstyled n-learnFilterLabels mb-2">
-                        <li
-                          className="d-flex flex-row justify-content-between align-items-center"
-                          style={{ margin: "0 4px" }}
-                        >
-                          <button
-                            className="alltype"
-                            style={{ color: "#fff", fontFamily: "DM Sans" }}
-                            onClick={filterAllTypeTo}
-                          >
-                            All
-                          </button>
-                        </li>
-                        <li
-                          className="d-flex flex-row justify-content-center align-items-center"
-                          style={{ margin: "0 4px" }}
-                        >
-                          <button
-                            className="alltype-nonActive"
-                            style={{
-                              color: "#fff",
-                              fontFamily: "DM Sans",
-                              whiteSpace: "nowrap",
+                  <form>
+                    <div class="input-group mb-3">
+                      <div class="n-currencySelect" ref={myRefSwap2}>
+                        <div class="w-currency">
+                          <div
+                            class="d-flex flex-row align-items-center"
+                            onClick={() => {
+                              setToOptionDropDown(!toOptionDropDown);
                             }}
-                            onClick={filterNativeTo}
                           >
-                            Native
-                          </button>
-                        </li>
-                        <li
-                          className="d-flex flex-row justify-content-center align-items-center"
-                          style={{ margin: "0 4px" }}
-                        >
-                          <button
-                            className="alltype-nonActive"
-                            style={{ color: "#fff", fontFamily: "DM Sans" }}
-                            onClick={filterERC20To}
-                          >
-                            ERC20
-                          </button>
-                        </li>
-                        <li
-                          className="d-flex flex-row justify-content-center align-items-center"
-                          style={{ margin: "0 4px" }}
-                        >
-                          <button
-                            className="alltype-nonActive"
-                            style={{ color: "#fff", fontFamily: "DM Sans" }}
-                            onClick={filterBEP2To}
-                          >
-                            BEP2
-                          </button>
-                        </li>
-                      </ul>
-                      <div class=" d-flex form-group has-search mb-2 n-inputSearch w-100 ">
-                        <input
-                          type="text"
-                          value={search}
-                          class="form-control n-tableSearch w-100"
-                          placeholder="Search"
-                          onChange={implementSearch}
-                        />
-                        <img
-                          style={{
-                            width: "20px",
-                            height: "20px",
-                            marginLeft: "-35px",
-                            marginTop: "10px",
-                            marginBottom: "10px",
-                          }}
-                          src={Images.searchicon}
-                        />
-                      </div>
-
-                      {midgardData
-                        ?.filter((val) => {
-                          return val?.asset
-                            ?.toLowerCase()
-                            .includes(search.toLowerCase());
-                        })
-                        .map((d, key) => {
-                          return (
-                            <>
-                              <li
-                                class="d-flex flex-row align-items-center w-hover-drop"
-                                style={{ cursor: "pointer" }}
-                                onClick={() => {
-                                  setSelectedCurrTo(d);
-                                  setToOptionDropDown(false);
-                                }}
-                              >
+                            {selectedCurrTo ? (
+                              <>
+                                {" "}
                                 <img
-                                  src={d?.logo}
+                                  src={selectedCurrTo.logo}
                                   width="24px"
                                   height="24px"
                                   style={{ marginRight: "6px" }}
                                 />
-                                {/* <img
+                              </>
+                            ) : null}
+                            {/* {selectedCurrTo?.asset} */}
+                            <img
+                              style={{ width: "18px" }}
+                              src={Images.iconarowdown}
+                            />
+                          </div>
+                        </div>
+                        {/* <ul className="n-currencyDropDown"> */}
+                        <ul
+                          class={
+                            `n-currencyDropDown w-currency-height ` +
+                            (toOptionDropDown ? "d-block" : "d-none")
+                          }
+                        >
+                          <ul className="w-pd-outer list-unstyled n-learnFilterLabels mb-2">
+                            <li
+                              className="d-flex flex-row justify-content-between align-items-center"
+                              style={{ margin: "0 4px" }}
+                            >
+                              <button
+                                className="alltype"
+                                style={{ color: "#fff", fontFamily: "DM Sans" }}
+                                onClick={filterAllTypeTo}
+                              >
+                                All
+                              </button>
+                            </li>
+                            <li
+                              className="d-flex flex-row justify-content-center align-items-center"
+                              style={{ margin: "0 4px" }}
+                            >
+                              <button
+                                className="alltype-nonActive"
+                                style={{
+                                  color: "#fff",
+                                  fontFamily: "DM Sans",
+                                  whiteSpace: "nowrap",
+                                }}
+                                onClick={filterNativeTo}
+                              >
+                                Native
+                              </button>
+                            </li>
+                            <li
+                              className="d-flex flex-row justify-content-center align-items-center"
+                              style={{ margin: "0 4px" }}
+                            >
+                              <button
+                                className="alltype-nonActive"
+                                style={{ color: "#fff", fontFamily: "DM Sans" }}
+                                onClick={filterERC20To}
+                              >
+                                ERC20
+                              </button>
+                            </li>
+                            <li
+                              className="d-flex flex-row justify-content-center align-items-center"
+                              style={{ margin: "0 4px" }}
+                            >
+                              <button
+                                className="alltype-nonActive"
+                                style={{ color: "#fff", fontFamily: "DM Sans" }}
+                                onClick={filterBEP2To}
+                              >
+                                BEP2
+                              </button>
+                            </li>
+                          </ul>
+                          <div class="w-pd-outer d-flex form-group has-search mb-2 n-inputSearch w-100 ">
+                            <input
+                              type="text"
+                              value={search}
+                              class="form-control n-tableSearch w-100"
+                              placeholder="Search"
+                              onChange={implementSearch}
+                            />
+                            <img
+                              style={{
+                                width: "20px",
+                                height: "20px",
+                                marginLeft: "-35px",
+                                marginTop: "10px",
+                                marginBottom: "10px",
+                              }}
+                              src={Images.searchicon}
+                            />
+                          </div>
+
+                          {midgardData
+                            ?.filter((val) => {
+                              return val?.asset
+                                ?.toLowerCase()
+                                .includes(search?.toLowerCase());
+                            })
+                            .map((d, key) => {
+                              return (
+                                <>
+                                  <li
+                                    class="d-flex flex-row align-items-center w-hover-drop"
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => {
+                                      setSelectedCurrTo(d);
+                                      console.log(d);
+                                      setToOptionDropDown(false);
+                                    }}
+                                  >
+                                    <img
+                                      src={d?.logo}
+                                      width="24px"
+                                      height="24px"
+                                      style={{ marginRight: "6px" }}
+                                    />
+                                    {/* <img
                                 src={Images.ltc}
                                 // width="24px"
                                 // height="24px"
                                 style={{ marginRight: "6px" }}
                               /> */}
-                                <div class="d-flex flex-row align-items-center justify-content-between w-100 n-currencyDetails">
-                                  <div class="n-currencyName d-flex flex-column justify-content-start">
-                                    <p>{d?.asset}</p>
-                                    <span>Native</span>
-                                  </div>
-                                  {/* <div class="n-currencyValue">0</div> */}
-                                </div>
-                              </li>
-                              <hr />
-                            </>
-                          );
-                        })}
-                    </ul>
-                  </div>
-                  <input
-                    style={{
-                      borderRadius: "10px",
-                      border: "3px solid #E6E8EC",
-                      color: "#777E90",
-                      fontSize: "14px",
-                      backgroundColor: "#fcfcfd",
-                      fontWeight: "bold",
-                      fontFamily: "Poppins",
-                      paddingLeft: "25%",
-                      paddingRight: "20%",
-                      // textAlign: "end",
-                    }}
-                    disabled
-                    type="text"
-                    value={toAmount}
-                    onChange={toAmountHandler}
-                    class="form-control pt-4 pb-4"
-                    // placeholder="TO"
-                    aria-label="From"
-                    aria-describedby="basic-addon2"
-                  />
-                  {/* <div class="input-group-append"> */}
-                  <button
-                    style={{
-                      border: "none",
-                      position: "absolute",
-                      right: "4px",
-                      top: "10px",
-                      color: "#777E90",
-                      fontSize: "14px",
-                      fontWeight: "bold",
-                      fontFamily: "Poppins",
-                      zIndex: "4",
-                      boxShadow: "none",
-                    }}
-                    class="btn"
-                    type="button"
-                  >
-                    {selectedCurrTo?.asset}
-                  </button>
-                  {/* </div> */}
-                </div>
-              </form>
+                                    <div class="d-flex flex-row align-items-center justify-content-between w-100 n-currencyDetails">
+                                      <div class="n-currencyName d-flex flex-column justify-content-start">
+                                        <p>{d?.asset}</p>
+                                        <span>Native</span>
+                                      </div>
+                                      {/* <div class="n-currencyValue">0</div> */}
+                                    </div>
+                                  </li>
+                                  <hr className="m-0"></hr>
+                                </>
+                              );
+                            })}
+                        </ul>
+                      </div>
+                      <input
+                        style={{
+                          borderRadius: "15px",
+                          border: "3px solid #f6f6f6",
+                          color: "#777E90",
+                          fontSize: "14px",
+                          backgroundColor: "#fcfcfd",
+                          fontWeight: "600",
+                          fontFamily: "DM Sans",
+                          paddingLeft: "25%",
+                          paddingRight: "15%",
+                          textAlign: "right",
+                        }}
+                        type="text"
+                        value={toAmount}
+                        onChange={toAmountHandler}
+                        class="form-control pt-4 pb-4"
+                        // placeholder="TO"
+                        aria-label="From"
+                        aria-describedby="basic-addon2"
+                      />
+                      {/* <div class="input-group-append"> */}
+                      <button
+                        style={{
+                          border: "none",
+                          position: "absolute",
+                          right: "4px",
+                          top: "10px",
+                          fontSize: "14px",
+                          color: "#212529",
+                          fontWeight: "600",
+                          fontFamily: "DM Sans",
+                          zIndex: "4",
+                          boxShadow: "none",
+                        }}
+                        class="btn"
+                        type="button"
+                      >
+                        {selectedCurrTo?.asset}
+                      </button>
+                      {/* </div> */}
+                    </div>
+                  </form>
 
-              {/* <div class="input-group mb-3 mt-3">
+                  {/* <div class="input-group mb-3 mt-3">
                 <input
                   style={{ borderRight: "none" }}
                   type="text"
@@ -2086,16 +2195,18 @@ const BuyPlatform = () => {
                 </div>
               </div> */}
 
-              <button
-                disabled={loading}
-                // disabled={true}
-                style={{ fontSize: "16px", fontFamily: "Dm Sans" }}
-                type="button"
-                class="btn btn-primary btn-lg btnHoverWhite w-100"
-                onClick={handleShowConfirm}
-              >
-                Swap {tokenData?.asset}
-              </button>
+                  <button
+                    disabled={loading}
+                    style={{ fontSize: "16px", fontFamily: "Dm Sans" }}
+                    type="button"
+                    class="btn btn-primary btn-lg btnHoverWhite mt-3 w-100"
+                    onClick={handleShowConfirm}
+                  >
+                    Swap
+                    {/* {tokenData?.asset} */}
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

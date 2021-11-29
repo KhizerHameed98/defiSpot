@@ -19,6 +19,8 @@ export const HeroHome = () => {
   const mainState = useSelector((state) => state.main.midgardPool);
   const loading = useSelector((state) => state.main.loading);
   const loggedin = useSelector((state) => state.main.isLoggedin);
+  const [idToSend, setIdToSend] = useState("");
+  const [tradeTrigger, setTradeTrigger] = useState(false);
   // const [state, setstte] = useState({ name: "ali", age: "20", no: "1028505852" });
   const myRef = useRef(null);
   const executeScroll = () =>
@@ -29,8 +31,27 @@ export const HeroHome = () => {
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
+
+  useEffect(() => {
+    let aa;
+    if (loggedin) {
+      if (tradeTrigger) {
+        console.log("inlogged");
+        aa = setTimeout(
+          () => history.push(`${browserRoute.BUYMARKET}/${idToSend}`),
+          2000
+        );
+      }
+    }
+    return () => {
+      clearTimeout(aa);
+    };
+  }, [loggedin]);
+
   function handleRoutingtoBuy(d) {
     if (!loggedin) {
+      setIdToSend(d._id);
+      setTradeTrigger(true);
       dispatch(handleMainModal(true));
     } else {
       history.push(`${browserRoute.BUYMARKET}/${d._id}`);
@@ -59,17 +80,33 @@ export const HeroHome = () => {
                 <Link to={browserRoute.MARKET}>
                   <button
                     type="button"
-                    class="n-primaryButton"
+                    class="n-primaryButton n-primaryDark"
                     style={{ fontSize: "16px", padding: "16px 24px" }}
                   >
                     Get started now
                   </button>
                 </Link>
               </div>
-              
-              <svg onClick={executeScroll} class="n-downArrow" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path className="arr-fill" fill-rule="evenodd" clip-rule="evenodd" d="M20.7348 18.0909C21.1094 18.4968 21.0841 19.1294 20.6783 19.504L17.1783 22.7348C16.7953 23.0884 16.2048 23.0884 15.8218 22.7348L12.3217 19.504C11.9159 19.1294 11.8906 18.4968 12.2652 18.091C12.6398 17.6851 13.2724 17.6598 13.6783 18.0344L15.5 19.716L15.5 10C15.5 9.44771 15.9477 9 16.5 9C17.0523 9 17.5 9.44771 17.5 10L17.5 19.716L19.3217 18.0344C19.7275 17.6598 20.3602 17.6851 20.7348 18.0909Z"/>
-              <path d="M2 16C2 8.26801 8.26801 2 16 2L16 -2C6.05887 -2 -2 6.05887 -2 16L2 16ZM16 30C8.26801 30 2 23.732 2 16L-2 16C-2 25.9411 6.05887 34 16 34L16 30ZM30 16C30 23.732 23.732 30 16 30L16 34C25.9411 34 34 25.9411 34 16L30 16ZM34 16C34 6.05887 25.9411 -2 16 -2L16 2C23.732 2 30 8.26801 30 16L34 16Z" fill="#E6E8EC"/>
+
+              <svg
+                onClick={executeScroll}
+                class="n-downArrow"
+                width="32"
+                height="32"
+                viewBox="0 0 32 32"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  className="arr-fill"
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M20.7348 18.0909C21.1094 18.4968 21.0841 19.1294 20.6783 19.504L17.1783 22.7348C16.7953 23.0884 16.2048 23.0884 15.8218 22.7348L12.3217 19.504C11.9159 19.1294 11.8906 18.4968 12.2652 18.091C12.6398 17.6851 13.2724 17.6598 13.6783 18.0344L15.5 19.716L15.5 10C15.5 9.44771 15.9477 9 16.5 9C17.0523 9 17.5 9.44771 17.5 10L17.5 19.716L19.3217 18.0344C19.7275 17.6598 20.3602 17.6851 20.7348 18.0909Z"
+                />
+                <path
+                  d="M2 16C2 8.26801 8.26801 2 16 2L16 -2C6.05887 -2 -2 6.05887 -2 16L2 16ZM16 30C8.26801 30 2 23.732 2 16L-2 16C-2 25.9411 6.05887 34 16 34L16 30ZM30 16C30 23.732 23.732 30 16 30L16 34C25.9411 34 34 25.9411 34 16L30 16ZM34 16C34 6.05887 25.9411 -2 16 -2L16 2C23.732 2 30 8.26801 30 16L34 16Z"
+                  fill="#E6E8EC"
+                />
               </svg>
             </div>
             <div class="col-lg-6 n-responsiveHeroImage">
@@ -198,7 +235,7 @@ export const HeroHome = () => {
           <div class="n-marketTrendHeading">
             <h2 class="markettrend">Market trend</h2>
             <Link to={browserRoute.MARKET}>
-              <button class="n-secondaryButton n-ButtonResponsive">
+              <button class="n-secondaryButton n-ButtonResponsive n-secondaryDark">
                 Go to market
               </button>
             </Link>
@@ -293,11 +330,11 @@ export const HeroHome = () => {
                                   <div class="d-flex flex-column">
                                     <div>
                                       {d.change_24h >= 0 ? (
-                                        <span className="percentage">
+                                        <span className="percentage n-percentageDark">
                                           +{financial(d.change_24h)}%
                                         </span>
                                       ) : (
-                                        <span className="percentagetwo">
+                                        <span className="percentagetwo n-percentageTwoDark">
                                           {financial(d.change_24h)}%
                                         </span>
                                       )}
@@ -308,7 +345,7 @@ export const HeroHome = () => {
                                   <div class="graph">
                                     <LineChartSmartCard
                                       color={
-                                        d?.change_7d >= 0
+                                        d?.change_24h >= 0
                                           ? "#45B26B"
                                           : "#ff6838"
                                       }
@@ -424,7 +461,7 @@ export const HeroHome = () => {
                                         textAlign: "center",
                                         display: "inline-block",
                                       }}
-                                      class="n-secondaryButton"
+                                      class="n-secondaryButton n-tradeButton"
                                       onClick={() => handleRoutingtoBuy(d)}
                                       to="#"
                                     >
@@ -628,12 +665,16 @@ export const HeroHome = () => {
             </div>
           </div>
           <div class="n-cryptoReadMore">
-            <button
+            <Link
+              style={{
+                textDecorationLine: "none",
+              }}
+              to={browserRoute.LEARN}
               type="button"
               class="d-flex justify-content-center n-primaryButton"
             >
               Read more
-            </button>
+            </Link>
           </div>
         </div>
       </section>

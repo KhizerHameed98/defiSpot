@@ -26,7 +26,7 @@ const TableBody = ({
 
   return (
     <>
-      <tr
+      <tr class="n-tableHover"
 
       // style={{ borderBottom: "1px solid #E6E8EC" }}
       >
@@ -38,7 +38,7 @@ const TableBody = ({
           >
             <img src={d.image} style={{ width: "32px", height: "32px" }} />
             <div class="pl-3">
-              <div>{d.Pool}</div>
+              <div class="n-tabelDark">{d.Pool}</div>
               <div class="d-flex align-items-center">
                 <div class=" text-muted">{d.FullName}</div>
               </div>
@@ -68,6 +68,7 @@ const TableBody = ({
             style={{
               textAlign: "end",
             }}
+            class="n-tabelDark"
           >
             {d.Total_Balance} BTC
           </div>
@@ -91,6 +92,7 @@ const TableBody = ({
             style={{
               textAlign: "end",
             }}
+            class="n-tabelDark"
           >
             {d.Available_Balance} BTC
           </div>
@@ -111,7 +113,7 @@ const TableBody = ({
           onClick={handlePopUpModal}
         >
           <div
-            class="d-flex justify-content-end"
+            class="d-flex justify-content-end n-tabelDark"
             style={{
               textAlign: "end",
             }}

@@ -1,5 +1,6 @@
 import React, { memo, useEffect } from "react";
 import axios from "axios";
+import { CRYPTOCOMPARE_KEY } from "../environment";
 import {
   COINMARKETCAP_FAIL,
   COINMARKETCAP_SUCCESS,
@@ -60,6 +61,9 @@ import { environment } from "../environment";
 import { ethers } from "ethers";
 import CryptoJS from "crypto-js";
 import { formatBaseAsAssetAmount } from "@xchainjs/xchain-util";
+import { fr } from "date-fns/locale";
+require("dotenv").config();
+
 const ethereumClient = require("@xchainjs/xchain-ethereum/lib");
 
 const abi = environment.network === "testnet" ? TCRopstenAbi : TCAbi;
@@ -123,13 +127,14 @@ export function KeystoreWallet() {
     setLoading
   ) {
     // const enable = await window.ethereum.enable();
-    
-      try {
-        // localStorage.clear();
-        dispatch({ type: LOGOUT });
-        setLoading(true);
-        let fileReader;
-        const handleFileRead = async () => {
+
+    try {
+      // localStorage.clear();
+      dispatch({ type: LOGOUT });
+      setLoading(true);
+      let fileReader;
+      const handleFileRead = async () => {
+        try {
           const content = JSON.parse(fileReader.result);
           console.log(content);
           let res = await decryptFromKeystore(content, password);
@@ -352,10 +357,10 @@ export function KeystoreWallet() {
             });
           });
           let apiDataBTC = await axios.get(
-            `https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=${concatAssetName}`
+            `https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=${concatAssetName}&api_key=${CRYPTOCOMPARE_KEY}`
           );
           let apiDataUSD = await axios.get(
-            `https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=${concatAssetName}`
+            `https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=${concatAssetName}&api_key=${CRYPTOCOMPARE_KEY}`
           );
           let dataBTC = apiDataBTC.data;
           let dataUSD = apiDataUSD.data;
@@ -389,7 +394,11 @@ export function KeystoreWallet() {
           // .catch((err) => {
           //   alertToast(true, "CryptoCompare: Failed");
           // });
-          console.log("TOTAL AMOUNTBTC======>>>", totalAmountInBTC);
+          console.log(
+            "TOTAL AMOUNTBTC======>>>",
+            totalAmountInBTC,
+            CRYPTOCOMPARE_KEY
+          );
           console.log("TOTAL AMOUNTUSD======>>>", totalAmountInUSD);
           console.log("mainClients======>>>", mainClients);
           setConnectKeyStoreModal(false);
@@ -414,16 +423,20 @@ export function KeystoreWallet() {
           //    phrase:res
           //  });
           //  console.log("User PolkaDot Client: ---------------> ", userPolkaDotClient.getAddress());
-        };
-        fileReader = new FileReader();
-        fileReader.onloadend = handleFileRead;
-        fileReader.readAsText(fileKeyStore);
-      } catch (error) {
-        alertToast(true, error?.message || "Something went wrong");
-        setLoading(false);
-        setConnectKeyStoreModal(false);
-      }
-    
+        } catch (e) {
+          // console.log("ERR<><><><>< ", e);
+          alert("Invalid Keystore File or Password");
+          setLoading(false);
+        }
+      };
+      fileReader = new FileReader();
+      fileReader.onloadend = handleFileRead;
+      fileReader.readAsText(fileKeyStore);
+    } catch (error) {
+      alertToast(true, error?.message || "Something went wrong");
+      setLoading(false);
+      setConnectKeyStoreModal(false);
+    }
   };
 
   // Swapping
@@ -435,6 +448,7 @@ export function KeystoreWallet() {
     decimal,
     midgardPool,
     setYayModal,
+    setConfirmModal,
     setTransactionHash,
     setStatusLink,
     setLoading
@@ -442,35 +456,69 @@ export function KeystoreWallet() {
     console.log("from=======>>>", fromAsset.rawData.toString());
     console.log("to=======>>", toAsset, amount, decimal);
     setLoading(true);
-    let walletAddress;
+    let walletAddressTo;
+    let walletAddressFrom;
     let hash;
 
-    switch (toAsset?.blockchain) {
+    switch (fromAsset?.blockchain) {
       case "ETH":
-        walletAddress = userEthereumClient.getAddress();
+        walletAddressTo = userEthereumClient.getAddress();
 
         break;
       case "BNB":
-        walletAddress = userBinanceClient.getAddress();
+        walletAddressTo = userBinanceClient.getAddress();
         break;
 
       case "BTC":
-        walletAddress = userBtcClient.getAddress();
+        walletAddressTo = userBtcClient.getAddress();
 
         break;
 
       case "LTC":
-        walletAddress = userLtcClient.getAddress();
+        walletAddressTo = userLtcClient.getAddress();
 
         break;
 
       case "BCH":
-        walletAddress = userbchClient.getAddress();
+        walletAddressTo = userbchClient.getAddress();
 
         break;
 
       case "THOR":
-        walletAddress = userThorchainClient.getAddress();
+        walletAddressTo = userThorchainClient.getAddress();
+
+        break;
+
+      default:
+        break;
+    }
+
+    switch (toAsset?.blockchain) {
+      case "ETH":
+        walletAddressTo = userEthereumClient.getAddress();
+
+        break;
+      case "BNB":
+        walletAddressTo = userBinanceClient.getAddress();
+        break;
+
+      case "BTC":
+        walletAddressTo = userBtcClient.getAddress();
+
+        break;
+
+      case "LTC":
+        walletAddressTo = userLtcClient.getAddress();
+
+        break;
+
+      case "BCH":
+        walletAddressTo = userbchClient.getAddress();
+
+        break;
+
+      case "THOR":
+        walletAddressTo = userThorchainClient.getAddress();
 
         break;
 
@@ -493,7 +541,7 @@ export function KeystoreWallet() {
       }
       //  const Memo = "=:THOR.RUNE:tthor1fcaf3n4h34ls3cu4euwl6f7kex0kpctkf5p8d7";
 
-      const Memo = `=:${toAsset?.rawData}:${walletAddress}`;
+      const Memo = `=:${toAsset?.rawData}:${walletAddressTo}`;
       const send_amount = Number(amount) * Number(Math.pow(10, decimal));
       console.log("send Amount===>>", send_amount);
       let viewblock;
@@ -511,6 +559,7 @@ export function KeystoreWallet() {
           setStatusLink(etherScan);
           setTransactionHash(response);
           setLoading(false);
+          setConfirmModal(false);
           setYayModal(true);
           break;
 
@@ -527,9 +576,11 @@ export function KeystoreWallet() {
             memo: Memo,
           });
           viewblock = `https://viewblock.io/thorchain/tx/${response2}?network=testnet`;
+
           setStatusLink(viewblock);
           setTransactionHash(response2);
           setLoading(false);
+          setConfirmModal(false);
           setYayModal(true);
           console.log("response======>>", viewblock);
 
@@ -547,6 +598,7 @@ export function KeystoreWallet() {
           setStatusLink(viewblock);
           setTransactionHash(response3);
           setLoading(false);
+          setConfirmModal(false);
           setYayModal(true);
           break;
 
@@ -562,6 +614,7 @@ export function KeystoreWallet() {
           setStatusLink(viewblock);
           setTransactionHash(response4);
           setLoading(false);
+          setConfirmModal(false);
           setYayModal(true);
           console.log("response======>>", response4);
 
@@ -579,6 +632,7 @@ export function KeystoreWallet() {
           setStatusLink(viewblock);
           setTransactionHash(response5);
           setLoading(false);
+          setConfirmModal(false);
           setYayModal(true);
           console.log("response======>>", response5);
           break;
@@ -586,8 +640,8 @@ export function KeystoreWallet() {
         case "THOR":
           console.log("Hey THOR");
           console.log("inound=====>>", inboundAddress);
-          let response6 = await userThorchainClient.transfer({
-            recipient: inboundAddress,
+          let response6 = await userThorchainClient.deposit({
+            // recipient: "",
             asset: assetFromString(fromAsset.rawData),
             amount: baseAmount(amount * 10 ** decimal),
             memo: Memo,
@@ -596,6 +650,7 @@ export function KeystoreWallet() {
           setStatusLink(viewblock);
           setTransactionHash(response6);
           setLoading(false);
+          setConfirmModal(false);
           setYayModal(true);
           console.log("response======>>", response6);
           break;

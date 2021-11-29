@@ -188,6 +188,7 @@ const LiquidityProvider = () => {
                 aria-label="Search"
               />
               <img
+              class="n-liquiditySearchIcon"
                 style={{
                   width: "20px",
                   height: "20px",

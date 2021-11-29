@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import "./assets/css/style.css";
 import "./index.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -21,6 +21,26 @@ import IntroToLp from "./components/Learn/IntroToLp";
 function App() {
   return (
     <div>
+      {false && (
+        <div
+          style={{
+            position: "fixed",
+            right: "50px",
+            top: "40px",
+            width: "400px",
+            padding: "26px",
+            height: "auto",
+            backgroundColor: "lightgray",
+            zIndex: "999",
+            borderRadius: "8px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div>Swap !!! for !!!! $$</div>
+        </div>
+      )}
       <Router>
         <Switch>
           <PrivateRoute exact path={browserRoute.HOME} component={Home} />

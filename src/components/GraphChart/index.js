@@ -11,7 +11,7 @@ const LineChartSmartCard = (props) => {
         data={props.data}
         margin={{ top: 3, right: 0, bottom: 3, left: 0 }}
         xScale={{ type: "point" }}
-        lineWidth={3}
+        lineWidth={2}
         yScale={{
           type: "linear",
           min: "auto",
@@ -35,17 +35,17 @@ const LineChartSmartCard = (props) => {
         pointBorderColor={{ from: "serieColor" }}
         pointLabelYOffset={-12}
         enableArea={true}
-        areaBaselineValue={true}
+        // areaBaselineValue={true}
         areaOpacity={0.1}
         useMesh={true}
-        defs={[
-          linearGradientDef("gradientA", [
-            { offset: 0, color: "inherit" },
-            
-            { offset: 100, color: "#fff", opacity: 0 },
-          ]),
-        ]}
-        fill={[{ match: "*", id: "gradientA" }]}
+        // defs={[
+        //   linearGradientDef("gradientA", [
+        //       { offset: 0, color: 'inherit' },
+              
+        //       { offset: 100, color: 'inherit', opacity: 0 },
+        //   ]),
+        // ]}
+        // fill={[{ match: "*", id: "gradientA" }]}
         theme={{
           Yaxis: {
             ticks: {

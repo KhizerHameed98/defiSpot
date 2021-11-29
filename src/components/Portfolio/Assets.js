@@ -154,7 +154,7 @@ const Assets = () => {
                   width: "20px",
                   height: "20px",
                   marginLeft: "-35px",
-                  marginTop: "10px",
+                  // marginTop: "10px",
                   marginBottom: "10px",
                 }}
                 src={Images.searchicon}

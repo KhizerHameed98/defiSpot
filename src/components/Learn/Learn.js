@@ -153,7 +153,7 @@ const Learn = () => {
           <section>
             <div style={{ marginTop: "64px" }} className="container">
               <div style={{ marginTop: "32px" }} className="row">
-                <div className="col-lg-4 px-0">
+                <div className="col-lg-4 col-md-6 col-sm-12 px-0">
                   <div class="card n-learnCards" style={{ border: "none" }}>
                     <img
                       className="u-learncardimage456"
@@ -201,7 +201,7 @@ const Learn = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-4 px-0 d-flex flex-column align-items-center">
+                <div className="col-lg-4 col-md-6 col-sm-12 px-0 d-flex flex-column">
                   <div class="card n-learnCards" style={{ border: "none" }}>
                     <Link to={browserRoute.INTRO_TO_LP}>
                       <img
@@ -241,7 +241,7 @@ const Learn = () => {
                     </Link>
                   </div>
                 </div>
-                <div className="col-lg-4 px-0 d-flex flex-column align-items-end">
+                <div className="col-lg-4 col-md-6 col-sm-12 px-0 d-flex flex-column">
                   <div class="card n-learnCards" style={{ border: "none" }}>
                     <img
                       className="u-learncardimage456"
@@ -289,10 +289,10 @@ const Learn = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              {/* </div> */}
               {/* new row */}
-              <div style={{ marginTop: "32px" }} className="row">
-                <div className="col-lg-4 px-0">
+              {/* <div style={{ marginTop: "32px" }} className="row"> */}
+                <div className="col-lg-4 col-md-6 col-sm-12 px-0">
                   <div class="card n-learnCards" style={{ border: "none" }}>
                     <img
                       className="u-learncardimage456"
@@ -340,7 +340,7 @@ const Learn = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-4 px-0 d-flex flex-column align-items-center">
+                <div className="col-lg-4 col-md-6 col-sm-12 px-0 d-flex flex-column">
                   <div class="card n-learnCards" style={{ border: "none" }}>
                     <img
                       className="u-learncardimage456"
@@ -389,7 +389,7 @@ const Learn = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-4 px-0 d-flex flex-column align-items-end">
+                <div className="col-lg-4 col-md-6 col-sm-12 px-0 d-flex flex-column">
                   <div class="card n-learnCards" style={{ border: "none" }}>
                     <img
                       className="u-learncardimage456"

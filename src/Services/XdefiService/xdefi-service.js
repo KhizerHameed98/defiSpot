@@ -28,7 +28,38 @@ import { Network } from "@xchainjs/xchain-client";
 import { Web3 } from "web3";
 import { Alert } from "react-bootstrap";
 
-import { LOGIN } from "../../Redux/actions/types";
+import { LOGIN, LOGOUT } from "../../Redux/actions/types";
+import axios from "axios";
+import { CRYPTOCOMPARE_KEY } from "../environment";
+
+let binanceAddress;
+
+let bitcoinAddress;
+
+let litecoinAddress;
+
+let etherAddress;
+
+let bitcoinCashAddress;
+
+let thorchainAddress;
+
+let lunaAddress;
+
+
+
+
+let userBinanceClient;
+
+let userBtcClient;
+
+let userThorchainClient;
+
+let userEthereumClient;
+
+let userLtcClient;
+
+let userbchClient;
 
 export class XDEFIService {
   MOCK_PHRASE =
@@ -189,6 +220,7 @@ export class XDEFIService {
     if (!window.xfi.ethereum) {
       return;
     }
+
     return window.xfi.ethereum.request({
       method: "eth_requestAccounts",
       params: [],
@@ -235,37 +267,167 @@ export class XDEFIService {
       );
     });
   }
-
+  async swapping() {}
   async connectXDEFI(dispatch, setMainModel, alertToast) {
     if (window.xfi) {
-      const userBinanceClient = this.mockBinanceClient;
-      const userBtcClient = this.mockBtcClient;
-      const userThorchainClient = this.mockThorchainClient;
-      const userEthereumClient = this.mockEthereumClient;
-      const userLtcClient = this.mockLtcClient;
-      const userbchClient = this.mockBchClient;
+      dispatch({ type: LOGOUT });
+      let clients = {};
+      let mainClients = [];
+      userBinanceClient = this.mockBinanceClient;
+      userBtcClient = this.mockBtcClient;
+      userThorchainClient = this.mockThorchainClient;
+      userEthereumClient = this.mockEthereumClient;
+      userLtcClient = this.mockLtcClient;
+      userbchClient = this.mockBchClient;
       const [thorAddress] = await Promise.all([
         this.getThorChainAddress(),
         new Promise((resolve) => setTimeout(resolve, 100)),
       ]);
-      const [bnbAddress, btcAddress, bchAddress, ethAddresses, ltcAddress] =
-        await Promise.all([
-          this.getBnbAddress(),
-          this.getBtcAddress(),
-          this.getBchAddress(),
-          this.getEthAddress(),
-          this.getLtcAddress(),
-        ]);
 
-      console.log(
-        "userThorchainClient.getAddress",
-        userThorchainClient.getAddress
+      const [
+        bnbAddress,
+        btcAddress,
+        bchAddress,
+        ethAddresses,
+        ltcAddress,
+        thorAddresses,
+      ] = await Promise.all([
+        this.getBnbAddress(),
+        this.getBtcAddress(),
+        this.getBchAddress(),
+        this.getEthAddress(),
+        this.getLtcAddress(),
+        this.getThorChainAddress(),
+      ]);
+      binanceAddress = bnbAddress;
+      bitcoinAddress = btcAddress;
+      litecoinAddress = ltcAddress;
+      etherAddress = ethAddresses;
+      bitcoinCashAddress = bchAddress;
+      thorchainAddress = thorAddresses;
+      //Bitcoin
+      // this.swapping();
+      let BtcBalance = await userBtcClient.getBalance(btcAddress);
+      console.log("tttttttttttttt->>>>>>", BtcBalance[0].amount.amount());
+      clients.Balance = BtcBalance;
+      clients.Address = btcAddress;
+      mainClients.push({ ...clients });
+      //BCH
+
+      let BchBalance = await userbchClient.getBalance(bchAddress);
+      clients.Balance = BchBalance;
+      clients.Address = bchAddress;
+      mainClients.push({ ...clients });
+      //BNB
+
+      let BnbBalance = await userBinanceClient.getBalance(bnbAddress);
+      clients.Balance = BnbBalance;
+      clients.Address = bnbAddress;
+      mainClients.push({ ...clients });
+      //LTC
+
+      let LtcBalance = await userLtcClient.getBalance(ltcAddress);
+      clients.Balance = LtcBalance;
+      clients.Address = ltcAddress;
+      mainClients.push({ ...clients });
+      //ETH
+
+      let EthBalance = await userEthereumClient.getBalance(ethAddresses[0]);
+      console.log("hey========", EthBalance[0].amount.amount());
+      clients.Balance = EthBalance;
+
+      clients.Address = ethAddresses[0];
+      mainClients.push({ ...clients });
+      //THOR
+
+      let ThorBalance = await userThorchainClient.getBalance(thorAddresses);
+
+      clients.Balance = ThorBalance;
+      clients.Address = thorAddresses;
+      mainClients.push({ ...clients });
+      console.log("mainClients======>>", mainClients);
+      // other work
+      let concatAssetName = "";
+      let totalAmountInBTC = 0;
+      let totalAmountInUSD = 0;
+      let transactionHistory = [];
+      let assetBalance = [];
+      console.log("MainClients=====>>", mainClients);
+      mainClients.map((d, mainKey) => {
+        d.Balance.map((t, key) => {
+          let asset = t?.asset?.ticker?.split("/");
+          if (asset[1]) {
+            asset = asset[1];
+          } else {
+            asset = asset[0];
+          }
+          concatAssetName = concatAssetName + asset + ",";
+          // console.log("TICKER", asset, t.amount.amount());
+        });
+        // d.Transactions.txs.map((t, key) => {
+        //   transactionHistory.push(t);
+        //   let res =
+        //     Number(t?.to[0]?.amount?.amount()?.c[0]) /
+        //     Math.pow(10, Number(t?.to[0]?.amount?.decimal));
+        //   t.transferAmount = res;
+        // });
+      });
+      let apiDataBTC = await axios.get(
+        `https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=${concatAssetName}&api_key=${CRYPTOCOMPARE_KEY}`
       );
+      let apiDataUSD = await axios.get(
+        `https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=${concatAssetName}&api_key=${CRYPTOCOMPARE_KEY}`
+      );
+      let dataBTC = apiDataBTC.data;
+      let dataUSD = apiDataUSD.data;
+      console.log("DATA IN USD==========>>", dataUSD);
+      mainClients.map((d, mainKey) => {
+        d.Balance.map((t, key) => {
+          console.log(t?.asset?.ticker + "======>", t?.amount?.amount());
+          let asset = t?.asset?.ticker?.split("/");
+          if (asset[1]) {
+            asset = asset[1];
+          } else {
+            asset = asset[0];
+          }
+          // console.log("heyData=====>>",asset, data[asset]);
+          let value =
+            Number(t.amount.amount().c[0]) /
+            Math.pow(10, Number(t.amount.decimal));
+          // totalAmountInBTC = totalAmountInBTC + value;
+          // console.log("Value Before", asset, value);
+          console.log("dataUSD=====>>", dataUSD);
+          let valueBTC = value / dataBTC[asset];
+          let valueUSD = value / dataUSD[asset];
+          t.balanceUSD = valueUSD;
+          t.marketPriceUSD = 1 / dataUSD[asset];
+          totalAmountInUSD = totalAmountInUSD + valueUSD;
+          totalAmountInBTC = totalAmountInBTC + valueBTC;
+          assetBalance.push(t);
+        });
+      });
+      // .then((res) => {
+      // })
+      // .catch((err) => {
+      //   alertToast(true, "CryptoCompare: Failed");
+      // });
+      console.log(
+        "TOTAL AMOUNTBTC======>>>",
+        totalAmountInBTC,
+        CRYPTOCOMPARE_KEY
+      );
+      console.log("TOTAL AMOUNTUSD======>>>", totalAmountInUSD);
+      console.log("mainClients======>>>", mainClients);
 
       setMainModel(false);
       dispatch({
         type: LOGIN,
         payload: {
+          KeyStoreClient: mainClients,
+          overallBalance_USD: totalAmountInUSD,
+          overallBalance_BTC: totalAmountInBTC,
+          assetBalance: assetBalance,
+          isLoggedin: true,
           walletType: "XDEFI",
         },
       });
@@ -277,6 +439,21 @@ export class XDEFIService {
       userbchClient.getAddress = () => bchAddress;
       userEthereumClient.getAddress = () => ethAddresses?.[0];
       userLtcClient.getAddress = () => ltcAddress;
+
+      const EthAdd = userBinanceClient;
+      console.log("Ethereum Address -------------->", EthAdd);
+      const ethereumBalance = await userEthereumClient.getBalance();
+      console.log(
+        "Ethereum Balance ========================>",
+        ethereumBalance
+      );
+
+      // const transactionOfEthreum =
+      //   await this.mockEthereumClient.getTransactions(EthAdd);
+      // console.log(
+      //   "Ethereum Balance ========================>",
+      //   transactionOfEthreum
+      // );
 
       // Binance
       userBinanceClient.transfer = async (transferParams) => {
@@ -669,15 +846,16 @@ export class XDEFIService {
         },
       });
 
-      // window.xfi.thorchain.on('chainChanged', (obj) => {
-      //   console.log('changed', obj);
-      //   const envNetwork =
-      //     environment.network === 'testnet' ? 'testnet' : 'mainnet';
-      //   if (obj.network !== envNetwork) {
-      //     // alert("XDEFI: Incorrect network, Reloading");
-      //     window.location.reload();
-      //   }
-      // });
+      window.xfi.thorchain.on("chainChanged", (obj) => {
+        // console.log('changed', obj);
+        // const envNetwork =
+        //   environment.network === 'testnet' ? 'testnet' : 'mainnet';
+        // if (obj.network !== envNetwork) {
+        //   // alert("XDEFI: Incorrect network, Reloading");
+        //   window.location.reload();
+        // }
+        window.location.reload();
+      });
 
       return newUser;
     } else {

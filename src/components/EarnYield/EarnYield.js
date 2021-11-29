@@ -131,9 +131,7 @@ const EarnYield = () => {
     } else {
       let result2 = tempPool.filter(
         (value) =>
-          value?.blockchain
-            ?.toLowerCase()
-            ?.includes(e.target.value.toLowerCase()) ||
+          value?.asset?.toLowerCase()?.includes(e.target.value.toLowerCase()) ||
           (value?.assetFullName
             ?.toLowerCase()
             ?.includes(e.target.value.toLowerCase()) &&
@@ -250,14 +248,14 @@ const EarnYield = () => {
         </div>
       ) : (
         <>
-          <section  className="u-market876662">
+          <section className="u-market876662">
             <div class="container">
               <div class="row">
                 <div class="col-lg-6 n-earnYeildContent">
                   <div class="marketbanner">
                     <h2 class="marketbannerhed">Earn yield now</h2>
                     <p
-                    className="uearnyidledpage66555"
+                      className="uearnyidledpage66555"
                       // style={{
                       //   fontSize: "24px",
                       //   fontFamily: "Poppins",
@@ -275,10 +273,7 @@ const EarnYield = () => {
             </div>
           </section>
 
-          <section
-            style={{ backgroundColor: "#FCFCFD" }}
-            class=""
-          >
+          <section style={{ backgroundColor: "#FCFCFD" }} class="">
             <div class="container n-earnYeildContainer">
               <div class="d-flex flex-row justify-content-between align-items-center flex-wrap mb-5">
                 <ul class="list-unstyled d-flex flex-row align-items-center mb-0">
@@ -326,7 +321,11 @@ const EarnYield = () => {
                           ? "alltype"
                           : "alltype-nonActive"
                       }
-                      style={{ color: "#fff", fontFamily: "DM Sans", whiteSpace: "nowrap" }}
+                      style={{
+                        color: "#fff",
+                        fontFamily: "DM Sans",
+                        whiteSpace: "nowrap",
+                      }}
                       onClick={filterERC20}
                     >
                       ERC-20
@@ -520,7 +519,7 @@ const EarnYield = () => {
                                         style={{
                                           fontSize: "14px",
                                           fontWeight: "500",
-                                          whiteSpace: "nowrap"
+                                          whiteSpace: "nowrap",
                                         }}
                                       >
                                         {getType(d)}
@@ -571,7 +570,10 @@ const EarnYield = () => {
               </div>
             </div>
           </section>
-          <section class="n-marketSection" style={{ backgroundColor: "#FCFCFD" }}>
+          <section
+            class="n-marketSection"
+            style={{ backgroundColor: "#FCFCFD" }}
+          >
             <div class="container">
               <div style={{ marginBottom: "64px" }}>
                 <h2 class="d-flex justify-content-center marketmainheade">

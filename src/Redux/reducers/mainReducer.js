@@ -14,6 +14,7 @@ import {
   LOGIN,
   MAINMODAL,
   SET_GRAPH_DATA,
+  SET_SETTINGS,
 } from "../actions/types";
 
 const initialState = {
@@ -44,6 +45,7 @@ const initialState = {
   walletType: null,
   mainModal: false,
   graphDataCombined: {},
+  settings: {},
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -123,7 +125,11 @@ export default (state = initialState, { type, payload }) => {
         overallBalance_USD: null,
         clientsObject: null,
       };
-
+    case SET_SETTINGS:
+      return {
+        ...state,
+        ...payload,
+      };
     case LOGIN:
       return {
         ...state,

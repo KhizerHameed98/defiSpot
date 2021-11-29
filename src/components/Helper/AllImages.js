@@ -76,6 +76,7 @@ import crossicon from "../../assets/images/crossicon.png";
 import searchicon from "../../assets/images/searchicon.png";
 import iconarowdown from "../../assets/images/iconarowdown.png";
 import iconsrightline from "../../assets/images/iconsrightline.png";
+import iconsLeftline from "../../assets/images/iconsLeftline.png";
 import loadicon from "../../assets/images/loadicon.png";
 import learnsearch from "../../assets/images/learnsearch.png";
 import ButtonSecondarySmall from "../../assets/images/ButtonSecondarySmall.png";
@@ -129,6 +130,7 @@ const Images = {
   loadicon,
   searchicon,
   iconsrightline,
+  iconsLeftline,
   seeall,
   purple,
   crossicon,

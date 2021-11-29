@@ -67,10 +67,14 @@ function IntoToLP() {
             </span>
           </div>
           <div className="articleVideo">
-            <img src={Images.articlevideo} alt="Article Video" className="img-fluid" />
+            <img
+              src={Images.articlevideo}
+              alt="Article Video"
+              className="img-fluid"
+            />
           </div>
-          <div className="row mainvideocalss98766">
-            <img src={Images.placeholder} class="img-fluid"/>
+          <div className="row mainvideocalss98766 d-flex justify-content-center">
+            <img src={Images.placeholder} class="img-fluid" />
           </div>
           <div className="row n-introToLp">
             <div className="articleDescription">
@@ -126,8 +130,13 @@ function IntoToLP() {
                 your favorite landing page layouts or hit the ground running
                 with 10 pre-built templates, all in light or dark mode."
               </p>
-              <div className="col-lg-10 d-flex justify-content-end offset-lg-1 articleImage">
-                <img src={Images.articleimage} alt="Article Image" class="img-fluid" />
+              <div className="col-lg-12 d-flex justify-content-center articleImage">
+                <img
+                  src={Images.articleimage}
+                  alt="Article Image"
+                  // class="img-fluid"
+                  style={{width: '100%'}}
+                />
               </div>
             </div>
             <div className="articleDescription">
@@ -246,91 +255,90 @@ function IntoToLP() {
         </div>
       </section>
       <section class="n-marketSection">
-            <div class="container">
-              <div style={{ marginBottom: "64px" }}>
-                <h2 class="d-flex justify-content-center marketmainheade">
-                  Learn about DeFi
-                </h2>
-                <p
-                  class="d-flex justify-content-center"
-                  style={{
-                    textAlign: "center",
-                    fontFamily: "Poppins",
-                    fontSize: "16px",
-                    fontWeight: "400",
-                    color: "#353945",
-                    margin: "0",
-                  }}
-                >
-                  Browse our library of resources to learn more about DeFi and
-                  how
-                  <br /> to use it to yield or trade
-                </p>
+        <div class="container">
+          <div style={{ marginBottom: "64px" }}>
+            <h2 class="d-flex justify-content-center marketmainheade">
+              Learn about DeFi
+            </h2>
+            <p
+              class="d-flex justify-content-center"
+              style={{
+                textAlign: "center",
+                fontFamily: "Poppins",
+                fontSize: "16px",
+                fontWeight: "400",
+                color: "#353945",
+                margin: "0",
+              }}
+            >
+              Browse our library of resources to learn more about DeFi and how
+              <br /> to use it to yield or trade
+            </p>
+          </div>
+          <div class="mt-3 n-marketLearnCard">
+            <div class="n-marketCardInv">
+              <div class="card cardborder">
+                <img
+                  class="card-img-top"
+                  style={{ borderRadius: "12px" }}
+                  src={Images.mediacontainer}
+                  alt="Card image cap"
+                />
+                <div class="card-body n-learnCard">
+                  <h6 class="marketcardone">Learn & Earn</h6>
+                  <p class="cardtext">
+                    Earn yield by providing liquidity to pools
+                  </p>
+                </div>
               </div>
-              <div class="mt-3 n-marketLearnCard">
-                <div class="n-marketCardInv">
-                  <div class="card cardborder">
-                    <img
-                      class="card-img-top"
-                      style={{ borderRadius: "12px" }}
-                      src={Images.mediacontainer}
-                      alt="Card image cap"
-                    />
-                    <div class="card-body n-learnCard">
-                      <h6 class="marketcardone">Learn & Earn</h6>
-                      <p class="cardtext">
-                        Earn yield by providing liquidity to pools
-                      </p>
-                    </div>
-                  </div>
-                  {/* <hr class="solid earnyieldclasssolid" /> */}
-                </div>
-                <div class="n-marketCardInv">
-                  <div class="card cardborder">
-                    <img
-                      class="card-img-top"
-                      style={{ borderRadius: "12px" }}
-                      src={Images.mediacontainer}
-                      alt="Card image cap"
-                    />
-                    <div class="card-body n-learnCard">
-                      <h6 class="marketcardtwo">WEEKLY WATCHLIST AIRDROP</h6>
-                      <p class="cardtext">
-                        The biggest advantages of decentralized exchange
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="n-marketCardInv">
-                  <div class="card cardborder">
-                    <img
-                      class="card-img-top"
-                      src={Images.mediacontainer}
-                      style={{ borderRadius: "12px" }}
-                      alt="Card image cap"
-                    />
-                    <div class="card-body n-learnCard">
-                      <h6 class="marketcardthree">FEATURED</h6>
-                      <p class="cardtext">Submit your watchlist and win USDT</p>
-                    </div>
-                  </div>
+              {/* <hr class="solid earnyieldclasssolid" /> */}
+            </div>
+            <div class="n-marketCardInv">
+              <div class="card cardborder">
+                <img
+                  class="card-img-top"
+                  style={{ borderRadius: "12px" }}
+                  src={Images.mediacontainer}
+                  alt="Card image cap"
+                />
+                <div class="card-body n-learnCard">
+                  <h6 class="marketcardtwo">WEEKLY WATCHLIST AIRDROP</h6>
+                  <p class="cardtext">
+                    The biggest advantages of decentralized exchange
+                  </p>
                 </div>
               </div>
             </div>
-            <div class="d-flex justify-content-center n-marketLoadMore">
-              <Link to={browserRoute.LEARN}>
-                <button type="button" class="btn n-secondaryButton">
-                  {/* <img className="pr-2" src={Images.loadicon} /> */}
-                  Load more
-                </button>
-              </Link>
-              {/* On loading Add button with loaing img */}
-              {/* <button type="button" class="btn loaderbutton">
+            <div class="n-marketCardInv">
+              <div class="card cardborder">
+                <img
+                  class="card-img-top"
+                  src={Images.mediacontainer}
+                  style={{ borderRadius: "12px" }}
+                  alt="Card image cap"
+                />
+                <div class="card-body n-learnCard">
+                  <h6 class="marketcardthree">FEATURED</h6>
+                  <p class="cardtext">Submit your watchlist and win USDT</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center n-marketLoadMore">
+          <Link to={browserRoute.LEARN}>
+            <button type="button" class="btn n-secondaryButton">
+              {/* <img className="pr-2" src={Images.loadicon} /> */}
+              Load more
+            </button>
+          </Link>
+          {/* On loading Add button with loaing img */}
+          {/* <button type="button" class="btn loaderbutton">
               <img className="pr-2" src={Images.loadicon} />
               Load more
             </button> */}
-            </div>
-          </section>
+        </div>
+      </section>
     </div>
   );
 }

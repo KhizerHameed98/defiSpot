@@ -689,26 +689,138 @@ const Activity = () => {
                   class="modal-body"
                   style={{ display: "flex", justifyContent: "center" }}
                 >
-                  <DateRangePicker
-                    maxDate={new Date()} //disable future dates
-                    onChange={(item) => {
-                      if (
-                        item.selection.startDate <= new Date() &&
-                        item.selection.endDate <= new Date()
-                      ) {
-                        setState([item.selection]);
-                      }
-                    }}
-                    showSelectionPreview={false}
-                    moveRangeOnFirstSelection={false}
-                    months={2}
-                    ranges={state}
-                    direction="horizontal"
-                    preventSnapRefocus={true}
-                    calendarFocus="backwards"
-                  />
+                  <div class="d-flex flex-column">
+                    <div class="d-flex flex-row">
+                      <div class="n-customRanger">
+                        <ul>
+                          <li
+                            class={
+                              rangeType === EnumRanges.CUSTOM_RANGE
+                                ? "rangeActive"
+                                : "null"
+                            }
+                            onClick={handleCustom}
+                          >
+                            Custom Range
+                          </li>
+                          <li
+                            class={
+                              rangeType === EnumRanges.ONE_DAY
+                                ? "rangeActive"
+                                : null
+                            }
+                            onClick={handleOneDay}
+                          >
+                            One Day
+                          </li>
+                          <li
+                            class={
+                              rangeType === EnumRanges.ONE_WEEK
+                                ? "rangeActive"
+                                : null
+                            }
+                            onClick={handleOneWeek}
+                          >
+                            One Week
+                          </li>
+                          <li
+                            class={
+                              rangeType === EnumRanges.ONE_MONTH
+                                ? "rangeActive"
+                                : null
+                            }
+                            onClick={handleOneMonth}
+                          >
+                            One Month
+                          </li>
+                          <li
+                            class={
+                              rangeType === EnumRanges.ONE_YEAR
+                                ? "rangeActive"
+                                : null
+                            }
+                            onClick={handleOneYear}
+                          >
+                            One Year
+                          </li>
+                          <li
+                            class={
+                              rangeType === EnumRanges.ALL_TIME
+                                ? "rangeActive"
+                                : null
+                            }
+                            onClick={handleAllTime}
+                          >
+                            All Time
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="d-flex flex-column justify-content-center align-items-center">
+                        <div class="d-flex flex-row">
+                          <select class="mr-3">
+                            <option>January</option>
+                            <option>February</option>
+                            <option>March</option>
+                            <option>April</option>
+                            <option>May</option>
+                            <option>June</option>
+                            <option>July</option>
+                            <option>August</option>
+                            <option>September</option>
+                            <option>Octuber</option>
+                            <option>November</option>
+                            <option>December</option>
+                          </select>
+                          <select class="ml-3">
+                            <option>2010</option>
+                            <option>2011</option>
+                            <option>2012</option>
+                            <option>2013</option>
+                            <option>2014</option>
+                            <option>2015</option>
+                            <option>2016</option>
+                            <option>2017</option>
+                            <option>2018</option>
+                            <option>2019</option>
+                            <option>2020</option>
+                            <option>2021</option>
+                          </select>
+                        </div>
+                        <DateRangePicker
+                          maxDate={new Date()} //disable future dates
+                          onChange={(item) => {
+                            if (
+                              item.selection.startDate <= new Date() &&
+                              item.selection.endDate <= new Date()
+                            ) {
+                              setState([item.selection]);
+                            }
+                          }}
+                          showSelectionPreview={false}
+                          moveRangeOnFirstSelection={false}
+                          months={2}
+                          ranges={state}
+                          direction="horizontal"
+                          preventSnapRefocus={true}
+                          calendarFocus="backwards"
+                        />
+                      </div>
+                    </div>
+                    <div class="d-flex flex-row justify-content-between align-items-center">
+                      <div class="ml-3 n-dateSelected">
+                        <strong>Date Range:</strong> Nov
+                        24, 2021 - Dec 24, 2021
+                      </div>
+                      <div>
+                        <button class="mr-2 n-primaryButton">Apply</button>
+                        <button class="ml-2 mr-3 n-secondaryButton">
+                          Cancle
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="d-flex flex-row justify-content-center align-items-center">
+                {/* <div className="d-flex flex-row justify-content-center align-items-center">
                   <button
                     className={
                       "btn btn-outline-secondary ml-3 pl-3 " +
@@ -780,7 +892,7 @@ const Activity = () => {
                   >
                     All time
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -822,7 +934,10 @@ const Activity = () => {
                   />
                 </div>
                 <div style={{ justifyContent: "center", display: "flex" }}>
-                  <button className="btn btn-primary btnHoverWhite" onClick={tableToCSV}>
+                  <button
+                    className="btn btn-primary btnHoverWhite"
+                    onClick={tableToCSV}
+                  >
                     Download .CSV
                   </button>
                 </div>
@@ -913,7 +1028,7 @@ const Activity = () => {
                 src={Images.searchicon}
               />
 
-              <div style={{ float: "right" }}>
+              {/* <div style={{ float: "right" }}>
                 <button
                   class="ml-4 seeallbutton btnHoverBlue"
                   onClick={(e) => {
@@ -925,7 +1040,7 @@ const Activity = () => {
                   All time{" "}
                   <img src={Images.seeall} style={{ paddingLeft: "10px" }} />
                 </button>
-              </div>
+              </div> */}
             </div>
           </form>
         </div>
@@ -934,19 +1049,47 @@ const Activity = () => {
           <div className="">
             <h3 className="u-overview09888 mb-0">Activity</h3>
           </div>
-          <div style={{ float: "right" }}>
-            <button
-              type="button"
-              className="btn btn-primary n-primaryButton "
-              style={{ paddingRight: "16px" }}
-              onClick={() => {
-                setExportModal(true);
-              }}
-            >
-              {" "}
-              <img src={Images.exportIcon} style={{ marginRight: "11px" }} />
-              Export
-            </button>
+          <div>
+            <div style={{ float: "right" }} class="d-flex">
+              <button
+                class="ml-4 n-dateRangerButton"
+                onClick={(e) => {
+                  e.preventDefault();
+
+                  setToggle(true);
+                }}
+              >
+                Nov 24, 2021 - Dec 24, 2021{" "}
+                {/* <img src={Images.seeall} style={{ paddingLeft: "10px" }} /> */}
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="ml-2"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M13.5059 8.16074C13.1805 7.83531 12.6528 7.83531 12.3274 8.16074L10 10.4882L7.67259 8.16074C7.34715 7.83531 6.81951 7.83531 6.49408 8.16074C6.16864 8.48618 6.16864 9.01382 6.49408 9.33926L9.41074 12.2559C9.73618 12.5814 10.2638 12.5814 10.5893 12.2559L13.5059 9.33926C13.8314 9.01382 13.8314 8.48618 13.5059 8.16074Z"
+                    fill="#777E91"
+                  />
+                </svg>
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary n-primaryButton "
+                style={{ paddingRight: "16px" }}
+                onClick={() => {
+                  setExportModal(true);
+                }}
+              >
+                {" "}
+                <img src={Images.exportIcon} style={{ marginRight: "11px" }} />
+                Export
+              </button>
+            </div>
           </div>
         </div>
         <div

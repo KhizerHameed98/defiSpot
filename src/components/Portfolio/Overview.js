@@ -21,6 +21,72 @@ const Overview = () => {
   });
   const [filterType, setFilterType] = useState(Enum.allType);
 
+  const [ascendingDescendingType, setAscendingDescendingType] = useState(false);
+  const [ascendingDescendingCoin, setAscendingDescendingCoin] = useState(false);
+  const [ascendingDescendingAmount, setAscendingDescendingAmount] =
+    useState(false);
+  const [ascendingDescendingAddress, setAscendingDescendingAddress] =
+    useState(false);
+  const [
+    ascendingDescendingTransactionID,
+    setAscendingDescendingTransactionID,
+  ] = useState(false);
+
+  const handleAscendingDescendingTransactionID = () => {
+    setAscendingDescendingTransactionID(!ascendingDescendingTransactionID);
+  };
+  useEffect(() => {
+    if (ascendingDescendingTransactionID) {
+      handleAscendingTransactionID();
+    } else {
+      handleDescendingTransactionID();
+    }
+  }, [ascendingDescendingTransactionID]);
+
+  const handleAscendingDescendingAddress = () => {
+    setAscendingDescendingAddress(!ascendingDescendingAddress);
+  };
+  useEffect(() => {
+    if (ascendingDescendingAddress) {
+      handleAscendingAddress();
+    } else {
+      handleDescendingAddress();
+    }
+  }, [ascendingDescendingAddress]);
+
+  const handleAscendingDescendingType = () => {
+    setAscendingDescendingType(!ascendingDescendingType);
+  };
+  useEffect(() => {
+    if (ascendingDescendingType) {
+      handleAscendingType();
+    } else {
+      handleDescendingType();
+    }
+  }, [ascendingDescendingType]);
+
+  const handleAscendingDescendingCoin = () => {
+    setAscendingDescendingCoin(!ascendingDescendingCoin);
+  };
+  useEffect(() => {
+    if (ascendingDescendingCoin) {
+      handleAscendingCoin();
+    } else {
+      handleDescendingCoin();
+    }
+  }, [ascendingDescendingCoin]);
+
+  const handleAscendingDescendingAmount = () => {
+    setAscendingDescendingAmount(!ascendingDescendingAmount);
+  };
+  useEffect(() => {
+    if (ascendingDescendingAmount) {
+      handleAscendingAmount();
+    } else {
+      handleDescendingAmount();
+    }
+  }, [ascendingDescendingAmount]);
+
   useEffect(() => {
     setMainState(keyStoreInstance.transactionHistory);
     setOverallBalance_BTC(keyStoreInstance.overallBalance_BTC);
@@ -94,189 +160,294 @@ const Overview = () => {
 
   //Descending Order Filter Type
   const handleDescendingType = () => {
-    let check = [...mainState];
-    let res = check.sort((a, b) =>
-      a.type.toLowerCase() < b.type.toLowerCase() ? 1 : -1
-    );
+    let res;
+    if (mainState) {
+      let check = [...mainState];
+      res = check.sort((a, b) =>
+        a.type.toLowerCase() < b.type.toLowerCase() ? 1 : -1
+      );
+    }
 
     setMainState(res);
-    let check2 = [...transactionHistory];
-    let res2 = check2.sort((a, b) =>
-      a.type.toLowerCase() < b.type.toLowerCase() ? 1 : -1
-    );
+
+    let res2;
+    if (transactionHistory) {
+      let check2 = [...transactionHistory];
+      res2 = check2.sort((a, b) =>
+        a.type.toLowerCase() < b.type.toLowerCase() ? 1 : -1
+      );
+    }
     setTransactionHistory(res2);
-    let check3 = [...tempData];
-    let res3 = check3.sort((a, b) =>
-      a.type.toLowerCase() < b.type.toLowerCase() ? 1 : -1
-    );
+
+    let res3;
+    if (tempData) {
+      let check3 = [...tempData];
+      res3 = check3.sort((a, b) =>
+        a.type.toLowerCase() < b.type.toLowerCase() ? 1 : -1
+      );
+    }
     setTempData(res3);
   };
 
   //Ascending Order Filter Type
   const handleAscendingType = () => {
-    let check = [...mainState];
-    let res = check.sort((a, b) =>
-      a.type.toLowerCase() > b.type.toLowerCase() ? 1 : -1
-    );
+    let res;
+    if (mainState) {
+      let check = [...mainState];
+      res = check.sort((a, b) =>
+        a.type.toLowerCase() > b.type.toLowerCase() ? 1 : -1
+      );
+    }
 
     setMainState(res);
-    let check2 = [...transactionHistory];
-    let res2 = check2.sort((a, b) =>
-      a.type.toLowerCase() > b.type.toLowerCase() ? 1 : -1
-    );
+
+    let res2;
+    if (transactionHistory) {
+      let check2 = [...transactionHistory];
+      res2 = check2.sort((a, b) =>
+        a.type.toLowerCase() > b.type.toLowerCase() ? 1 : -1
+      );
+    }
     setTransactionHistory(res2);
-    let check3 = [...tempData];
-    let res3 = check3.sort((a, b) =>
-      a.type.toLowerCase() > b.type.toLowerCase() ? 1 : -1
-    );
+
+    let res3;
+    if (tempData) {
+      let check3 = [...tempData];
+      let res3 = check3.sort((a, b) =>
+        a.type.toLowerCase() > b.type.toLowerCase() ? 1 : -1
+      );
+    }
     setTempData(res3);
   };
 
   //Descending Order Filter Coin
   const handleDescendingCoin = () => {
-    let check = [...mainState];
-    let res = check.sort((a, b) =>
-      a.asset.ticker.toLowerCase() < b.asset.ticker.toLowerCase() ? 1 : -1
-    );
+    let res;
+    if (mainState) {
+      let check = [...mainState];
+      res = check.sort((a, b) =>
+        a.asset.ticker.toLowerCase() < b.asset.ticker.toLowerCase() ? 1 : -1
+      );
+    }
 
     setMainState(res);
-    let check2 = [...transactionHistory];
-    let res2 = check2.sort((a, b) =>
-      a.asset.ticker.toLowerCase() < b.asset.ticker.toLowerCase() ? 1 : -1
-    );
+
+    let res2;
+    if (transactionHistory) {
+      let check2 = [...transactionHistory];
+      res2 = check2.sort((a, b) =>
+        a.asset.ticker.toLowerCase() < b.asset.ticker.toLowerCase() ? 1 : -1
+      );
+    }
+
     setTransactionHistory(res2);
-    let check3 = [...tempData];
-    let res3 = check3.sort((a, b) =>
-      a.asset.ticker.toLowerCase() < b.asset.ticker.toLowerCase() ? 1 : -1
-    );
+
+    let res3;
+    if (tempData) {
+      let check3 = [...tempData];
+      res3 = check3.sort((a, b) =>
+        a.asset.ticker.toLowerCase() < b.asset.ticker.toLowerCase() ? 1 : -1
+      );
+    }
     setTempData(res3);
   };
 
   //Ascending Order Filter Coin
   const handleAscendingCoin = () => {
-    let check = [...mainState];
-    let res = check.sort((a, b) =>
-      a.asset.ticker.toLowerCase() > b.asset.ticker.toLowerCase() ? 1 : -1
-    );
+    let res;
+    if (mainState) {
+      let check = [...mainState];
+      res = check.sort((a, b) =>
+        a.asset.ticker.toLowerCase() > b.asset.ticker.toLowerCase() ? 1 : -1
+      );
+    }
 
     setMainState(res);
-    let check2 = [...transactionHistory];
-    let res2 = check2.sort((a, b) =>
-      a.asset.ticker.toLowerCase() > b.asset.ticker.toLowerCase() ? 1 : -1
-    );
+
+    let res2;
+    if (transactionHistory) {
+      let check2 = [...transactionHistory];
+      res2 = check2.sort((a, b) =>
+        a.asset.ticker.toLowerCase() > b.asset.ticker.toLowerCase() ? 1 : -1
+      );
+    }
     setTransactionHistory(res2);
-    let check3 = [...tempData];
-    let res3 = check3.sort((a, b) =>
-      a.asset.ticker.toLowerCase() > b.asset.ticker.toLowerCase() ? 1 : -1
-    );
+
+    let res3;
+    if (tempData) {
+      let check3 = [...tempData];
+      res3 = check3.sort((a, b) =>
+        a.asset.ticker.toLowerCase() > b.asset.ticker.toLowerCase() ? 1 : -1
+      );
+    }
     setTempData(res3);
   };
 
   //Descending Order Filter Amount
   const handleDescendingAmount = () => {
-    let check = [...mainState];
-    let res = check.sort((a, b) => b.transferAmount - a.transferAmount);
-
+    let res;
+    if (mainState) {
+      let check = [...mainState];
+      res = check.sort((a, b) => b.transferAmount - a.transferAmount);
+    }
     setMainState(res);
-    let check2 = [...transactionHistory];
-    let res2 = check2.sort((a, b) => b.transferAmount - a.transferAmount);
+
+    let res2;
+    if (transactionHistory) {
+      let check2 = [...transactionHistory];
+      res2 = check2.sort((a, b) => b.transferAmount - a.transferAmount);
+    }
     setTransactionHistory(res2);
-    let check3 = [...tempData];
-    let res3 = check3.sort((a, b) => b.transferAmount - a.transferAmount);
+
+    let res3;
+    if (tempData) {
+      let check3 = [...tempData];
+      res3 = check3.sort((a, b) => b.transferAmount - a.transferAmount);
+    }
     setTempData(res3);
   };
 
   //Ascending Order Filter Amount
   const handleAscendingAmount = () => {
-    let check = [...mainState];
-    let res = check.sort((a, b) => a.transferAmount - b.transferAmount);
-
+    let res;
+    if (mainState) {
+      let check = [...mainState];
+      res = check.sort((a, b) => a.transferAmount - b.transferAmount);
+    }
     setMainState(res);
-    let check2 = [...transactionHistory];
-    let res2 = check2.sort((a, b) => a.transferAmount - b.transferAmount);
+
+    let res2;
+    if (transactionHistory) {
+      let check2 = [...transactionHistory];
+      res2 = check2.sort((a, b) => a.transferAmount - b.transferAmount);
+    }
     setTransactionHistory(res2);
-    let check3 = [...tempData];
-    let res3 = check3.sort((a, b) => a.transferAmount - b.transferAmount);
+
+    let res3;
+    if (tempData) {
+      let check3 = [...tempData];
+      res3 = check3.sort((a, b) => a.transferAmount - b.transferAmount);
+    }
     setTempData(res3);
   };
 
   //Descending Order Filter Address
   const handleDescendingAddress = () => {
-    let check = [...mainState];
-    let res = check?.sort((a, b) =>
-      a.to[0].to.toLowerCase() < b.to[0].to.toLowerCase() ? 1 : -1
-    );
+    let res;
+    if (mainState) {
+      let check = [...mainState];
+      res = check?.sort((a, b) =>
+        a.to[0].to.toLowerCase() < b.to[0].to.toLowerCase() ? 1 : -1
+      );
+    }
 
     setMainState(res);
-    let check2 = [...transactionHistory];
-    let res2 = check2?.sort((a, b) =>
-      a.to[0].to.toLowerCase() < b.to[0].to.toLowerCase() ? 1 : -1
-    );
+
+    let res2;
+    if (transactionHistory) {
+      let check2 = [...transactionHistory];
+      res2 = check2?.sort((a, b) =>
+        a.to[0].to.toLowerCase() < b.to[0].to.toLowerCase() ? 1 : -1
+      );
+    }
     setTransactionHistory(res2);
-    let check3 = [...tempData];
-    let res3 = check3?.sort((a, b) =>
-      a.to[0].to.toLowerCase() < b.to[0].to.toLowerCase() ? 1 : -1
-    );
+
+    let res3;
+    if (tempData) {
+      let check3 = [...tempData];
+      res3 = check3?.sort((a, b) =>
+        a.to[0].to.toLowerCase() < b.to[0].to.toLowerCase() ? 1 : -1
+      );
+    }
     setTempData(res3);
   };
 
   //Ascending Order Filter Type
   const handleAscendingAddress = () => {
-    let check = [...mainState];
-    let res = check?.sort((a, b) =>
-      a.to[0].to.toLowerCase() > b.to[0].to.toLowerCase() ? 1 : -1
-    );
-
+    let res;
+    if (mainState) {
+      let check = [...mainState];
+      res = check?.sort((a, b) =>
+        a.to[0].to.toLowerCase() > b.to[0].to.toLowerCase() ? 1 : -1
+      );
+    }
     setMainState(res);
-    let check2 = [...transactionHistory];
-    let res2 = check2?.sort((a, b) =>
-      a.to[0].to.toLowerCase() > b.to[0].to.toLowerCase() ? 1 : -1
-    );
+
+    let res2;
+    if (transactionHistory) {
+      let check2 = [...transactionHistory];
+      res2 = check2?.sort((a, b) =>
+        a.to[0].to.toLowerCase() > b.to[0].to.toLowerCase() ? 1 : -1
+      );
+    }
     setTransactionHistory(res2);
-    let check3 = [...tempData];
-    let res3 = check3?.sort((a, b) =>
-      a.to[0].to.toLowerCase() > b.to[0].to.toLowerCase() ? 1 : -1
-    );
+
+    let res3;
+    if (tempData) {
+      let check3 = [...tempData];
+      res3 = check3?.sort((a, b) =>
+        a.to[0].to.toLowerCase() > b.to[0].to.toLowerCase() ? 1 : -1
+      );
+    }
     setTempData(res3);
   };
 
   //Descending Order Filter TransactionID
   const handleDescendingTransactionID = () => {
-    let check = [...mainState];
-    let res = check.sort((a, b) =>
-      a.hash.toLowerCase() < b.hash.toLowerCase() ? 1 : -1
-    );
-
+    let res;
+    if (mainState) {
+      let check = [...mainState];
+      res = check.sort((a, b) =>
+        a.hash.toLowerCase() < b.hash.toLowerCase() ? 1 : -1
+      );
+    }
     setMainState(res);
-    let check2 = [...transactionHistory];
-    let res2 = check2.sort((a, b) =>
-      a.hash.toLowerCase() < b.hash.toLowerCase() ? 1 : -1
-    );
+
+    let res2;
+    if (transactionHistory) {
+      let check2 = [...transactionHistory];
+      res2 = check2.sort((a, b) =>
+        a.hash.toLowerCase() < b.hash.toLowerCase() ? 1 : -1
+      );
+    }
     setTransactionHistory(res2);
-    let check3 = [...tempData];
-    let res3 = check3.sort((a, b) =>
-      a.hash.toLowerCase() < b.hash.toLowerCase() ? 1 : -1
-    );
+
+    let res3;
+    if (tempData) {
+      let check3 = [...tempData];
+      let res3 = check3.sort((a, b) =>
+        a.hash.toLowerCase() < b.hash.toLowerCase() ? 1 : -1
+      );
+    }
     setTempData(res3);
   };
 
   //Ascending Order Filter TransactionID
   const handleAscendingTransactionID = () => {
-    let check = [...mainState];
-    let res = check.sort((a, b) =>
-      a.hash.toLowerCase() > b.hash.toLowerCase() ? 1 : -1
-    );
-
+    let res;
+    if (mainState) {
+      let check = [...mainState];
+      res = check.sort((a, b) =>
+        a.hash.toLowerCase() > b.hash.toLowerCase() ? 1 : -1
+      );
+    }
     setMainState(res);
-    let check2 = [...transactionHistory];
-    let res2 = check2.sort((a, b) =>
-      a.hash.toLowerCase() > b.hash.toLowerCase() ? 1 : -1
-    );
+    let res2;
+    if (transactionHistory) {
+      let check2 = [...transactionHistory];
+      res2 = check2.sort((a, b) =>
+        a.hash.toLowerCase() > b.hash.toLowerCase() ? 1 : -1
+      );
+    }
     setTransactionHistory(res2);
-    let check3 = [...tempData];
-    let res3 = check3.sort((a, b) =>
-      a.hash.toLowerCase() > b.hash.toLowerCase() ? 1 : -1
-    );
+
+    let res3;
+    if (tempData) {
+      let check3 = [...tempData];
+      res3 = check3.sort((a, b) =>
+        a.hash.toLowerCase() > b.hash.toLowerCase() ? 1 : -1
+      );
+    }
     setTempData(res3);
   };
 
@@ -293,8 +464,10 @@ const Overview = () => {
     return (
       <>
         <img
-          style={{ width: "25px" }}
-          style={{ width: "25px" }}
+          style={{
+            width: "25px",
+            height: "25px",
+          }}
           src={res?.logo}
         />
       </>
@@ -515,8 +688,8 @@ const Overview = () => {
                 </div>
               </div>
               <div
-                style={{ paddingLeft: "0px", paddingRight: "0px" }}
-                className="col-lg-12"
+                // style={{ paddingLeft: "0px", paddingRight: "0px", paddingTop: "4px" }}
+                className="col-lg-12 n-totalCard"
               >
                 <div className="w-overview_portfoliobg">
                   <div className="d-flex justify-content-between">
@@ -814,7 +987,7 @@ const Overview = () => {
       )}
       <p className="w-over-center-heading">Transaction History</p>
       <div className="w-sidebarcoleight">
-        <div className="d-flex justify-content-between flex-wrap flex-sm-row flex-column">
+        <div className="d-flex justify-content-between flex-sm-wrap flex-md-nowrap flex-sm-row flex-column">
           <ul className="list-unstyled d-block d-sm-flex flex-row align-items-center mb-0">
             <li
               className="d-inline-block d-sm-flex flex-row justify-content-center align-items-center"
@@ -873,7 +1046,7 @@ const Overview = () => {
               </button>
             </li>
           </ul>
-          <div class="d-flex flex-column flex-sm-row align-content-start align-items-sm-center ">
+          <div class="d-flex flex-column flex-sm-row align-content-start align-items-sm-center n-overviewResponsiveSearch">
             <div className="my-2 my-sm-0 n-overviewSearch">
               <div class=" d-flex form-group has-search mb-0">
                 <input
@@ -888,7 +1061,7 @@ const Overview = () => {
                     width: "20px",
                     height: "20px",
                     marginLeft: "-35px",
-                    marginTop: "10px",
+                    // marginTop: "10px",
                     marginBottom: "10px",
                   }}
                   src={Images.searchicon}
@@ -897,7 +1070,7 @@ const Overview = () => {
             </div>
             <button
               class="seeallbutton btnHoverBlue"
-              style={{ maxWidth: "130px" }}
+              style={{ maxWidth: "130px", whiteSpace: "nowrap" }}
             >
               See all{" "}
               <img src={Images.seeall} style={{ paddingLeft: "10px" }} />
@@ -917,22 +1090,24 @@ const Overview = () => {
                       marginLeft: "3px",
                       position: "absolute",
                       bottom: "34px",
+                      cursor: "pointer",
                     }}
+                    onClick={handleAscendingDescendingType}
                   >
                     <img
                       class="pl-1"
                       src={Images.FilterUp}
-                      onClick={handleDescendingType}
+                      // onClick={handleDescendingType}
                       style={{
                         marginBottom: "3px",
-                        cursor: "pointer",
+                        // cursor: "pointer",
                       }}
                     />
                     <img
                       class="pl-1"
-                      onClick={handleAscendingType}
+                      // onClick={handleAscendingType}
                       src={Images.FilterDown}
-                      style={{ cursor: "pointer" }}
+                      // style={{ cursor: "pointer" }}
                     />
                   </div>
                 </th>
@@ -944,22 +1119,24 @@ const Overview = () => {
                       marginLeft: "3px",
                       position: "absolute",
                       bottom: "34px",
+                      cursor: "pointer",
                     }}
+                    onClick={handleAscendingDescendingCoin}
                   >
                     <img
                       class="pl-1"
                       src={Images.FilterUp}
-                      onClick={handleDescendingCoin}
+                      // onClick={handleDescendingCoin}
                       style={{
                         marginBottom: "3px",
-                        cursor: "pointer",
+                        // cursor: "pointer",
                       }}
                     />
                     <img
                       class="pl-1"
-                      onClick={handleAscendingCoin}
+                      // onClick={handleAscendingCoin}
                       src={Images.FilterDown}
-                      style={{ cursor: "pointer" }}
+                      // style={{ cursor: "pointer" }}
                     />
                   </div>
                 </th>
@@ -971,22 +1148,24 @@ const Overview = () => {
                       marginLeft: "3px",
                       position: "absolute",
                       bottom: "34px",
+                      cursor: "pointer",
                     }}
+                    onClick={handleAscendingDescendingAmount}
                   >
                     <img
                       class="pl-1"
                       src={Images.FilterUp}
-                      onClick={handleDescendingAmount}
+                      // onClick={handleDescendingAmount}
                       style={{
                         marginBottom: "3px",
-                        cursor: "pointer",
+                        // cursor: "pointer",
                       }}
                     />
                     <img
                       class="pl-1"
-                      onClick={handleAscendingAmount}
+                      // onClick={handleAscendingAmount}
                       src={Images.FilterDown}
-                      style={{ cursor: "pointer" }}
+                      // style={{ cursor: "pointer" }}
                     />
                   </div>
                 </th>
@@ -998,22 +1177,24 @@ const Overview = () => {
                       marginLeft: "3px",
                       position: "absolute",
                       bottom: "34px",
+                      cursor: "pointer",
                     }}
+                    onClick={handleAscendingDescendingAddress}
                   >
                     <img
                       class="pl-1"
                       src={Images.FilterUp}
-                      onClick={handleDescendingAddress}
+                      // onClick={handleDescendingAddress}
                       style={{
                         marginBottom: "3px",
-                        cursor: "pointer",
+                        // cursor: "pointer",
                       }}
                     />
                     <img
                       class="pl-1"
-                      onClick={handleAscendingAddress}
+                      // onClick={handleAscendingAddress}
                       src={Images.FilterDown}
-                      style={{ cursor: "pointer" }}
+                      // style={{ cursor: "pointer" }}
                     />
                   </div>
                 </th>
@@ -1025,22 +1206,24 @@ const Overview = () => {
                       marginLeft: "3px",
                       position: "absolute",
                       bottom: "34px",
+                      cursor: "pointer",
                     }}
+                    onClick={handleAscendingDescendingTransactionID}
                   >
                     <img
                       class="pl-1"
                       src={Images.FilterUp}
-                      onClick={handleDescendingTransactionID}
+                      // onClick={handleDescendingTransactionID}
                       style={{
                         marginBottom: "3px",
-                        cursor: "pointer",
+                        // cursor: "pointer",
                       }}
                     />
                     <img
                       class="pl-1"
-                      onClick={handleAscendingTransactionID}
+                      // onClick={handleAscendingTransactionID}
                       src={Images.FilterDown}
-                      style={{ cursor: "pointer" }}
+                      // style={{ cursor: "pointer" }}
                     />
                   </div>
                 </th>

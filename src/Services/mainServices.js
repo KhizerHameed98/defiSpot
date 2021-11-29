@@ -15,6 +15,7 @@ import {
   METAMASK,
   KEYSTORE,
   LOGOUT,
+  SET_SETTINGS,
   LOGIN,
   MAINMODAL,
 } from "../Redux/actions/types";
@@ -62,6 +63,11 @@ const xdefiService = new XDEFIService();
 const keyStoreInstance = new KeystoreWallet();
 const metaMaskService = new MetamaskService();
 
+export const NGROK = "https://defispot-testnet.herokuapp.com/api/v1";
+
+// https:defispot.herokuapp.com/
+// http://1dce-103-105-211-114.ngrok.io/api/v1
+
 //alert toast
 const alertToast = (error, message) => {
   if (!error) {
@@ -85,6 +91,23 @@ const alertToast = (error, message) => {
       progress: undefined,
     });
   }
+};
+
+export const getUserSettingsFromAddress = async (dispatch, addr) => {
+  console.log(addr);
+  await axios.get(`${NGROK}/get/user/data/${addr}`).then((res) => {
+    dispatch({
+      type: SET_SETTINGS,
+      payload: {
+        settings: {
+          custom: res?.data?.user?.custom,
+          slip: res?.data?.user?.slip,
+          speed: res?.data?.user?.speed,
+        },
+      },
+    });
+    console.log("RESSSSS =<><><><<><><><><><><<><><><>>< ", res?.data.user);
+  });
 };
 
 const downloadTextFile = (key) => {
@@ -204,12 +227,25 @@ export const MetaMaskConnection = (setMainModel) => async (dispatch) => {
     alert("Please install MetaMask Extension");
   } else {
     // console.log("in else", window.ethereum);
+    // await window.ethereum.enable();
     try {
       const metamask = await metaMaskService.connect(
         dispatch,
         setMainModel,
         alertToast
       );
+      const account = await web3.eth.getAccounts();
+
+      const data = {
+        accountAddress: account[0],
+      };
+
+      await axios.post(`${NGROK}/add/user`, data).then((res) => {
+        console.log("RESSSSS =<><><><<><><><><><><<><><><>>< ", res);
+      });
+
+      getUserSettingsFromAddress(dispatch, account[0]);
+
       // console.log(metamask);
 
       // web3 = new Web3(window.ethereum);
@@ -300,23 +336,48 @@ export const nativeSwapping =
     decimal,
     midgardPool,
     setYayModal,
+    setConfirmModal,
     setTransactionHash,
     setStatusLink,
-    setLoading
+    setLoading,
+    walletType
   ) =>
   async (dispatch) => {
-    keyStoreInstance.nativeSwapping(
-      dispatch,
-      fromAsset,
-      toAsset,
-      amount,
-      decimal,
-      midgardPool,
-      setYayModal,
-      setTransactionHash,
-      setStatusLink,
-      setLoading
-    );
+    switch (walletType) {
+      case "METAMASK":
+        await metaMaskService.swapping(
+          dispatch,
+          fromAsset,
+          toAsset,
+          amount,
+          decimal,
+          midgardPool,
+          setYayModal,
+          setConfirmModal,
+          setTransactionHash,
+          setStatusLink,
+          setLoading
+        );
+
+        break;
+      case "KEYSTORE":
+        await keyStoreInstance.nativeSwapping(
+          dispatch,
+          fromAsset,
+          toAsset,
+          amount,
+          decimal,
+          midgardPool,
+          setYayModal,
+          setConfirmModal,
+          setTransactionHash,
+          setStatusLink,
+          setLoading
+        );
+        break;
+      default:
+        break;
+    }
   };
 
 //KeyStore Transaction History
@@ -620,7 +681,8 @@ export const MidgardPool_Action = () => async (dispatch) => {
       if (data) {
         data?.map((d, key) => {
           if (d.asset === "XRUNE") {
-            d.logo = "https://cryptologos.cc/logos/thorchain-rune-logo.png";
+            d.logo =
+              "https://miro.medium.com/max/3150/1*KkoJRE6ICrE70mNegVeY_Q.png";
           }
         });
 

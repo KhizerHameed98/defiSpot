@@ -68,13 +68,25 @@ export const AddLiquidity = () => {
                       <p class="yahparagraph">Setting</p>
                     </div>
                     <div>
-                    <svg className="u-widtradre8777" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                   onClick={() => {
-                    setSettingModal(false);
-                    setAddLiquidity_Modal(true);
-                  }}>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="#23262F"/>
-</svg>
+                      <svg
+                        className="u-widtradre8777"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        onClick={() => {
+                          setSettingModal(false);
+                          setAddLiquidity_Modal(true);
+                        }}
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z"
+                          fill="#23262F"
+                        />
+                      </svg>
                       {/* <img
                         className="popupcrosss"
                         onClick={() => {
@@ -91,7 +103,22 @@ export const AddLiquidity = () => {
                     </p>
                   </div>
                   <div className="d-flex justify-content-between">
-                    <button
+                  <input 
+                      type="text"
+                      class="btn w-secondaryInpput 123"
+                      style={{ width: "80px" }}
+                      placeholder="1%"
+                      // value="1"
+                      onClick={() =>
+                        setBtnOptions({
+                          first: true,
+                          second: false,
+                          third: false,
+                          fourth: false,
+                        })
+                      }
+                    ></input>
+                    {/* <button
                       type="button"
                       class="btn n-secondaryButton settingPercentage"
                       style={{
@@ -109,8 +136,8 @@ export const AddLiquidity = () => {
                       }
                     >
                       1%
-                      {/* <img className="mb-1" src={Images.morearticle}/> */}
-                    </button>
+                      
+                    </button> */}
                     <button
                       type="button"
                       class="btn n-secondaryButton settingPercentage"
@@ -192,7 +219,7 @@ export const AddLiquidity = () => {
                         })
                       }
                     >
-                    Normal
+                      Normal
                       {/* <img className="mb-1" src={Images.morearticle}/> */}
                     </button>
                     <button
@@ -294,8 +321,40 @@ export const AddLiquidity = () => {
                         src={Images.lefttwoline}
                       /> */}
                       <p class="yahparagraph pl-2 pt-3">Add Liquidity</p>
+                      
+                    </div>
+                    {/* <Setting_Modal setModal={setAddLiquidity_Modal} /> */}
+                    <div>
+                      {/* <svg
+                        style={{ marginTop: "20px" }}
+                        className="u-widtradre8777"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        onClick={() => {
+                          setSettingModal(false);
+                          setAddLiquidity_Modal(true);
+                        }}
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z"
+                          fill="#23262F"
+                        />
+                      </svg> */}
+                      {/* <img
+                        className="popupcrosss"
+                        onClick={() => {
+                          setSettingModal(false);
+                          setAddLiquidity_Modal(true);
+                        }}
+                        src={Images.crossicon}
+                      /> */}
                       <img
-                      className="settingmodlicon4444"
+                       
                         onClick={() => {
                           // setModal(false);
                           setSettingModal(true);
@@ -304,29 +363,11 @@ export const AddLiquidity = () => {
                         style={{
                           height: "25px",
                           marginTop: "24px",
-                          marginLeft:"10px",
+                          marginLeft: "10px",
                           cursor: "pointer",
                         }}
                         src={Images.setting}
                       />
-                    </div>
-                    {/* <Setting_Modal setModal={setAddLiquidity_Modal} /> */}
-                    <div>
-                    <svg style={{marginTop:"20px"}} className="u-widtradre8777" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                   onClick={() => {
-                    setSettingModal(false);
-                    setAddLiquidity_Modal(true);
-                  }}>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="#23262F"/>
-</svg>
-                    {/* <img
-                        className="popupcrosss"
-                        onClick={() => {
-                          setSettingModal(false);
-                          setAddLiquidity_Modal(true);
-                        }}
-                        src={Images.crossicon}
-                      /> */}
                     </div>
                   </div>
                   <div
@@ -395,14 +436,15 @@ export const AddLiquidity = () => {
                         <div class="input-group">
                           <input
                             type="number"
-                            class="form-control"
+                            class="form-control input-focus"
                             style={{
                               color: "#23262f",
                               fontSize: "14px",
                               // fontFamily: "Poppins",
+                              // border: "2px solid #E6E8EC",
                               paddingBottom: "25px",
                               borderRadius: "10px",
-                              border: "2px solid #E6E8EC",
+
                               paddingTop: "25px",
                               fontWeight: "bold",
                             }}
@@ -438,7 +480,10 @@ export const AddLiquidity = () => {
                               <img className="mb-1" src={Images.iconarowdown} />
                               {/* <span class="sr-only">Toggle Dropdown</span> */}
                             </button>
-                            <div style={{transform:"none"}} class="dropdown-menu dropdownn88777776">
+                            <div
+                              style={{ transform: "none" }}
+                              class="dropdown-menu dropdownn88777776"
+                            >
                               <a class="dropdown-item" href="#">
                                 BTC
                               </a>
@@ -477,14 +522,14 @@ export const AddLiquidity = () => {
                         <div class="input-group">
                           <input
                             type="number"
-                            class="form-control"
+                            class="form-control input-focus"
                             style={{
                               color: "#23262f",
                               fontSize: "14px",
                               fontFamily: "Poppins",
                               paddingBottom: "25px",
                               borderRadius: "10px",
-                              border: "2px solid #E6E8EC",
+                              // border: "2px solid #E6E8EC",
                               paddingTop: "25px",
                               fontWeight: "bold",
                             }}
@@ -520,7 +565,7 @@ export const AddLiquidity = () => {
                               <img className="mb-1" src={Images.iconarowdown} />
                               {/* <span class="sr-only">Toggle Dropdown</span> */}
                             </button>
-                            <div class="dropdown-menu">
+                            <div class="dropdown-menu dropdownn88777776">
                               <a class="dropdown-item" href="#">
                                 BTC
                               </a>
@@ -537,14 +582,14 @@ export const AddLiquidity = () => {
                         <div class="input-group ml-3">
                           <input
                             type="number"
-                            class="form-control"
+                            class="form-control input-focus"
                             style={{
                               color: "#23262f",
                               fontSize: "14px",
                               fontFamily: "Poppins",
                               paddingBottom: "25px",
                               borderRadius: "10px",
-                              border: "2px solid #E6E8EC",
+                              // border: "2px solid #E6E8EC",
                               paddingTop: "25px",
                               fontWeight: "bold",
                             }}
@@ -580,14 +625,13 @@ export const AddLiquidity = () => {
                         <div class="input-group">
                           <input
                             type="number"
-                            class="form-control"
+                            class="form-control input-focus"
                             style={{
                               color: "#23262f",
                               fontSize: "14px",
                               // fontFamily: "Poppins",
                               paddingBottom: "25px",
                               borderRadius: "10px",
-                              border: "2px solid #E6E8EC",
                               paddingTop: "25px",
                               fontWeight: "bold",
                             }}
@@ -623,7 +667,7 @@ export const AddLiquidity = () => {
                               <img className="mb-1" src={Images.iconarowdown} />
                               {/* <span class="sr-only">Toggle Dropdown</span> */}
                             </button>
-                            <div class="dropdown-menu">
+                            <div class="dropdown-menu dropdownn88777776">
                               <a class="dropdown-item" href="#">
                                 BTC
                               </a>
@@ -642,19 +686,19 @@ export const AddLiquidity = () => {
                   <hr style={{ marginTop: "3rem" }} class="solid" />
                   <div class="d-flex justify-content-between">
                     <p class="servicefee">Slip</p>
-                    <p style={{ fontWeight: "bold", fontFamily: "DM Sans" }}>
+                    <p style={{ fontWeight: "600", fontFamily: "Poppins" }}>
                       0%
                     </p>
                   </div>
                   <div class="d-flex justify-content-between">
                     <p class="servicefee">Pool Share Estimated</p>
-                    <p style={{ fontWeight: "bold", fontFamily: "DM Sans" }}>
+                    <p style={{ fontWeight: "600", fontFamily: "Poppins" }}>
                       0.363%
                     </p>
                   </div>
                   <div class="d-flex justify-content-between ">
                     <p class="servicefee">Total Fee</p>
-                    <p style={{ fontWeight: "bold", fontFamily: "DM Sans" }}>
+                    <p style={{ fontWeight: "600", fontFamily: "Poppins" }}>
                       $0.721
                     </p>
                   </div>
@@ -664,11 +708,13 @@ export const AddLiquidity = () => {
                     style={{
                       paddingLeft: "30px",
                       paddingRight: "30px",
-                      borderColor: "#E6E8EC",
-                      fontFamily: "Poppins",
+                      border: "2px solid #E6E8EC",
+                      fontFamily: "DM Sans",
                       borderRadius: "25px",
-                      fontWeight: "bold",
+                      fontWeight: "600",
                       color: "#000",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
                     }}
                     type="button"
                     class="btn btn-outline-secondary btnHoverBlue"
@@ -679,6 +725,16 @@ export const AddLiquidity = () => {
                     Cancel
                   </button>
                   <button
+                   style={{
+                    paddingLeft: "30px",
+                    paddingRight: "30px",
+                    fontFamily: "DM Sans",
+                    borderRadius: "25px",
+                    fontWeight: "500",
+                    paddingTop: "10px",
+                    paddingBottom: "10px",
+                    letterSpacing: "0.5px",
+                  }}
                     type="button"
                     class="btn btn-primary btn-lg btnHoverWhite"
                     onClick={() => {

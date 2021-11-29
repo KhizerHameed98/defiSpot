@@ -62,13 +62,25 @@ const Withdraw_Modal = () => {
                       <p class="yahparagraph">Settings</p>
                     </div>
                     <div>
-                    <svg className="u-widtradre8777" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  onClick={() => {
-                    setSettingModal(false);
-                    setWithdraw_Modal(true);
-                  }}>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="#23262F"/>
-</svg>
+                      <svg
+                        className="u-widtradre8777"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        onClick={() => {
+                          setSettingModal(false);
+                          setWithdraw_Modal(true);
+                        }}
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z"
+                          fill="#23262F"
+                        />
+                      </svg>
                       {/* <img
                         className="popupcrosss"
                         onClick={() => {
@@ -81,11 +93,26 @@ const Withdraw_Modal = () => {
                   </div>
                   <div>
                     <p style={{ fontFamily: "Poppins", marginTop: "32px" }}>
-                      Slipperage tollerance
+                      Slipperage Tolerance
                     </p>
                   </div>
                   <div className="d-flex justify-content-between">
-                    <button
+                  <input 
+                      type="text"
+                      class="btn w-secondaryInpput 123"
+                      style={{ width: "80px" }}
+                      placeholder="1%"
+                      // value="1"
+                      onClick={() =>
+                        setBtnOptions({
+                          first: true,
+                          second: false,
+                          third: false,
+                          fourth: false,
+                        })
+                      }
+                    ></input>
+                    {/* <button
                       type="button"
                       class="btn n-secondaryButton settingPercentage"
                       style={{
@@ -103,8 +130,8 @@ const Withdraw_Modal = () => {
                       }
                     >
                       1%
-                      {/* <img className="mb-1" src={Images.morearticle}/> */}
-                    </button>
+                      
+                    </button> */}
                     <button
                       type="button"
                       class="btn n-secondaryButton settingPercentage"
@@ -287,6 +314,38 @@ const Withdraw_Modal = () => {
                         src={Images.lefttwoline}
                       /> */}
                       <p class="yahparagraph pl-2 pt-2">Withdraw</p>
+                      
+                    </div>
+                    <div>
+                      {/* <svg
+                        style={{ marginTop: "20px" }}
+                        className="u-widtradre8777"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        onClick={() => {
+                          setSettingModal(false);
+                          setWithdraw_Modal(true);
+                        }}
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z"
+                          fill="#23262F"
+                        />
+                      </svg> */}
+
+                      {/* <img
+                        className="popupcrosss"
+                        onClick={() => {
+                          setSettingModal(false);
+                          setWithdraw_Modal(true);
+                        }}
+                        src={Images.crossicon}
+                      /> */}
                       <img
                         onClick={() => {
                           // setModal(false);
@@ -296,29 +355,11 @@ const Withdraw_Modal = () => {
                         style={{
                           height: "25px",
                           marginTop: "15px",
-                          marginLeft:"10px",
+                          marginLeft: "10px",
                           cursor: "pointer",
                         }}
                         src={Images.setting}
                       />
-                    </div>
-                    <div>
-                    <svg style={{marginTop:"20px"}} className="u-widtradre8777" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    onClick={() => {
-                      setSettingModal(false);
-                      setWithdraw_Modal(true);
-                    }}>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="#23262F"/>
-</svg>
-
-                    {/* <img
-                        className="popupcrosss"
-                        onClick={() => {
-                          setSettingModal(false);
-                          setWithdraw_Modal(true);
-                        }}
-                        src={Images.crossicon}
-                      /> */}
                     </div>
                   </div>
                   <p
@@ -354,7 +395,7 @@ const Withdraw_Modal = () => {
                             style={{ width: "35px", height: "35px" }}
                             src={Images.btc}
                           />
-                          <p class="btcnativewithdraw pl-3 mt-3">
+                          <p class="btcnativewithdraw pl-3 mt-3" style={{ fontWeight: "500", fontFamily: "DM Sans" }}>
                             BTC
                             <br />
                             <span
@@ -370,7 +411,7 @@ const Withdraw_Modal = () => {
                         </div>
                         <p
                           class="pt-4"
-                          style={{ fontWeight: "bold", fontFamily: "Poppins" }}
+                          style={{ fontWeight: "600", fontFamily: "DM Sans" }}
                         >
                           Pool Share: 0.7054%
                         </p>
@@ -382,7 +423,7 @@ const Withdraw_Modal = () => {
                         <p class="servicefee pt-4">BTC share</p>
                         <p
                           class="pt-4"
-                          style={{ fontWeight: "bold", fontFamily: "Poppins" }}
+                          style={{ fontWeight: "600", fontFamily: "DM Sans" }}
                         >
                           5 BTC
                         </p>
@@ -390,7 +431,7 @@ const Withdraw_Modal = () => {
                       <div class="d-flex justify-content-between">
                         <p class="servicefee">RUNE share</p>
                         <p
-                          style={{ fontWeight: "bold", fontFamily: "Poppins" }}
+                          style={{ fontWeight: "600", fontFamily: "DM Sans" }}
                         >
                           2,222,369.93 RUNE
                         </p>
@@ -398,7 +439,7 @@ const Withdraw_Modal = () => {
                       <div class="d-flex justify-content-between ">
                         <p class="servicefee">LP Units</p>
                         <p
-                          style={{ fontWeight: "bold", fontFamily: "Poppins" }}
+                          style={{ fontWeight: "600", fontFamily: "DM Sans" }}
                         >
                           17.19
                         </p>
@@ -406,7 +447,7 @@ const Withdraw_Modal = () => {
                       <div class="d-flex justify-content-between ">
                         <p class="servicefee">Last added</p>
                         <p
-                          style={{ fontWeight: "bold", fontFamily: "Poppins" }}
+                          style={{ fontWeight: "600", fontFamily: "DM Sans" }}
                         >
                           17.19
                         </p>
@@ -434,21 +475,21 @@ const Withdraw_Modal = () => {
                   <hr class="solid" />
                   <div class="d-flex justify-content-between">
                     <p class="servicefee">BTC</p>
-                    <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
+                    <p style={{ fontWeight: "600", fontFamily: "DM Sans" }}>
                       2.5
                     </p>
                   </div>
                   <div class="d-flex justify-content-between">
                     <p class="servicefee">RUNE</p>
-                    <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
+                    <p style={{ fontWeight: "600", fontFamily: "DM Sans" }}>
                       1,142,761.32
                     </p>
                   </div>
                   <div class="d-flex justify-content-between ">
-                    <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
+                    <p style={{ fontWeight: "600", fontFamily: "DM Sans" }}>
                       Total Fee
                     </p>
-                    <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
+                    <p style={{ fontWeight: "600", fontFamily: "DM Sans" }}>
                       $0.927
                     </p>
                   </div>

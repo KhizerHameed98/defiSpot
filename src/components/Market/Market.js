@@ -11,7 +11,7 @@ import Pagination from "@mui/material/Pagination";
 import { handleMainModal } from "../../Services/mainServices";
 import { Bar, Pie, Line } from "react-chartjs-2";
 import LineChartSmartCard from "../GraphChart";
-import LogoShapeImage from "./LogoShape"
+import LogoShapeImage from "./LogoShape";
 
 const Market = () => {
   const [poolData, setPoolData] = useState([]);
@@ -121,6 +121,7 @@ const Market = () => {
     setTempPool(res);
   }
   function InputSearch(e) {
+    setPage(1);
     setSearchInput(e.target.value);
 
     if (!e.target.value) {
@@ -330,68 +331,75 @@ const Market = () => {
                 {" "}
                 {mainStateRedux ? (
                   <>
-                    {mainStateRedux.slice(0, 3).map((d, key) => {
+                    {mainStateRedux?.slice(0, 3)?.map((d, key) => {
                       return (
                         <>
                           <div class="col-lg-4 umarketsect22222">
                             <div class="d-flex markethover">
-                              <img
-                                style={{ width: "32px", height: "32px" }}
-                                src={d?.logo}
-                              />
-                              <div
-                                style={{
-                                  paddingLeft: "15px",
-                                }}
-                              >
-                                <p
-                                  class="marketparagraph d-flex"
-                                  // style={{ width: "122px" }}
-                                >
-                                  {d?.asset}/USDT{" "}
-                                  {d?.change_24h >= 0 ? (
-                                    <span className="spanclassmarkets">
-                                      +{financial(d?.change_24h)}%
-                                    </span>
-                                  ) : (
-                                    <span className="spanclassmarket">
-                                      {financial(d?.change_24h)}%
-                                    </span>
-                                  )}{" "}
-                                </p>
-                                <p
-                                  className="w-text-23262f"
+                              <div class="nn-marketGraph">
+                                <img
+                                  style={{ width: "32px", height: "32px" }}
+                                  src={d?.logo}
+                                />
+                                <div
                                   style={{
-                                    marginBottom: "0",
-                                    fontSize: "24px",
-                                    fontWeight: "600",
-                                    fontFamily: "Poppins",
-                                  }}
-                                >
-                                  {" "}
-                                  {numberWithCommas(
-                                    financial(d?.assetPriceUSD)
-                                  )}{" "}
-                                </p>
-                                <p
-                                  style={{
+                                    paddingLeft: "15px",
                                     fontFamily: "Poppins",
                                     color: "#23262F",
                                     fontSize: "12px",
-                                    marginBottom: "0px"
+                                    marginBottom: "0px",
                                   }}
                                 >
-                                  {numberWithCommas(
-                                    financial(d?.assetPriceUSD)
-                                  )}
-                                </p>
+                                  <p
+                                    class="marketparagraph d-flex"
+                                    // style={{ width: "122px" }}
+                                  >
+                                    {d?.asset}/USDT{" "}
+                                    {d?.change_24h >= 0 ? (
+                                      <span className="spanclassmarkets n-darkSpanClassMarkets">
+                                        +{financial(d?.change_24h)}%
+                                      </span>
+                                    ) : (
+                                      <span className="spanclassmarket n-darkSpanClassMarket">
+                                        {financial(d?.change_24h)}%
+                                      </span>
+                                    )}{" "}
+                                  </p>
+                                  <p
+                                    className="w-text-23262f"
+                                    style={{
+                                      marginBottom: "0",
+                                      fontSize: "24px",
+                                      fontWeight: "600",
+                                      fontFamily: "Poppins",
+                                    }}
+                                  >
+                                    {" "}
+                                    {numberWithCommas(
+                                      financial(d?.assetPriceUSD)
+                                    )}{" "}
+                                  </p>
+                                  <p class="n-marketAssetPriceValue"
+                                    style={{
+                                      fontFamily: "Poppins",
+                                      // color: "#23262F",
+                                      fontSize: "12px",
+                                      marginBottom: "0px",
+                                    }}
+                                  >
+                                    {numberWithCommas(
+                                      financial(d?.assetPriceUSD)
+                                    )}
+                                  </p>
+                                </div>
                               </div>
-                              <div 
-                              // style={{ paddingLeft: "10px" }} 
-                              class="n-marketLineGraph">
+                              <div
+                                // style={{ paddingLeft: "10px" }}
+                                class="n-marketLineGraph"
+                              >
                                 <LineChartSmartCard
                                   color={
-                                    d?.change_7d >= 0 ? "#45B26B" : "#ff6838"
+                                    d?.change_24h >= 0 ? "#45B26B" : "#ff6838"
                                   }
                                   data={[
                                     {
@@ -727,12 +735,12 @@ const Market = () => {
                       {arrSortSrNo &&
                         poolData
                           // .slice(0, 10)
-                          .slice(
+                          ?.slice(
                             page * cardsPerPage - cardsPerPage,
                             cardsPerPage * page
                           )
-                          .reverse()
-                          .map((d, key) => {
+                          ?.reverse()
+                          ?.map((d, key) => {
                             return (
                               <tr style={{ borderBottom: "1px solid #E6E8EC" }}>
                                 <td
@@ -754,7 +762,6 @@ const Market = () => {
                                 </td>
                                 <td>
                                   <div class="d-flex flex-row align-items-center">
-                                    
                                     <img
                                       style={{ width: "32px" }}
                                       src={d?.logo}
@@ -766,6 +773,7 @@ const Market = () => {
                                         marginLeft: "10px",
                                         whiteSpace: "nowrap",
                                       }}
+                                      
                                     >
                                       {d?.assetFullName}
                                     </div>
@@ -828,7 +836,7 @@ const Market = () => {
                                     <span className="buyTokenGraph">
                                       <LineChartSmartCard
                                         color={
-                                          d?.change_7d >= 0
+                                          d?.change_24h >= 0
                                             ? "#45B26B"
                                             : "#ff6838"
                                         }
@@ -884,11 +892,11 @@ const Market = () => {
                       {!arrSortSrNo &&
                         poolData
                           // .slice(0, 10)
-                          .slice(
+                          ?.slice(
                             page * cardsPerPage - cardsPerPage,
                             cardsPerPage * page
                           )
-                          .map((d, key) => {
+                          ?.map((d, key) => {
                             return (
                               <>
                                 <tr
@@ -911,9 +919,6 @@ const Market = () => {
                                   </td>
                                   <td style={{ border: "none" }}>
                                     <div class="d-flex flex-row align-items-center">
-                                   
-                                    
-                                    
                                       <img
                                         style={{ width: "32px" }}
                                         src={d?.logo}
@@ -925,13 +930,14 @@ const Market = () => {
                                           marginLeft: "10px",
                                           whiteSpace: "nowrap",
                                         }}
+                                        class="n-darkAssetFullName"
                                       >
                                         {d?.assetFullName}
                                       </div>
                                       <div class="d-flex align-items-center">
                                         <div
                                           style={{ fontSize: "14px" }}
-                                          class="pl-2 text-muted"
+                                          class="pl-2 text-muted n-darkTextMuted"
                                         >
                                           {d?.asset}
                                         </div>
@@ -940,7 +946,7 @@ const Market = () => {
                                   </td>
 
                                   <td
-                                    className="text-right"
+                                    className="text-right n-darkAssetFullName"
                                     style={{
                                       border: "none",
                                     }}
@@ -987,7 +993,7 @@ const Market = () => {
                                     </div>
                                   </td>
                                   <td
-                                    className="text-right"
+                                    className="text-right n-darkAssetFullName"
                                     style={{
                                       border: "none",
                                     }}
@@ -1002,7 +1008,7 @@ const Market = () => {
                                     </div>
                                   </td>
                                   <td
-                                    className="text-right"
+                                    className="text-right n-darkAssetFullName"
                                     style={{
                                       border: "none",
                                     }}
@@ -1020,9 +1026,13 @@ const Market = () => {
                                     <div class="graph">
                                       {/* <img src={Images.crt1} alt="" />
                                       {/* <Graph /> */}
+                                      {console.log(
+                                        `<><><><><>>>>>>>>><<<<<<<<>>>>>>> d `,
+                                        d
+                                      )}
                                       <LineChartSmartCard
                                         color={
-                                          d?.change_7d >= 0
+                                          d?.change_24h >= 0
                                             ? "#45B26B"
                                             : "#ff6838"
                                         }
@@ -1086,13 +1096,13 @@ const Market = () => {
               Learn about DeFi
             </h2>
             <p
-              class="d-flex justify-content-center"
+              class="d-flex justify-content-center n-learnSectionParag"
               style={{
                 textAlign: "center",
                 fontFamily: "Poppins",
                 fontSize: "16px",
                 fontWeight: "400",
-                color: "#353945",
+                // color: "#353945",
                 margin: "0",
               }}
             >
@@ -1110,7 +1120,7 @@ const Market = () => {
                   alt="Card image cap"
                 />
                 <div class="card-body n-learnCard">
-                  <h6 class="marketcardone">Learn & Earn</h6>
+                  {/* <h6 class="marketcardone">Learn & Earn</h6> */}
                   <p class="cardtext">
                     Earn yield by providing liquidity to pools
                   </p>
@@ -1127,7 +1137,7 @@ const Market = () => {
                   alt="Card image cap"
                 />
                 <div class="card-body n-learnCard">
-                  <h6 class="marketcardtwo">WEEKLY WATCHLIST AIRDROP</h6>
+                  {/* <h6 class="marketcardtwo">WEEKLY WATCHLIST AIRDROP</h6> */}
                   <p class="cardtext">
                     The biggest advantages of decentralized exchange
                   </p>
@@ -1143,7 +1153,7 @@ const Market = () => {
                   alt="Card image cap"
                 />
                 <div class="card-body n-learnCard">
-                  <h6 class="marketcardthree">FEATURED</h6>
+                  {/* <h6 class="marketcardthree">FEATURED</h6> */}
                   <p class="cardtext">Submit your watchlist and win USDT</p>
                 </div>
               </div>
