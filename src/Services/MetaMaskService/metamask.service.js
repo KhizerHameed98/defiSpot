@@ -7,7 +7,7 @@ import {
 import { ethers } from "ethers";
 import { toast } from "react-toastify";
 
-import { INBOUND_ADDRESSES } from "../../Routes/serverRoutes";
+import { INBOUND_ADDRESSES, SERVER_URL_MAIN } from "../../Routes/serverRoutes";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 // import Web3Modal from "web3modal";
 import { BehaviorSubject } from "rxjs";
@@ -17,7 +17,11 @@ import { EthUtilsService } from "../KeyStoreSwappingAsset/services/eth-utils.ser
 import { ETH_DECIMAL, getTokenAddress } from "@xchainjs/xchain-ethereum";
 import { TCAbi } from "../WalletConnectService/thorchain.abi";
 
-import { LOGIN } from "../../Redux/actions/types";
+import {
+  LOGIN,
+  SWAPPING_REQUEST,
+  SWAPPING_SUCCESS,
+} from "../../Redux/actions/types";
 import { WalletConnectService } from "../WalletConnectService/walletConnect-service";
 import Web3 from "web3";
 import { CRYPTOCOMPARE_KEY } from "../environment";
@@ -296,26 +300,57 @@ export class MetamaskService {
     setStatusLink,
     setLoading
   ) {
+    dispatch({ type: SWAPPING_REQUEST });
     let inboundApi = await axios.get(INBOUND_ADDRESSES);
+
     inboundApi = inboundApi.data;
     let ethInboundAddress = inboundApi.find(
       (data) => data.chain === fromAsset?.blockchain
     );
     if (toAsset?.blockchain === "ETH") {
-      const Memo = `=:${toAsset?.rawData}:${account[0]}`;
-      console.log("Memo=====>>", Memo);
-      const send_amount = Number(amount) * Number(Math.pow(10, 0));
-      console.log("in=====>>", ethInboundAddress);
+      try {
+        const Memo = `=:${toAsset?.rawData}:${account[0]}`;
+        console.log("Memo=====>>", Memo);
+        const send_amount = Number(amount) * Number(Math.pow(10, 0));
+        console.log("in=====>>", ethInboundAddress);
 
-      let response = await this.callDeposit({
-        ethInboundAddress:ethInboundAddress,
-        asset:assetFromString(fromAsset?.rawData),
-        input:Number(send_amount),
-        memo: Memo,
-        userAddress:account[0],
-        signer: signer
-      });
-      console.log("response========>>>", response);
+        let response = await this.callDeposit({
+          ethInboundAddress: ethInboundAddress,
+          asset: assetFromString(fromAsset?.rawData),
+          input: Number(send_amount),
+          memo: Memo,
+          userAddress: account[0],
+          signer: signer,
+        });
+
+        const etherScan = `https://ropsten.etherscan.io/tx/${response}`;
+        setStatusLink(etherScan);
+        setTransactionHash(response);
+        setLoading(false);
+        setConfirmModal(false);
+        setYayModal(true);
+        const data = {
+          coin: toAsset?.asset,
+          amount: send_amount,
+          address: account[0],
+          transactionId: response,
+          date: new Date().toString(),
+          client: account[0],
+        };
+        // let apiData = axios.post(`${SERVER_URL_MAIN}`);
+        dispatch({
+          type: SWAPPING_SUCCESS,
+          payload: {
+            transactionHash: response,
+            transactionHistoryModal: true,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+        console.log("error", error);
+        alertToast(true, error?.message || error);
+        setLoading(false);
+      }
     } else {
       alertToast(true, "Please Select To Address of ETH");
     }

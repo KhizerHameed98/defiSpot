@@ -21,7 +21,9 @@ import {
   handleLogout,
   WalletConnectConnection,
   XDEFIConnection,
+  NGROK,
 } from "../../../Services/mainServices";
+import axios from "axios";
 
 const web3 = new Web3(window.ethereum);
 
@@ -62,6 +64,42 @@ export const Header = () => {
   const myRefLanguage = useRef();
   const myRefLearn = useRef();
   const hiddenFileInput = useRef(null);
+  const [responseMsg, setResponseMsg] = useState("");
+  const mainState = useSelector((state) => state.main);
+  const mainModal = useSelector((state) => state.main.mainModal);
+  const loggedIn = useSelector((state) => state.main.isLoggedin);
+  const transactionHistoryModal = useSelector(
+    (state) => state.main.transactionHistoryModal
+  );
+  const transationHash =useSelector((state) => state.main.transactionHash);
+  let timeOut;
+
+  const res = "";
+
+  let tHash = "";
+
+  const checkTransaction = async() => {
+   axios.get(`${NGROK}/get/transaction/by/hash/${tHash}`).then((res) => {
+      console.log("CHECKING_HASH=============", res);
+      clearTimeout(timeOut);
+      setResponseMsg(res.data);
+    });
+  };
+
+
+
+
+  useEffect(() => {
+    if (transationHash) {
+  
+
+      console.log("I am here3 -------------------->");
+    
+      tHash = transationHash;
+      console.log("thash-=================", tHash);
+      timeOut = setTimeout(checkTransaction(tHash), 20000);
+    }
+  }, [mainState, mainState.transactionHash])
 
   useEffect(() => {
     document.addEventListener("click", handleClick);
@@ -100,11 +138,7 @@ export const Header = () => {
   let fileReader;
   const disptach = useDispatch();
 
-  const mainModal = useSelector((state) => state.main.mainModal);
-  const loggedIn = useSelector((state) => state.main.isLoggedin);
-  const transactionHistoryModal = useSelector(
-    (state) => state.main.transactionHistoryModal
-  );
+  
   // console.log(loggedIn);
   useEffect(() => {
     if (loggedIn) {
@@ -272,7 +306,7 @@ export const Header = () => {
             alignItems: "center",
           }}
         >
-          <div>Swap !!! for !!!! $$</div>
+          <div>Transaction is Pending</div>
         </div>
       )}
       {/* <!-- Create KeyStore Modal  --> */}

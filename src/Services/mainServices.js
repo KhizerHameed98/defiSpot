@@ -375,20 +375,20 @@ export const nativeSwapping =
           setLoading
         );
         break;
-      // case "XDEFI":
-      // xdefiService.swapping(
-      //   dispatch,
-      //   fromAsset,
-      //   toAsset,
-      //   amount,
-      //   decimal,
-      //   midgardPool,
-      //   setYayModal,
-      //   setConfirmModal,
-      //   setTransactionHash,
-      //   setStatusLink,
-      //   setLoading
-      // );
+      case "XDEFI":
+        xdefiService.swapping(
+          dispatch,
+          fromAsset,
+          toAsset,
+          amount,
+          decimal,
+          midgardPool,
+          setYayModal,
+          setConfirmModal,
+          setTransactionHash,
+          setStatusLink,
+          setLoading
+        );
 
       default:
         break;

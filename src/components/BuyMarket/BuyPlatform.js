@@ -564,6 +564,16 @@ const BuyPlatform = ({ match }) => {
     setConfirmModal(true);
   };
 
+
+
+
+
+
+
+
+
+
+
   //Submit Swap
   const submitSwap = () => {
     if (fromAmount.length > 0) {
@@ -1286,42 +1296,43 @@ const BuyPlatform = ({ match }) => {
                   class="d-flex justify-content-between align-items-center"
                 >
                   <div className="d-flex align-items-center">
-                  <p className="u-burmarketmainpparagrpahj00 d-flex align-items-center">
-                    {numberWithCommas(financial(tokenData?.assetPriceUSD))} USD{" "}
-                    <span
-                      style={{
-                        color: "#4FBF67",
-                        fontSize: "12px",
-                        fontFamily: 'Poppins',
-                        fontWeight: "500",
-                        marginLeft: "10px",
-                      }}
-                    >
-                      +0.92%
-                    </span>
-                  </p>
-                  <div className="ml-4">
-                    <button
-                      className={
-                        displayLineGraph
-                          ? "btn w-swap-chartButtonAC mx-1"
-                          : "btn w-swap-chartButton mx-1"
-                      }
-                      onClick={() => setDisplayLineGraph(true)}
-                    >
-                      Graph
-                    </button>
-                    <button
-                      className={
-                        displayLineGraph
-                          ? "btn w-swap-chartButton mx-1"
-                          : "btn w-swap-chartButtonAC mx-1"
-                      }
-                      onClick={() => setDisplayLineGraph(false)}
-                    >
-                      Candles
-                    </button>
-                  </div>
+                    <p className="u-burmarketmainpparagrpahj00 d-flex align-items-center">
+                      {numberWithCommas(financial(tokenData?.assetPriceUSD))}{" "}
+                      USD{" "}
+                      <span
+                        style={{
+                          color: "#4FBF67",
+                          fontSize: "12px",
+                          fontFamily: "Poppins",
+                          fontWeight: "500",
+                          marginLeft: "10px",
+                        }}
+                      >
+                        +0.92%
+                      </span>
+                    </p>
+                    <div className="ml-4">
+                      <button
+                        className={
+                          displayLineGraph
+                            ? "btn w-swap-chartButtonAC mx-1"
+                            : "btn w-swap-chartButton mx-1"
+                        }
+                        onClick={() => setDisplayLineGraph(true)}
+                      >
+                        Graph
+                      </button>
+                      <button
+                        className={
+                          displayLineGraph
+                            ? "btn w-swap-chartButton mx-1"
+                            : "btn w-swap-chartButtonAC mx-1"
+                        }
+                        onClick={() => setDisplayLineGraph(false)}
+                      >
+                        Candles
+                      </button>
+                    </div>
                   </div>
                   <div
                     class="d-flex"

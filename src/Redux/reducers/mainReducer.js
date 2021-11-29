@@ -16,24 +16,15 @@ import {
   SET_GRAPH_DATA,
   SET_SETTINGS,
   TRANSACTION_HISTORY_MODAL,
+  SWAPPING_FAILED,
+  SWAPPING_REQUEST,
+  SWAPPING_SUCCESS,
 } from "../actions/types";
 
 const initialState = {
   // token: localStorage.getItem("token") || null,
   // userDetails: localStorage.getItem("userDetails"),
-  // loading: true,
-  // isAuthenticated: null,
-  // userDetails: {},
-  // updatePassword: {},
-  // userWallet: {},
-  // isEmailAuthOn: {},
-  // isGoogleAuthOn: {},
-  // isSMSAuthOn: {},
-  // userUpdate: {},
-  // tiersStatus: null,
-  // users: [],
-  // error: {},
-  // errors: [],
+
   midgardPool: null,
   KeyStoreClient: [],
   clientsObject: {},
@@ -48,6 +39,7 @@ const initialState = {
   graphDataCombined: {},
   settings: {},
   transactionHistoryModal: false,
+  transactionHash: null,
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -118,6 +110,7 @@ export default (state = initialState, { type, payload }) => {
     //   };
 
     case LOGOUT:
+      localStorage.removeItem("transactionHash");
       return {
         ...state,
         KeyStoreClient: null,
@@ -139,7 +132,11 @@ export default (state = initialState, { type, payload }) => {
         isLoggedin: true,
         transactionHistoryModal: false,
       };
-
+    case SWAPPING_SUCCESS:
+      return {
+        ...state,
+        ...payload,
+      };
     case TRANSACTION_HISTORY_MODAL:
       return {
         ...state,

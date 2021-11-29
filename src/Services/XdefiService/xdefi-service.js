@@ -8,12 +8,20 @@ import {
   getTokenAddress,
   TxOverrides,
 } from "@xchainjs/xchain-ethereum/lib";
+import { EthUtilsService } from "../KeyStoreSwappingAsset/services/eth-utils.service";
 import { User } from "../WalletConnectService/user";
 import { BigNumber } from "@ethersproject/bignumber";
 import { ethers } from "ethers";
 import { erc20ABI } from "../WalletConnectService/erc20.abi";
-import { AssetETH, assetToString } from "@xchainjs/xchain-util";
+import {
+  AssetETH,
+  assetFromString,
+  assetToString,
+  baseAmount,
+} from "@xchainjs/xchain-util";
 import { toUtf8Bytes } from "@ethersproject/strings";
+import { toast } from "react-toastify";
+
 import { Address } from "@xchainjs/xchain-client";
 import { hexlify } from "@ethersproject/bytes";
 import { MockClientService } from "../WalletConnectService/mock-client.service";
@@ -28,10 +36,39 @@ import { Network } from "@xchainjs/xchain-client";
 import { Web3 } from "web3";
 import { Alert } from "react-bootstrap";
 
-import { LOGIN, LOGOUT } from "../../Redux/actions/types";
+import {
+  LOGIN,
+  LOGOUT,
+  SWAPPING_SUCCESS,
+  SWAPPING_REQUEST,
+  SWAPPING_FAILED,
+} from "../../Redux/actions/types";
 import axios from "axios";
 import { CRYPTOCOMPARE_KEY } from "../environment";
-
+const ethUtilsService = new EthUtilsService();
+const alertToast = (error, message) => {
+  if (!error) {
+    toast.success(message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  } else {
+    toast.error(message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  }
+};
 let binanceAddress;
 
 let bitcoinAddress;
@@ -45,9 +82,6 @@ let bitcoinCashAddress;
 let thorchainAddress;
 
 let lunaAddress;
-
-
-
 
 let userBinanceClient;
 
@@ -283,7 +317,7 @@ export class XDEFIService {
     // let check = await userBinanceClient.getBalance(binanceAddress);
 
     // console.log("heyBalance=======>>", check[0].amount.amount());
-
+    dispatch({ type: SWAPPING_REQUEST });
     console.log("from=======>>>", fromAsset.rawData.toString());
     console.log("to=======>>", toAsset, amount, decimal);
     setLoading(true);
@@ -325,7 +359,185 @@ export class XDEFIService {
         break;
     }
 
-    console.log("walletTo==========>>", walletAddressTo);
+    try {
+      let inboundAddress;
+      if (fromAsset?.blockchain === "THOR") {
+        inboundAddress = "tthor1mrckazz7l67tz435dp9m3qaygzm6xmsqeglrj8";
+      } else {
+        let inboundApi = await axios.get(
+          "https://testnet.midgard.thorchain.info/v2/thorchain/inbound_addresses"
+        );
+        inboundApi = inboundApi.data;
+        inboundAddress = inboundApi.find(
+          (data) => data.chain === fromAsset?.blockchain
+        );
+      }
+      //  const Memo = "=:THOR.RUNE:tthor1fcaf3n4h34ls3cu4euwl6f7kex0kpctkf5p8d7";
+
+      const Memo = `=:${toAsset?.rawData}:${walletAddressTo}`;
+      const send_amount = Number(amount) * Number(Math.pow(10, decimal));
+      console.log("send Amount===>>", send_amount);
+      let viewblock;
+
+      switch (fromAsset?.blockchain) {
+        case "ETH":
+          let response = await ethUtilsService.callDeposit({
+            inboundAddress: inboundAddress,
+            asset: assetFromString(fromAsset.rawData),
+            // amount: amount,
+            amount: Number(send_amount),
+            memo: Memo,
+            ethClient: userEthereumClient,
+          });
+          const etherScan = `https://ropsten.etherscan.io/tx/${response}`;
+          setStatusLink(etherScan);
+          setTransactionHash(response);
+          setLoading(false);
+          setConfirmModal(false);
+          setYayModal(true);
+          dispatch({
+            type: SWAPPING_SUCCESS,
+            payload: {
+              transactionHash: response,
+              transactionHistoryModal:true
+            },
+          });
+          break;
+
+        case "BNB":
+          // console.log("InboundAddress====>>", inboundAddress);
+          // console.log("InboundAddress====>>", fromAsset.rawData);
+          // console.log("InboundAddress====>>", send_amount);
+          // console.log("InboundAddress====>>", Memo);
+          console.log("Hey BNB");
+          let response2 = await userBinanceClient.transfer({
+            recipient: inboundAddress.address,
+            asset: assetFromString(fromAsset.rawData),
+            amount: baseAmount(amount * 10 ** decimal),
+            memo: Memo,
+          });
+          viewblock = `https://viewblock.io/thorchain/tx/${response2}?network=testnet`;
+
+          setStatusLink(viewblock);
+          setTransactionHash(response2);
+          setLoading(false);
+          setConfirmModal(false);
+          setYayModal(true);
+          console.log("response======>>", viewblock);
+          dispatch({
+            type: SWAPPING_SUCCESS,
+            payload: {
+              transactionHash: response2,
+              transactionHistoryModal:true
+            },
+          });
+
+          break;
+
+        case "BTC":
+          console.log("Hey BTC");
+          let response3 = await userBtcClient.transfer({
+            recipient: inboundAddress.address,
+            asset: assetFromString(fromAsset.rawData),
+            amount: baseAmount(amount * 10 ** decimal),
+            memo: Memo,
+          });
+          viewblock = `https://viewblock.io/thorchain/tx/${response3}?network=testnet`;
+          setStatusLink(viewblock);
+          setTransactionHash(response3);
+          setLoading(false);
+          setConfirmModal(false);
+          setYayModal(true);
+          dispatch({
+            type: SWAPPING_SUCCESS,
+            payload: {
+              transactionHash: response3,
+              transactionHistoryModal:true
+            },
+          });
+          break;
+
+        case "LTC":
+          console.log("Hey LTC");
+          let response4 = await userLtcClient.transfer({
+            recipient: inboundAddress.address,
+            asset: assetFromString(fromAsset.rawData),
+            amount: baseAmount(amount * 10 ** decimal),
+            memo: Memo,
+          });
+          viewblock = `https://viewblock.io/thorchain/tx/${response4}?network=testnet`;
+          setStatusLink(viewblock);
+          setTransactionHash(response4);
+          setLoading(false);
+          setConfirmModal(false);
+          setYayModal(true);
+          console.log("response======>>", response4);
+          dispatch({
+            type: SWAPPING_SUCCESS,
+            payload: {
+              transactionHash: response4,
+              transactionHistoryModal:true
+            },
+          });
+          break;
+
+        case "BCH":
+          console.log("Hey BTC");
+          let response5 = await userbchClient.transfer({
+            recipient: inboundAddress.address,
+            asset: assetFromString(fromAsset.rawData),
+            amount: baseAmount(amount * 10 ** decimal),
+            memo: Memo,
+          });
+          viewblock = `https://viewblock.io/thorchain/tx/${response5}?network=testnet`;
+          setStatusLink(viewblock);
+          setTransactionHash(response5);
+          setLoading(false);
+          setConfirmModal(false);
+          setYayModal(true);
+          console.log("response======>>", response5);
+          dispatch({
+            type: SWAPPING_SUCCESS,
+            payload: {
+              transactionHash: response5,
+              transactionHistoryModal:true
+            },
+          });
+          break;
+
+        case "THOR":
+          console.log("Hey THOR");
+          console.log("inound=====>>", inboundAddress);
+          let response6 = await userThorchainClient.deposit({
+            // recipient: "",
+            asset: assetFromString(fromAsset.rawData),
+            amount: baseAmount(amount * 10 ** decimal),
+            memo: Memo,
+          });
+          viewblock = `https://viewblock.io/thorchain/tx/${response6}?network=testnet`;
+          setStatusLink(viewblock);
+          setTransactionHash(response6);
+          setLoading(false);
+          setConfirmModal(false);
+          setYayModal(true);
+          console.log("response======>>", response6);
+          dispatch({
+            type: SWAPPING_SUCCESS,
+            payload: {
+              transactionHash: response6,
+              transactionHistoryModal:true
+            },
+          });
+          break;
+
+        default:
+          break;
+      }
+    } catch (error) {
+      console.log("error", error);
+      alertToast(true, error?.message || error);
+      setLoading(false);
+    }
   }
   async connectXDEFI(dispatch, setMainModel, alertToast) {
     if (window.xfi) {

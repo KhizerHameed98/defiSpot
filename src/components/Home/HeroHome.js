@@ -69,13 +69,14 @@ export const HeroHome = () => {
             <div class="col-lg-6 n-heroContent">
               <div class="marketbanner">
                 <h2 class="marketbannerhed">
-                  Buy & sell <br />
-                  crypto in minutes
+                Your Global  <br />
+                Decentralized Crypto Exchange
                 </h2>
                 <p class="n-heroDescription">
-                  Trade Bitcoin, Ethereum, USDT, and the top altcoins on the
-                  <br />
-                  legendary crypto asset exchange.{" "}
+                Trade & earn yield on your assets cross-chain, fully
+                decentralized without wrapped
+                tokens or KYC.
+                
                 </p>
                 <Link to={browserRoute.MARKET}>
                   <button
@@ -523,7 +524,7 @@ export const HeroHome = () => {
                       marginBottom: "16px",
                     }}
                   >
-                    Buy & Sell Crypto
+                    Simple & Easy
                   </h5>
                   <p
                     class="card-text"
@@ -536,8 +537,7 @@ export const HeroHome = () => {
                       fontFamily: "Poppins",
                     }}
                   >
-                    We realize ideas from simple to complex, everything becomes
-                    easy to use and reach the most potential customers.
+                    Connect your wallet, and enter the world of cross-chain DeFi products.
                   </p>
                   <div class="d-flex justify-content-center">
                     <Link
@@ -592,8 +592,9 @@ export const HeroHome = () => {
                       fontFamily: "Poppins",
                     }}
                   >
-                    We realize ideas from simple to complex, everything becomes
-                    easy to use and reach the most potential customers.
+                     Trade assets cross-chain, fully
+                decentralized without wrapped
+                tokens.
                   </p>
                   <div class="d-flex justify-content-center">
                     <Link
@@ -648,8 +649,9 @@ export const HeroHome = () => {
                       fontFamily: "Poppins",
                     }}
                   >
-                    We realize ideas from simple to complex, everything becomes
-                    easy to use and reach the most potential customers.
+                    Earn interest on your assets by 
+                providing liquidity to the pools
+                on the platform.
                   </p>
                   <div class="d-flex justify-content-center">
                     <Link
@@ -715,15 +717,16 @@ export const HeroHome = () => {
                 <img src={Images.stepOne} />
               </div>
               <h2 class="d-flex justify-content-center minutstart">
-                Trade assets
+              Trade assets
               </h2>
               <p
                 // style={{ textAlign: "center",color:"#353945",fontWeight:"600" }}
                 class="d-flex justify-content-center mintparagraph"
               >
-                Trade assets cross-chain fully
-                <br /> decentralized without warpped
-                <br /> tokens
+                Trade assets cross-chain, fully<br />
+                decentralized without wrapped<br />
+                tokens.
+               
               </p>
             </div>
             <div class="col-lg-4">
@@ -738,7 +741,8 @@ export const HeroHome = () => {
                 class="d-flex justify-content-center mintparagraph"
               >
                 Simply connect your wallet without
-                <br /> any need of KYC
+                <br />any need of KYC or login info.
+                
               </p>
             </div>
             <div class="col-lg-4">
@@ -752,8 +756,10 @@ export const HeroHome = () => {
                 // style={{ textAlign: "center",color:"#353945",fontWeight:"600" }}
                 class="d-flex justify-content-center mintparagraph"
               >
-                Provide liquidity to one of our pools
-                <br /> to earn passive income
+                Earn interest on your assets by 
+                <br />providing liquidity to the pools
+                <br />on the platform.
+                
               </p>
             </div>
           </div>

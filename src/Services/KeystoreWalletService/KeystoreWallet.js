@@ -19,6 +19,9 @@ import {
   LOGOUT,
   LOGIN,
   MAINMODAL,
+  SWAPPING_SUCCESS,
+  SWAPPING_REQUEST,
+  SWAPPING_FAILED,
 } from "../../Redux/actions/types";
 import { mainRoute } from "../../Routes/serverRoutes";
 import { toast } from "react-toastify";
@@ -459,7 +462,9 @@ export function KeystoreWallet() {
     let walletAddressTo;
     let walletAddressFrom;
     let hash;
-
+    dispatch({
+      type: SWAPPING_REQUEST,
+    });
     switch (fromAsset?.blockchain) {
       case "ETH":
         walletAddressTo = userEthereumClient.getAddress();
@@ -561,6 +566,13 @@ export function KeystoreWallet() {
           setLoading(false);
           setConfirmModal(false);
           setYayModal(true);
+          dispatch({
+            type: SWAPPING_SUCCESS,
+            payload: {
+              transactionHash: response,
+              transactionHistoryModal: true,
+            },
+          });
           break;
 
         case "BNB":
@@ -584,6 +596,13 @@ export function KeystoreWallet() {
           setYayModal(true);
           console.log("response======>>", viewblock);
 
+          dispatch({
+            type: SWAPPING_SUCCESS,
+            payload: {
+              transactionHash: response2,
+              transactionHistoryModal: true,
+            },
+          });
           break;
 
         case "BTC":
@@ -600,6 +619,13 @@ export function KeystoreWallet() {
           setLoading(false);
           setConfirmModal(false);
           setYayModal(true);
+          dispatch({
+            type: SWAPPING_SUCCESS,
+            payload: {
+              transactionHash: response3,
+              transactionHistoryModal: true,
+            },
+          });
           break;
 
         case "LTC":
@@ -618,6 +644,13 @@ export function KeystoreWallet() {
           setYayModal(true);
           console.log("response======>>", response4);
 
+          dispatch({
+            type: SWAPPING_SUCCESS,
+            payload: {
+              transactionHash: response4,
+              transactionHistoryModal: true,
+            },
+          });
           break;
 
         case "BCH":
@@ -635,6 +668,13 @@ export function KeystoreWallet() {
           setConfirmModal(false);
           setYayModal(true);
           console.log("response======>>", response5);
+          dispatch({
+            type: SWAPPING_SUCCESS,
+            payload: {
+              transactionHash: response5,
+              transactionHistoryModal: true,
+            },
+          });
           break;
 
         case "THOR":
@@ -653,6 +693,13 @@ export function KeystoreWallet() {
           setConfirmModal(false);
           setYayModal(true);
           console.log("response======>>", response6);
+          dispatch({
+            type: SWAPPING_SUCCESS,
+            payload: {
+              transactionHash: response6,
+              transactionHistoryModal: true,
+            },
+          });
           break;
 
         default:

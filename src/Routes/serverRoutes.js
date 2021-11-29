@@ -1,5 +1,5 @@
 // const SERVER_URL = process.env.REACT_APP_SERVER_URL;
-export const SERVER_URL = "https://defispot.herokuapp.com/api/v1";
+export const SERVER_URL = "https://defispot-testnet.herokuapp/api/v1";
 // export const SERVER_URL_MAIN = "https://defispot.herokuapp.com";
 export const SERVER_URL_MAIN = "https://defispot-testnet.herokuapp.com";
 // export const SERVER_URL_MAIN = "https://client-side-defi-spot.herokuapp.com";
