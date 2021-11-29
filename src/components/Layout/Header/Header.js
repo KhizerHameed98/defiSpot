@@ -102,7 +102,9 @@ export const Header = () => {
 
   const mainModal = useSelector((state) => state.main.mainModal);
   const loggedIn = useSelector((state) => state.main.isLoggedin);
-
+  const transactionHistoryModal = useSelector(
+    (state) => state.main.transactionHistoryModal
+  );
   // console.log(loggedIn);
   useEffect(() => {
     if (loggedIn) {
@@ -253,6 +255,26 @@ export const Header = () => {
 
   return (
     <div style={{ backgroundColor: "#fcfcfd" }}>
+      {transactionHistoryModal && (
+        <div
+          style={{
+            position: "fixed",
+            right: "50px",
+            top: "40px",
+            width: "400px",
+            padding: "26px",
+            height: "auto",
+            backgroundColor: "lightgray",
+            zIndex: "999",
+            borderRadius: "8px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div>Swap !!! for !!!! $$</div>
+        </div>
+      )}
       {/* <!-- Create KeyStore Modal  --> */}
       <Modal
         show={createKeyStoreModal}
@@ -728,7 +750,7 @@ export const Header = () => {
                     />
                   </button>
 
-                  <button
+                  {/* <button
                     class="d-flex justify-content-between connectwallet btnHoverWhite mt-3"
                     style={{ width: "100%", background: "none" }}
                   >
@@ -765,7 +787,7 @@ export const Header = () => {
                       }}
                       src={Images.moreright}
                     />
-                  </button>
+                  </button> */}
                   <button
                     class="d-flex justify-content-between connectwallet btnHoverWhite mt-3 mb-3"
                     style={{ width: "100%", background: "none" }}

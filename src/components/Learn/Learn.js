@@ -159,7 +159,7 @@ const Learn = () => {
                       className="u-learncardimage456"
                       src={Images.learnvideo}
                     />
-                    <span className="spanclass-343">video tutorial</span>
+                    {/* <span className="spanclass-343">video tutorial</span> */}
                     <div class="card-body">
                       <div>
                         <div className="d-flex u-trainig0990carddde">
@@ -209,7 +209,7 @@ const Learn = () => {
                         src={Images.learnvideo}
                         // height="300px"
                       />
-                      <span className="spanclass-343900">POPULAR</span>
+                      {/* <span className="spanclass-343900">POPULAR</span> */}
                       <div class="card-body">
                         <div>
                           <div className="d-flex u-trainig0990carddde">
@@ -247,7 +247,7 @@ const Learn = () => {
                       className="u-learncardimage456"
                       src={Images.learnvideo}
                     />
-                    <span className="spanclass-343339">NEW</span>
+                    {/* <span className="spanclass-343339">NEW</span> */}
                     <div class="card-body">
                       <div>
                         <div className="d-flex u-trainig0990carddde">
@@ -298,7 +298,7 @@ const Learn = () => {
                       className="u-learncardimage456"
                       src={Images.learnvideo}
                     />
-                    <span className="spanclass-343">video tutorial</span>
+                    {/* <span className="spanclass-343">video tutorial</span> */}
                     <div class="card-body">
                       <div>
                         <div className="d-flex u-trainig0990carddde">
@@ -347,7 +347,7 @@ const Learn = () => {
                       src={Images.learnvideo}
                       // height="300px"
                     />
-                    <span className="spanclass-343">video tutorial</span>
+                    {/* <span className="spanclass-343">video tutorial</span> */}
                     <div class="card-body">
                       <div>
                         <div className="d-flex u-trainig0990carddde">
@@ -395,7 +395,7 @@ const Learn = () => {
                       className="u-learncardimage456"
                       src={Images.learnvideo}
                     />
-                    <span className="spanclass-343">video tutorial</span>
+                    {/* <span className="spanclass-343">video tutorial</span> */}
                     <div class="card-body">
                       <div>
                         <div className="d-flex u-trainig0990carddde">

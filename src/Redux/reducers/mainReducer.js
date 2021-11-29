@@ -15,6 +15,7 @@ import {
   MAINMODAL,
   SET_GRAPH_DATA,
   SET_SETTINGS,
+  TRANSACTION_HISTORY_MODAL,
 } from "../actions/types";
 
 const initialState = {
@@ -46,6 +47,7 @@ const initialState = {
   mainModal: false,
   graphDataCombined: {},
   settings: {},
+  transactionHistoryModal: false,
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -135,7 +137,15 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         ...payload,
         isLoggedin: true,
+        transactionHistoryModal: false,
       };
+
+    case TRANSACTION_HISTORY_MODAL:
+      return {
+        ...state,
+        ...payload,
+      };
+
     case MAINMODAL:
       return {
         ...state,

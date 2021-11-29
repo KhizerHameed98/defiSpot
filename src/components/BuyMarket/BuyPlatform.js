@@ -1027,23 +1027,23 @@ const BuyPlatform = ({ match }) => {
                     </div>
                   </div>
                   <div class="d-flex justify-content-between pt-5">
-                    <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
+                    <p style={{ fontWeight: "600", fontFamily: "DM Sans" }}>
                       {toAmount}
                     </p>
-                    <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
+                    <p style={{ fontWeight: "600", fontFamily: "DM Sans" }}>
                       {selectedCurrTo?.asset}
                     </p>
                   </div>
                   <hr class="solid" />
                   <div class="d-flex justify-content-between">
                     <p class="servicefee">Service fee</p>
-                    <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
+                    <p style={{ fontWeight: "600", fontFamily: "DM Sans" }}>
                       0.0045 ETH
                     </p>
                   </div>
                   <div class="d-flex justify-content-between ">
                     <p class="servicefee">You will get</p>
-                    <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
+                    <p style={{ fontWeight: "600", fontFamily: "DM Sans" }}>
                       1.1123 BTC
                     </p>
                   </div>
@@ -1053,13 +1053,14 @@ const BuyPlatform = ({ match }) => {
                     style={{
                       paddingLeft: "30px",
                       paddingRight: "30px",
-                      borderColor: "#E6E8EC",
+                      border: "2px solid #E6E8EC",
                       borderRadius: "20px",
-                      fontFamily: "Poppins",
+                      fontWeight: "600",
+                      fontFamily: "DM Sans",
                       color: "#000",
                     }}
                     type="button"
-                    class="btn btn-outline-secondary"
+                    class="btn btn-outline-secondary btnHoverBlue"
                     onClick={handleCloseConfirm}
                   >
                     Cancel
@@ -1469,7 +1470,23 @@ const BuyPlatform = ({ match }) => {
                               1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
                               1999,
                             ],
+                            
                           },
+                        },
+                        yaxis: {
+                          show: false,
+                        },
+                        xaxis: {
+                          
+                          labels: {
+                            show: false,
+                          },
+                          axisBorder: {
+                            show: false,
+                          },
+                          axisTicks: {
+                            show: false,
+                          }
                         },
                         chart: {
                           toolbar: {
@@ -1477,11 +1494,17 @@ const BuyPlatform = ({ match }) => {
                               download: false,
                             },
                           },
+                          
+                        },
+                        grid: {
+                          show: false,
                         },
                       }}
+                      
                       series={series}
                       type="candlestick"
-                      width="600"
+                      width="100%"
+                      height= '100%' 
                     />
                   )}
                 </div>

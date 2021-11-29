@@ -923,7 +923,7 @@ button:focus {
 .btnHoverBlue:hover {
   background-color: #3772ff !important;
   color: #fff !important;
-  border: 2px solid #3772ff !important;
+  border: 1px solid #3772ff !important;
 }
 .btnHoverWhite:hover {
   color: #3772ff !important;
@@ -1251,8 +1251,14 @@ input::-webkit-input-placeholder {
   color: #777e90 !important;
 }
 .settingmodlicon4444:hover {
-  background-color: #3772ff;
-  border-radius: 20px;
+  /* background-color: #3772ff;
+  border-radius: 20px; */
+}
+.n-swapSettings:hover {
+  cursor: pointer !important;
+}
+.n-swapSettings:hover path {
+  stroke-width: 1.8;
 }
 .svgfootericon6777 {
   fill: #777e90;
@@ -2032,11 +2038,14 @@ input::-webkit-inner-spin-button {
   text-align: center;
 }
 .footerlogo345 {
-  border-right: 1px solid lightgrey !important;
+  /* border-right: 1px solid lightgrey !important; */
   padding-top: 80px !important;
   padding-bottom: 44px !important;
 }
-
+.footer-bd-rit
+{
+  border-right: 1px solid lightgrey !important;
+}
 .footerlogo3455 {
   padding-top: 80px;
   padding-bottom: 44px !important;
@@ -2524,6 +2533,10 @@ ul.navbar-nav
 
 .n-notificationHover:hover .n-notificationDropDown {
   display: block;
+}
+
+.n-notificationHover:hover {
+  cursor: pointer;
 }
 
 /* .n-notificationHover:hover .n-notificationCap {
@@ -3253,12 +3266,31 @@ ul.navbar-nav
   display: none;
 }
 
+.n-customRanger {
+  margin-top: 16px;
+  border-right: 1px solid #F1F2F4;
+  height: 325px;
+}
+
+.rdrMonth {
+  padding: 0 0.833em 0em 0.833em !important;
+}
+
 .n-customRanger ul li {
   list-style: none;
   white-space: nowrap;
   padding: 16px 16px 16px 10px;
   font-size: 14px !important;
   font-family: Poppins !important;
+  border-bottom: 1px solid #F1F2F4;
+}
+
+.n-customRanger ul li:first-child {
+  border-top: 1px solid #F1F2F4;
+}
+
+.n-customRanger ul li:last-child {
+  /* border-bottom: none; */
 }
 
 .n-customRanger ul li:hover {
@@ -4186,6 +4218,10 @@ ul.navbar-nav
     padding-top: 20px;
     border-right: 0px;
   }
+  .footer-bd-rit
+{
+  border-right: 0px;
+}
   .uearnyidledpage66555 {
     font-size: 24px;
   }

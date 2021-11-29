@@ -285,7 +285,7 @@ function IntoToLP() {
                   alt="Card image cap"
                 />
                 <div class="card-body n-learnCard">
-                  <h6 class="marketcardone">Learn & Earn</h6>
+                  {/* <h6 class="marketcardone">Learn & Earn</h6> */}
                   <p class="cardtext">
                     Earn yield by providing liquidity to pools
                   </p>
@@ -302,7 +302,7 @@ function IntoToLP() {
                   alt="Card image cap"
                 />
                 <div class="card-body n-learnCard">
-                  <h6 class="marketcardtwo">WEEKLY WATCHLIST AIRDROP</h6>
+                  {/* <h6 class="marketcardtwo">WEEKLY WATCHLIST AIRDROP</h6> */}
                   <p class="cardtext">
                     The biggest advantages of decentralized exchange
                   </p>
@@ -318,7 +318,7 @@ function IntoToLP() {
                   alt="Card image cap"
                 />
                 <div class="card-body n-learnCard">
-                  <h6 class="marketcardthree">FEATURED</h6>
+                  {/* <h6 class="marketcardthree">FEATURED</h6> */}
                   <p class="cardtext">Submit your watchlist and win USDT</p>
                 </div>
               </div>

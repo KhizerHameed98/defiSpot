@@ -267,7 +267,66 @@ export class XDEFIService {
       );
     });
   }
-  async swapping() {}
+  async swapping(
+    dispatch,
+    fromAsset,
+    toAsset,
+    amount,
+    decimal,
+    midgardPool,
+    setYayModal,
+    setConfirmModal,
+    setTransactionHash,
+    setStatusLink,
+    setLoading
+  ) {
+    // let check = await userBinanceClient.getBalance(binanceAddress);
+
+    // console.log("heyBalance=======>>", check[0].amount.amount());
+
+    console.log("from=======>>>", fromAsset.rawData.toString());
+    console.log("to=======>>", toAsset, amount, decimal);
+    setLoading(true);
+    let walletAddressTo;
+    let walletAddressFrom;
+    let hash;
+    console.log("address======", bitcoinAddress);
+
+    switch (fromAsset?.blockchain) {
+      case "ETH":
+        walletAddressTo = etherAddress;
+
+        break;
+      case "BNB":
+        walletAddressTo = binanceAddress;
+        break;
+
+      case "BTC":
+        walletAddressTo = bitcoinAddress;
+
+        break;
+
+      case "LTC":
+        walletAddressTo = litecoinAddress;
+
+        break;
+
+      case "BCH":
+        walletAddressTo = bitcoinCashAddress;
+
+        break;
+
+      case "THOR":
+        walletAddressTo = thorchainAddress;
+
+        break;
+
+      default:
+        break;
+    }
+
+    console.log("walletTo==========>>", walletAddressTo);
+  }
   async connectXDEFI(dispatch, setMainModel, alertToast) {
     if (window.xfi) {
       dispatch({ type: LOGOUT });
@@ -306,7 +365,6 @@ export class XDEFIService {
       bitcoinCashAddress = bchAddress;
       thorchainAddress = thorAddresses;
       //Bitcoin
-      // this.swapping();
       let BtcBalance = await userBtcClient.getBalance(btcAddress);
       console.log("tttttttttttttt->>>>>>", BtcBalance[0].amount.amount());
       clients.Balance = BtcBalance;

@@ -83,8 +83,9 @@ export const Footer = () => {
           <hr class="solid" style={{ margin: "0px" }} />
           <div class="container">
             <div class="row">
+              <div class="col-lg-1 col-md-1 col-sm-12"></div>
               <div
-                class="col-lg-2 col-md-3 col-sm-4"
+                class="col-lg-3 col-md-3 col-sm-4"
                 // style={{ borderRight: "1px solid lightgrey" }}
               >
                 {/* <!--Column1--> */}
@@ -147,7 +148,9 @@ export const Footer = () => {
                   </Link>
                 </div>
               </div>
-              <div class="col-lg-3 col-md-2 col-sm-4 footerlogo345">
+              <div class="col-lg-4 col-md-4 col-sm-4 footerlogo345 footer-bd-rit" 
+            
+              >
                 {/* <!--Column1--> */}
                 <div class="footer-pad n-footerLinks">
                   <ul class="list-unstyled">
@@ -179,7 +182,9 @@ export const Footer = () => {
                   </ul>
                 </div>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-4 footerlogo345">
+              <div class="col-lg-4 col-md-4 col-sm-4 footerlogo345"
+                style={{borderRight:"0"}}
+              >
                 {/* <!--Column1--> */}
                 <div class="footer-pad footerLinkList">
                   <ul class="list-unstyled">
@@ -201,7 +206,7 @@ export const Footer = () => {
                   </ul>
                 </div>
               </div>
-              <div class="col-lg-4 col-md-4 footerSubscribeNews">
+              {/* <div class="col-lg-4 col-md-4 footerSubscribeNews">
                 <h6 className="u-column333">DEFISPOT LEARNING ACADEMY</h6>
                 <p className="ufottertext-34">
                   Subscribe our newsletter to get more free articles and
@@ -249,13 +254,7 @@ export const Footer = () => {
                     />
                   </svg>
 
-                  {/* <i
-                    class="fa fa-long-arrow-right emailInputArrow"
-                    aria-hidden="true"
-                    // style={{ backgroundColor: btnDisable ? "gray" : "#3772f" }}
-                   className="u-footerinputfiled98887"
-                    onClick={handleSubmit}
-                  ></i> */}
+                  
                 </div>
                 <div
                   style={{
@@ -270,7 +269,7 @@ export const Footer = () => {
                     <>Please enter a valid email address</>
                   )}
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
           <hr class="solid" style={{ margin: "0px" }} />

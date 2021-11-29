@@ -6,6 +6,9 @@ import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css";
 import { DateRangePicker, Calendar } from "react-date-range";
 import { addDays } from "date-fns";
+import browserRoute from "../../Routes/browserRoutes";
+import { Link, useHistory } from "react-router-dom";
+
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -690,6 +693,36 @@ const Activity = () => {
                   style={{ display: "flex", justifyContent: "center" }}
                 >
                   <div class="d-flex flex-column">
+                    <div class="d-flex flex-row justify-content-center ml-5 pl-4">
+                      <select class="mr-3">
+                        <option>January</option>
+                        <option>February</option>
+                        <option>March</option>
+                        <option>April</option>
+                        <option>May</option>
+                        <option>June</option>
+                        <option>July</option>
+                        <option>August</option>
+                        <option>September</option>
+                        <option>Octuber</option>
+                        <option>November</option>
+                        <option>December</option>
+                      </select>
+                      <select class="ml-3">
+                        <option>2010</option>
+                        <option>2011</option>
+                        <option>2012</option>
+                        <option>2013</option>
+                        <option>2014</option>
+                        <option>2015</option>
+                        <option>2016</option>
+                        <option>2017</option>
+                        <option>2018</option>
+                        <option>2019</option>
+                        <option>2020</option>
+                        <option>2021</option>
+                      </select>
+                    </div>
                     <div class="d-flex flex-row">
                       <div class="n-customRanger">
                         <ul>
@@ -755,37 +788,14 @@ const Activity = () => {
                           </li>
                         </ul>
                       </div>
-                      <div class="d-flex flex-column justify-content-center align-items-center">
-                        <div class="d-flex flex-row">
-                          <select class="mr-3">
-                            <option>January</option>
-                            <option>February</option>
-                            <option>March</option>
-                            <option>April</option>
-                            <option>May</option>
-                            <option>June</option>
-                            <option>July</option>
-                            <option>August</option>
-                            <option>September</option>
-                            <option>Octuber</option>
-                            <option>November</option>
-                            <option>December</option>
-                          </select>
-                          <select class="ml-3">
-                            <option>2010</option>
-                            <option>2011</option>
-                            <option>2012</option>
-                            <option>2013</option>
-                            <option>2014</option>
-                            <option>2015</option>
-                            <option>2016</option>
-                            <option>2017</option>
-                            <option>2018</option>
-                            <option>2019</option>
-                            <option>2020</option>
-                            <option>2021</option>
-                          </select>
-                        </div>
+                      <div
+                        class="d-flex flex-column justify-content-start align-items-center"
+                        style={{
+                          borderTop: "1px solid #F1F2F4",
+                          borderBottom: "1px solid #F1F2F4",
+                          marginTop: "16px",
+                        }}
+                      >
                         <DateRangePicker
                           maxDate={new Date()} //disable future dates
                           onChange={(item) => {
@@ -806,15 +816,14 @@ const Activity = () => {
                         />
                       </div>
                     </div>
-                    <div class="d-flex flex-row justify-content-between align-items-center">
+                    <div class="d-flex flex-row justify-content-between align-items-center pt-3">
                       <div class="ml-3 n-dateSelected">
-                        <strong>Date Range:</strong> Nov
-                        24, 2021 - Dec 24, 2021
+                        <strong>Date Range:</strong> Nov 24, 2021 - Dec 24, 2021
                       </div>
                       <div>
                         <button class="mr-2 n-primaryButton">Apply</button>
                         <button class="ml-2 mr-3 n-secondaryButton">
-                          Cancle
+                          Cancel
                         </button>
                       </div>
                     </div>
@@ -1303,7 +1312,7 @@ const Activity = () => {
                     );
                   })}
                 </>
-              ) : null}
+              ) : <tr><td colspan="6" class="text-center text-muted py-5">No Transaction Found, Please Connect Wallet</td></tr>}
             </tbody>
           </table>
         </div>
@@ -1343,9 +1352,11 @@ const Activity = () => {
                   Start trading decentralized without pegged wrapped tokens
                   right now!
                 </p>
+                <Link to={browserRoute.MARKET}>
                 <button className="w-earn-yieldbuttonactivityss btnHoverBlue">
                   Trade assets <img class="pl-2" src={Images.iconsrightline} />
                 </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -1398,9 +1409,11 @@ const Activity = () => {
                   Start trading decentralized without pegged wrapped tokens
                   right now!
                 </p>
+                <Link to={browserRoute.EARNYIELD}>
                 <button className="w-earn-yieldbuttonactivityss btnHoverBlue">
                   Earn yield <img class="pl-2" src={Images.iconsrightline} />
                 </button>
+                </Link>
               </div>
             </div>
           </div>

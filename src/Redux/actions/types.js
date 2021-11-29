@@ -25,4 +25,5 @@ export const LOGOUT = "LOGOUT";
 export const SET_SETTINGS = "SET_SETTINGS";
 export const LOGIN = "LOGIN";
 export const MAINMODAL = "MAINMODAL";
+export const TRANSACTION_HISTORY_MODAL = "TRANSACTION_HISTORY_MODAL";
 export const SET_GRAPH_DATA = "SET_GRAPH_DATA";

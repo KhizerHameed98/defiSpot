@@ -345,6 +345,7 @@ export const AddLiquidity = () => {
                           fill="#23262F"
                         />
                       </svg> */}
+                     
                       {/* <img
                         className="popupcrosss"
                         onClick={() => {

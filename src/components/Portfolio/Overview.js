@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Images from "../Helper/AllImages";
 import data from "../Helper/Data/TransactionHistory";
 import { useSelector, useDispatch } from "react-redux";
+import Pagination from "@mui/material/Pagination";
 
 const Overview = () => {
   const keyStoreInstance = useSelector((state) => state.main);
@@ -740,47 +741,77 @@ const Overview = () => {
             >
               <div className="w-overview_portfoliobg">
                 <div>
-                  <p
-                    style={{
-                      fontSize: "12px",
-                      marginBottom: "5px",
-                      fontFamily: "Poppins",
-                      fontWeight: "500",
-                      color: "#777E90",
-                    }}
-                  >
-                    Your holding{" "}
-                    <span
-                      className="pl-2 pr-2"
-                      style={{
-                        backgroundColor: "#58BD7D",
-                        borderRadius: "12px",
-                        color: "#FCFCFD",
-                      }}
-                    >
-                      +12.98%
-                    </span>
-                  </p>
-                  <h3
-                    style={{
-                      fontWeight: "600",
-                      fontSize: "24px",
-                      lineHeight: "32px",
-                      paddingBottom: "19px",
-                      fontFamily: "Poppins",
-                      color: "#23262F",
-                    }}
-                  >
-                    $ {numberWithCommas(financial(overallBalance_USD))}
-                  </h3>
-                  <img
-                    style={{
-                      paddingBottom: "8px",
-                      width: "220px",
-                      paddingRight: "20px",
-                    }}
-                    src={Images.overview}
-                  />
+                  {overallBalance_USD ? (
+                    <>
+                      <p
+                        style={{
+                          fontSize: "12px",
+                          marginBottom: "5px",
+                          fontFamily: "Poppins",
+                          fontWeight: "500",
+                          color: "#777E90",
+                        }}
+                      >
+                        Your holding{" "}
+                        <span
+                          className="pl-2 pr-2"
+                          style={{
+                            backgroundColor: "#58BD7D",
+                            borderRadius: "12px",
+                            color: "#FCFCFD",
+                          }}
+                        >
+                          +12.98%
+                        </span>
+                      </p>{" "}
+                      <h3
+                        style={{
+                          fontWeight: "600",
+                          fontSize: "24px",
+                          lineHeight: "32px",
+                          paddingBottom: "19px",
+                          fontFamily: "Poppins",
+                          color: "#23262F",
+                        }}
+                      >
+                        $ {numberWithCommas(financial(overallBalance_USD))}
+                      </h3>
+                      <img
+                        style={{
+                          paddingBottom: "8px",
+                          width: "220px",
+                          paddingRight: "20px",
+                        }}
+                        src={Images.overview}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <p
+                        style={{
+                          fontSize: "12px",
+                          marginBottom: "5px",
+                          fontFamily: "Poppins",
+                          fontWeight: "500",
+                          color: "#777E90",
+                          marginTop: "30px"
+                        }}
+                      >
+                        Your holding{" "}
+                        <span
+                          className="pl-2 pr-2"
+                          style={{
+                            backgroundColor: "#58BD7D",
+                            borderRadius: "12px",
+                            color: "#FCFCFD",
+                          }}
+                        >
+                          0%
+                        </span>
+                      </p>
+                      <h3>$ 0.00</h3>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -1318,9 +1349,17 @@ const Overview = () => {
                     );
                   })}
                 </>
-              ) : null}
+              ) : <tr><td colspan="6" class="text-center text-muted py-5">No Transaction Found, Please Connect Wallet</td></tr>}
             </tbody>
+            
           </table>
+          <div className="paging-center">
+              <Pagination
+                count={10}
+                page={10}
+                
+              />
+            </div>
         </div>
       </div>
     </div>

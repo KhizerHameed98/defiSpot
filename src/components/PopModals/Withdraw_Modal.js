@@ -337,7 +337,19 @@ const Withdraw_Modal = () => {
                           fill="#23262F"
                         />
                       </svg> */}
-
+                      <img
+                        onClick={() => {
+                          // setModal(false);
+                          setSettingModal(true);
+                          setWithdraw_Modal(false);
+                        }}
+                        style={{
+                          height: "25px",
+                          marginTop: "15px",
+                          marginLeft: "10px",
+                          cursor: "pointer",
+                        }}
+                      />
                       {/* <img
                         className="popupcrosss"
                         onClick={() => {
