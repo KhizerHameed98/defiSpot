@@ -465,6 +465,7 @@ export const HeroHome = () => {
                                       }}
                                       class="n-secondaryButton n-tradeButton"
                                       onClick={() => handleRoutingtoBuy(d)}
+                                      to="#"
                                     >
                                       {/* <button */}
                                       {/* > */}
