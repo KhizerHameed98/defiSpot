@@ -667,7 +667,7 @@ const Market = () => {
                                   </span>
                                   <span className="buyTokenbtn">
                                     <Link
-                                      to={`${browserRoute.BUYMARKET}/${d?.asset}`}
+                                      to={`${browserRoute.BUYMARKET}/${d?.asset}/0`}
                                     >
                                       <button
                                         style={{ fontFamily: "DM Sans" }}
@@ -812,7 +812,7 @@ const Market = () => {
                                     </span>
                                     <span className="buyTokenbtn">
                                       <Link
-                                        to={`${browserRoute.BUYMARKET}/${d?.asset}`}
+                                        to={`${browserRoute.BUYMARKET}/${d?.asset}/0`}
                                       >
                                         <button
                                           style={{ fontFamily: "DM Sans" }}

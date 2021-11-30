@@ -34,6 +34,23 @@ const LineChartSmartCard = (props) => {
         pointBorderWidth={2}
         pointBorderColor={{ from: "serieColor" }}
         pointLabelYOffset={-12}
+        tooltip={({ point }) => {
+          return (
+            <div
+              style={{ padding: "15px", backgroundColor: "#fcfcfd", borderRadius:"10px", fontFamily:"Poppins", }}
+            >  
+              <span
+              style={{
+                fontSize: "14px",
+                fontWeight: "600",
+              }}>
+                {typeof point.data.xFormatted !== "undefined" ? point.data.xFormatted :""}
+                ${typeof point.data.yFormatted !== "undefined" ? point.data.yFormatted : ""}
+              </span>{" "}
+            </div>
+          );
+
+        }}
         enableArea={true}
         // areaBaselineValue={true}
         areaOpacity={0.1}

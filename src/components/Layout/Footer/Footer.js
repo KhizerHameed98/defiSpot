@@ -5,6 +5,7 @@ import { BrowserRouter, Link } from "react-router-dom";
 import browserRoute from "../../../Routes/browserRoutes";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { SERVER_URL_MAIN } from "../../../Routes/serverRoutes";
 
 const regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -60,7 +61,7 @@ export const Footer = () => {
         email: subscriptionEmail,
       };
       axios
-        .post("https://defispot.herokuapp.com/api/v1/subscribe/by/email", body)
+        .post(`${SERVER_URL_MAIN}/subscribe/by/email`, body)
         .then((res) => {
           console.log("res", res);
           toast.success(`Email sent to ${subscriptionEmail}`);

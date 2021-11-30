@@ -4,17 +4,17 @@ import { Route, Redirect } from "react-router";
 import browserRoute from "../../Routes/browserRoutes";
 
 const PrivateRoute = ({
-    component: Component,
-    isAuthenticated,
-    isLoading,
-    ...rest
+  component: Component,
+  isAuthenticated,
+  isLoading,
+  ...rest
 }) => {
   return (
     <Route
       {...rest}
       render={(props) =>
         // isAuthenticated || token ? (
-          true || true ? (
+        true || true ? (
           <Component {...props} />
         ) : (
           <Redirect
@@ -27,6 +27,5 @@ const PrivateRoute = ({
     />
   );
 };
-
 
 export default PrivateRoute;

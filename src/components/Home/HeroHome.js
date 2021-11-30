@@ -11,6 +11,8 @@ import Loader from "../Loader/Loader";
 import { ResponsiveLine } from "@nivo/line";
 import { Bar, Pie, Line } from "react-chartjs-2";
 import LineChartSmartCard from "../GraphChart";
+import axios from "axios";
+import { SERVER_URL_MAIN } from "../../Routes/serverRoutes";
 
 export const HeroHome = () => {
   const dispatch = useDispatch();
@@ -20,6 +22,7 @@ export const HeroHome = () => {
   const loading = useSelector((state) => state.main.loading);
   const loggedin = useSelector((state) => state.main.isLoggedin);
   const [idToSend, setIdToSend] = useState("");
+
   const [tradeTrigger, setTradeTrigger] = useState(false);
   // const [state, setstte] = useState({ name: "ali", age: "20", no: "1028505852" });
   const myRef = useRef(null);
@@ -38,7 +41,7 @@ export const HeroHome = () => {
       if (tradeTrigger) {
         console.log("inlogged");
         aa = setTimeout(
-          () => history.push(`${browserRoute.BUYMARKET}/${idToSend}`),
+          () => history.push(`${browserRoute.BUYMARKET}/${idToSend}/0`),
           2000
         );
       }
@@ -54,7 +57,7 @@ export const HeroHome = () => {
       setTradeTrigger(true);
       dispatch(handleMainModal(true));
     } else {
-      history.push(`${browserRoute.BUYMARKET}/${d._id}`);
+      history.push(`${browserRoute.BUYMARKET}/${d._id}/0`);
     }
   }
   // function handleRouting(data) {
@@ -69,14 +72,12 @@ export const HeroHome = () => {
             <div class="col-lg-6 n-heroContent">
               <div class="marketbanner">
                 <h2 class="marketbannerhed">
-                Your Global  <br />
-                Decentralized Crypto Exchange
+                  Your Global <br />
+                  Decentralized Crypto Exchange
                 </h2>
                 <p class="n-heroDescription">
-                Trade & earn yield on your assets cross-chain, fully
-                decentralized without wrapped
-                tokens or KYC.
-                
+                  Trade & earn yield on your assets cross-chain, fully
+                  decentralized without wrapped tokens or KYC.
                 </p>
                 <Link to={browserRoute.MARKET}>
                   <button
@@ -464,7 +465,6 @@ export const HeroHome = () => {
                                       }}
                                       class="n-secondaryButton n-tradeButton"
                                       onClick={() => handleRoutingtoBuy(d)}
-                                      to="#"
                                     >
                                       {/* <button */}
                                       {/* > */}
@@ -489,14 +489,12 @@ export const HeroHome = () => {
       <section class="cryptotraders">
         <div class="container">
           <div>
-            <h2 class="cryptotrader-home">
-              Become a crypto
+            <h2 class="cryptotrader-home text-center">
+              Enter the top DeFi
               <br />
-              trader in seconds
+              products in one spot
             </h2>
-            <p class="cryptoTraderDescription">
-              We've got everything you need to start trading.
-            </p>
+            <p class="cryptoTraderDescription">Discover our products</p>
           </div>
           <div class="row">
             <div class="col-lg-4 n-tradeCard">
@@ -508,7 +506,7 @@ export const HeroHome = () => {
                       margin: "50px 0px 32px",
                     }}
                     class="card-img-top"
-                    src={Images.comp}
+                    src={Images.wallettop}
                     alt="Card image cap"
                   />
                 </div>
@@ -524,7 +522,7 @@ export const HeroHome = () => {
                       marginBottom: "16px",
                     }}
                   >
-                    Simple & Easy
+                    Manage Portfolio
                   </h5>
                   <p
                     class="card-text"
@@ -537,15 +535,15 @@ export const HeroHome = () => {
                       fontFamily: "Poppins",
                     }}
                   >
-                    Connect your wallet, and enter the world of cross-chain DeFi products.
+                    Manage your assets in the portfolio section
                   </p>
                   <div class="d-flex justify-content-center">
                     <Link
-                      to={browserRoute.MARKET}
+                      to={browserRoute.PORTFOLIO}
                       class="n-secondaryButton"
                       style={{ textDecoration: "none" }}
                     >
-                      Buy crypto
+                      Portfolio
                     </Link>
                   </div>
                 </div>
@@ -592,9 +590,8 @@ export const HeroHome = () => {
                       fontFamily: "Poppins",
                     }}
                   >
-                     Trade assets cross-chain, fully
-                decentralized without wrapped
-                tokens.
+                    Trade assets cross-chain, fully decentralized without
+                    wrapped tokens.
                   </p>
                   <div class="d-flex justify-content-center">
                     <Link
@@ -649,9 +646,8 @@ export const HeroHome = () => {
                       fontFamily: "Poppins",
                     }}
                   >
-                    Earn interest on your assets by 
-                providing liquidity to the pools
-                on the platform.
+                    Earn interest on your assets by providing liquidity to the
+                    pools on the platform.
                   </p>
                   <div class="d-flex justify-content-center">
                     <Link
@@ -693,10 +689,10 @@ export const HeroHome = () => {
               marginBottom: "20px",
             }}
           >
-            Get started in a few minutes
+            Simple & Easy
           </h2>
           <p
-            class="d-flex justify-content-center"
+            class="d-flex justify-content-center n-gettingStartedParagraph"
             style={{
               color: "#353945",
               fontFamily: "Poppins",
@@ -706,7 +702,8 @@ export const HeroHome = () => {
               marginBottom: "80px",
             }}
           >
-            Suipe supports a variety of the most popular digital currencies.
+            Connect your wallet and enter the world of cross-chain DeFi
+            products.
           </p>
           <div class="d-flex justify-content-center n-desktopFullImage">
             <img class="imagewidth" src={Images.Wallet} />
@@ -717,16 +714,17 @@ export const HeroHome = () => {
                 <img src={Images.stepOne} />
               </div>
               <h2 class="d-flex justify-content-center minutstart">
-              Trade assets
+                Trade assets
               </h2>
               <p
                 // style={{ textAlign: "center",color:"#353945",fontWeight:"600" }}
                 class="d-flex justify-content-center mintparagraph"
               >
-                Trade assets cross-chain, fully<br />
-                decentralized without wrapped<br />
+                Trade assets cross-chain, fully
+                <br />
+                decentralized without wrapped
+                <br />
                 tokens.
-               
               </p>
             </div>
             <div class="col-lg-4">
@@ -741,8 +739,8 @@ export const HeroHome = () => {
                 class="d-flex justify-content-center mintparagraph"
               >
                 Simply connect your wallet without
-                <br />any need of KYC or login info.
-                
+                <br />
+                any need of KYC or login info.
               </p>
             </div>
             <div class="col-lg-4">
@@ -756,10 +754,11 @@ export const HeroHome = () => {
                 // style={{ textAlign: "center",color:"#353945",fontWeight:"600" }}
                 class="d-flex justify-content-center mintparagraph"
               >
-                Earn interest on your assets by 
-                <br />providing liquidity to the pools
-                <br />on the platform.
-                
+                Earn interest on your assets by
+                <br />
+                providing liquidity to the pools
+                <br />
+                on the platform.
               </p>
             </div>
           </div>

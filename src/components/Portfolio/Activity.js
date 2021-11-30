@@ -9,7 +9,6 @@ import { addDays } from "date-fns";
 import browserRoute from "../../Routes/browserRoutes";
 import { Link, useHistory } from "react-router-dom";
 
-
 import { useSelector, useDispatch } from "react-redux";
 
 const Activity = () => {
@@ -152,7 +151,7 @@ const Activity = () => {
   function filterDepositType() {
     setSearchInput("");
     setFilterType(Enum.deposit);
-    let res = mainState.filter(
+    let res = mainState?.filter(
       (value) => value.type.toLowerCase() === Enum.deposit
     );
 
@@ -162,7 +161,7 @@ const Activity = () => {
   function filterPendingType() {
     setSearchInput("");
     setFilterType(Enum.pending);
-    let res = mainState.filter(
+    let res = mainState?.filter(
       (value) => value.type.toLowerCase() === Enum.pending
     );
 
@@ -1312,7 +1311,17 @@ const Activity = () => {
                     );
                   })}
                 </>
-              ) : <tr><td colspan="6" class="text-center text-muted py-5">No Transaction Found, Please Connect Wallet</td></tr>}
+              ) : (
+                <tr class="n-tableHover">
+                  <td
+                    colspan="6"
+                    class="text-center text-muted"
+                    style={{ padding: "148px 0px" }}
+                  >
+                    No Transaction Found
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -1353,9 +1362,10 @@ const Activity = () => {
                   right now!
                 </p>
                 <Link to={browserRoute.MARKET}>
-                <button className="w-earn-yieldbuttonactivityss btnHoverBlue">
-                  Trade assets <img class="pl-2" src={Images.iconsrightline} />
-                </button>
+                  <button className="w-earn-yieldbuttonactivityss btnHoverBlue">
+                    Trade assets{" "}
+                    <img class="pl-2" src={Images.iconsrightline} />
+                  </button>
                 </Link>
               </div>
             </div>
@@ -1410,9 +1420,9 @@ const Activity = () => {
                   right now!
                 </p>
                 <Link to={browserRoute.EARNYIELD}>
-                <button className="w-earn-yieldbuttonactivityss btnHoverBlue">
-                  Earn yield <img class="pl-2" src={Images.iconsrightline} />
-                </button>
+                  <button className="w-earn-yieldbuttonactivityss btnHoverBlue">
+                    Earn yield <img class="pl-2" src={Images.iconsrightline} />
+                  </button>
                 </Link>
               </div>
             </div>

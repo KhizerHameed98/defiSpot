@@ -24,6 +24,7 @@ import {
   NGROK,
 } from "../../../Services/mainServices";
 import axios from "axios";
+import { SET_SETTINGS } from "../../../Redux/actions/types";
 
 const web3 = new Web3(window.ethereum);
 
@@ -68,38 +69,90 @@ export const Header = () => {
   const mainState = useSelector((state) => state.main);
   const mainModal = useSelector((state) => state.main.mainModal);
   const loggedIn = useSelector((state) => state.main.isLoggedin);
+  const walletAddress = useSelector((state) => state.main.walletAddress);
+
   const transactionHistoryModal = useSelector(
     (state) => state.main.transactionHistoryModal
   );
-  const transationHash =useSelector((state) => state.main.transactionHash);
+  const transationHash = useSelector((state) => state.main.transactionHash);
   let timeOut;
 
   const res = "";
 
   let tHash = "";
 
-  const checkTransaction = async() => {
-   axios.get(`${NGROK}/get/transaction/by/hash/${tHash}`).then((res) => {
+  const checkTransaction = async () => {
+    console.log("HELLLLLLLLLLLLLLLOOOOO");
+    axios.get(`${NGROK}/get/transaction/by/hash/${tHash}`).then((res) => {
       console.log("CHECKING_HASH=============", res);
       clearTimeout(timeOut);
       setResponseMsg(res.data);
     });
   };
 
+  const setNewUserAddress = async () => {
+    const data = {
+      accountAddress: walletAddress,
+    };
 
+    await axios.post(`${NGROK}/add/user`, data).then((res) => {
+      console.log("RESSSSS =<><><><<><><><><><><<><><><>>< ", res);
+    });
+  };
 
+  const getUserSettingsFromAddress = async () => {
+    // console.log(addr);
+    await axios.get(`${NGROK}/get/user/data/${walletAddress}`).then((res) => {
+      dispatch({
+        type: SET_SETTINGS,
+        payload: {
+          settings: {
+            custom: res?.data?.user?.custom,
+            slip: res?.data?.user?.slip,
+            speed: res?.data?.user?.speed,
+          },
+        },
+      });
+      console.log("RESSSSS =<><><><<><><><><><><<><><><>>< ", res?.data.user);
+    });
+  };
+
+  const addHoldingAsset = async () => {
+    const data = {
+      accountAddress: mainState?.walletAddress,
+      amount: mainState?.overallBalance_USD,
+      date: new Date().toString(),
+    };
+    axios.post(`${NGROK}/add/holding/asset`, data).then((res) => {
+      console.log("CHECKING_HOLDING RES=============", res);
+    });
+  };
+
+  // useEffect(() => {
+  //   if (mainState?.walletAddress) {
+  //     if (mainState?.walletAddress) {
+  //       // setWalletAddressState(walletAddress)
+  //     }
+  //   }
+  // }, [mainState]);
 
   useEffect(() => {
-    if (transationHash) {
-  
-
-      console.log("I am here3 -------------------->");
-    
-      tHash = transationHash;
-      console.log("thash-=================", tHash);
-      timeOut = setTimeout(checkTransaction(tHash), 20000);
+    if (walletAddress) {
+      setNewUserAddress();
+      addHoldingAsset();
+      getUserSettingsFromAddress();
     }
-  }, [mainState, mainState.transactionHash])
+  }, [walletAddress]);
+
+  // useEffect(() => {
+  //   if (transationHash) {
+  //     console.log("I am here3 -------------------->");
+
+  //     tHash = transationHash;
+  //     console.log("thash-=================", tHash);
+  //     timeOut = setTimeout(checkTransaction(tHash), 20000);
+  //   }
+  // }, [mainState, mainState.transactionHash]);
 
   useEffect(() => {
     document.addEventListener("click", handleClick);
@@ -136,9 +189,8 @@ export const Header = () => {
   // const meta = "xchain-keystore";
   let key;
   let fileReader;
-  const disptach = useDispatch();
+  const dispatch = useDispatch();
 
-  
   // console.log(loggedIn);
   useEffect(() => {
     if (loggedIn) {
@@ -170,13 +222,13 @@ export const Header = () => {
         eth?.thorchain
       ) {
         setXdefiExtension(true);
-        disptach(handleMainModal(val));
+        dispatch(handleMainModal(val));
       } else {
-        disptach(handleMainModal(val));
+        dispatch(handleMainModal(val));
       }
     } else {
       setXdefiExtension(false);
-      disptach(handleMainModal(val));
+      dispatch(handleMainModal(val));
     }
   };
   const submitKeyStore = async () => {
@@ -186,7 +238,7 @@ export const Header = () => {
       setPasswordMatchError(true);
     } else {
       if (!passwordEmptyError && !passwordMatchError) {
-        disptach(createKeyStore(password, setCreateKeyStoreModal));
+        dispatch(createKeyStore(password, setCreateKeyStoreModal));
       } else {
         setPasswordMatchError(true);
       }
@@ -194,7 +246,7 @@ export const Header = () => {
   };
 
   const connectKeyStoreFunction = async () => {
-    disptach(
+    dispatch(
       connectKeyStore(
         connectKeyStore_password,
         fileKeyStore,
@@ -208,15 +260,16 @@ export const Header = () => {
     hiddenFileInput.current.click();
   };
   const connectMetaMask = async () => {
-    disptach(MetaMaskConnection(setMainModel));
+    dispatch(MetaMaskConnection(setMainModel));
   };
 
   const connectWalletConnect = async () => {
-    disptach(WalletConnectConnection(setMainModel));
+    dispatch(WalletConnectConnection(setMainModel));
   };
 
   const connectXdefi = async () => {
-    disptach(XDEFIConnection(setMainModel));
+    setLoading(true);
+    dispatch(XDEFIConnection(setMainModel, setLoading));
   };
 
   const handleLanguageChange = (event) => {
@@ -262,7 +315,7 @@ export const Header = () => {
   };
 
   const handleDisconnect = () => {
-    disptach(handleLogout());
+    dispatch(handleLogout());
   };
 
   const enterKeyDown = (e) => {
@@ -282,13 +335,14 @@ export const Header = () => {
           setPasswordMatchError(true);
         } else {
           setPasswordMatchError(false);
+          submitKeyStore();
         }
       }
     }
   };
 
   return (
-    <div style={{ backgroundColor: "#fcfcfd" }}>
+    <div style={{ backgroundColor: "#fcfcfd" }} class="n-navbarContainer">
       {transactionHistoryModal && (
         <div
           style={{
@@ -327,10 +381,10 @@ export const Header = () => {
             aria-labelledby="exampleModalLabel"
           >
             <div>
-              <div class="modal-body u-modalkeystore0999990">
+              <div class="modal-body">
                 <div class="d-flex justify-content-between">
                   <div class="d-flex">
-                    <img
+                    {/* <img
                       className="backArrow"
                       style={{
                         height: "10px",
@@ -343,18 +397,67 @@ export const Header = () => {
                         setSelectionModal(true);
                         // setMainModel(true);
                       }}
-                    />
+                    /> */}
+                    <svg
+                      className="backArrow mr-2"
+                      width="32"
+                      height="32"
+                      viewBox="0 0 32 32"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      onClick={() => {
+                        setCreateKeyStoreModal(false);
+                        setSelectionModal(true);
+                      }}
+                      style={{
+                        marginTop: "2px",
+                      }}
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M18.9428 10.3905C19.4635 10.9112 19.4635 11.7554 18.9428 12.2761L15.219 16L18.9428 19.7239C19.4635 20.2446 19.4635 21.0888 18.9428 21.6095C18.4221 22.1302 17.5779 22.1302 17.0572 21.6095L12.3905 16.9428C11.8698 16.4221 11.8698 15.5779 12.3905 15.0572L17.0572 10.3905C17.5779 9.86983 18.4221 9.86983 18.9428 10.3905Z"
+                        fill="#23262F"
+                      />
+                    </svg>
                     <p class="yahparagraph">Create Keystore</p>
                   </div>
 
                   <div>
-                    <img
+                    {/* <img
                       className="popupcrosss"
                       onClick={() => {
                         setCreateKeyStoreModal(false);
                       }}
                       src={Images.crossicon}
-                    />
+                    /> */}
+                    <svg
+                      width="40"
+                      height="40"
+                      viewBox="0 0 40 40"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="n-modalCloseIcon"
+                      onClick={() => {
+                        setCreateKeyStoreModal(false);
+                      }}
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M13.2929 13.2929C13.6834 12.9024 14.3166 12.9024 14.7071 13.2929L20 18.5858L25.2929 13.2929C25.6834 12.9024 26.3166 12.9024 26.7071 13.2929C27.0976 13.6834 27.0976 14.3166 26.7071 14.7071L21.4142 20L26.7071 25.2929C27.0976 25.6834 27.0976 26.3166 26.7071 26.7071C26.3166 27.0976 25.6834 27.0976 25.2929 26.7071L20 21.4142L14.7071 26.7071C14.3166 27.0976 13.6834 27.0976 13.2929 26.7071C12.9024 26.3166 12.9024 25.6834 13.2929 25.2929L18.5858 20L13.2929 14.7071C12.9024 14.3166 12.9024 13.6834 13.2929 13.2929Z"
+                        fill="#23262F"
+                      />
+                      <rect
+                        x="1"
+                        y="1"
+                        width="38"
+                        height="38"
+                        rx="19"
+                        stroke="#E6E8EC"
+                        stroke-width="2"
+                      />
+                    </svg>
                   </div>
                 </div>
                 <div>
@@ -362,17 +465,18 @@ export const Header = () => {
                     style={{ marginTop: "32px", fontFamily: "Poppins" }}
                     class="form-group"
                   >
-                    <label for="pwd">Input Password</label>
+                    <label for="pwd" style={{ color: "#777e90" }}>
+                      Input Password
+                    </label>
                     <input
                       autoComplete="new-password"
-                      style={{ borderRadius: "20px" }}
                       type="password"
                       value={password}
                       onChange={(e) => {
                         setPassword(e.target.value);
                       }}
                       placeholder="Enter Password"
-                      class="form-control"
+                      class="form-control n-connectModalInput"
                       onFocus={() => setPasswordEmptyError(false)}
                       onBlur={() =>
                         password.length < 1
@@ -396,14 +500,15 @@ export const Header = () => {
                     style={{ marginTop: "32px", fontFamily: "Poppins" }}
                     class="form-group"
                   >
-                    <label for="pwd">Confirm Password</label>
+                    <label for="pwd" style={{ color: "#777e90" }}>
+                      Confirm Password
+                    </label>
                     <input
                       autoComplete="new-password"
-                      style={{ borderRadius: "20px" }}
                       type="password"
                       value={confirmPassword}
                       placeholder="Confirm Password"
-                      class="form-control"
+                      class="form-control n-connectModalInput"
                       onChange={(e) => {
                         setConfirmPassword(e.target.value);
                       }}
@@ -432,7 +537,7 @@ export const Header = () => {
                     className="display-grid justify-content"
                   >
                     <button
-                      className="btn btn n-primaryButton"
+                      className="btn btn n-primaryButton n-primaryDark"
                       onClick={submitKeyStore}
                     >
                       Create
@@ -478,12 +583,12 @@ export const Header = () => {
             role="dialog"
             aria-labelledby="exampleModalLabel"
           >
-            <div class="">
+            <div class="modal-body">
               <div>
-                <div class="modal-body u-modalkeystore0999990">
+                <div class="modal-body">
                   <div class="d-flex justify-content-between">
                     <div class="d-flex">
-                      <img
+                      {/* <img
                         className="backArrow"
                         style={{
                           height: "10px",
@@ -500,11 +605,38 @@ export const Header = () => {
                             setSelectionModal(true);
                           }
                         }}
-                      />
+                      /> */}
+                      <svg
+                        className="backArrow mr-2"
+                        width="32"
+                        height="32"
+                        viewBox="0 0 32 32"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        onClick={() => {
+                          if (loading) {
+                            setConnectKeyStoreModal(false);
+                            window.location.reload();
+                          } else {
+                            setConnectKeyStoreModal(false);
+                            setSelectionModal(true);
+                          }
+                        }}
+                        style={{
+                          marginTop: "2px",
+                        }}
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M18.9428 10.3905C19.4635 10.9112 19.4635 11.7554 18.9428 12.2761L15.219 16L18.9428 19.7239C19.4635 20.2446 19.4635 21.0888 18.9428 21.6095C18.4221 22.1302 17.5779 22.1302 17.0572 21.6095L12.3905 16.9428C11.8698 16.4221 11.8698 15.5779 12.3905 15.0572L17.0572 10.3905C17.5779 9.86983 18.4221 9.86983 18.9428 10.3905Z"
+                          fill="#23262F"
+                        />
+                      </svg>
                       <p class="yahparagraph">Connect Keystore</p>
                     </div>
                     <div>
-                      <img
+                      {/* <img
                         className="popupcrosss"
                         onClick={() => {
                           if (loading) {
@@ -515,7 +647,39 @@ export const Header = () => {
                           }
                         }}
                         src={Images.crossicon}
-                      />
+                      /> */}
+                      <svg
+                        width="40"
+                        height="40"
+                        viewBox="0 0 40 40"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="n-modalCloseIcon"
+                        onClick={() => {
+                          if (loading) {
+                            setConnectKeyStoreModal(false);
+                            window.location.reload();
+                          } else {
+                            setConnectKeyStoreModal(false);
+                          }
+                        }}
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M13.2929 13.2929C13.6834 12.9024 14.3166 12.9024 14.7071 13.2929L20 18.5858L25.2929 13.2929C25.6834 12.9024 26.3166 12.9024 26.7071 13.2929C27.0976 13.6834 27.0976 14.3166 26.7071 14.7071L21.4142 20L26.7071 25.2929C27.0976 25.6834 27.0976 26.3166 26.7071 26.7071C26.3166 27.0976 25.6834 27.0976 25.2929 26.7071L20 21.4142L14.7071 26.7071C14.3166 27.0976 13.6834 27.0976 13.2929 26.7071C12.9024 26.3166 12.9024 25.6834 13.2929 25.2929L18.5858 20L13.2929 14.7071C12.9024 14.3166 12.9024 13.6834 13.2929 13.2929Z"
+                          fill="#23262F"
+                        />
+                        <rect
+                          x="1"
+                          y="1"
+                          width="38"
+                          height="38"
+                          rx="19"
+                          stroke="#E6E8EC"
+                          stroke-width="2"
+                        />
+                      </svg>
                     </div>
                   </div>
                   <div>
@@ -524,7 +688,9 @@ export const Header = () => {
                       class="form-group"
                     >
                       {/*file Input*/}
-                      <label for="file">Please Select Keystore File</label>
+                      <label for="file" style={{ color: "#777e90" }}>
+                        Please Select Keystore File
+                      </label>
                       <div>
                         <Button className="btnHoverWhite" onClick={handleClick}>
                           Choose File
@@ -539,7 +705,7 @@ export const Header = () => {
                             setFileKeyStore(e.target.files[0]);
                           }}
                         />
-                        <label style={{ marginLeft: "4px" }}>
+                        <label style={{ marginLeft: "4px", color: "#777e90" }}>
                           {fileKeyStore.name
                             ? fileKeyStore.name
                             : "No file chosen"}
@@ -550,16 +716,17 @@ export const Header = () => {
                       style={{ marginTop: "32px", fontFamily: "Poppins" }}
                       class="form-group"
                     >
-                      <label for="pwd">Decryption password</label>
+                      <label for="pwd" style={{ color: "#777e90" }}>
+                        Decryption password
+                      </label>
                       <input
-                        style={{ borderRadius: "20px" }}
                         type="password"
                         value={connectKeyStore_password}
                         onChange={(e) => {
                           setConnectKeyStore_password(e.target.value);
                         }}
                         placeholder="Password"
-                        class="form-control"
+                        class="form-control n-connectModalInput"
                         onKeyDown={enterKeyDown}
                       />
                     </div>
@@ -569,7 +736,7 @@ export const Header = () => {
                     >
                       <button
                         style={{ width: "100%" }}
-                        className="btn btn n-primaryButton"
+                        className="btn btn n-primaryButton n-primaryDark"
                         onClick={
                           connectKeyStore_password.length > 0
                             ? fileKeyStore?.name
@@ -630,10 +797,10 @@ export const Header = () => {
               <div class="">
                 <div class="modal-header" style={{ border: "none" }}>
                   <h5
-                    class="modal-title"
+                    class="modal-title n-modalHeader"
                     id="exampleModalLabel"
                     style={{
-                      color: "#23262F",
+                      // color: "#23262F",
                       fontFamily: "DM Sans",
                       fontWeight: "bold",
                       fontSize: "32px",
@@ -653,13 +820,40 @@ export const Header = () => {
                       &times;
                     </span>
                   </button> */}
-                  <img
+                  {/* <img
                     className="popupcrosss"
                     onClick={() => {
                       setMainModel(false);
                     }}
                     src={Images.crossicon}
-                  />
+                  /> */}
+                  <svg
+                    width="40"
+                    height="40"
+                    viewBox="0 0 40 40"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="n-modalCloseIcon"
+                    onClick={() => {
+                      setMainModel(false);
+                    }}
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M13.2929 13.2929C13.6834 12.9024 14.3166 12.9024 14.7071 13.2929L20 18.5858L25.2929 13.2929C25.6834 12.9024 26.3166 12.9024 26.7071 13.2929C27.0976 13.6834 27.0976 14.3166 26.7071 14.7071L21.4142 20L26.7071 25.2929C27.0976 25.6834 27.0976 26.3166 26.7071 26.7071C26.3166 27.0976 25.6834 27.0976 25.2929 26.7071L20 21.4142L14.7071 26.7071C14.3166 27.0976 13.6834 27.0976 13.2929 26.7071C12.9024 26.3166 12.9024 25.6834 13.2929 25.2929L18.5858 20L13.2929 14.7071C12.9024 14.3166 12.9024 13.6834 13.2929 13.2929Z"
+                      fill="#23262F"
+                    />
+                    <rect
+                      x="1"
+                      y="1"
+                      width="38"
+                      height="38"
+                      rx="19"
+                      stroke="#E6E8EC"
+                      stroke-width="2"
+                    />
+                  </svg>
                 </div>
                 <div class="modal-body">
                   <div class="d-flex justify-content-center modalparagraph mb-3">
@@ -695,8 +889,9 @@ export const Header = () => {
                     <div class="d-flex">
                       <img style={{ paddingRight: "8px" }} src={walleto} />
                       <a
+                        class="n-walletType"
                         style={{
-                          color: "#23262F",
+                          // color: "#23262F",
                           fontSize: "14px",
                           fontFamily: "Poppins",
                           paddingLeft: "5px",
@@ -728,8 +923,9 @@ export const Header = () => {
                     <div class="d-flex">
                       <img style={{ paddingRight: "8px" }} src={meta} />
                       <a
+                        class="n-walletType"
                         style={{
-                          color: "#23262F",
+                          // color: "#23262F",
                           fontSize: "14px",
                           fontFamily: "Poppins",
                           paddingLeft: "10px",
@@ -762,8 +958,9 @@ export const Header = () => {
                         src={defi}
                       />
                       <a
+                        class="n-walletType"
                         style={{
-                          color: "#23262F",
+                          // color: "#23262F",
                           fontSize: "14px",
                           fontFamily: "Poppins",
                           paddingLeft: "14px",
@@ -773,15 +970,28 @@ export const Header = () => {
                         XDEFI WALLET
                       </a>
                     </div>
-                    <img
-                      style={{
-                        width: "16px",
-                        height: "15px",
-                        paddingTop: "8px",
-                        paddingRight: "10px",
-                      }}
-                      src={Images.moreright}
-                    />
+                    {loading ? (
+                      <div
+                        class="spinner-border"
+                        style={{
+                          height: "20px",
+                          width: "20px",
+                          // marginLeft: "10px",
+                          marginRight: "10px",
+                        }}
+                        role="status"
+                      ></div>
+                    ) : (
+                      <img
+                        style={{
+                          width: "16px",
+                          height: "15px",
+                          paddingTop: "8px",
+                          paddingRight: "10px",
+                        }}
+                        src={Images.moreright}
+                      />
+                    )}
                   </button>
 
                   {/* <button
@@ -832,8 +1042,9 @@ export const Header = () => {
                   >
                     {" "}
                     <a
+                      class="n-walletType"
                       style={{
-                        color: "#23262F",
+                        // color: "#23262F",
                         fontSize: "14px",
                         fontFamily: "Poppins",
                         fontWeight: "600",
@@ -883,7 +1094,7 @@ export const Header = () => {
                 <div class="modal-body">
                   <div class="d-flex justify-content-between">
                     <div class="d-flex">
-                      <img
+                      {/* <img
                         className="backArrow"
                         style={{
                           height: "10px",
@@ -895,17 +1106,66 @@ export const Header = () => {
                           setSelectionModal(false);
                           setMainModel(true);
                         }}
-                      />
+                      /> */}
+                      <svg
+                        className="backArrow mr-2"
+                        width="32"
+                        height="32"
+                        viewBox="0 0 32 32"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        onClick={() => {
+                          setSelectionModal(false);
+                          setMainModel(true);
+                        }}
+                        style={{
+                          marginTop: "2px",
+                        }}
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M18.9428 10.3905C19.4635 10.9112 19.4635 11.7554 18.9428 12.2761L15.219 16L18.9428 19.7239C19.4635 20.2446 19.4635 21.0888 18.9428 21.6095C18.4221 22.1302 17.5779 22.1302 17.0572 21.6095L12.3905 16.9428C11.8698 16.4221 11.8698 15.5779 12.3905 15.0572L17.0572 10.3905C17.5779 9.86983 18.4221 9.86983 18.9428 10.3905Z"
+                          fill="#23262F"
+                        />
+                      </svg>
                       <p class="yahparagraph">Select</p>
                     </div>
                     <div>
-                      <img
+                      {/* <img
                         className="popupcrosss"
                         onClick={() => {
                           setSelectionModal(false);
                         }}
                         src={Images.crossicon}
-                      />
+                      /> */}
+                      <svg
+                        width="40"
+                        height="40"
+                        viewBox="0 0 40 40"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="n-modalCloseIcon"
+                        onClick={() => {
+                          setSelectionModal(false);
+                        }}
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M13.2929 13.2929C13.6834 12.9024 14.3166 12.9024 14.7071 13.2929L20 18.5858L25.2929 13.2929C25.6834 12.9024 26.3166 12.9024 26.7071 13.2929C27.0976 13.6834 27.0976 14.3166 26.7071 14.7071L21.4142 20L26.7071 25.2929C27.0976 25.6834 27.0976 26.3166 26.7071 26.7071C26.3166 27.0976 25.6834 27.0976 25.2929 26.7071L20 21.4142L14.7071 26.7071C14.3166 27.0976 13.6834 27.0976 13.2929 26.7071C12.9024 26.3166 12.9024 25.6834 13.2929 25.2929L18.5858 20L13.2929 14.7071C12.9024 14.3166 12.9024 13.6834 13.2929 13.2929Z"
+                          fill="#23262F"
+                        />
+                        <rect
+                          x="1"
+                          y="1"
+                          width="38"
+                          height="38"
+                          rx="19"
+                          stroke="#E6E8EC"
+                          stroke-width="2"
+                        />
+                      </svg>
                     </div>
                   </div>
                   <div
@@ -937,6 +1197,7 @@ export const Header = () => {
                   >
                     <div class="d-flex">
                       <a
+                        class="n-walletType"
                         style={{
                           // color: "#23262F",
                           fontSize: "14px",
@@ -968,6 +1229,7 @@ export const Header = () => {
                   >
                     <div class="d-flex">
                       <a
+                        class="n-walletType"
                         style={{
                           // color: "#23262F",
                           fontSize: "14px",
@@ -998,10 +1260,7 @@ export const Header = () => {
         </Modal.Body>
       </Modal>
 
-      <div
-        class="container"
-        style={{ padding: "0px", backgroundColor: "#FCFCFD" }}
-      >
+      <div class="container n-navbarContainer" style={{ padding: "0px" }}>
         <nav
           class="navbar navbar-expand-lg navbar-light"
           style={{
@@ -1410,22 +1669,22 @@ export const Header = () => {
                         </li>
                       </ul>
                       <div class="n-notificationButtons d-fex flex-row align-items-center w-100">
-                        <button class="n-primaryNotifactionButton">
-                          <Link
-                            // style={{color:"#fcfcfd"}}
-                            to={browserRoute.NOTIFICATIONS}
-                            className={
-                              "" +
-                              (window.location.href.indexOf(
-                                browserRoute.NOTIFICATIONS
-                              ) !== -1
-                                ? ""
-                                : null)
-                            }
-                          >
+                        <Link
+                          // style={{color:"#fcfcfd"}}
+                          to={browserRoute.NOTIFICATIONS}
+                          className={
+                            "" +
+                            (window.location.href.indexOf(
+                              browserRoute.NOTIFICATIONS
+                            ) !== -1
+                              ? ""
+                              : null)
+                          }
+                        >
+                          <button class="n-primaryNotifactionButton btnHoverWhite">
                             View all
-                          </Link>
-                        </button>
+                          </button>
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -1498,7 +1757,7 @@ export const Header = () => {
             </span>
 
             <button
-              class="btn n-secondaryButton my-2 my-sm-0"
+              class="btn n-secondaryButton my-2 my-sm-0 n-secondaryHeaderDark"
               type="submit"
               onClick={() => {
                 loggedIn ? handleDisconnect() : setMainModel(true);

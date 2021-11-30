@@ -26,9 +26,10 @@ const TableBody = ({
 
   return (
     <>
-      <tr class="n-tableHover"
+      <tr
+        class="n-tableHover"
 
-      // style={{ borderBottom: "1px solid #E6E8EC" }}
+        // style={{ borderBottom: "1px solid #E6E8EC" }}
       >
         <td>
           <div
@@ -38,7 +39,7 @@ const TableBody = ({
           >
             <img src={d.image} style={{ width: "32px", height: "32px" }} />
             <div class="pl-3">
-              <div class="n-tabelDark">{d.Pool}</div>
+              <div class="n-tabelDark">{d.asset}</div>
               <div class="d-flex align-items-center">
                 <div class=" text-muted">{d.FullName}</div>
               </div>
@@ -46,92 +47,93 @@ const TableBody = ({
           </div>
           {showModal ? (
             <div className="mt-3" style={{ display: "flex" }}>
-              <AddLiquidity />
-              <Withdraw_Modal />
+              <AddLiquidity data={d} />
+              <Withdraw_Modal data={d} />
             </div>
           ) : null}
         </td>
 
-        <td
-          className="text-right"
-          style={{ cursor: "pointer" }}
-          onClick={handlePopUpModal}
-        >
-          <span className="depositclasss">{d.Yield_Rate}% APY</span>
-        </td>
-        <td
-          className="text-right"
-          style={{ cursor: "pointer" }}
-          onClick={handlePopUpModal}
-        >
-          <div
-            style={{
-              textAlign: "end",
-            }}
-            class="n-tabelDark"
+          <td
+            className="text-right"
+            style={{ cursor: "pointer" }}
+            onClick={handlePopUpModal}
           >
-            {d.Total_Balance} BTC
-          </div>
-          <div>
+            <span className="depositclasss n-depositClass">{d.Yield_Rate}% APY</span>
+          </td>
+          <td
+            className="text-right"
+            style={{ cursor: "pointer" }}
+            onClick={handlePopUpModal}
+          >
             <div
-              class=" text-muted "
+              style={{
+                textAlign: "end",
+              }}
+              class="n-tabelDark"
+            >
+              {d.Total_Balance} BTC
+            </div>
+            <div>
+              <div
+                class=" text-muted "
+                style={{
+                  textAlign: "end",
+                }}
+              >
+                ${d.Price}
+              </div>
+            </div>
+          </td>
+          <td
+            className="text-right"
+            style={{ cursor: "pointer" }}
+            onClick={handlePopUpModal}
+          >
+            <div
+              style={{
+                textAlign: "end",
+              }}
+              class="n-tabelDark"
+            >
+              {d.Available_Balance} BTC
+            </div>
+            <div>
+              <div
+                class=" text-muted "
+                style={{
+                  textAlign: "end",
+                }}
+              >
+                ${d.Price}
+              </div>
+            </div>
+          </td>
+          <td
+            className="text-right"
+            style={{ cursor: "pointer" }}
+            onClick={handlePopUpModal}
+          >
+            <div
+              class="d-flex justify-content-end n-tabelDark"
               style={{
                 textAlign: "end",
               }}
             >
-              ${d.Price}
+              {d.Interest} BTC
             </div>
-          </div>
-        </td>
-        <td
-          className="text-right"
-          style={{ cursor: "pointer" }}
-          onClick={handlePopUpModal}
-        >
-          <div
-            style={{
-              textAlign: "end",
-            }}
-            class="n-tabelDark"
-          >
-            {d.Available_Balance} BTC
-          </div>
-          <div>
-            <div
-              class=" text-muted "
-              style={{
-                textAlign: "end",
-              }}
-            >
-              ${d.Price}
+            <div class="d-flex justify-content-end">
+              <div
+                class=" text-muted"
+                style={{
+                  textAlign: "end",
+                }}
+              >
+                ${d.Price}
+              </div>
             </div>
-          </div>
-        </td>
-        <td
-          className="text-right"
-          style={{ cursor: "pointer" }}
-          onClick={handlePopUpModal}
-        >
-          <div
-            class="d-flex justify-content-end n-tabelDark"
-            style={{
-              textAlign: "end",
-            }}
-          >
-            {d.Interest} BTC
-          </div>
-          <div class="d-flex justify-content-end">
-            <div
-              class=" text-muted"
-              style={{
-                textAlign: "end",
-              }}
-            >
-              ${d.Price}
-            </div>
-          </div>
-        </td>
-      </tr>
+          </td>
+        </tr>
+    
     </>
   );
 };

@@ -7,7 +7,11 @@ import {
 import { ethers } from "ethers";
 import { toast } from "react-toastify";
 
-import { INBOUND_ADDRESSES, SERVER_URL_MAIN } from "../../Routes/serverRoutes";
+import {
+  ETHERSCAN_URL,
+  INBOUND_ADDRESSES,
+  SERVER_URL_MAIN,
+} from "../../Routes/serverRoutes";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 // import Web3Modal from "web3modal";
 import { BehaviorSubject } from "rxjs";
@@ -269,6 +273,7 @@ export class MetamaskService {
               assetBalance: assetBalance,
               overallBalance_BTC: overallBalance_BTC,
               overallBalance_USD: overallBalance_USD,
+              walletAddress: account[0],
             },
           });
         }
@@ -323,7 +328,7 @@ export class MetamaskService {
           signer: signer,
         });
 
-        const etherScan = `https://ropsten.etherscan.io/tx/${response}`;
+        const etherScan = `https://${ETHERSCAN_URL}etherscan.io/tx/${response}`;
         setStatusLink(etherScan);
         setTransactionHash(response);
         setLoading(false);

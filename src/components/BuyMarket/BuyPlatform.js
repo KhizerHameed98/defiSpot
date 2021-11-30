@@ -264,10 +264,14 @@ const series = [
   },
 ];
 
-const BuyPlatform = ({ match }) => {
+const BuyPlatform = (props) => {
+  const match = props.match;
+
+  const fromMarket = "op";
   const myRefSwap = useRef();
   const myRefSwap2 = useRef();
-
+  console.log("FROM MARK <<><><><><><<><> ", props);
+  console.log("FROM MATCHHHHHH <<><><><><><<><> ", match.params);
   let history = useHistory();
   const dispatch = useDispatch();
 
@@ -561,58 +565,50 @@ const BuyPlatform = ({ match }) => {
   const handleShowConfirm = () => {
     //check loggedin state
 
-    setConfirmModal(true);
+    if (parseFloat(fromAmount) > 0) {
+      setConfirmModal(true);
+      console.log("----VAL===== ", parseFloat(fromAmount));
+    } else {
+      console.log("----VAL===== ", parseFloat(fromAmount));
+      setEmptyError(true);
+    }
   };
-
-
-
-
-
-
-
-
-
-
 
   //Submit Swap
   const submitSwap = () => {
-    if (fromAmount.length > 0) {
-      if (loggedin) {
-        let fromData;
-        if (selectedCurr?.asset?.ticker === "RUNE") {
-          fromData = RUNE;
-        } else {
-          fromData = midgardPool.find(
-            (data) =>
-              data.blockchain === selectedCurr.asset.chain &&
-              data.asset === selectedCurr.asset.ticker
-          );
-        }
-        console.log("fromData=====>>", fromData);
-        const decimal = selectedCurr.amount.decimal;
-        if (fromData) {
-          dispatch(
-            nativeSwapping(
-              fromData,
-              selectedCurrTo,
-              fromAmount,
-              decimal,
-              midgardPool,
-              setYayModal,
-              setConfirmModal,
-              setTransactionHash,
-              setStatusLink,
-              setLoading,
-              walletType
-            )
-          );
-        }
+    if (loggedin) {
+      let fromData;
+      if (selectedCurr?.asset?.ticker === "RUNE") {
+        fromData = RUNE;
       } else {
-        // console.log("loggedOUT");
-        dispatch(handleMainModal(true));
+        fromData = midgardPool.find(
+          (data) =>
+            data.blockchain === selectedCurr.asset.chain &&
+            data.asset === selectedCurr.asset.ticker
+        );
+      }
+      console.log("fromData=====>>", fromData);
+      const decimal = selectedCurr.amount.decimal;
+      if (fromData) {
+        dispatch(
+          nativeSwapping(
+            fromData,
+            selectedCurrTo,
+            fromAmount,
+            decimal,
+            midgardPool,
+            setYayModal,
+            setConfirmModal,
+            setTransactionHash,
+            setStatusLink,
+            setLoading,
+            walletType
+          )
+        );
       }
     } else {
-      setEmptyError(true);
+      // console.log("loggedOUT");
+      dispatch(handleMainModal(true));
     }
   };
 
@@ -702,9 +698,7 @@ const BuyPlatform = ({ match }) => {
     setKeyStore(res);
   };
 
-  {
-    /*TO */
-  }
+  /*TO */
 
   const filterAllTypeTo = (e) => {
     e.preventDefault();
@@ -747,9 +741,35 @@ const BuyPlatform = ({ match }) => {
         keyboard={false}
       >
         <Modal.Header
-          closeButton
+          // closeButton
           style={{ borderBottom: "none" }}
-        ></Modal.Header>
+        >
+          <svg
+            onClick={handleCloseYay}
+            className="w-widtradre8777"
+            width="40"
+            height="40"
+            viewBox="0 0 40 40"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M13.2929 13.2929C13.6834 12.9024 14.3166 12.9024 14.7071 13.2929L20 18.5858L25.2929 13.2929C25.6834 12.9024 26.3166 12.9024 26.7071 13.2929C27.0976 13.6834 27.0976 14.3166 26.7071 14.7071L21.4142 20L26.7071 25.2929C27.0976 25.6834 27.0976 26.3166 26.7071 26.7071C26.3166 27.0976 25.6834 27.0976 25.2929 26.7071L20 21.4142L14.7071 26.7071C14.3166 27.0976 13.6834 27.0976 13.2929 26.7071C12.9024 26.3166 12.9024 25.6834 13.2929 25.2929L18.5858 20L13.2929 14.7071C12.9024 14.3166 12.9024 13.6834 13.2929 13.2929Z"
+              fill="#23262F"
+            />
+            <rect
+              x="1"
+              y="1"
+              width="38"
+              height="38"
+              rx="19"
+              stroke="#E6E8EC"
+              stroke-width="2"
+            />
+          </svg>
+        </Modal.Header>
         <Modal.Body>
           {/* <!-- Modal --> */}
 
@@ -872,10 +892,12 @@ const BuyPlatform = ({ match }) => {
                   </div>
                   <div class="d-flex justify-content-between pt-5">
                     <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
-                      1.1137
+                      {/* 1.1137 */}
+                      {toAmount}
                     </p>
                     <p style={{ fontWeight: "bold", fontFamily: "Poppins" }}>
-                      BTC
+                      {/* BTC */}
+                      {selectedCurrTo?.asset}
                     </p>
                   </div>
                   <hr class="solid" />
@@ -1092,190 +1114,225 @@ const BuyPlatform = ({ match }) => {
         </Modal.Body>
       </Modal>
       {/* Div Started */}
-      <section style={{ backgroundColor: "#F1F2F4", paddingTop: "3px" }}>
-        <div class="swap-container mt-1 pt-2 pb-2">
-          <div
-            style={{
-              backgroundColor: "#FCFCFD",
-              borderRadius: "15px",
-              padding: "10px 15px",
-            }}
-          >
-            <div className="row">
-              <div className="col-lg-4">
-                <div
-                  className="d-flex align-items-center"
-                  style={{ height: "100%" }}
-                >
-                  <div>
-                    <img
-                      style={{
-                        width: "18px",
-                        margin: "0 10px",
-                        cursor: "pointer",
-                      }}
-                      src={Images.iconsLeftline}
-                      onClick={() => history.goBack()}
-                    />
+      <section style={{ backgroundColor: "#F1F2F4" }}>
+        <div
+          class="swap-container"
+          style={{ paddingTop: "20px", paddingBottom: "20px" }}
+        >
+          <div className="row">
+            <div
+              className="col-sm-12"
+              style={{ paddingLeft: "10px", paddingRight: "10px" }}
+            >
+              <div
+                style={{
+                  backgroundColor: "#FCFCFD",
+                  borderRadius: "15px",
+                  padding: "10px 15px",
+                }}
+              >
+                <div className="row">
+                  <div className="col-lg-4">
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ height: "100%" }}
+                    >
+                      <div>
+                        {/* {console.log("nmbr --- ", check)} */}
+                        <img
+                          style={{
+                            width: "18px",
+                            margin: "0 10px",
+                            cursor: "pointer",
+                          }}
+                          src={Images.iconsLeftline}
+                          onClick={() =>
+                            window.history.go(
+                              Number(match.params.check) == 1 ? -2 : -1
+                            )
+                          }
+                        />
 
-                    <img
-                      style={{ width: "32px", margin: "0 10px" }}
-                      // src={Images.btc}
-                      src={tokenData?.logo}
-                    />
+                        <img
+                          style={{ width: "32px", margin: "0 10px" }}
+                          // src={Images.btc}
+                          src={tokenData?.logo}
+                        />
+                      </div>
+                      <div>
+                        <h4 className="w-headinfswaming09888">
+                          {tokenData?.assetFullName}
+                        </h4>
+                        <h4 className="w-headinfswaming01">
+                          {tokenData?.asset}
+                        </h4>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="w-headinfswaming09888">
-                      {tokenData?.assetFullName}
-                    </h4>
-                    <h4 className="w-headinfswaming01">{tokenData?.asset}</h4>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-8">
-                <div className="d-flex justify-content-between flex-wrap u-swappingdonemain3455">
-                  <div className="w-swap-top-inner">
-                    <p class="w-marketparatwow">
-                      {" "}
-                      {/* <img src={Images.clock} /> */}
-                      <img src={Images.up} /> Change
-                    </p>
+                  <div className="col-lg-8">
+                    <div className="d-flex justify-content-between flex-wrap u-swappingdonemain3455">
+                      <div className="w-swap-top-inner">
+                        <p class="w-marketparatwow">
+                          {" "}
+                          {/* <img src={Images.clock} /> */}
+                          <img src={Images.up} /> Change
+                        </p>
 
-                    {tokenData?.change_24h >= 0 ? (
-                      <>
+                        {tokenData?.change_24h >= 0 ? (
+                          <>
+                            <h5
+                              style={{
+                                color: "#00C076",
+                                fontFamily: "DM Sans",
+                                fontWeight: "600",
+                                fontSize: "12px",
+                                marginBottom: "0",
+                              }}
+                            >
+                              {numberWithCommas(
+                                financial(tokenData?.assetPriceUSD)
+                              )}{" "}
+                              +{financial(tokenData?.change_24h)}%
+                            </h5>
+                          </>
+                        ) : (
+                          <>
+                            <>
+                              <h5
+                                style={{
+                                  color: "#f04e4e",
+                                  fontFamily: "DM Sans",
+                                  fontWeight: "600",
+                                  fontSize: "12px",
+                                  marginBottom: "0",
+                                }}
+                              >
+                                $
+                                {numberWithCommas(
+                                  financial(tokenData?.assetPriceUSD)
+                                )}
+                                {/* {" "} */}({financial(tokenData?.change_24h)}
+                                %)
+                              </h5>
+                            </>
+                          </>
+                        )}
+                      </div>
+                      <div className="w-swap-top-inner">
+                        <p class="w-marketparatwow">
+                          {" "}
+                          <img src={Images.up} /> High
+                        </p>
                         <h5
                           style={{
-                            color: "#00C076",
                             fontFamily: "DM Sans",
                             fontWeight: "600",
                             fontSize: "12px",
                             marginBottom: "0",
                           }}
                         >
-                          {numberWithCommas(
-                            financial(tokenData?.assetPriceUSD)
-                          )}{" "}
-                          +{financial(tokenData?.change_24h)}%
+                          {tokenData?.change_24h_Highest >= 0 ? (
+                            <>
+                              $
+                              {numberWithCommas(
+                                financial(tokenData?.biggestVal)
+                              )}
+                              {/* + */}
+                              {/* {financial(tokenData?.change_24h_Highest)}% */}
+                            </>
+                          ) : (
+                            <>
+                              {numberWithCommas(
+                                financial(tokenData?.biggestVal)
+                              )}
+                              {/* {" "} */}
+                              {/* {financial(tokenData?.change_24h_Highest)}% */}
+                            </>
+                          )}
                         </h5>
-                      </>
-                    ) : (
-                      <>
-                        <>
-                          <h5
-                            style={{
-                              color: "#f04e4e",
-                              fontFamily: "DM Sans",
-                              fontWeight: "600",
-                              fontSize: "12px",
-                              marginBottom: "0",
-                            }}
-                          >
-                            $
-                            {numberWithCommas(
-                              financial(tokenData?.assetPriceUSD)
-                            )}
-                            {/* {" "} */}({financial(tokenData?.change_24h)}%)
-                          </h5>
-                        </>
-                      </>
-                    )}
-                  </div>
-                  <div className="w-swap-top-inner">
-                    <p class="w-marketparatwow">
-                      {" "}
-                      <img src={Images.up} /> High
-                    </p>
-                    <h5
-                      style={{
-                        fontFamily: "DM Sans",
-                        fontWeight: "600",
-                        fontSize: "12px",
-                        marginBottom: "0",
-                      }}
-                    >
-                      {tokenData?.change_24h_Highest >= 0 ? (
-                        <>
-                          ${numberWithCommas(financial(tokenData?.biggestVal))}
-                          {/* + */}
-                          {/* {financial(tokenData?.change_24h_Highest)}% */}
-                        </>
-                      ) : (
-                        <>
-                          {numberWithCommas(financial(tokenData?.biggestVal))}
-                          {/* {" "} */}
-                          {/* {financial(tokenData?.change_24h_Highest)}% */}
-                        </>
-                      )}
-                    </h5>
-                  </div>
-                  <div className="w-swap-top-inner">
-                    <p class="w-marketparatwow">
-                      {" "}
-                      <img src={Images.down} /> Low
-                    </p>
-                    <h5
-                      style={{
-                        fontFamily: "DM Sans",
-                        fontWeight: "600",
-                        fontSize: "12px",
-                        marginBottom: "0",
-                      }}
-                    >
-                      {tokenData?.change_24h_Lowest >= 0 ? (
-                        <>
-                          ${numberWithCommas(financial(tokenData?.smallestVal))}
-                          {/* + */}
-                          {/* {financial(tokenData?.change_24h_Lowest)}% */}
-                        </>
-                      ) : (
-                        <>
-                          ${numberWithCommas(financial(tokenData?.smallestVal))}
-                          {/* {" "} */}
-                          {/* {financial(tokenData?.change_24h_Lowest)}% */}
-                        </>
-                      )}{" "}
-                    </h5>
-                  </div>
+                      </div>
+                      <div className="w-swap-top-inner">
+                        <p class="w-marketparatwow">
+                          {" "}
+                          <img src={Images.down} /> Low
+                        </p>
+                        <h5
+                          style={{
+                            fontFamily: "DM Sans",
+                            fontWeight: "600",
+                            fontSize: "12px",
+                            marginBottom: "0",
+                          }}
+                        >
+                          {tokenData?.change_24h_Lowest >= 0 ? (
+                            <>
+                              $
+                              {numberWithCommas(
+                                financial(tokenData?.smallestVal)
+                              )}
+                              {/* + */}
+                              {/* {financial(tokenData?.change_24h_Lowest)}% */}
+                            </>
+                          ) : (
+                            <>
+                              $
+                              {numberWithCommas(
+                                financial(tokenData?.smallestVal)
+                              )}
+                              {/* {" "} */}
+                              {/* {financial(tokenData?.change_24h_Lowest)}% */}
+                            </>
+                          )}{" "}
+                        </h5>
+                      </div>
 
-                  <div className="w-swap-top-inner">
-                    <p class="w-marketparatwow">
-                      {" "}
-                      <img src={Images.down} /> Volume
-                    </p>
-                    <h5
-                      style={{
-                        fontFamily: "DM Sans",
-                        fontWeight: "600",
-                        fontSize: "12px",
-                        marginBottom: "0",
-                      }}
-                    >
-                      {tokenData?.change_24h >= 0 ? (
-                        <>
-                          ${numberWithCommas(financial(tokenData?.volume24h))}
-                          {/* + */}
-                          {/* {financial(tokenData?.change_24h)}% */}
-                        </>
-                      ) : (
-                        <>
-                          ${numberWithCommas(financial(tokenData?.volume24h))}
-                          {/* {" "} */}
-                          {/* {financial(tokenData?.change_24h)}% */}
-                        </>
-                      )}{" "}
-                    </h5>
-                  </div>
-                  <div className="w-swap-top-inner d-flex align-items-center w-swap-top-inner-bg">
-                    <h5
-                      style={{
-                        fontFamily: "DM Sans",
-                        fontWeight: "600",
-                        fontSize: "12px",
-                        marginBottom: "0",
-                      }}
-                    >
-                      {selectedFilter}
-                    </h5>
+                      <div className="w-swap-top-inner">
+                        <p class="w-marketparatwow">
+                          {" "}
+                          <img src={Images.down} /> Volume
+                        </p>
+                        <h5
+                          style={{
+                            fontFamily: "DM Sans",
+                            fontWeight: "600",
+                            fontSize: "12px",
+                            marginBottom: "0",
+                          }}
+                        >
+                          {tokenData?.change_24h >= 0 ? (
+                            <>
+                              $
+                              {numberWithCommas(
+                                financial(tokenData?.volume24h)
+                              )}
+                              {/* + */}
+                              {/* {financial(tokenData?.change_24h)}% */}
+                            </>
+                          ) : (
+                            <>
+                              $
+                              {numberWithCommas(
+                                financial(tokenData?.volume24h)
+                              )}
+                              {/* {" "} */}
+                              {/* {financial(tokenData?.change_24h)}% */}
+                            </>
+                          )}{" "}
+                        </h5>
+                      </div>
+                      <div className="w-swap-top-inner d-flex align-items-center w-swap-top-inner-bg">
+                        <h5
+                          style={{
+                            fontFamily: "DM Sans",
+                            fontWeight: "600",
+                            fontSize: "12px",
+                            marginBottom: "0",
+                          }}
+                        >
+                          {selectedFilter}
+                        </h5>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1286,7 +1343,14 @@ const BuyPlatform = ({ match }) => {
       <section style={{ backgroundColor: "#F1F2F4" }}>
         <div class="swap-container">
           <div class="row">
-            <div class="col-lg-8  mt-1 mb-3 order-2 order-lg-1">
+            <div
+              class="col-lg-8 order-2 order-lg-1"
+              style={{
+                marginBottom: "65px",
+                paddingLeft: "10px",
+                paddingRight: "10px",
+              }}
+            >
               <div
                 class=""
                 style={{ backgroundColor: "#FCFCFD", borderRadius: "15px" }}
@@ -1341,63 +1405,77 @@ const BuyPlatform = ({ match }) => {
                       paddingRight: "30px",
                     }}
                   >
-                    <button
-                      class="graphbutton"
-                      onClick={() => {
-                        setSelectedFilter("1H");
-                        setGraphData(graphData1H);
-                      }}
-                      style={{
-                        color: selectedFilter == "1H" ? "black" : "#808191",
-                      }}
-                    >
-                      1H
-                    </button>
-                    {/* <button class="graphbutton pl-2">24H</button> */}
-                    <button
-                      class="graphbutton pl-2"
-                      onClick={() => {
-                        setSelectedFilter("1D");
-                        setGraphData(graphData1D);
-                      }}
-                      style={{
-                        color: selectedFilter == "1D" ? "black" : "#808191",
-                      }}
-                    >
-                      1D
-                    </button>
-                    <button
-                      class="graphbutton pl-2"
-                      onClick={() => {
-                        setSelectedFilter("1M");
-                        setGraphData(graphData1M);
-                      }}
-                      style={{
-                        color: selectedFilter == "1M" ? "black" : "#808191",
-                      }}
-                    >
-                      1M
-                    </button>
-                    <button
-                      class="graphbutton pl-2"
-                      onClick={() => {
-                        setSelectedFilter("1Y");
-                        setGraphData(graphData1Y);
-                      }}
-                      style={{
-                        color: selectedFilter == "1Y" ? "black" : "#808191",
-                      }}
-                    >
-                      1Y
-                    </button>
-                    {/* <button class="graphbutton pl-2">ALL</button> */}
+                    {displayLineGraph ? (
+                      <>
+                        <button
+                          class="graphbutton"
+                          onClick={() => {
+                            setSelectedFilter("1H");
+                            setGraphData(graphData1H);
+                          }}
+                          style={{
+                            color: selectedFilter == "1H" ? "black" : "#808191",
+                          }}
+                        >
+                          1H
+                        </button>
+                        {/* <button class="graphbutton pl-2">24H</button> */}
+                        <button
+                          class="graphbutton pl-2"
+                          onClick={() => {
+                            setSelectedFilter("1D");
+                            setGraphData(graphData1D);
+                          }}
+                          style={{
+                            color: selectedFilter == "1D" ? "black" : "#808191",
+                          }}
+                        >
+                          1D
+                        </button>
+                        <button
+                          class="graphbutton pl-2"
+                          onClick={() => {
+                            setSelectedFilter("1M");
+                            setGraphData(graphData1M);
+                          }}
+                          style={{
+                            color: selectedFilter == "1M" ? "black" : "#808191",
+                          }}
+                        >
+                          1M
+                        </button>
+                        <button
+                          class="graphbutton pl-2"
+                          onClick={() => {
+                            setSelectedFilter("1Y");
+                            setGraphData(graphData1Y);
+                          }}
+                          style={{
+                            color: selectedFilter == "1Y" ? "black" : "#808191",
+                          }}
+                        >
+                          1Y
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          class="graphbutton pl-2"
+                          onClick={() => {
+                            setSelectedFilter("1M");
+                            setGraphData(graphData1M);
+                          }}
+                          style={{
+                            color: selectedFilter == "1M" ? "black" : "#808191",
+                          }}
+                        >
+                          1M
+                        </button>
+                      </>
+                    )}
                   </div>
                 </div>
-                {/* <img
-                  class="pt-5 pb-4"
-                  style={{ width: "700px", paddingLeft: "30px" }}
-                  src={Images.linechart}
-                /> */}
+
                 <div
                   class=""
                   style={{
@@ -1450,13 +1528,54 @@ const BuyPlatform = ({ match }) => {
                       axisTop={null}
                       axisRight={null}
                       axisLeft={null}
+                      tooltip={({ point }) => {
+                        return (
+                          <div
+                            style={{
+                              padding: "15px",
+                              backgroundColor: "#353945",
+                              borderRadius: "10px",
+                              fontFamily: "Poppins",
+                              fontSize: "12px",
+                              fontWeight: "400",
+                            }}
+                          >
+                            <div className="my-1">
+                              <span style={{ color: "#777e90" }}>Price:</span>
+                              <span
+                                style={{ color: "#fff", marginLeft: "15px" }}
+                              >
+                                18435434.3424
+                              </span>
+                            </div>
+                            <div className="my-1">
+                              <span style={{ color: "#777e90" }}>Sum BTC:</span>
+                              <span
+                                style={{ color: "#ffc107", marginLeft: "15px" }}
+                              >
+                                18435434
+                              </span>
+                            </div>
+                            <div className="my-1">
+                              <span style={{ color: "#777e90" }}>
+                                Sum USDT:
+                              </span>
+                              <span
+                                style={{ color: "#17a2b8", marginLeft: "15px" }}
+                              >
+                                18435.434
+                              </span>
+                            </div>
+                          </div>
+                        );
+                      }}
                       pointSize={0}
                       pointColor={{ theme: "background" }}
                       pointBorderWidth={2}
                       pointBorderColor={{ from: "serieColor" }}
                       pointLabelYOffset={-12}
                       useMesh={true}
-                      areaBaselineValue={true}
+                      areaBaselineValue={false}
                       defs={[
                         linearGradientDef("gradientA", [
                           { offset: 0, color: "inherit" },
@@ -1481,14 +1600,12 @@ const BuyPlatform = ({ match }) => {
                               1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
                               1999,
                             ],
-                            
                           },
                         },
                         yaxis: {
                           show: false,
                         },
                         xaxis: {
-                          
                           labels: {
                             show: false,
                           },
@@ -1497,7 +1614,10 @@ const BuyPlatform = ({ match }) => {
                           },
                           axisTicks: {
                             show: false,
-                          }
+                          },
+                          tooltip: {
+                            enabled: false,
+                          },
                         },
                         chart: {
                           toolbar: {
@@ -1505,17 +1625,15 @@ const BuyPlatform = ({ match }) => {
                               download: false,
                             },
                           },
-                          
                         },
                         grid: {
                           show: false,
                         },
                       }}
-                      
                       series={series}
                       type="candlestick"
                       width="100%"
-                      height= '100%' 
+                      height="100%"
                     />
                   )}
                 </div>
@@ -1527,7 +1645,13 @@ const BuyPlatform = ({ match }) => {
                 >
                   {graphData &&
                     graphData[0]?.data?.slice(0, 4)?.map((d) => (
-                      <p style={{ fontWeight: "500" }}>
+                      <p
+                        style={{
+                          fontWeight: "400",
+                          fontSize: "13px",
+                          color: "#23262F",
+                        }}
+                      >
                         {/* Sept15 */}
                         {d.x}
                       </p>
@@ -1644,7 +1768,7 @@ const BuyPlatform = ({ match }) => {
                 </div>
                 <hr class="solid" style={{ margin: "0px" }} />
                 <div class="row">
-                  <div class="col-lg-8 pl-5 pt-5 pb-4">
+                  <div class="col-lg-12 px-5 pt-5 pb-4">
                     <h2 class="bitcoinheadeing">About Bitcoin</h2>
                     <p
                       style={{
@@ -1660,66 +1784,17 @@ const BuyPlatform = ({ match }) => {
                       bitcoin.
                     </p>
                   </div>
-                  <div class="col-lg-4 pt-5">
-                    <div class="d-flex">
-                      <img
-                        class="pt-2"
-                        style={{ width: "20px", height: "25px" }}
-                        src={Images.warrr}
-                      />
-                      <a
-                        class="pt-2 pl-3"
-                        href="#"
-                        style={{
-                          fontWeight: "500",
-                          fontFamily: "DM Sans",
-                          fontSize: "14px",
-                        }}
-                      >
-                        Official Website
-                      </a>
-                    </div>
-                    <div class="d-flex">
-                      <img
-                        class="pt-2"
-                        style={{ width: "20px", height: "25px" }}
-                        src={Images.warrr}
-                      />
-                      <a
-                        class="pt-2 pl-3"
-                        href="#"
-                        style={{
-                          fontWeight: "500",
-                          fontFamily: "DM Sans",
-                          fontSize: "14px",
-                        }}
-                      >
-                        White Paper
-                      </a>
-                    </div>
-                    <div class="d-flex">
-                      <img
-                        class="pt-2"
-                        style={{ width: "20px", height: "25px" }}
-                        src={Images.warrr}
-                      />
-                      <a
-                        class="pt-2 pl-3"
-                        href="#"
-                        style={{
-                          fontWeight: "500",
-                          fontFamily: "DM Sans",
-                          fontSize: "14px",
-                        }}
-                      >
-                        Source Code
-                      </a>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
-            <div class="col-lg-4 mt-1 mb-3 order-1 order-lg-2">
+            <div
+              class="col-lg-4 order-1 order-lg-2"
+              style={{
+                marginBottom: "20px",
+                paddingLeft: "10px",
+                paddingRight: "10px",
+              }}
+            >
               <div
                 style={{
                   backgroundColor: "#FCFCFD",
@@ -1775,7 +1850,7 @@ const BuyPlatform = ({ match }) => {
                 {/*Slippage*/}
                 {/* <h6>Slippage: {slippagePercent}%</h6> */}
                 <div style={{ padding: "20px 15px" }}>
-                  <form>
+                  <form class="w-currencyform">
                     <div class="input-group position-relative">
                       <div class="n-currencySelect" ref={myRefSwap}>
                         <div class="w-currency">
@@ -1930,7 +2005,7 @@ const BuyPlatform = ({ match }) => {
                           fontWeight: "600",
                           fontFamily: "DM Sans",
                           paddingLeft: "25%",
-                          paddingRight: "15%",
+                          paddingRight: "18%",
                           textAlign: "right",
                         }}
                         onFocus={() => setEmptyError(false)}
@@ -1964,20 +2039,20 @@ const BuyPlatform = ({ match }) => {
                       </button>
                       {/* </div> */}
                     </div>
+                  </form>
+                  {/*end*/}
+                  <div class="d-flex justify-content-end py-3 pr-2">
                     <div
                       style={{
                         fontSize: 10,
                         color: "red",
                         marginLeft: 32,
                         marginTop: -14,
-                        height: "5px",
+                        // height: "5px",
                       }}
                     >
-                      {emptyError && <>Swapping amount is required</>}
+                      {emptyError && <>* Swapping amount is required</>}
                     </div>
-                  </form>
-                  {/*end*/}
-                  <div class="d-flex justify-content-end py-3 pr-2">
                     {/* <img
                     style={{
                       height: "15px",
@@ -2012,7 +2087,7 @@ const BuyPlatform = ({ match }) => {
                       {selectedCurr?.asset?.ticker}
                     </p>
                   </div>
-                  <form>
+                  <form class="w-currencyform">
                     <div class="input-group mb-3">
                       <div class="n-currencySelect" ref={myRefSwap2}>
                         <div class="w-currency">
@@ -2175,7 +2250,7 @@ const BuyPlatform = ({ match }) => {
                           fontWeight: "600",
                           fontFamily: "DM Sans",
                           paddingLeft: "25%",
-                          paddingRight: "15%",
+                          paddingRight: "18%",
                           textAlign: "right",
                         }}
                         type="text"

@@ -32,7 +32,7 @@ function App() {
           <PrivateRoute exact path={browserRoute.MARKET} component={Market} />
           <PrivateRoute
             exact
-            path={`${browserRoute.BUYMARKET}/:id`}
+            path={`${browserRoute.BUYMARKET}/:id/:check`}
             component={BuyPlatform}
           />
           <PrivateRoute

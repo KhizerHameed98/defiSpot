@@ -40,6 +40,7 @@ const initialState = {
   settings: {},
   transactionHistoryModal: false,
   transactionHash: null,
+  walletAddress: null,
 };
 
 export default (state = initialState, { type, payload }) => {

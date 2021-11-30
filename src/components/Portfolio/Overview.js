@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Images from "../Helper/AllImages";
 import data from "../Helper/Data/TransactionHistory";
 import { useSelector, useDispatch } from "react-redux";
 import Pagination from "@mui/material/Pagination";
+import LineChartSmartCard from "../GraphChart/holdingGraph";
+import axios from "axios";
+import { NGROK } from "../../Services/mainServices";
 
 const Overview = () => {
   const keyStoreInstance = useSelector((state) => state.main);
@@ -24,6 +27,7 @@ const Overview = () => {
 
   const [ascendingDescendingType, setAscendingDescendingType] = useState(false);
   const [ascendingDescendingCoin, setAscendingDescendingCoin] = useState(false);
+  const [graphData, setGraphData] = useState([]);
   const [ascendingDescendingAmount, setAscendingDescendingAmount] =
     useState(false);
   const [ascendingDescendingAddress, setAscendingDescendingAddress] =
@@ -36,6 +40,45 @@ const Overview = () => {
   const handleAscendingDescendingTransactionID = () => {
     setAscendingDescendingTransactionID(!ascendingDescendingTransactionID);
   };
+
+  const getHoldingAsset = async () => {
+    const data = {
+      accountAddress: mainState?.walletAddress,
+      amount: mainState?.overallBalance_USD,
+      date: new Date().toString(),
+    };
+    axios
+      .get(
+        `${NGROK}/get/holding/asset/by/account/address/${keyStoreInstance.walletAddress}`
+      )
+      .then((res) => {
+        console.log("GET_HOLDING RES=============", res?.data?.holdingAsset);
+        let check = res?.data?.holdingAsset;
+
+        console.log("in <><><><><><><> if");
+        console.log("final============", res);
+
+        let finalData = check?.map((data, k) => {
+          return {
+            x: data.date.toString().substring(4, 22),
+            // new Date(data.date.toString()).getTime(),
+            y: data.amount,
+          };
+        });
+        setGraphData(finalData);
+        console.log("<><><><< FINAL DATA ", finalData);
+      })
+      .catch((e) => console.log("ERR ", e.message));
+  };
+
+  useEffect(() => {
+    if (keyStoreInstance) {
+      if (keyStoreInstance?.walletAddress) {
+        getHoldingAsset();
+      }
+    }
+  }, [keyStoreInstance]);
+
   useEffect(() => {
     if (ascendingDescendingTransactionID) {
       handleAscendingTransactionID();
@@ -47,6 +90,20 @@ const Overview = () => {
   const handleAscendingDescendingAddress = () => {
     setAscendingDescendingAddress(!ascendingDescendingAddress);
   };
+
+  const [cardsPerPage, setCardsPerPage] = useState(10);
+  const [page, setPage] = useState(1);
+  const [count, setCount] = useState(0);
+  const countData = transactionHistory?.length;
+
+  useEffect(() => {
+    if (countData % cardsPerPage === 0) {
+      setCount(Math.floor(countData / cardsPerPage));
+    } else {
+      setCount(Math.floor(countData / cardsPerPage) + 1);
+    }
+  }, [countData, cardsPerPage]);
+
   useEffect(() => {
     if (ascendingDescendingAddress) {
       handleAscendingAddress();
@@ -54,6 +111,14 @@ const Overview = () => {
       handleDescendingAddress();
     }
   }, [ascendingDescendingAddress]);
+
+  const myRef = useRef(null);
+
+  const handleChange = (event, value) => {
+    // window.scrollTo(0, 0);
+    myRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    setPage(value);
+  };
 
   const handleAscendingDescendingType = () => {
     setAscendingDescendingType(!ascendingDescendingType);
@@ -89,9 +154,9 @@ const Overview = () => {
   }, [ascendingDescendingAmount]);
 
   useEffect(() => {
-    setMainState(keyStoreInstance.transactionHistory);
-    setOverallBalance_BTC(keyStoreInstance.overallBalance_BTC);
-    setOverallBalance_USD(keyStoreInstance.overallBalance_USD);
+    setMainState(keyStoreInstance?.transactionHistory);
+    setOverallBalance_BTC(keyStoreInstance?.overallBalance_BTC);
+    setOverallBalance_USD(keyStoreInstance?.overallBalance_USD);
   }, [
     keyStoreInstance.KeyStoreClient,
     keyStoreInstance.transactionHistory,
@@ -131,7 +196,7 @@ const Overview = () => {
     setSearchInput("");
     setFilterType(Enum.withdraw);
 
-    let res = mainState.filter(
+    let res = mainState?.filter(
       (value) => value.type.toLowerCase() === Enum.withdraw
     );
 
@@ -141,7 +206,7 @@ const Overview = () => {
   function filterDepositType() {
     setSearchInput("");
     setFilterType(Enum.deposit);
-    let res = mainState.filter(
+    let res = mainState?.filter(
       (value) => value.type.toLowerCase() === Enum.deposit
     );
 
@@ -151,7 +216,7 @@ const Overview = () => {
   function filterPendingType() {
     setSearchInput("");
     setFilterType(Enum.pending);
-    let res = mainState.filter(
+    let res = mainState?.filter(
       (value) => value.type.toLowerCase() === Enum.pending
     );
 
@@ -485,7 +550,7 @@ const Overview = () => {
     let res = midgardPool?.find(
       (d) => d?.asset.toLowerCase() === ticker.toLowerCase()
     );
-    return <>{res.assetFullName}</>;
+    return <>{res?.assetFullName}</>;
   };
 
   function financial(x) {
@@ -591,14 +656,24 @@ const Overview = () => {
                   <div className="w-overview_portfoliobg">
                     <div className="d-flex justify-content-between">
                       <div className="d-flex">
-                        <img
+                        {/* <img
                           style={{
                             width: "12px",
                             height: "12px",
                             marginTop: "4px",
                           }}
                           src={Images.frame2}
-                        />
+                        /> */}
+                        <svg
+                          width="12"
+                          height="12"
+                          viewBox="0 0 12 12"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          style={{ marginTop: "4px" }}
+                        >
+                          <rect width="12" height="12" rx="4" fill="#9757D7" />
+                        </svg>
                         <p className="w-marketsidetitle pl-2">Assets</p>
                       </div>
                       <div>
@@ -608,8 +683,9 @@ const Overview = () => {
                             fontSize: "16px",
                             margin: "0px",
                             fontFamily: "Poppins",
-                            color: "23262F",
+                            // color: "23262F",
                           }}
+                          class="n-overviewAccountValues"
                         >
                           {overallBalance_BTC ? (
                             <>{financial(overallBalance_BTC)}</>
@@ -646,14 +722,24 @@ const Overview = () => {
                   <div className="w-overview_portfoliobg">
                     <div className="d-flex justify-content-between ">
                       <div className="d-flex">
-                        <img
+                        {/* <img
                           style={{
                             width: "12px",
                             height: "12px",
                             marginTop: "4px",
                           }}
                           src={Images.frame3}
-                        />
+                        /> */}
+                        <svg
+                          width="12"
+                          height="12"
+                          viewBox="0 0 12 12"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          style={{ marginTop: "4px" }}
+                        >
+                          <rect width="12" height="12" rx="4" fill="#FFD166" />
+                        </svg>
                         <p className="w-marketsidetitle pl-2">
                           Liquidity providing
                         </p>
@@ -665,8 +751,9 @@ const Overview = () => {
                             fontSize: "16px",
                             margin: "0px",
                             fontFamily: "Poppins",
-                            color: "23262F",
+                            // color: "23262F",
                           }}
+                          class="n-overviewAccountValues"
                         >
                           3.1219 BTC
                         </p>
@@ -675,7 +762,7 @@ const Overview = () => {
                           style={{
                             magin: "0px",
                             fontFamily: "Poppins",
-                            color: "#777390",
+                            color: "#777E90",
                             fontSize: "14px",
                             fontWeight: "400",
                             margin: "0px",
@@ -695,25 +782,35 @@ const Overview = () => {
                 <div className="w-overview_portfoliobg">
                   <div className="d-flex justify-content-between">
                     <div className="d-flex">
-                      <img
+                      {/* <img
                         style={{
                           width: "12px",
                           height: "12px",
                           marginTop: "4px",
                         }}
                         src={Images.purple}
-                      />
+                      /> */}
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 12 12"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        style={{ marginTop: "4px" }}
+                      >
+                        <rect width="12" height="12" rx="4" fill="#4BC9F0" />
+                      </svg>
                       <p className="w-marketsidetitle pl-2">Total</p>
                     </div>
                     <div>
                       <p
-                        className="my-sm-0"
+                        className="my-sm-0 n-overviewAccountValues"
                         style={{
                           fontWeight: "500",
                           fontSize: "16px",
                           margin: "0px",
                           fontFamily: "Poppins",
-                          color: "23262F",
+                          // color: "23262F",
                         }}
                       >
                         10.376987555 BTC
@@ -721,7 +818,7 @@ const Overview = () => {
                       <p
                         style={{
                           fontFamily: "Poppins",
-                          color: "#777390",
+                          color: "#777E90",
                           fontSize: "14px",
                           fontWeight: "400",
                           margin: "0px",
@@ -771,19 +868,48 @@ const Overview = () => {
                           lineHeight: "32px",
                           paddingBottom: "19px",
                           fontFamily: "Poppins",
-                          color: "#23262F",
+                          // color: "#23262F",
                         }}
+                        class="n-overviewAccountHolding"
                       >
                         $ {numberWithCommas(financial(overallBalance_USD))}
                       </h3>
-                      <img
+                      {/* <img
                         style={{
                           paddingBottom: "8px",
                           width: "220px",
                           paddingRight: "20px",
                         }}
                         src={Images.overview}
-                      />
+                      /> */}
+                      {graphData?.length ? (
+                        <div class="graph">
+                          <LineChartSmartCard
+                            color={
+                              // grapH?.change_24h >= 0 ?
+                              "#45B26B"
+                              // : "#ff6838"
+                            }
+                            data={[
+                              {
+                                id: "Parent",
+                                color: "hsl(6, 70%, 50%)",
+                                data: graphData,
+                              },
+                            ]}
+                          />
+                        </div>
+                      ) : (
+                        <img
+                          style={{
+                            paddingBottom: "8px",
+                            width: "220px",
+                            paddingRight: "20px",
+                          }}
+                          src={Images.overview}
+                        />
+                      )}
+                      {/* GRAPH */}
                     </>
                   ) : (
                     <>
@@ -794,7 +920,7 @@ const Overview = () => {
                           fontFamily: "Poppins",
                           fontWeight: "500",
                           color: "#777E90",
-                          marginTop: "30px"
+                          marginTop: "30px",
                         }}
                       >
                         Your holding{" "}
@@ -809,7 +935,7 @@ const Overview = () => {
                           0%
                         </span>
                       </p>
-                      <h3>$ 0.00</h3>
+                      <h3 class="n-overviewAccountHolding">$ 0.00</h3>
                     </>
                   )}
                 </div>
@@ -1017,7 +1143,7 @@ const Overview = () => {
         </>
       )}
       <p className="w-over-center-heading">Transaction History</p>
-      <div className="w-sidebarcoleight">
+      <div className="w-sidebarcoleight" ref={myRef}>
         <div className="d-flex justify-content-between flex-sm-wrap flex-md-nowrap flex-sm-row flex-column">
           <ul className="list-unstyled d-block d-sm-flex flex-row align-items-center mb-0">
             <li
@@ -1026,7 +1152,9 @@ const Overview = () => {
             >
               <button
                 className={
-                  filterType === Enum.allType ? "alltype" : "alltype-nonActive"
+                  filterType === Enum.allType
+                    ? "alltype n-darkAllType"
+                    : "alltype-nonActive n-darkNonActive"
                 }
                 style={{ color: "#fff" }}
                 onClick={filterAllType}
@@ -1040,7 +1168,9 @@ const Overview = () => {
             >
               <button
                 className={
-                  filterType === Enum.withdraw ? "alltype" : "alltype-nonActive"
+                  filterType === Enum.withdraw
+                    ? "alltype n-darkAllType"
+                    : "alltype-nonActive n-darkNonActive"
                 }
                 style={{ color: "#fff" }}
                 onClick={filterWithdrawType}
@@ -1054,7 +1184,9 @@ const Overview = () => {
             >
               <button
                 className={
-                  filterType === Enum.deposit ? "alltype" : "alltype-nonActive"
+                  filterType === Enum.deposit
+                    ? "alltype n-darkAllType"
+                    : "alltype-nonActive n-darkNonActive"
                 }
                 style={{ color: "#fff" }}
                 onClick={filterDepositType}
@@ -1068,7 +1200,9 @@ const Overview = () => {
             >
               <button
                 className={
-                  filterType === Enum.pending ? "alltype" : "alltype-nonActive"
+                  filterType === Enum.pending
+                    ? "alltype n-darkAllType"
+                    : "alltype-nonActive n-darkNonActive"
                 }
                 style={{ color: "#fff" }}
                 onClick={filterPendingType}
@@ -1082,12 +1216,12 @@ const Overview = () => {
               <div class=" d-flex form-group has-search mb-0">
                 <input
                   type="text"
-                  class="form-control n-tableSearch"
+                  class="form-control n-tableSearch n-tableSeachDark"
                   placeholder="Search"
                   value={searchInput}
                   onChange={SearchFilter}
                 />
-                <img
+                {/* <img
                   style={{
                     width: "20px",
                     height: "20px",
@@ -1096,16 +1230,62 @@ const Overview = () => {
                     marginBottom: "10px",
                   }}
                   src={Images.searchicon}
-                />
+                /> */}
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  style={{
+                    marginLeft: "-35px",
+                    marginTop: "10px",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M12.4207 13.6002C11.2918 14.4778 9.87328 15.0003 8.33268 15.0003C4.65078 15.0003 1.66602 12.0156 1.66602 8.33366C1.66602 4.65176 4.65078 1.66699 8.33268 1.66699C12.0146 1.66699 14.9993 4.65176 14.9993 8.33366C14.9993 9.87425 14.4768 11.2928 13.5992 12.4217L18.0886 16.9111C18.414 17.2365 18.414 17.7641 18.0886 18.0896C17.7632 18.415 17.2355 18.415 16.9101 18.0896L12.4207 13.6002ZM13.3327 8.33366C13.3327 11.0951 11.0941 13.3337 8.33268 13.3337C5.57126 13.3337 3.33268 11.0951 3.33268 8.33366C3.33268 5.57224 5.57126 3.33366 8.33268 3.33366C11.0941 3.33366 13.3327 5.57224 13.3327 8.33366Z"
+                    fill="#777E91"
+                  />
+                </svg>
               </div>
             </div>
-            <button
+            {/* <button
               class="seeallbutton btnHoverBlue"
               style={{ maxWidth: "130px", whiteSpace: "nowrap" }}
             >
               See all{" "}
-              <img src={Images.seeall} style={{ paddingLeft: "10px" }} />
-            </button>
+              {/* <img src={Images.seeall} style={{ paddingLeft: "10px" }} /> */}
+            {/* <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{ marginLeft: "10px" }}
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M12.6673 3.99935H3.33398C2.96579 3.99935 2.66732 4.29783 2.66732 4.66602V12.666C2.66732 13.0342 2.96579 13.3327 3.33398 13.3327H12.6673C13.0355 13.3327 13.334 13.0342 13.334 12.666V4.66602C13.334 4.29783 13.0355 3.99935 12.6673 3.99935ZM3.33398 2.66602C2.22942 2.66602 1.33398 3.56145 1.33398 4.66602V12.666C1.33398 13.7706 2.22941 14.666 3.33398 14.666H12.6673C13.7719 14.666 14.6673 13.7706 14.6673 12.666V4.66602C14.6673 3.56145 13.7719 2.66602 12.6673 2.66602H3.33398Z"
+                  fill="#777E91"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M6.66667 8C6.29848 8 6 8.29848 6 8.66667C6 9.03486 6.29848 9.33333 6.66667 9.33333H11.3333C11.7015 9.33333 12 9.03486 12 8.66667C12 8.29848 11.7015 8 11.3333 8H6.66667ZM4.66667 10.6667C4.29848 10.6667 4 10.9651 4 11.3333C4 11.7015 4.29848 12 4.66667 12H8.66667C9.03486 12 9.33333 11.7015 9.33333 11.3333C9.33333 10.9651 9.03486 10.6667 8.66667 10.6667H4.66667Z"
+                  fill="#777E91"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M4.66667 1.33398C4.29848 1.33398 4 1.63246 4 2.00065V4.66732C4 5.03551 4.29848 5.33398 4.66667 5.33398C5.03486 5.33398 5.33333 5.03551 5.33333 4.66732V2.00065C5.33333 1.63246 5.03486 1.33398 4.66667 1.33398ZM11.3333 1.33398C10.9651 1.33398 10.6667 1.63246 10.6667 2.00065V4.66732C10.6667 5.03551 10.9651 5.33398 11.3333 5.33398C11.7015 5.33398 12 5.03551 12 4.66732V2.00065C12 1.63246 11.7015 1.33398 11.3333 1.33398Z"
+                  fill="#777E91"
+                />
+              </svg> */}
+            {/* </button> */}
           </div>
         </div>
         <div className="d-flex justify-content-between"></div>
@@ -1125,7 +1305,7 @@ const Overview = () => {
                     }}
                     onClick={handleAscendingDescendingType}
                   >
-                    <img
+                    {/* <img
                       class="pl-1"
                       src={Images.FilterUp}
                       // onClick={handleDescendingType}
@@ -1139,7 +1319,27 @@ const Overview = () => {
                       // onClick={handleAscendingType}
                       src={Images.FilterDown}
                       // style={{ cursor: "pointer" }}
-                    />
+                    /> */}
+                    <svg
+                      width="17"
+                      height="16"
+                      viewBox="0 0 17 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M5.66206 6.80539C5.92241 7.06574 6.34452 7.06574 6.60487 6.80539L8.4668 4.94346L10.3287 6.80539C10.5891 7.06574 11.0112 7.06574 11.2715 6.80539C11.5319 6.54504 11.5319 6.12293 11.2715 5.86258L8.9382 3.52925C8.67785 3.2689 8.25574 3.2689 7.99539 3.52925L5.66206 5.86258C5.40171 6.12293 5.40171 6.54504 5.66206 6.80539Z"
+                        fill="#777E91"
+                      />
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M5.66206 9.19461C5.92241 8.93426 6.34452 8.93426 6.60487 9.19461L8.4668 11.0565L10.3287 9.19461C10.5891 8.93426 11.0112 8.93426 11.2715 9.19461C11.5319 9.45496 11.5319 9.87707 11.2715 10.1374L8.9382 12.4708C8.67785 12.7311 8.25574 12.7311 7.99539 12.4708L5.66206 10.1374C5.40171 9.87707 5.40171 9.45496 5.66206 9.19461Z"
+                        fill="#777E91"
+                      />
+                    </svg>
                   </div>
                 </th>
                 <th class="text-right" scope="col">
@@ -1154,7 +1354,7 @@ const Overview = () => {
                     }}
                     onClick={handleAscendingDescendingCoin}
                   >
-                    <img
+                    {/* <img
                       class="pl-1"
                       src={Images.FilterUp}
                       // onClick={handleDescendingCoin}
@@ -1168,7 +1368,27 @@ const Overview = () => {
                       // onClick={handleAscendingCoin}
                       src={Images.FilterDown}
                       // style={{ cursor: "pointer" }}
-                    />
+                    /> */}
+                    <svg
+                      width="17"
+                      height="16"
+                      viewBox="0 0 17 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M5.66206 6.80539C5.92241 7.06574 6.34452 7.06574 6.60487 6.80539L8.4668 4.94346L10.3287 6.80539C10.5891 7.06574 11.0112 7.06574 11.2715 6.80539C11.5319 6.54504 11.5319 6.12293 11.2715 5.86258L8.9382 3.52925C8.67785 3.2689 8.25574 3.2689 7.99539 3.52925L5.66206 5.86258C5.40171 6.12293 5.40171 6.54504 5.66206 6.80539Z"
+                        fill="#777E91"
+                      />
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M5.66206 9.19461C5.92241 8.93426 6.34452 8.93426 6.60487 9.19461L8.4668 11.0565L10.3287 9.19461C10.5891 8.93426 11.0112 8.93426 11.2715 9.19461C11.5319 9.45496 11.5319 9.87707 11.2715 10.1374L8.9382 12.4708C8.67785 12.7311 8.25574 12.7311 7.99539 12.4708L5.66206 10.1374C5.40171 9.87707 5.40171 9.45496 5.66206 9.19461Z"
+                        fill="#777E91"
+                      />
+                    </svg>
                   </div>
                 </th>
                 <th class="text-right" scope="col">
@@ -1183,7 +1403,7 @@ const Overview = () => {
                     }}
                     onClick={handleAscendingDescendingAmount}
                   >
-                    <img
+                    {/* <img
                       class="pl-1"
                       src={Images.FilterUp}
                       // onClick={handleDescendingAmount}
@@ -1197,7 +1417,27 @@ const Overview = () => {
                       // onClick={handleAscendingAmount}
                       src={Images.FilterDown}
                       // style={{ cursor: "pointer" }}
-                    />
+                    /> */}
+                    <svg
+                      width="17"
+                      height="16"
+                      viewBox="0 0 17 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M5.66206 6.80539C5.92241 7.06574 6.34452 7.06574 6.60487 6.80539L8.4668 4.94346L10.3287 6.80539C10.5891 7.06574 11.0112 7.06574 11.2715 6.80539C11.5319 6.54504 11.5319 6.12293 11.2715 5.86258L8.9382 3.52925C8.67785 3.2689 8.25574 3.2689 7.99539 3.52925L5.66206 5.86258C5.40171 6.12293 5.40171 6.54504 5.66206 6.80539Z"
+                        fill="#777E91"
+                      />
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M5.66206 9.19461C5.92241 8.93426 6.34452 8.93426 6.60487 9.19461L8.4668 11.0565L10.3287 9.19461C10.5891 8.93426 11.0112 8.93426 11.2715 9.19461C11.5319 9.45496 11.5319 9.87707 11.2715 10.1374L8.9382 12.4708C8.67785 12.7311 8.25574 12.7311 7.99539 12.4708L5.66206 10.1374C5.40171 9.87707 5.40171 9.45496 5.66206 9.19461Z"
+                        fill="#777E91"
+                      />
+                    </svg>
                   </div>
                 </th>
                 <th class="text-right" scope="col">
@@ -1212,7 +1452,7 @@ const Overview = () => {
                     }}
                     onClick={handleAscendingDescendingAddress}
                   >
-                    <img
+                    {/* <img
                       class="pl-1"
                       src={Images.FilterUp}
                       // onClick={handleDescendingAddress}
@@ -1226,7 +1466,27 @@ const Overview = () => {
                       // onClick={handleAscendingAddress}
                       src={Images.FilterDown}
                       // style={{ cursor: "pointer" }}
-                    />
+                    /> */}
+                    <svg
+                      width="17"
+                      height="16"
+                      viewBox="0 0 17 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M5.66206 6.80539C5.92241 7.06574 6.34452 7.06574 6.60487 6.80539L8.4668 4.94346L10.3287 6.80539C10.5891 7.06574 11.0112 7.06574 11.2715 6.80539C11.5319 6.54504 11.5319 6.12293 11.2715 5.86258L8.9382 3.52925C8.67785 3.2689 8.25574 3.2689 7.99539 3.52925L5.66206 5.86258C5.40171 6.12293 5.40171 6.54504 5.66206 6.80539Z"
+                        fill="#777E91"
+                      />
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M5.66206 9.19461C5.92241 8.93426 6.34452 8.93426 6.60487 9.19461L8.4668 11.0565L10.3287 9.19461C10.5891 8.93426 11.0112 8.93426 11.2715 9.19461C11.5319 9.45496 11.5319 9.87707 11.2715 10.1374L8.9382 12.4708C8.67785 12.7311 8.25574 12.7311 7.99539 12.4708L5.66206 10.1374C5.40171 9.87707 5.40171 9.45496 5.66206 9.19461Z"
+                        fill="#777E91"
+                      />
+                    </svg>
                   </div>
                 </th>
                 <th class="text-right" scope="col">
@@ -1241,7 +1501,7 @@ const Overview = () => {
                     }}
                     onClick={handleAscendingDescendingTransactionID}
                   >
-                    <img
+                    {/* <img
                       class="pl-1"
                       src={Images.FilterUp}
                       // onClick={handleDescendingTransactionID}
@@ -1255,7 +1515,27 @@ const Overview = () => {
                       // onClick={handleAscendingTransactionID}
                       src={Images.FilterDown}
                       // style={{ cursor: "pointer" }}
-                    />
+                    /> */}
+                    <svg
+                      width="17"
+                      height="16"
+                      viewBox="0 0 17 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M5.66206 6.80539C5.92241 7.06574 6.34452 7.06574 6.60487 6.80539L8.4668 4.94346L10.3287 6.80539C10.5891 7.06574 11.0112 7.06574 11.2715 6.80539C11.5319 6.54504 11.5319 6.12293 11.2715 5.86258L8.9382 3.52925C8.67785 3.2689 8.25574 3.2689 7.99539 3.52925L5.66206 5.86258C5.40171 6.12293 5.40171 6.54504 5.66206 6.80539Z"
+                        fill="#777E91"
+                      />
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M5.66206 9.19461C5.92241 8.93426 6.34452 8.93426 6.60487 9.19461L8.4668 11.0565L10.3287 9.19461C10.5891 8.93426 11.0112 8.93426 11.2715 9.19461C11.5319 9.45496 11.5319 9.87707 11.2715 10.1374L8.9382 12.4708C8.67785 12.7311 8.25574 12.7311 7.99539 12.4708L5.66206 10.1374C5.40171 9.87707 5.40171 9.45496 5.66206 9.19461Z"
+                        fill="#777E91"
+                      />
+                    </svg>
                   </div>
                 </th>
                 <th class="text-right" scope="col">
@@ -1266,100 +1546,116 @@ const Overview = () => {
             <tbody style={{ padding: "5px" }}>
               {transactionHistory ? (
                 <>
-                  {transactionHistory.map((t, key) => {
-                    return (
-                      <tr className="maintdclasshover">
-                        <td>
-                          <div className="d-flex flex-column">
-                            <div>
-                              <span
-                                style={{ fontFamily: "Poppins" }}
-                                className={
-                                  t.type === "Withdraw"
-                                    ? "depositclass"
-                                    : "depositclasss"
-                                }
-                              >
-                                {t.type.toUpperCase()}
-                              </span>
+                  {transactionHistory
+                    ?.slice(
+                      page * cardsPerPage - cardsPerPage,
+                      cardsPerPage * page
+                    )
+                    ?.map((t, key) => {
+                      return (
+                        <tr className="maintdclasshover n-overviewTableHover">
+                          <td>
+                            <div className="d-flex flex-column">
+                              <div>
+                                <span
+                                  style={{ fontFamily: "Poppins" }}
+                                  className={
+                                    t.type === "Withdraw"
+                                      ? "depositclass"
+                                      : "depositclasss"
+                                  }
+                                >
+                                  {t.type.toUpperCase()}
+                                </span>
+                              </div>
                             </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="d-flex ">
-                            {/* <img
+                          </td>
+                          <td>
+                            <div className="d-flex ">
+                              {/* <img
                               style={{ width: "25px" }}
                               style={{ width: "25px" }}
                               src={Images.bitcoinnn}
                             /> */}
-                            {gettingLogos(t)}
-                            <div
-                              style={{
-                                paddingLeft: "5px",
-                                fontFamily: "Poppins",
-                                fontWeight: "500",
-                              }}
-                            >
-                              {gettingFullName(t)}
+                              {gettingLogos(t)}
+                              <div
+                                style={{
+                                  paddingLeft: "5px",
+                                  fontFamily: "Poppins",
+                                  fontWeight: "500",
+                                  whiteSpace: "nowrap",
+                                }}
+                                class="n-tabelDark"
+                              >
+                                {gettingFullName(t)}
+                              </div>
+                              <div className="d-flex align-items-center"></div>
                             </div>
-                            <div className="d-flex align-items-center"></div>
-                          </div>
-                        </td>
-                        <td
-                          style={{
-                            fontFamily: "Poppins",
-                            fontWeight: "500",
-                          }}
-                        >
-                          {t.transferAmount} BTC
-                          {/* {t.to[0].amount.amount().c[0]} */}
-                        </td>
-                        <td>
-                          <div className="d-flex flex-column">
-                            <div
-                              style={{
-                                paddingLeft: "5px",
-                                fontFamily: "Poppins",
-                                fontWeight: "500",
-                              }}
-                            >
-                              {t.to[0].to}
+                          </td>
+                          <td
+                            style={{
+                              fontFamily: "Poppins",
+                              fontWeight: "500",
+                            }}
+                            class="n-tabelDark"
+                          >
+                            {t.transferAmount} BTC
+                            {/* {t.to[0].amount.amount().c[0]} */}
+                          </td>
+                          <td>
+                            <div className="d-flex flex-column">
+                              <div
+                                style={{
+                                  paddingLeft: "5px",
+                                  fontFamily: "Poppins",
+                                  fontWeight: "500",
+                                }}
+                                class="n-tabelDark"
+                              >
+                                {t.to[0].to}
+                              </div>
                             </div>
-                          </div>
-                        </td>
-                        <td
-                          style={{
-                            fontFamily: "Poppins",
-                            color: "#777e90",
-                            fontWeight: "500",
-                          }}
-                        >
-                          {t.hash}
-                        </td>
-                        <td
-                          style={{
-                            fontFamily: "Poppins",
-                            color: "#777e90",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          {t.date.toString().substring(0, 24)}
-                        </td>
-                      </tr>
-                    );
-                  })}
+                          </td>
+                          <td
+                            style={{
+                              fontFamily: "Poppins",
+                              color: "#777e90",
+                              fontWeight: "500",
+                            }}
+                            class="n-tabelDark"
+                          >
+                            {t.hash}
+                          </td>
+                          <td
+                            style={{
+                              fontFamily: "Poppins",
+                              color: "#777e90",
+                              whiteSpace: "nowrap",
+                            }}
+                            class="n-tabelDark"
+                          >
+                            {t.date.toString().substring(0, 24)}
+                          </td>
+                        </tr>
+                      );
+                    })}
                 </>
-              ) : <tr><td colspan="6" class="text-center text-muted py-5">No Transaction Found, Please Connect Wallet</td></tr>}
+              ) : (
+                <tr class="n-tableHover">
+                  <td colspan="6" class="text-center text-muted" style={{ padding: "148px 0px" }}>
+                    No Transaction Found
+                  </td>
+                </tr>
+              )}
             </tbody>
-            
           </table>
           <div className="paging-center">
-              <Pagination
-                count={10}
-                page={10}
-                
-              />
-            </div>
+            {transactionHistory?.length ? (
+              <Pagination count={count} page={page} onChange={handleChange} />
+            ) : (
+              ""
+            )}
+          </div>
         </div>
       </div>
     </div>

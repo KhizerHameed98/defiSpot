@@ -23,7 +23,12 @@ import {
   SWAPPING_REQUEST,
   SWAPPING_FAILED,
 } from "../../Redux/actions/types";
-import { mainRoute } from "../../Routes/serverRoutes";
+import {
+  ETHERSCAN_URL,
+  INBOUND_ADDRESSES,
+  mainRoute,
+  VIEWBLOCK_URL,
+} from "../../Routes/serverRoutes";
 import { toast } from "react-toastify";
 import browserRoute from "../../Routes/browserRoutes";
 import { config } from "../../config";
@@ -264,6 +269,7 @@ export function KeystoreWallet() {
             ethBalance.toString()
           );
           console.log("Ethereum Address: ---------------> ", addressEth);
+
           //Ethereum Client Balance is getting from here
           const balance1eth = await userEthereumClient.getBalance(addressEth);
           console.log(
@@ -417,6 +423,7 @@ export function KeystoreWallet() {
               clientsObject: clientsObject,
               isLoggedin: true,
               walletType: "KEYSTORE",
+              walletAddress: addressEth,
             },
           });
           setLoading(false);
@@ -536,9 +543,7 @@ export function KeystoreWallet() {
       if (fromAsset?.blockchain === "THOR") {
         inboundAddress = "tthor1mrckazz7l67tz435dp9m3qaygzm6xmsqeglrj8";
       } else {
-        let inboundApi = await axios.get(
-          "https://testnet.midgard.thorchain.info/v2/thorchain/inbound_addresses"
-        );
+        let inboundApi = await axios.get(INBOUND_ADDRESSES);
         inboundApi = inboundApi.data;
         inboundAddress = inboundApi.find(
           (data) => data.chain === fromAsset?.blockchain
@@ -560,7 +565,7 @@ export function KeystoreWallet() {
             memo: Memo,
             ethClient: userEthereumClient,
           });
-          const etherScan = `https://ropsten.etherscan.io/tx/${response}`;
+          const etherScan = `https://${ETHERSCAN_URL}etherscan.io/tx/${response}`;
           setStatusLink(etherScan);
           setTransactionHash(response);
           setLoading(false);
@@ -587,7 +592,7 @@ export function KeystoreWallet() {
             amount: baseAmount(amount * 10 ** decimal),
             memo: Memo,
           });
-          viewblock = `https://viewblock.io/thorchain/tx/${response2}?network=testnet`;
+          viewblock = `https://viewblock.io/thorchain/tx/${response2}${VIEWBLOCK_URL}`;
 
           setStatusLink(viewblock);
           setTransactionHash(response2);
@@ -613,7 +618,7 @@ export function KeystoreWallet() {
             amount: baseAmount(amount * 10 ** decimal),
             memo: Memo,
           });
-          viewblock = `https://viewblock.io/thorchain/tx/${response3}?network=testnet`;
+          viewblock = `https://viewblock.io/thorchain/tx/${response3}${VIEWBLOCK_URL}`;
           setStatusLink(viewblock);
           setTransactionHash(response3);
           setLoading(false);
@@ -636,7 +641,7 @@ export function KeystoreWallet() {
             amount: baseAmount(amount * 10 ** decimal),
             memo: Memo,
           });
-          viewblock = `https://viewblock.io/thorchain/tx/${response4}?network=testnet`;
+          viewblock = `https://viewblock.io/thorchain/tx/${response4}${VIEWBLOCK_URL}`;
           setStatusLink(viewblock);
           setTransactionHash(response4);
           setLoading(false);
@@ -661,7 +666,7 @@ export function KeystoreWallet() {
             amount: baseAmount(amount * 10 ** decimal),
             memo: Memo,
           });
-          viewblock = `https://viewblock.io/thorchain/tx/${response5}?network=testnet`;
+          viewblock = `https://viewblock.io/thorchain/tx/${response5}${VIEWBLOCK_URL}`;
           setStatusLink(viewblock);
           setTransactionHash(response5);
           setLoading(false);
@@ -686,7 +691,7 @@ export function KeystoreWallet() {
             amount: baseAmount(amount * 10 ** decimal),
             memo: Memo,
           });
-          viewblock = `https://viewblock.io/thorchain/tx/${response6}?network=testnet`;
+          viewblock = `https://viewblock.io/thorchain/tx/${response6}${VIEWBLOCK_URL}`;
           setStatusLink(viewblock);
           setTransactionHash(response6);
           setLoading(false);

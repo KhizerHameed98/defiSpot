@@ -45,6 +45,7 @@ import {
 } from "../../Redux/actions/types";
 import axios from "axios";
 import { CRYPTOCOMPARE_KEY } from "../environment";
+import { ETHERSCAN_URL, VIEWBLOCK_URL } from "../../Routes/serverRoutes";
 const ethUtilsService = new EthUtilsService();
 const alertToast = (error, message) => {
   if (!error) {
@@ -389,7 +390,7 @@ export class XDEFIService {
             memo: Memo,
             ethClient: userEthereumClient,
           });
-          const etherScan = `https://ropsten.etherscan.io/tx/${response}`;
+          const etherScan = `https://${ETHERSCAN_URL}etherscan.io/tx/${response}`;
           setStatusLink(etherScan);
           setTransactionHash(response);
           setLoading(false);
@@ -399,7 +400,7 @@ export class XDEFIService {
             type: SWAPPING_SUCCESS,
             payload: {
               transactionHash: response,
-              transactionHistoryModal:true
+              transactionHistoryModal: true,
             },
           });
           break;
@@ -416,7 +417,7 @@ export class XDEFIService {
             amount: baseAmount(amount * 10 ** decimal),
             memo: Memo,
           });
-          viewblock = `https://viewblock.io/thorchain/tx/${response2}?network=testnet`;
+          viewblock = `https://viewblock.io/thorchain/tx/${response2}${VIEWBLOCK_URL}`;
 
           setStatusLink(viewblock);
           setTransactionHash(response2);
@@ -428,7 +429,7 @@ export class XDEFIService {
             type: SWAPPING_SUCCESS,
             payload: {
               transactionHash: response2,
-              transactionHistoryModal:true
+              transactionHistoryModal: true,
             },
           });
 
@@ -442,7 +443,7 @@ export class XDEFIService {
             amount: baseAmount(amount * 10 ** decimal),
             memo: Memo,
           });
-          viewblock = `https://viewblock.io/thorchain/tx/${response3}?network=testnet`;
+          viewblock = `https://viewblock.io/thorchain/tx/${response3}${VIEWBLOCK_URL}`;
           setStatusLink(viewblock);
           setTransactionHash(response3);
           setLoading(false);
@@ -452,7 +453,7 @@ export class XDEFIService {
             type: SWAPPING_SUCCESS,
             payload: {
               transactionHash: response3,
-              transactionHistoryModal:true
+              transactionHistoryModal: true,
             },
           });
           break;
@@ -465,7 +466,7 @@ export class XDEFIService {
             amount: baseAmount(amount * 10 ** decimal),
             memo: Memo,
           });
-          viewblock = `https://viewblock.io/thorchain/tx/${response4}?network=testnet`;
+          viewblock = `https://viewblock.io/thorchain/tx/${response4}${VIEWBLOCK_URL}`;
           setStatusLink(viewblock);
           setTransactionHash(response4);
           setLoading(false);
@@ -476,7 +477,7 @@ export class XDEFIService {
             type: SWAPPING_SUCCESS,
             payload: {
               transactionHash: response4,
-              transactionHistoryModal:true
+              transactionHistoryModal: true,
             },
           });
           break;
@@ -489,7 +490,7 @@ export class XDEFIService {
             amount: baseAmount(amount * 10 ** decimal),
             memo: Memo,
           });
-          viewblock = `https://viewblock.io/thorchain/tx/${response5}?network=testnet`;
+          viewblock = `https://viewblock.io/thorchain/tx/${response5}${VIEWBLOCK_URL}`;
           setStatusLink(viewblock);
           setTransactionHash(response5);
           setLoading(false);
@@ -500,7 +501,7 @@ export class XDEFIService {
             type: SWAPPING_SUCCESS,
             payload: {
               transactionHash: response5,
-              transactionHistoryModal:true
+              transactionHistoryModal: true,
             },
           });
           break;
@@ -514,7 +515,7 @@ export class XDEFIService {
             amount: baseAmount(amount * 10 ** decimal),
             memo: Memo,
           });
-          viewblock = `https://viewblock.io/thorchain/tx/${response6}?network=testnet`;
+          viewblock = `https://viewblock.io/thorchain/tx/${response6}${VIEWBLOCK_URL}`;
           setStatusLink(viewblock);
           setTransactionHash(response6);
           setLoading(false);
@@ -525,7 +526,7 @@ export class XDEFIService {
             type: SWAPPING_SUCCESS,
             payload: {
               transactionHash: response6,
-              transactionHistoryModal:true
+              transactionHistoryModal: true,
             },
           });
           break;
@@ -539,7 +540,7 @@ export class XDEFIService {
       setLoading(false);
     }
   }
-  async connectXDEFI(dispatch, setMainModel, alertToast) {
+  async connectXDEFI(dispatch, setMainModel, alertToast, setLoading) {
     if (window.xfi) {
       dispatch({ type: LOGOUT });
       let clients = {};
@@ -576,6 +577,7 @@ export class XDEFIService {
       etherAddress = ethAddresses;
       bitcoinCashAddress = bchAddress;
       thorchainAddress = thorAddresses;
+
       //Bitcoin
       let BtcBalance = await userBtcClient.getBalance(btcAddress);
       console.log("tttttttttttttt->>>>>>", BtcBalance[0].amount.amount());
@@ -689,6 +691,7 @@ export class XDEFIService {
       console.log("TOTAL AMOUNTUSD======>>>", totalAmountInUSD);
       console.log("mainClients======>>>", mainClients);
 
+      setLoading(false);
       setMainModel(false);
       dispatch({
         type: LOGIN,
@@ -699,6 +702,7 @@ export class XDEFIService {
           assetBalance: assetBalance,
           isLoggedin: true,
           walletType: "XDEFI",
+          walletAddress: ethAddresses[0],
         },
       });
       alertToast(false, "Wallet connected!");

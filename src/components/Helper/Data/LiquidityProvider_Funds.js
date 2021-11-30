@@ -2,7 +2,7 @@ import Images from "../AllImages";
 
 let Funds = [
   {
-    Pool: "BNB",
+    asset: "BNB",
     Price: "10,098.36",
     FullName: "Binance",
     Yield_Rate: "7.46",
@@ -12,7 +12,7 @@ let Funds = [
     image: Images.bnb,
   },
   {
-    Pool: "BTC",
+    asset: "BTC",
     Price: "10,098.36",
     FullName: "Tether USD",
     Yield_Rate: "7.46",
@@ -22,7 +22,7 @@ let Funds = [
     image: Images.btc,
   },
   {
-    Pool: "USDT",
+    asset: "USDT",
     Price: "10,098.36",
     FullName: "Tether USD",
     Yield_Rate: "7.46",
@@ -32,7 +32,7 @@ let Funds = [
     image: Images.tether,
   },
   {
-    Pool: "USDT",
+    asset: "USDT",
     Price: "10,098.36",
     FullName: "Tether USD",
     Yield_Rate: "7.46",
@@ -42,7 +42,7 @@ let Funds = [
     image: Images.tether,
   },
   {
-    Pool: "USDT",
+    asset: "USDT",
     Price: "10,098.36",
     FullName: "Tether USD",
     Yield_Rate: "7.46",
@@ -52,7 +52,7 @@ let Funds = [
     image: Images.tether,
   },
   {
-    Pool: "USDT",
+    asset: "USDT",
     Price: "10,098.36",
     FullName: "Tether USD",
     Yield_Rate: "7.46",
@@ -62,7 +62,7 @@ let Funds = [
     image: Images.tether,
   },
   {
-    Pool: "BNB",
+    asset: "BNB",
     Price: "10,098.36",
     FullName: "Binance",
     Yield_Rate: "7.46",

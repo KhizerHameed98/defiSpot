@@ -25,7 +25,7 @@ const AppIndex = () => {
       store.dispatch(GetKeyStore_TransactionHistory());
     }
     axios
-      .get(`${SERVER_URL_MAIN}/api/v1/get/graph/data`)
+      .get(`${SERVER_URL_MAIN}/get/graph/data`)
       .then((res) => {
         // console.log("Graph data - ", res?.data?.graph?.data);
         store.dispatch({

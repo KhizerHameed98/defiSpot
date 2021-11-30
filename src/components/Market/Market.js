@@ -6,12 +6,13 @@ import browserRoute from "../../Routes/browserRoutes";
 import Loader from "../Loader/Loader";
 import { MidgardPool_Action } from "../../Redux/actions/actions";
 import { useSelector, useDispatch } from "react-redux";
-import { mainRoute } from "../../Routes/serverRoutes";
+import { mainRoute, SERVER_URL_MAIN } from "../../Routes/serverRoutes";
 import Pagination from "@mui/material/Pagination";
 import { handleMainModal } from "../../Services/mainServices";
 import { Bar, Pie, Line } from "react-chartjs-2";
 import LineChartSmartCard from "../GraphChart";
 import LogoShapeImage from "./LogoShape";
+import axios from "axios";
 
 const Market = () => {
   const [poolData, setPoolData] = useState([]);
@@ -37,6 +38,7 @@ const Market = () => {
   const [cardsPerPage, setCardsPerPage] = useState(10);
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
+  const [globalMarketCap, setGlobalMarketCap] = useState(0);
 
   const myRef = useRef(null);
 
@@ -55,9 +57,9 @@ const Market = () => {
     setPage(value);
   };
 
-  function handleRouting(data) {
+  function handleRoute(data) {
     if (loggedIn) {
-      history.push(`${browserRoute.BUYMARKET}/${data._id}`);
+      history.push(`${browserRoute.BUYMARKET}/${data._id}/1`);
     } else {
       dispatch(handleMainModal(true));
     }
@@ -75,6 +77,16 @@ const Market = () => {
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
+
+  useEffect(async () => {
+    try {
+      let market = await axios.get(`${SERVER_URL_MAIN}/globalmarketcap`);
+      console.log("market=============", market);
+      setGlobalMarketCap(market.data.globalMarketCap);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   // useEffect(() => {
   //   filterAllType();
@@ -288,7 +300,7 @@ const Market = () => {
                       fontSize: "24px",
                     }}
                   >
-                    $1.86T
+                    {/* $1.86T */}${toMil(globalMarketCap)}
                   </span>
                 </p>
               </div>
@@ -379,7 +391,8 @@ const Market = () => {
                                       financial(d?.assetPriceUSD)
                                     )}{" "}
                                   </p>
-                                  <p class="n-marketAssetPriceValue"
+                                  <p
+                                    class="n-marketAssetPriceValue"
                                     style={{
                                       fontFamily: "Poppins",
                                       // color: "#23262F",
@@ -542,12 +555,12 @@ const Market = () => {
                       //   backgroundColor: "#FCFCFD",
                       // }}
                       type="text"
-                      class="form-control n-tableSearch n-responsiveSearch"
+                      class="form-control n-tableSearch n-responsiveSearch n-tableSearch2"
                       placeholder="Search"
                       value={searchInput}
                       onChange={InputSearch}
                     />
-                    <img
+                    {/* <img
                       style={{
                         width: "20px",
                         height: "20px",
@@ -556,7 +569,28 @@ const Market = () => {
                         marginBottom: "10px",
                       }}
                       src={Images.searchicon}
-                    />
+                    /> */}
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        marginLeft: "-35px",
+                        marginTop: "10px",
+                        marginBottom: "10px",
+                      }}
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M12.4207 13.6002C11.2918 14.4778 9.87327 15.0003 8.33268 15.0003C4.65078 15.0003 1.66602 12.0156 1.66602 8.33366C1.66602 4.65176 4.65078 1.66699 8.33268 1.66699C12.0146 1.66699 14.9993 4.65176 14.9993 8.33366C14.9993 9.87425 14.4768 11.2928 13.5992 12.4217L18.0886 16.9111C18.414 17.2365 18.414 17.7641 18.0886 18.0896C17.7632 18.415 17.2355 18.415 16.9101 18.0896L12.4207 13.6002ZM13.3327 8.33366C13.3327 11.0951 11.0941 13.3337 8.33268 13.3337C5.57126 13.3337 3.33268 11.0951 3.33268 8.33366C3.33268 5.57224 5.57126 3.33366 8.33268 3.33366C11.0941 3.33366 13.3327 5.57224 13.3327 8.33366Z"
+                        fill="#777E91"
+                      />
+                    </svg>
                     {/* <span
                     style={{
                       paddingTop: "10px",
@@ -606,7 +640,7 @@ const Market = () => {
                             // onClick={() => setArrSortSrNo(!arrSortSrNo)}
                             onClick={handleReverse}
                           >
-                            <img
+                            {/* <img
                               class="pl-1"
                               src={Images.FilterUp}
                               // onClick={() => {
@@ -630,7 +664,33 @@ const Market = () => {
                                 position: "relative",
                                 top: "-5px",
                               }}
-                            />
+                            /> */}
+                            <svg
+                              width="17"
+                              height="16"
+                              viewBox="0 0 17 16"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                              style={{
+                                marginBottom: "3px",
+                                cursor: "pointer",
+                                position: "relative",
+                                // top: "-2px",
+                              }}
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M5.36128 6.80441C5.62163 7.06476 6.04374 7.06476 6.30409 6.80441L8.16602 4.94248L10.0279 6.80441C10.2883 7.06476 10.7104 7.06476 10.9708 6.80441C11.2311 6.54406 11.2311 6.12195 10.9708 5.8616L8.63742 3.52827C8.37707 3.26792 7.95496 3.26792 7.69461 3.52827L5.36128 5.8616C5.10093 6.12195 5.10093 6.54406 5.36128 6.80441Z"
+                                fill="#777E91"
+                              />
+                              <path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M5.36128 9.19461C5.62163 8.93426 6.04374 8.93426 6.30409 9.19461L8.16602 11.0565L10.0279 9.19461C10.2883 8.93426 10.7104 8.93426 10.9708 9.19461C11.2311 9.45496 11.2311 9.87707 10.9708 10.1374L8.63742 12.4708C8.37707 12.7311 7.95496 12.7311 7.69461 12.4708L5.36128 10.1374C5.10093 9.87707 5.10093 9.45496 5.36128 9.19461Z"
+                                fill="#777E91"
+                              />
+                            </svg>
                           </div>
                         </th>
                         <th scope="col">
@@ -646,7 +706,7 @@ const Market = () => {
                             }}
                             onClick={handleAscendingDescendingName}
                           >
-                            <img
+                            {/* <img
                               class="pl-1"
                               src={Images.FilterUp}
                               // onClick={handleDescendingName}
@@ -666,7 +726,33 @@ const Market = () => {
                                 position: "relative",
                                 top: "-5px",
                               }}
-                            />
+                            /> */}
+                            <svg
+                              width="17"
+                              height="16"
+                              viewBox="0 0 17 16"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                              style={{
+                                marginBottom: "3px",
+                                cursor: "pointer",
+                                position: "relative",
+                                // top: "-2px",
+                              }}
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M5.36128 6.80441C5.62163 7.06476 6.04374 7.06476 6.30409 6.80441L8.16602 4.94248L10.0279 6.80441C10.2883 7.06476 10.7104 7.06476 10.9708 6.80441C11.2311 6.54406 11.2311 6.12195 10.9708 5.8616L8.63742 3.52827C8.37707 3.26792 7.95496 3.26792 7.69461 3.52827L5.36128 5.8616C5.10093 6.12195 5.10093 6.54406 5.36128 6.80441Z"
+                                fill="#777E91"
+                              />
+                              <path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M5.36128 9.19461C5.62163 8.93426 6.04374 8.93426 6.30409 9.19461L8.16602 11.0565L10.0279 9.19461C10.2883 8.93426 10.7104 8.93426 10.9708 9.19461C11.2311 9.45496 11.2311 9.87707 10.9708 10.1374L8.63742 12.4708C8.37707 12.7311 7.95496 12.7311 7.69461 12.4708L5.36128 10.1374C5.10093 9.87707 5.10093 9.45496 5.36128 9.19461Z"
+                                fill="#777E91"
+                              />
+                            </svg>
                           </div>
                         </th>
                         <th className="text-right" scope="col">
@@ -716,7 +802,26 @@ const Market = () => {
                           style={{ whiteSpace: "nowrap" }}
                         >
                           Marketcap
-                          <img class="pl-1" src={Images.dolaar} />
+                          {/* <img class="pl-1" src={Images.dolaar} /> */}
+                          <svg
+                            width="21"
+                            height="20"
+                            viewBox="0 0 21 20"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="pl-1"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M10.429 16.667C14.1109 16.667 17.0957 13.6822 17.0957 10.0003C17.0957 6.31843 14.1109 3.33366 10.429 3.33366C6.74714 3.33366 3.76237 6.31843 3.76237 10.0003C3.76237 13.6822 6.74714 16.667 10.429 16.667ZM10.429 18.3337C15.0314 18.3337 18.7624 14.6027 18.7624 10.0003C18.7624 5.39795 15.0314 1.66699 10.429 1.66699C5.82666 1.66699 2.0957 5.39795 2.0957 10.0003C2.0957 14.6027 5.82666 18.3337 10.429 18.3337Z"
+                              fill="#777E91"
+                            />
+                            <path
+                              d="M9.5957 5.83333C9.5957 5.3731 9.9688 5 10.429 5C10.8893 5 11.2624 5.3731 11.2624 5.83333C12.6431 5.83333 13.7624 6.95262 13.7624 8.33333C13.7624 8.79357 13.3893 9.16667 12.929 9.16667C12.4688 9.16667 12.0957 8.79357 12.0957 8.33333C12.0957 7.8731 11.7226 7.5 11.2624 7.5H9.38188C9.03974 7.5 8.76237 7.77737 8.76237 8.11951C8.76237 8.38617 8.933 8.62291 9.18598 8.70724L12.1991 9.71162C13.1327 10.0228 13.7624 10.8964 13.7624 11.8805C13.7624 13.1431 12.7388 14.1667 11.4762 14.1667H11.2624C11.2624 14.6269 10.8893 15 10.429 15C9.9688 15 9.5957 14.6269 9.5957 14.1667C8.21499 14.1667 7.0957 13.0474 7.0957 11.6667C7.0957 11.2064 7.4688 10.8333 7.92904 10.8333C8.38927 10.8333 8.76237 11.2064 8.76237 11.6667C8.76237 12.1269 9.13547 12.5 9.5957 12.5H11.4762C11.8183 12.5 12.0957 12.2226 12.0957 11.8805C12.0957 11.6138 11.9251 11.3771 11.6721 11.2928L8.65893 10.2884C7.72539 9.97719 7.0957 9.10356 7.0957 8.11951C7.0957 6.85689 8.11926 5.83333 9.38188 5.83333H9.5957Z"
+                              fill="#777E91"
+                            />
+                          </svg>
                         </th>
                         <th
                           className="text-right"
@@ -724,7 +829,38 @@ const Market = () => {
                           style={{ whiteSpace: "nowrap" }}
                         >
                           Volume(24h)
-                          <img class="pl-1" src={Images.hourr} />
+                          {/* <img class="pl-1" src={Images.hourr} /> */}
+                          <svg
+                            width="21"
+                            height="20"
+                            viewBox="0 0 21 20"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="pl-1"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M2.38021 2.5C2.84045 2.5 3.21354 2.8731 3.21354 3.33333V15C3.21354 15.4602 3.58664 15.8333 4.04687 15.8333H19.0469C19.5071 15.8333 19.8802 16.2064 19.8802 16.6667C19.8802 17.1269 19.5071 17.5 19.0469 17.5H4.04687C2.66616 17.5 1.54688 16.3807 1.54688 15V3.33333C1.54688 2.8731 1.91997 2.5 2.38021 2.5Z"
+                              fill="#777E91"
+                            />
+                            <path
+                              d="M15.7142 4.16699C15.254 4.16699 14.8809 4.54009 14.8809 5.00033V13.3337C14.8809 13.7939 15.254 14.167 15.7142 14.167C16.1744 14.167 16.5475 13.7939 16.5475 13.3337V5.00033C16.5475 4.54009 16.1744 4.16699 15.7142 4.16699Z"
+                              fill="#777E91"
+                            />
+                            <path
+                              d="M9.04753 5.83366C8.58729 5.83366 8.21419 6.20675 8.21419 6.66699V13.3337C8.21419 13.7939 8.58729 14.167 9.04753 14.167C9.50776 14.167 9.88086 13.7939 9.88086 13.3337V6.66699C9.88086 6.20675 9.50776 5.83366 9.04753 5.83366Z"
+                              fill="#777E91"
+                            />
+                            <path
+                              d="M5.71419 10.8337C5.25396 10.8337 4.88086 11.2068 4.88086 11.667V13.3337C4.88086 13.7939 5.25396 14.167 5.71419 14.167C6.17443 14.167 6.54753 13.7939 6.54753 13.3337V11.667C6.54753 11.2068 6.17443 10.8337 5.71419 10.8337Z"
+                              fill="#777E91"
+                            />
+                            <path
+                              d="M11.5475 8.33366C11.5475 7.87342 11.9206 7.50033 12.3809 7.50033C12.8411 7.50033 13.2142 7.87342 13.2142 8.33366V13.3337C13.2142 13.7939 12.8411 14.167 12.3809 14.167C11.9206 14.167 11.5475 13.7939 11.5475 13.3337V8.33366Z"
+                              fill="#777E91"
+                            />
+                          </svg>
                         </th>
                         <th className="text-right" scope="col">
                           Chart
@@ -773,7 +909,6 @@ const Market = () => {
                                         marginLeft: "10px",
                                         whiteSpace: "nowrap",
                                       }}
-                                      
                                     >
                                       {d?.assetFullName}
                                     </div>
@@ -880,7 +1015,7 @@ const Market = () => {
                                     to="#"
                                     style={{ fontFamily: "DM Sans" }}
                                     className=" btn btn-primary buybutttonmarket"
-                                    onClick={() => handleRouting(d)}
+                                    onClick={() => handleRoute(d)}
                                   >
                                     Buy
                                   </Link>
@@ -1063,7 +1198,7 @@ const Market = () => {
                                       to="#"
                                       style={{ fontFamily: "DM Sans" }}
                                       className=" btn btn-primary buybutttonmarket"
-                                      onClick={() => handleRouting(d)}
+                                      onClick={() => handleRoute(d)}
                                     >
                                       Buy
                                     </Link>

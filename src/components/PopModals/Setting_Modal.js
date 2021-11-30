@@ -11,6 +11,7 @@ const web3 = new Web3(window.ethereum);
 
 const Setting_Modal = ({ setSlippagePercent }) => {
   const mainState = useSelector((state) => state.main);
+  const walletAddress = useSelector((state) => state.main.walletAddress);
   const dispatch = useDispatch();
   const [settingModal, setSettingModal] = useState(false);
   const [slippage, setSlippage] = useState(0);
@@ -40,12 +41,14 @@ const Setting_Modal = ({ setSlippagePercent }) => {
 
   const handleBLurInput = () => {
     setInputType("text");
+    setPlaceholderText("1%");
     console.log(`HHHH ${customSlippage.split("%")[0]}%`);
     if (customSlippage.split("%")[0].length > 0)
       setCustomSlippage(`${customSlippage}%`);
   };
 
   const handleFocusInput = () => {
+    setPlaceholderText("%");
     setInputType("number");
     setCustomSlippage("");
     if (Number(customSlippage?.split("%")[0]) > 0) {
@@ -54,7 +57,13 @@ const Setting_Modal = ({ setSlippagePercent }) => {
   };
 
   const handleSave = async () => {
-    const account = await web3.eth.getAccounts();
+    // let account;
+    // if (mainState?.walletType == "METAMASK") {
+    //   account = await web3.eth.getAccounts();
+    // } else if (mainState?.walletType == "WALLETCONNECT") {
+    // } else if (mainState?.walletType == "KEYSTORE") {
+    // } else if (mainState?.walletType == "XDFI") {
+    // }
     const data = {
       slip: customFlag ? `${customSlippage}` : `${slippage}`,
 
@@ -62,7 +71,7 @@ const Setting_Modal = ({ setSlippagePercent }) => {
 
       speed: speed,
 
-      accountAddress: `${account[0]}`,
+      accountAddress: walletAddress,
     };
 
     console.log("DATA TO SEND <><><><<> ", data);
@@ -82,6 +91,9 @@ const Setting_Modal = ({ setSlippagePercent }) => {
       setSettingModal(false);
     });
   };
+
+  const [placeholderText, setPlaceholderText] = useState("1%");
+
   return (
     <div>
       {/* settong modal */}
@@ -184,7 +196,7 @@ const Setting_Modal = ({ setSlippagePercent }) => {
                             ? "0 0 0 0.2rem rgb(0 123 255 / 25%)"
                             : "none",
                         }}
-                        placeholder="1%"
+                        placeholder={placeholderText}
                         value={customSlippage}
                         onChange={handleSlippageInput}
                         onBlur={handleBLurInput}

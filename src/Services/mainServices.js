@@ -19,7 +19,7 @@ import {
   LOGIN,
   MAINMODAL,
 } from "../Redux/actions/types";
-import { mainRoute } from "../Routes/serverRoutes";
+import { mainRoute, SERVER_URL_MAIN } from "../Routes/serverRoutes";
 import { toast } from "react-toastify";
 import browserRoute from "../Routes/browserRoutes";
 import { config } from "../config";
@@ -63,7 +63,7 @@ const xdefiService = new XDEFIService();
 const keyStoreInstance = new KeystoreWallet();
 const metaMaskService = new MetamaskService();
 
-export const NGROK = "https://defispot-testnet.herokuapp.com/api/v1";
+export const NGROK = SERVER_URL_MAIN;
 
 // https:defispot.herokuapp.com/
 // http://1dce-103-105-211-114.ngrok.io/api/v1
@@ -93,22 +93,22 @@ const alertToast = (error, message) => {
   }
 };
 
-export const getUserSettingsFromAddress = async (dispatch, addr) => {
-  console.log(addr);
-  await axios.get(`${NGROK}/get/user/data/${addr}`).then((res) => {
-    dispatch({
-      type: SET_SETTINGS,
-      payload: {
-        settings: {
-          custom: res?.data?.user?.custom,
-          slip: res?.data?.user?.slip,
-          speed: res?.data?.user?.speed,
-        },
-      },
-    });
-    console.log("RESSSSS =<><><><<><><><><><><<><><><>>< ", res?.data.user);
-  });
-};
+// export const getUserSettingsFromAddress = async (dispatch, addr) => {
+//   console.log(addr);
+//   await axios.get(`${NGROK}/get/user/data/${addr}`).then((res) => {
+//     dispatch({
+//       type: SET_SETTINGS,
+//       payload: {
+//         settings: {
+//           custom: res?.data?.user?.custom,
+//           slip: res?.data?.user?.slip,
+//           speed: res?.data?.user?.speed,
+//         },
+//       },
+//     });
+//     console.log("RESSSSS =<><><><<><><><><><><<><><><>>< ", res?.data.user);
+//   });
+// };
 
 const downloadTextFile = (key) => {
   const element = document.createElement("a");
@@ -183,7 +183,7 @@ export async function serverEncryptionAndRouting(unencryptedData, history) {
     //   .toString(CryptoJS.enc.Utf8, getCircularReplacer)
     //   .toString();
     // console.log("BYTES====>>", bytes);
-    history.push(`${browserRoute.BUYMARKET}/${res}`);
+    history.push(`${browserRoute.BUYMARKET}/${res}/0`);
   } catch (e) {
     return e.message;
   }
@@ -234,17 +234,17 @@ export const MetaMaskConnection = (setMainModel) => async (dispatch) => {
         setMainModel,
         alertToast
       );
-      const account = await web3.eth.getAccounts();
+      // const account = await web3.eth.getAccounts();
 
-      const data = {
-        accountAddress: account[0],
-      };
+      // const data = {
+      //   accountAddress: account[0],
+      // };
 
-      await axios.post(`${NGROK}/add/user`, data).then((res) => {
-        console.log("RESSSSS =<><><><<><><><><><><<><><><>>< ", res);
-      });
+      // await axios.post(`${NGROK}/add/user`, data).then((res) => {
+      //   console.log("RESSSSS =<><><><<><><><><><><<><><><>>< ", res);
+      // });
 
-      getUserSettingsFromAddress(dispatch, account[0]);
+      // getUserSettingsFromAddress(dispatch, account[0]);
 
       // console.log(metamask);
 
@@ -270,7 +270,16 @@ export const MetaMaskConnection = (setMainModel) => async (dispatch) => {
 };
 
 export const WalletConnectConnection = (setMainModel) => async (dispatch) => {
-  if (web3.eth) {
+  const eth = await window.xfi;
+  if (
+    eth?.binance &&
+    eth?.bitcoin &&
+    eth?.ethereum &&
+    eth?.terra &&
+    eth?.thorchain
+  ) {
+    walletConnectService.connect(dispatch, setMainModel, alertToast);
+  } else if (web3.eth) {
     const acc = await web3.eth.getAccounts();
     if (acc.length > 0) {
       alert("Please disconnect your MetaMask from the extension");
@@ -283,32 +292,39 @@ export const WalletConnectConnection = (setMainModel) => async (dispatch) => {
   // }
 };
 
-export const XDEFIConnection = (setMainModel) => async (dispatch) => {
-  if (window.xfi) {
-    const eth = await window.xfi;
-    if (
-      eth?.binance &&
-      eth?.bitcoin &&
-      eth?.ethereum &&
-      eth?.terra &&
-      eth?.thorchain
-    ) {
+export const XDEFIConnection =
+  (setMainModel, setLoading) => async (dispatch) => {
+    if (window.xfi) {
       const eth = await window.xfi;
-      const acc = await window.xfi.ethereum.getaccounts();
-      console.log("eth-=-=-= ", eth);
-      console.log("acc-=-=-= ", acc);
-      // if (acc.length > 0) {
-      // alert("Please disconnect your MetaMask");
-      // } else {
-      xdefiService.connectXDEFI(dispatch, setMainModel, alertToast);
-      // }
+      if (
+        eth?.binance &&
+        eth?.bitcoin &&
+        eth?.ethereum &&
+        eth?.terra &&
+        eth?.thorchain
+      ) {
+        const eth = await window.xfi;
+        const acc = await window.xfi.ethereum.getaccounts();
+        console.log("eth-=-=-= ", eth);
+        console.log("acc-=-=-= ", acc);
+        // if (acc.length > 0) {
+        // alert("Please disconnect your MetaMask");
+        // } else {
+        xdefiService.connectXDEFI(
+          dispatch,
+          setMainModel,
+          alertToast,
+          setLoading
+        );
+
+        // }
+      } else {
+        alert("Please proritise XDEFI");
+      }
     } else {
-      alert("Please proritise XDEFI");
+      alert("Please install XDEFI extension");
     }
-  } else {
-    alert("Please install XDEFI extension");
-  }
-};
+  };
 
 export const connectKeyStore =
   (password, fileKeyStore, setConnectKeyStoreModal, setLoading) =>
@@ -389,7 +405,22 @@ export const nativeSwapping =
           setStatusLink,
           setLoading
         );
+        break;
 
+      case "WALLETCONNECT":
+        walletConnectService.swapping(
+          dispatch,
+          fromAsset,
+          toAsset,
+          amount,
+          decimal,
+          midgardPool,
+          setYayModal,
+          setConfirmModal,
+          setTransactionHash,
+          setStatusLink,
+          setLoading
+        );
       default:
         break;
     }

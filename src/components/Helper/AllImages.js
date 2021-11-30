@@ -7,7 +7,7 @@ import btc5 from "../../assets/images/btc5.png";
 import btc6 from "../../assets/images/btc6.png";
 import btc7 from "../../assets/images/btc7.png";
 import btc8 from "../../assets/images/btc8.png";
-import exclamation from "../../assets/images/exclamation.png";
+import exclamation from "../../assets/images/c-info-e.svg";
 import defilogo from "../../assets/images/Logo.svg";
 import btc9 from "../../assets/images/btc9.png";
 import btc10 from "../../assets/images/btc10.png";
@@ -39,10 +39,10 @@ import pt4 from "../../assets/images/pt4.png";
 import rightarr from "../../assets/images/rightarr.png";
 import warrr from "../../assets/images/warrr.png";
 import setting from "../../assets/images/setting.png";
-import down from "../../assets/images/down.png";
+import down from "../../assets/images/down.svg";
 import goup3 from "../../assets/images/goup3.png";
 import hourr from "../../assets/images/hourr.png";
-import up from "../../assets/images/up.png";
+import up from "../../assets/images/up-ar.svg";
 import sss from "../../assets/images/sss.png";
 import clock from "../../assets/images/clock.png";
 import bbbtc from "../../assets/images/buybtc.png";
@@ -75,8 +75,8 @@ import purple from "../../assets/images/purple.png";
 import crossicon from "../../assets/images/crossicon.png";
 import searchicon from "../../assets/images/searchicon.png";
 import iconarowdown from "../../assets/images/iconarowdown.png";
-import iconsrightline from "../../assets/images/iconsrightline.png";
-import iconsLeftline from "../../assets/images/iconsLeftline.png";
+import iconsrightline from "../../assets/images/iconsrightline.svg";
+import iconsLeftline from "../../assets/images/iconsLeftline.svg";
 import loadicon from "../../assets/images/loadicon.png";
 import learnsearch from "../../assets/images/learnsearch.png";
 import ButtonSecondarySmall from "../../assets/images/ButtonSecondarySmall.png";
@@ -95,6 +95,7 @@ import articlevideo from "../../assets/images/articlevideo.png";
 import articleimage from "../../assets/images/articleimage.png";
 import stepOne from "../../assets/images/step-one.png";
 import stepTwo from "../../assets/images/step-two.png";
+import wallettop from "../../assets/images/wallet-2.png";
 import stepThree from "../../assets/images/step-three.png";
 import placeholder from "../../assets/images/placeholder.png";
 import us from "../../assets/images/US.svg";
@@ -210,6 +211,7 @@ const Images = {
   articleimage,
   stepOne,
   stepTwo,
+  wallettop,
   stepThree,
   us,
   vn,

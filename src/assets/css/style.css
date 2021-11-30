@@ -36,6 +36,10 @@ body {
   text-transform: uppercase;
 }
 
+.n-navbarContainer {
+  background-color: #fcfcfd;
+}
+
 #header .logo a {
   color: #fff;
 }
@@ -48,6 +52,7 @@ body {
   /*padding-top: 20px;*/
   transition: 0.5s;
 }
+
 .workup-navbar li {
   display: flex;
 }
@@ -844,8 +849,36 @@ button:focus {
   font-weight: 200;
   color: #fcfcfd;
 }
+.depositclassOverview {
+  background-color: #3772ff;
+  padding-left: 13px;
+  padding-right: 13px;
+  padding-top: 7px;
+  font-family: Poppins;
+  padding-bottom: 7px;
+  text-transform: uppercase;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 200;
+  color: #fcfcfd;
+}
 .depositclasss {
   background-color: rgb(88 189 125 / 50%);
+  padding-left: 12.5px;
+  padding-right: 12.5px;
+  padding-top: 8px;
+  padding-bottom: 6px;
+  font-family: Poppins;
+  text-transform: uppercase;
+  border-radius: 5px;
+  font-size: 12px;
+  line-height: 12px;
+  font-weight: bold;
+  color: #23262f;
+  white-space: nowrap;
+}
+.n-depositclasssOverview {
+  background-color: rgb(88 189 125 / 100%);
   padding-left: 12.5px;
   padding-right: 12.5px;
   padding-top: 8px;
@@ -923,11 +956,18 @@ button:focus {
 .btnHoverBlue:hover {
   background-color: #3772ff !important;
   color: #fff !important;
-  border: 1px solid #3772ff !important;
+  border: 2px solid #3772ff !important;
+}
+.btnHoverBlue:hover svg path {
+  fill: #fff;
+}
+.btnHoverBlue:hover div a {
+  color: #fff;
+  text-decoration: none;
 }
 .btnHoverWhite:hover {
   color: #3772ff !important;
-  background-color: #fff !important;
+  background-color: transparent !important;
   border-color: #3772ff !important;
 }
 .backArrow {
@@ -1010,6 +1050,7 @@ button:focus {
   padding-top: 6px;
   padding-bottom: 6px;
   border-radius: 25px;
+  cursor: pointer;
 }
 .bordewithdraw {
   border: 1px solid #f4f5f6;
@@ -1270,25 +1311,49 @@ input::-webkit-input-placeholder {
 .dropdownn88777776 {
   min-width: 50px !important;
   left: -34px !important;
-  width: 80px;
+  width: 130px;
   box-shadow: 0px 16px 64px rgba(31, 47, 70, 0.15);
   border: none;
   border-radius: 10px;
-  
 }
-.dropdownn88777776 a
-{
+.dropdownn88777776 a {
   border-bottom: 1px solid #f4f5f6;
-  padding: 10px 25px;
+  padding: 10px 15px;
   font-weight: 500;
-    font-family: 'DM Sans';
+  font-family: "DM Sans";
+}
+.dropdownn88777776 a img
+{
+  width: 32px;
+  margin-right: 10px;
+}
+.dropdownn88777776 a p
+{
+  font-size: 14px;
+  font-weight: 600;
+  font-family: Poppins;
+  color: #777e90;
+  margin-bottom: 0;
+  line-height: 14px;
+}
+.dropdownn88777776 a span
+{
+  font-size: 12px;
+  font-weight: 400;
+  font-family: "Poppins";
+  color: #777e90;
+  margin-bottom: 0;
+}
+.dropdownn88777776 a:hover p,
+.dropdownn88777776 a:hover span
+{
+  color: #23262f;
 }
 .dropdownn88777776 a:hover
 {
   background-color: #f4f5f6;
 }
-.dropdownn88777776 a:last-of-type
-{
+.dropdownn88777776 a:last-of-type {
   border: none;
 }
 
@@ -1350,6 +1415,7 @@ input::-webkit-input-placeholder {
 
   color: #23262f;
 }
+
 .u-market876662 {
   background-color: #c0e1ff;
   overflow: hidden;
@@ -1366,8 +1432,11 @@ input::-webkit-input-placeholder {
 .u-mainhomesection788882 {
   background-color: #fcfcfd;
 }
+.darkmode--activated .n-navbarContainer {
+  background-color: #ebebe9 !important;
+}
 .darkmode--activated .navbar {
-  background-color: #000 !important;
+  background-color: #141416 !important;
 }
 .darkmode--activated .marketbannerhed {
   color: #fcfcfd !important;
@@ -1383,6 +1452,9 @@ input::-webkit-input-placeholder {
 }
 .darkmode--activated .cryptoTraderDescription {
   color: #88816f !important;
+}
+.darkmode--activated .n-getStartedSection h2 {
+  color: #030302 !important;
 }
 .darkmode--activated .n-getStartedSection p:first-child {
   color: #88816f !important;
@@ -1402,7 +1474,7 @@ input::-webkit-input-placeholder {
 .darkmode--activated .u-mainhomesection788882 {
   background-color: #000 !important;
 }
-.darkmode--activated .markettrend {
+.darkmode--activated .n-marketTrendHeading .markettrend {
   color: #030302 !important;
 }
 .darkmode--activated .n-articleDetails h2 {
@@ -1437,10 +1509,10 @@ input::-webkit-input-placeholder {
   color: #fcfcfd !important;
 }
 .darkmode--activated .w-portfolio-left-bar-main {
-  background-color: #000 !important;
+  background-color: #18191d !important;
 }
 .darkmode--activated .w-sidebarcoleight {
-  background-color: #000 !important;
+  background-color: #17181b !important;
 }
 .darkmode--activated .u-overview09888 {
   color: #fcfcfd !important;
@@ -1449,10 +1521,11 @@ input::-webkit-input-placeholder {
   color: #fcfcfd !important;
 }
 .darkmode--activated .w-overview_portfoliobg {
-  background-color: #000 !important;
+  background-color: #17181b !important;
 }
 .darkmode--activated .form-control {
-  background-color: #000 !important;
+  background-color: #353945 !important;
+  border: 2px solid #23262f !important;
 }
 .darkmode--activated .u-mainclassliquidity6788 {
   color: #fcfcfd !important;
@@ -1516,7 +1589,7 @@ input::-webkit-input-placeholder {
 }
 .darkmode--activated .depositclasss {
   background-color: #a74282 !important;
-  color: #23262f !important;
+  color: #dcd9d0 !important;
 }
 .darkmode--activated .percentage {
   color: #a74282 !important;
@@ -1535,20 +1608,24 @@ input::-webkit-input-placeholder {
 .darkmode--activated .buybutttonmarket:hover {
   background-color: transparent !important;
   border: #c88d00 solid;
-  color: #c88d00 !important;
+  color: #030302 !important;
+}
+.darkmode--activated .buybutttonmarket:focus {
+  box-shadow: none !important;
+  border: #c88d00 solid !important;
 }
 .darkmode--activated .alltype {
   color: #dcd9d0 !important;
   background-color: #191713 !important;
 }
 .darkmode--activated .alltype-nonActive {
-  color: #23262f !important;
+  color: #191713 !important;
 }
 .darkmode--activated .alltype-nonActive:hover {
   border: 2px solid #23262f;
 }
 .darkmode--activated .form-control:focus {
-  border: 2px solid #c88d00 !important;
+  border: 2px solid #3772ff !important;
 }
 .darkmode--activated .w-comon-table-style-row-space table tbody tr {
   border-bottom: 12px solid #030302 !important;
@@ -1577,6 +1654,11 @@ input::-webkit-input-placeholder {
   border: 2px #c88d00 solid !important;
   color: #030302 !important;
 }
+/* .darkmode--activated .n-primaryButton:hover {
+  background-color: transparent !important;
+  border: 2px #c88d00 solid !important;
+  color: #c88d00 !important;
+} */
 .darkmode--activated .n-primaryDark {
   background-color: #3772ff !important;
   border: 2px #3772ff solid !important;
@@ -1586,6 +1668,9 @@ input::-webkit-input-placeholder {
   background-color: #c88d00 !important;
   border: 2px #c88d00 solid !important;
   color: #030302 !important;
+}
+.darkmode--activated .n-secondaryDark:focus {
+  box-shadow: none !important;
 }
 .darkmode--activated .n-articleButton h2 {
   color: #fcfcfd !important;
@@ -1642,6 +1727,200 @@ input::-webkit-input-placeholder {
   background-color: #c88d00 !important;
   border: 2px #c88d00 solid !important;
 }
+.darkmode--activated .mainhover:hover {
+  background-color: #cac6ba !important;
+}
+.darkmode--activated .markettrend {
+  color: #fcfcfd !important;
+}
+.darkmode--activated .cryptotrader-home {
+  color: #030302 !important;
+}
+.darkmode--activated .n-gettingStartedParagraph {
+  color: #88816f !important;
+}
+.darkmode--activated .n-earnYeildCurrencyName {
+  color: #030302 !important;
+}
+.darkmode--activated .n-earnYeildCurrencyType {
+  color: #88816f !important;
+}
+.darkmode--activated .w-comon-table-style table tbody tr td {
+  color: #030302;
+}
+.darkmode--activated .marketbuttonrrr {
+  color: #030302 !important;
+}
+.darkmode--activated .marketbuttonrrr:hover {
+  color: #030302 !important;
+  background-color: #c88d00 !important;
+  border-color: #c88d00 !important;
+}
+.darkmode--activated .n-earnYeildTableSection {
+  background-color: #ebebe9 !important;
+}
+.darkmode--activated .n-learnDefiSectionP {
+  color: #4e4a3c !important;
+}
+.darkmode--activated .n-learnMain h2 {
+  color: #030302 !important;
+}
+.darkmode--activated .learnp111 {
+  color: #88816f !important;
+}
+/* .darkmode--activated .n-secondaryButton {
+  color: #030302 !important;
+} */
+.darkmode--activated .learnpage-234 {
+  color: #030302 !important;
+}
+.darkmode--activated .n-tableSearch {
+  background-color: #ebebe9 !important;
+  border: 2px #dcd9d0 solid !important;
+  color: #191713 !important;
+}
+.darkmode--activated .n-tableSearch::placeholder {
+  color: #191713 !important;
+}
+
+.darkmode--activated .n-tableSearch:focus {
+  border: 2px #3772ff solid !important;
+}
+.darkmode--activated .n-tableSearch2:focus {
+  border: 2px #c88d00 solid !important;
+}
+.darkmode--activated .w-marketsidetitle {
+  color: #f4f5f6 !important;
+}
+.darkmode--activated .n-overviewAccountValues {
+  color: #fcfcfd !important;
+}
+.darkmode--activated .n-overviewAccountHolding {
+  color: #fcfcfd !important;
+}
+.darkmode--activated .n-learnTabelSearch {
+  background-color: #18191d !important;
+  border-color: #353945 !important;
+  color: #fcfcfd !important;
+}
+.darkmode--activated .n-learnTabelSearch::placeholder {
+  color: #fcfcfd !important;
+}
+.darkmode--activated .n-tableSeachDark {
+  background-color: #18191d !important;
+  border-color: #353945 !important;
+  color: #fcfcfd !important;
+}
+.darkmode--activated .n-tableSeachDark::placeholder {
+  color: #fcfcfd !important;
+}
+.darkmode--activated .n-depositClass {
+  background-color: #58bd7d !important;
+  color: #23262f !important;
+}
+.darkmode--activated .paging-center nav ul li button {
+  color: #fcfcfd !important;
+}
+.darkmode--activated .n-darkAllType {
+  color: #353945 !important;
+  background-color: #e6e8ec !important;
+}
+.darkmode--activated .n-darkNonActive {
+  color: #e6e8ec !important;
+}
+.darkmode--activated .n-darkNonActive {
+  color: #e6e8ec !important;
+}
+.darkmode--activated .n-darkNonActive:hover {
+  border-color: #e6e8ec !important;
+}
+.darkmode--activated .breadcrumbLinks a {
+  color: #88816f !important;
+}
+.darkmode--activated .breadcrumbLinks a:hover {
+  color: #030302 !important;
+}
+.darkmode--activated .breadcrumbLinks svg path {
+  fill: #88816f !important;
+}
+.darkmode--activated .articleDetailsHeading .articleHeading {
+  color: #030302 !important;
+}
+.darkmode--activated .n-indArticlePage {
+  background-color: #ebebe9;
+}
+.darkmode--activated .articleDescription h5 {
+  color: #030302 !important;
+}
+.darkmode--activated .articleDescription svg rect {
+  fill: #cac6ba !important;
+}
+.darkmode--activated .articleDescription p {
+  color: #88816f !important;
+}
+.darkmode--activated .articleIcons svg path {
+  fill: #cac6ba !important;
+}
+.darkmode--activated .n-inputSearch svg path {
+  fill: #88816f !important;
+}
+.darkmode--activated .modal-body {
+  background-color: #23262f !important;
+  border-radius: 16px !important;
+}
+.darkmode--activated .n-modalCloseIcon path {
+  fill: #fcfcfd !important;
+}
+.darkmode--activated .n-modalCloseIcon rect {
+  stroke: #fcfcfd !important;
+}
+.darkmode--activated .n-modalHeader {
+  color: #fcfcfd !important;
+}
+.darkmode--activated .yahparagraph {
+  color: #fcfcfd !important;
+}
+.darkmode--activated .n-walletType {
+  color: #fcfcfd !important;
+}
+.darkmode--activated .btnHoverWhite:hover {
+  color: #3772ff !important;
+  background-color: transparent !important;
+  border-color: #3772ff !important;
+}
+.darkmode--activated .btnHoverBlue:hover {
+  background-color: transparent !important;
+  color: #fff !important;
+  border: 2px solid #3772ff !important;
+}
+.darkmode--activated .btnHoverBlue:hover div a {
+  color: #fcfcfd !important;
+  text-decoration: none;
+}
+.darkmode--activated .btnHoverBlue:hover svg path {
+  fill: #fff;
+}
+.darkmode--activated .backArrow path {
+  fill: #fcfcfd !important;
+}
+.darkmode--activated .n-connectModalInput {
+  color: #fcfcfd !important;
+}
+.darkmode--activated .n-overviewTableHover:hover {
+  border-radius: 12px !important;
+  background: #23262F !important;
+}
+.darkmode--activated .n-liquidityTabs {
+  background: #353945 !important;
+}
+.darkmode--activated .popupaddliquidty {
+  background: #353945 !important;
+  color: #fff !important;
+}
+.darkmode--activated .popupaddliquidty:hover {
+  background: #fff !important;
+  color: #353945 !important;
+}
 .assetsprice-b {
   color: #777e90;
   font-size: 14px;
@@ -1653,6 +1932,50 @@ input::-webkit-input-placeholder {
   box-sizing: border-box;
   border-radius: 48px;
   cursor: pointer;
+}
+.n-gettingStartedParagraph {
+  color: rgb(53, 57, 69);
+}
+.n-earnYeildCurrencyType {
+  color: #777e90;
+}
+.n-earnYeildTableSection {
+  background-color: #fcfcfd;
+}
+.n-learnDefiSectionP {
+  color: #353945;
+}
+.n-overviewAccountValues {
+  color: #23262f;
+}
+.n-overviewAccountHolding {
+  color: #23262f;
+}
+.n-modalCloseIcon {
+  cursor: pointer;
+}
+.n-modalHeader {
+  color: #23262f;
+}
+.n-walletType {
+  color: #23262f;
+}
+.n-connectModalInput {
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-family: Poppins;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  height: auto;
+  border: 2px solid #E6E8EC;
+}
+.n-liquidityTabs {
+  background-color: #F4F5F6;
+}
+.w-widtradre8777:hover rect {
+  cursor: pointer;
+  stroke: #23262F;
 }
 .asset-totalquantity {
   color: #23262f;
@@ -1859,8 +2182,8 @@ input::-webkit-inner-spin-button {
 }
 .cardtitle234 {
   font-size: 16px;
-  font-family: Poppins;
-  font-weight: 400;
+  font-family: "Poppins";
+  font-weight: 500;
   color: #23262f;
   margin-top: 5px;
   margin-bottom: 2px;
@@ -2042,8 +2365,7 @@ input::-webkit-inner-spin-button {
   padding-top: 80px !important;
   padding-bottom: 44px !important;
 }
-.footer-bd-rit
-{
+.footer-bd-rit {
   border-right: 1px solid lightgrey !important;
 }
 .footerlogo3455 {
@@ -2183,9 +2505,9 @@ input::-webkit-inner-spin-button {
 .n-learnCards {
   width: 352px !important;
 }
-.u-modalkeystore0999990 {
+/* .u-modalkeystore0999990 {
   padding: 32px 32px 32px 32px;
-}
+} */
 .articleDetails {
   padding: 130px 0px 130px;
 }
@@ -2286,10 +2608,11 @@ input::-webkit-inner-spin-button {
   top: 81px;
   height: 210px;
 }
-.w-marketLoadMore {
+
+/* .w-marketLoadMore {
   padding-top: 64px;
   padding-bottom: 130px;
-}
+} */
 
 /* .n-learnDropDownCap {
   display: none;
@@ -2474,7 +2797,7 @@ ul.navbar-nav
   width: 191px;
   z-index: 9999;
   margin-bottom: 0;
-  top: 31px;
+  top: 30px;
 }
 
 .n-languageDropDown li:hover {
@@ -2519,7 +2842,7 @@ ul.navbar-nav
   padding: 16px;
   border-radius: 24px;
   box-shadow: 0px 16px 64px rgb(31 47 70 / 15%);
-  top: 24.5px;
+  top: 18.5px;
   right: -111px;
   z-index: 11;
 }
@@ -2677,9 +3000,9 @@ ul.navbar-nav
   height: 24px;
   width: 24px;
   background-color: #fcfcfd;
-  position: absolute;
-  top: 70px;
-  right: 552px;
+  position: relative;
+  top: 20px;
+  left: 37px;
   clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
   transform: rotate(-225deg);
   border-radius: 0 0 0 0.25em;
@@ -2715,9 +3038,9 @@ ul.navbar-nav
   height: 24px;
   width: 24px;
   background-color: #fcfcfd;
-  position: absolute;
-  top: 14px;
-  right: 8px;
+  position: relative;
+  top: 7px;
+  right: -8px;
   clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
   transform: rotate(-225deg);
   border-radius: 0 0 0 0.25em;
@@ -2818,7 +3141,10 @@ ul.navbar-nav
 /* .n-currencySelect:hover .n-currencyDropDown {
   display: block;
 } */
-
+.w-currencyform input:hover
+{
+    border-color: #3772ff !important;
+}
 .n-currencyDropDown {
   display: none;
   position: absolute;
@@ -2952,6 +3278,10 @@ ul.navbar-nav
   font-family: "DM Sans";
   margin-bottom: 8px;
 }
+.w-marketparatwow img
+{
+  margin-right: 5px;
+}
 .w-headinfswaming09888 {
   font-size: 18px;
   font-weight: 600;
@@ -2968,9 +3298,9 @@ ul.navbar-nav
 .w-currency {
   position: absolute;
   z-index: 10;
-  top: 0px;
-  left: 0px;
-  bottom: 0;
+  top: 2px;
+  left: 2px;
+  bottom: 2px;
   color: #777e90;
   font-size: 14px;
   font-weight: bold;
@@ -2979,7 +3309,7 @@ ul.navbar-nav
   background-color: #f6f6f6;
   padding: 10px 15px;
   display: flex;
-  border-radius: 15px;
+  border-radius: 12px;
 }
 .w-swap-top-inner {
   padding: 15px 30px 15px 30px;
@@ -2990,28 +3320,28 @@ ul.navbar-nav
   border-bottom-right-radius: 15px;
 }
 .w-swap-chartButton {
-  background-color: #f8f8f8;
-  padding: 3px 16px;
+  background: none;
+  padding: 6px 12px;
   font-family: "DM Sans";
   font-size: 14px;
   font-weight: 600;
   line-height: 16px;
-  border-radius: 35px;
-  border: 2px solid #e6e8ec;
+  border-radius: 30px;
+  border: 2px solid transparent;
   text-decoration: none;
   color: #777e90 !important;
 }
 .w-swap-chartButtonAC {
-  background-color: #f8f8f8;
-  padding: 3px 16px;
+  background-color: #353945;
+  padding: 6px 12px;
   font-family: "DM Sans";
   font-size: 14px;
   font-weight: 600;
   line-height: 16px;
-  border-radius: 35px;
-  border: 2px solid #212529;
+  border-radius: 30px;
+  border: 2px solid transparent;
   text-decoration: none;
-  color: #212529 !important;
+  color: #fff !important;
 }
 .w-swap-chartButton:focus,
 .w-swap-chartButtonAC:focus {
@@ -3268,7 +3598,7 @@ ul.navbar-nav
 
 .n-customRanger {
   margin-top: 16px;
-  border-right: 1px solid #F1F2F4;
+  border-right: 1px solid #f1f2f4;
   height: 325px;
 }
 
@@ -3282,11 +3612,11 @@ ul.navbar-nav
   padding: 16px 16px 16px 10px;
   font-size: 14px !important;
   font-family: Poppins !important;
-  border-bottom: 1px solid #F1F2F4;
+  border-bottom: 1px solid #f1f2f4;
 }
 
 .n-customRanger ul li:first-child {
-  border-top: 1px solid #F1F2F4;
+  border-top: 1px solid #f1f2f4;
 }
 
 .n-customRanger ul li:last-child {
@@ -3407,6 +3737,20 @@ ul.navbar-nav
   .w-overview_portfoliobg {
     height: auto;
   }
+  /* .n-navbarNav .nav-item:last-child {
+    display: inline-table;
+    margin-right: 0 !important;
+  }
+  .n-menuLearnLink {
+    justify-content: start;
+    position: relative;
+    display: block;
+  }
+  .n-learnDropDown {
+    position: relative;
+    top: 0;
+    width: 100%;
+  } */
 }
 .buttonlearnmorebordered {
   font-size: 14px;
@@ -4218,10 +4562,9 @@ ul.navbar-nav
     padding-top: 20px;
     border-right: 0px;
   }
-  .footer-bd-rit
-{
-  border-right: 0px;
-}
+  .footer-bd-rit {
+    border-right: 0px;
+  }
   .uearnyidledpage66555 {
     font-size: 24px;
   }
